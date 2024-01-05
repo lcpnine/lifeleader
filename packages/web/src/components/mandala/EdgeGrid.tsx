@@ -31,7 +31,7 @@ const EdgeGrid = ({ centerValue }: EdgeGridProps) => {
     const newEdgeValues = [...edgeValues]
     newEdgeValues[4] = centerValue
     setEdgeValues(newEdgeValues)
-  }, [edgeValues])
+  }, [centerValue])
 
   return (
     <div className="grid grid-cols-3 gap-1">
