@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface SqureProps {
   value: string
@@ -62,6 +62,12 @@ const EdgeGrid = ({ centerValue }: EdgeGridProps) => {
     newValues[index] = newValue
     setEdgeValues(newValues)
   }
+
+  useEffect(() => {
+    const newEdgeValues = [...edgeValues]
+    newEdgeValues[4] = centerValue
+    setEdgeValues(newEdgeValues)
+  }, [edgeValues])
 
   return (
     <div className="grid grid-cols-3 gap-1">
