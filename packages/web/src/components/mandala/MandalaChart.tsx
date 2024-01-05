@@ -16,30 +16,72 @@ const Square = ({ value, onChange }: SqureProps) => (
   </div>
 )
 
-interface GridProps {
-  centerValue: string
-  onCenterChange: (newValue: string) => void
+interface CenterGridProps {
+  centerValues: string[]
+  onCenterValueChange: (centerValueIndex: number) => (newValue: string) => void
 }
 
-const Grid = ({ centerValue, onCenterChange }: GridProps) => (
-  <div className="grid grid-cols-3 gap-1">
-    {Array.from({ length: 9 }).map((_, index) => {
-      const isCenter = index === 4 // index 4 is the center square
-      return (
-        <Square
-          key={index}
-          value={isCenter ? centerValue : ''}
-          onChange={isCenter ? onCenterChange : () => {}}
-        />
-      )
-    })}
-  </div>
-)
+const CenterGrid = ({ centerValues, onCenterValueChange }: CenterGridProps) => {
+  return (
+    <div className="grid grid-cols-3 gap-1">
+      {Array.from({ length: 9 }).map((_, index) => {
+        return (
+          <Square
+            key={index}
+            value={centerValues[index]}
+            onChange={onCenterValueChange(index)}
+          />
+        )
+      })}
+    </div>
+  )
+}
+
+interface EdgeGridProps {
+  centerValue: string
+}
+
+const EdgeGrid = ({ centerValue }: EdgeGridProps) => {
+  const [edgeValues, setEdgeValues] = useState([
+    '',
+    '',
+    '',
+    '',
+    centerValue,
+    '',
+    '',
+    '',
+    '',
+  ])
+
+  const handleEdgeChange = (index: number) => (newValue: string) => {
+    const isCenter = index === 4
+    if (isCenter) return
+
+    const newValues = [...edgeValues]
+    newValues[index] = newValue
+    setEdgeValues(newValues)
+  }
+
+  return (
+    <div className="grid grid-cols-3 gap-1">
+      {edgeValues.map((_, index) => {
+        return (
+          <Square
+            key={index}
+            value={edgeValues[index]}
+            onChange={handleEdgeChange(index)}
+          />
+        )
+      })}
+    </div>
+  )
+}
 
 const MandalaChart: React.FC = () => {
   const [centerValues, setCenterValues] = useState(Array(9).fill(''))
 
-  const handleCenterChange = (index: number) => (newValue: string) => {
+  const handleCenterValueChange = (index: number) => (newValue: string) => {
     const newValues = [...centerValues]
     newValues[index] = newValue
     setCenterValues(newValues)
@@ -47,13 +89,18 @@ const MandalaChart: React.FC = () => {
 
   return (
     <div className="grid grid-cols-3 gap-4">
-      {Array.from({ length: 9 }).map((_, index) => (
-        <Grid
-          key={index}
-          centerValue={centerValues[index]}
-          onCenterChange={handleCenterChange(index)}
-        />
-      ))}
+      {Array.from({ length: 9 }).map((_, index) => {
+        const isCenterGrid = index === 4
+
+        return isCenterGrid ? (
+          <CenterGrid
+            centerValues={centerValues}
+            onCenterValueChange={handleCenterValueChange}
+          />
+        ) : (
+          <EdgeGrid key={index} centerValue={centerValues[index]} />
+        )
+      })}
     </div>
   )
 }
