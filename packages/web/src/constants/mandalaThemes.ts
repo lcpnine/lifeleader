@@ -1,4 +1,4 @@
-export const enum MandalaTheme {
+export enum MandalaTheme {
   DEFAULT = 'default',
   DARK = 'dark',
   LIGHT = 'light',
