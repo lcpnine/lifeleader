@@ -1,3 +1,4 @@
+import { useTheme } from '@/contexts/theme/ThemeContext'
 import Square from './Square'
 
 interface Props {
@@ -6,8 +7,10 @@ interface Props {
 }
 
 const CenterGrid = ({ centerValues, onCenterValueChange }: Props) => {
+  const { themeStyle } = useTheme()
+
   return (
-    <div className="grid grid-cols-3 gap-1">
+    <div className={`grid grid-cols-3 gap-1 border ${themeStyle.gridBorder}`}>
       {Array.from({ length: 9 }).map((_, index) => {
         return (
           <Square

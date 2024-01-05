@@ -1,3 +1,4 @@
+import { useTheme } from '@/contexts/theme/ThemeContext'
 import { useEffect, useState } from 'react'
 import Square from './Square'
 
@@ -6,6 +7,7 @@ interface EdgeGridProps {
 }
 
 const EdgeGrid = ({ centerValue }: EdgeGridProps) => {
+  const { themeStyle } = useTheme()
   const [edgeValues, setEdgeValues] = useState([
     '',
     '',
@@ -34,7 +36,7 @@ const EdgeGrid = ({ centerValue }: EdgeGridProps) => {
   }, [centerValue])
 
   return (
-    <div className="grid grid-cols-3 gap-1">
+    <div className={`grid grid-cols-3 gap-1 border ${themeStyle.gridBorder}`}>
       {edgeValues.map((_, index) => {
         return (
           <Square
