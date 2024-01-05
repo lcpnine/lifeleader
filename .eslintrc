@@ -1,7 +1,7 @@
 {
   "plugins": ["unused-imports"],
+	"extends":["@typescript-eslint/no-unused-vars"],
   "rules": {
-		"@typescript-eslint/no-unused-vars": "off",
 		"unused-imports/no-unused-imports": "error",
 		"unused-imports/no-unused-vars": [
 			"warn",
