@@ -14,9 +14,9 @@ const MandalaChart = () => {
   return (
     <div className="grid grid-cols-3 gap-4">
       {Array.from({ length: 9 }).map((_, index) => {
-        const isCenterGrid = index === 4
+        const isCenterSquareGrid = index === 4
 
-        return isCenterGrid ? (
+        return isCenterSquareGrid ? (
           <CenterGrid
             centerValues={centerValues}
             onCenterValueChange={handleCenterValueChange}

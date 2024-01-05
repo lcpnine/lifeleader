@@ -3,10 +3,20 @@ import { useTheme } from '@/contexts/theme/ThemeContext'
 interface Props {
   value: string
   onChange: (newValue: string) => void
+  isCenterGrid: boolean
+  isCenterSquare: boolean
 }
 
-const Square = ({ value, onChange }: Props) => {
+const Square = ({ value, onChange, isCenterGrid, isCenterSquare }: Props) => {
   const { themeStyle } = useTheme()
+
+  const textBold = isCenterSquare ? 'font-bold' : ''
+
+  const textColor = !isCenterSquare
+    ? themeStyle.defualtTextColor
+    : isCenterGrid
+      ? themeStyle.centerGridCenterSquareTextColor
+      : themeStyle.edgeGridCenterSquareTextColor
 
   return (
     <div
@@ -16,7 +26,7 @@ const Square = ({ value, onChange }: Props) => {
         type="text"
         value={value}
         onChange={e => onChange(e.target.value)}
-        className={`w-full h-full text-center ${themeStyle.textColor}`}
+        className={`w-full h-full text-center ${textColor} ${textBold}`}
       />
     </div>
   )
