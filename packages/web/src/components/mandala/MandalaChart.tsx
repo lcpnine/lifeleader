@@ -18,6 +18,7 @@ const MandalaChart = () => {
 
         return isCenterSquareGrid ? (
           <CenterGrid
+            key={index}
             centerValues={centerValues}
             onCenterValueChange={handleCenterValueChange}
           />
