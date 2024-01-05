@@ -1,0 +1,33 @@
+{
+  "name": "mandala",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "yarn workspace server build && yarn workspace web build",
+    "start:server": "yarn workspace server start",
+    "start:web": "yarn workspace web start",
+    "dev:server": "yarn workspace server dev",
+    "dev:web": "yarn workspace web dev",
+    "prettier-check": "prettier --check \"packages/**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "prettier-write": "prettier --write \"packages/**/*.{js,jsx,ts,tsx,json,css,md}\""
+  },
+  "keywords": [],
+  "author": "lcpnine@gmail.com",
+  "license": "ISC",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
+    "lerna": "^8.0.0"
+  }
+}
