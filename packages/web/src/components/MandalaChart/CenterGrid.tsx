@@ -24,7 +24,7 @@ const CenterGrid = ({
             onChange={onCenterValueChange(index)}
             isGridValid={true}
             squareIndex={index}
-            gridIndex={5}
+            gridIndex={4}
           />
         )
       })}
