@@ -6,6 +6,22 @@ interface Props {
   isCenterGrid: boolean
   isCenterSquare: boolean
   isGridValid: boolean
+  gridIndex: number
+  squareIndex: number
+}
+
+const getPlaceHolder = (
+  isCenterGrid: boolean,
+  isCenterSquare: boolean,
+  gridIndex: number,
+  squareIndex: number
+) => {
+  if (isCenterGrid && isCenterSquare) return 'Main Goal'
+  if (isCenterGrid && !isCenterSquare)
+    return `Sub Goal ${squareIndex < 4 ? squareIndex + 1 : squareIndex}`
+  if (!isCenterGrid && isCenterSquare)
+    return `Sub Goal ${gridIndex < 4 ? gridIndex + 1 : gridIndex}`
+  return ''
 }
 
 const Square = ({
@@ -14,6 +30,8 @@ const Square = ({
   isCenterGrid,
   isCenterSquare,
   isGridValid,
+  gridIndex,
+  squareIndex,
 }: Props) => {
   const { themeStyle } = useTheme()
 
@@ -24,6 +42,13 @@ const Square = ({
     : isCenterGrid
       ? themeStyle.centerGridCenterSquareTextColor
       : themeStyle.edgeGridCenterSquareTextColor
+
+  const placeHolder = getPlaceHolder(
+    isCenterGrid,
+    isCenterSquare,
+    gridIndex,
+    squareIndex
+  )
 
   return (
     <div
@@ -36,6 +61,7 @@ const Square = ({
         className={`w-full h-full text-center ${textColor} ${textBold} ${
           themeStyle.backgroundColor
         } ${isGridValid ? '' : 'bg-opacity-25'}`}
+        placeholder={placeHolder}
       />
     </div>
   )

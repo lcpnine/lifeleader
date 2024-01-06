@@ -23,9 +23,14 @@ const MandalaChart = () => {
             key={index}
             centerValues={centerValues}
             onCenterValueChange={handleCenterValueChange}
+            gridIndex={index}
           />
         ) : (
-          <EdgeGrid key={index} centerValue={centerValues[index]} />
+          <EdgeGrid
+            key={index}
+            centerValue={centerValues[index]}
+            gridIndex={index}
+          />
         )
       })}
     </div>

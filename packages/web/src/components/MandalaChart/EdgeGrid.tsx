@@ -4,9 +4,10 @@ import Square from './Square'
 
 interface EdgeGridProps {
   centerValue: string
+  gridIndex: number
 }
 
-const EdgeGrid = ({ centerValue }: EdgeGridProps) => {
+const EdgeGrid = ({ centerValue, gridIndex }: EdgeGridProps) => {
   const isGridValid = centerValue !== ''
   const { themeStyle } = useTheme()
   const [edgeValues, setEdgeValues] = useState([
@@ -47,6 +48,8 @@ const EdgeGrid = ({ centerValue }: EdgeGridProps) => {
             isCenterGrid={false}
             isCenterSquare={index === 4}
             isGridValid={isGridValid}
+            gridIndex={gridIndex}
+            squareIndex={index}
           />
         )
       })}

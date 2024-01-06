@@ -4,9 +4,14 @@ import Square from './Square'
 interface Props {
   centerValues: string[]
   onCenterValueChange: (centerValueIndex: number) => (newValue: string) => void
+  gridIndex: number
 }
 
-const CenterGrid = ({ centerValues, onCenterValueChange }: Props) => {
+const CenterGrid = ({
+  centerValues,
+  onCenterValueChange,
+  gridIndex,
+}: Props) => {
   const { themeStyle } = useTheme()
 
   return (
@@ -20,6 +25,8 @@ const CenterGrid = ({ centerValues, onCenterValueChange }: Props) => {
             isCenterGrid={true}
             isCenterSquare={index === 4}
             isGridValid={true}
+            squareIndex={index}
+            gridIndex={5}
           />
         )
       })}
