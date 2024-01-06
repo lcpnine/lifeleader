@@ -1,10 +1,8 @@
-import { useTheme } from '@/contexts/theme/ThemeContext'
 import { useState } from 'react'
 import CenterGrid from './CenterGrid'
 import EdgeGrid from './EdgeGrid'
 
 const MandalaChart = () => {
-  const { themeStyle } = useTheme()
   const [centerValues, setCenterValues] = useState(Array(9).fill(''))
 
   const handleCenterValueChange = (index: number) => (newValue: string) => {
