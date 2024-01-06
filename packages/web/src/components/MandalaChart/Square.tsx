@@ -62,10 +62,14 @@ const Square = ({
         themeStyle.borderColor
       } flex items-center justify-center overflow-hidden ${
         themeStyle.backgroundColor
-      } ${isGridValid ? '' : 'bg-opacity-25'}`}
+      } ${isGridValid ? '' : 'bg-opacity-25'} ${
+        isGridValid && !(!isCenterGrid && isCenterSquare)
+          ? 'pointer-events-none'
+          : ''
+      }`}
     >
       <span
-        contentEditable
+        contentEditable={isGridValid && !(!isCenterGrid && isCenterSquare)}
         suppressContentEditableWarning
         onChange={handleSpanChange}
         onBlur={onBlurSpan}
