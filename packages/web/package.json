@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@egjs/react-flicking": "^4.11.2",
+    "html2canvas": "^1.4.1",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18"
