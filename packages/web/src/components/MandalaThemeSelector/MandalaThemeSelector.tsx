@@ -21,7 +21,7 @@ const MandalaThemeSelector = () => {
   const mandalaThemes = Object.values(MandalaTheme)
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center pt-4">
       <p className="mb-4 font-semibold">
         Select a theme to personalize your Mandala Chart
       </p>
