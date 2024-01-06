@@ -1,7 +1,11 @@
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
+import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
+import useScreenShot from '@/hooks/useScreenshot'
 
 const Home = () => {
+  const { screenShotRef, takeScreenShot } = useScreenShot()
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-center text-blue-600 my-4 shadow-lg">
@@ -15,7 +19,8 @@ const Home = () => {
         facets of baseball through focused effort and determination.
       </p>
       <MandalaThemeSelector />
-      <MandalaChart />
+      <MandalaChart screenShotRef={screenShotRef} />
+      <ScreenshotButton takeScreenShot={takeScreenShot} />
     </div>
   )
 }

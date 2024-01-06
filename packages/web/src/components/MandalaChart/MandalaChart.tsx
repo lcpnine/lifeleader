@@ -2,7 +2,11 @@ import { useState } from 'react'
 import CenterGrid from './CenterGrid'
 import EdgeGrid from './EdgeGrid'
 
-const MandalaChart = () => {
+interface Props {
+  screenShotRef: React.RefObject<HTMLDivElement>
+}
+
+const MandalaChart = ({ screenShotRef }: Props) => {
   const [centerValues, setCenterValues] = useState(Array(9).fill(''))
 
   const handleCenterValueChange = (index: number) => (newValue: string) => {
@@ -12,7 +16,7 @@ const MandalaChart = () => {
   }
 
   return (
-    <div className={`grid grid-cols-3 gap-3 max-w-fit p-8`}>
+    <div className={`grid grid-cols-3 gap-3 max-w-fit p-8`} ref={screenShotRef}>
       {Array.from({ length: 9 }).map((_, index) => {
         const isCenterSquareGrid = index === 4
 
