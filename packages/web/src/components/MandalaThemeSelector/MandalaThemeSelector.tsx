@@ -19,17 +19,22 @@ const MandalaThemeSelector = () => {
   const mandalaThemes = Object.values(MandalaTheme)
 
   return (
-    <div className="flex justify-center space-x-2 p-4">
-      {mandalaThemes.map(themeName => (
-        <button
-          key={themeName}
-          onClick={() => setTheme(themeName)}
-          className="flex items-center justify-center px-4 py-2 border rounded hover:bg-gray-100 transition duration-300"
-          title={themeName}
-        >
-          {themeIcons[themeName]} <span className="ml-2">{themeName}</span>
-        </button>
-      ))}
+    <div className="text-center p-4">
+      <p className="mb-4 font-semibold">
+        Select a theme to personalize your Mandala Chart
+      </p>
+      <div className="flex justify-center space-x-2">
+        {mandalaThemes.map(themeName => (
+          <button
+            key={themeName}
+            onClick={() => setTheme(themeName)}
+            className="flex items-center justify-center px-4 py-2 border rounded hover:bg-gray-100 transition duration-300"
+            title={themeName}
+          >
+            {themeIcons[themeName]} <span className="ml-2">{themeName}</span>
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
