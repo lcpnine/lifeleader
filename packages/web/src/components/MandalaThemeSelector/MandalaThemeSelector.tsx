@@ -17,7 +17,7 @@ const themeIcons = {
 }
 
 const MandalaThemeSelector = () => {
-  const { setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
   const mandalaThemes = Object.values(MandalaTheme)
 
   return (
@@ -27,16 +27,23 @@ const MandalaThemeSelector = () => {
       </p>
       <div className="w-3/4">
         <Flicking align="prev" bound={true}>
-          {mandalaThemes.map(themeName => (
-            <button
-              key={themeName}
-              onClick={() => setTheme(themeName)}
-              className="mr-2 flex items-center justify-center px-4 py-2 border rounded hover:bg-gray-100 transition duration-300"
-              title={themeName}
-            >
-              {themeIcons[themeName]} <span className="ml-2">{themeName}</span>
-            </button>
-          ))}
+          {mandalaThemes.map(themeName => {
+            const isSelected = themeName === theme
+            return (
+              <button
+                key={themeName + isSelected}
+                onClick={() => setTheme(themeName)}
+                className={`mr-2 flex items-center justify-center px-4 py-2 border rounded transition duration-300 ${
+                  isSelected ? 'bg-blue-500 text-white' : ''
+                }`}
+                title={themeName}
+                aria-selected={isSelected}
+              >
+                {themeIcons[themeName]}{' '}
+                <span className="ml-2">{themeName}</span>
+              </button>
+            )
+          })}
         </Flicking>
       </div>
     </div>
