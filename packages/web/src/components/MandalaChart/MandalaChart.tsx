@@ -14,7 +14,9 @@ const MandalaChart = () => {
   }
 
   return (
-    <div className={`grid grid-cols-3 gap-1 border ${themeStyle.gridBorder}`}>
+    <div
+      className={`grid grid-cols-3 gap-1 border ${themeStyle.gridBorder} max-w-fit`}
+    >
       {Array.from({ length: 9 }).map((_, index) => {
         const isCenterSquareGrid = index === 4
 
