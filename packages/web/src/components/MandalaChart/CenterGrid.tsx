@@ -22,8 +22,6 @@ const CenterGrid = ({
             key={index}
             value={centerValues[index]}
             onChange={onCenterValueChange(index)}
-            isCenterGrid={true}
-            isCenterSquare={index === 4}
             isGridValid={true}
             squareIndex={index}
             gridIndex={5}

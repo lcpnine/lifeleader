@@ -45,8 +45,6 @@ const EdgeGrid = ({ centerValue, gridIndex }: EdgeGridProps) => {
             key={index}
             value={edgeValues[index]}
             onChange={handleEdgeChange(index)}
-            isCenterGrid={false}
-            isCenterSquare={index === 4}
             isGridValid={isGridValid}
             gridIndex={gridIndex}
             squareIndex={index}

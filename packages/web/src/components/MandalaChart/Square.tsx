@@ -3,8 +3,6 @@ import { useTheme } from '@/contexts/theme/ThemeContext'
 interface Props {
   value: string
   onChange: (newValue: string) => void
-  isCenterGrid: boolean
-  isCenterSquare: boolean
   isGridValid: boolean
   gridIndex: number
   squareIndex: number
@@ -27,12 +25,12 @@ const getPlaceHolder = (
 const Square = ({
   value,
   onChange,
-  isCenterGrid,
-  isCenterSquare,
   isGridValid,
   gridIndex,
   squareIndex,
 }: Props) => {
+  const isCenterGrid = gridIndex === 4
+  const isCenterSquare = squareIndex === 4
   const { themeStyle } = useTheme()
 
   const textBold = isCenterSquare ? 'font-bold' : ''
