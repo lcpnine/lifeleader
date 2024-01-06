@@ -60,16 +60,16 @@ const Square = ({
     <div
       className={`w-24 h-24 border ${
         themeStyle.borderColor
-      } flex items-center justify-center ${themeStyle.backgroundColor} ${
-        isGridValid ? '' : 'bg-opacity-25'
-      }`}
+      } flex items-center justify-center overflow-hidden ${
+        themeStyle.backgroundColor
+      } ${isGridValid ? '' : 'bg-opacity-25'}`}
     >
       <span
         contentEditable
         suppressContentEditableWarning
         onChange={handleSpanChange}
         onBlur={onBlurSpan}
-        className={`w-full max-h-24 text-center ${textColor} ${textBold} p-0 cursor-text inline-block`}
+        className={`w-full max-h-24 text-center ${textColor} ${textBold} p-0 cursor-text inline-block focus:outline-none`}
         data-placeholder={placeHolder}
         style={{ whiteSpace: 'pre-wrap' }}
       >
