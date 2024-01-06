@@ -48,19 +48,33 @@ const Square = ({
     squareIndex
   )
 
+  const handleSpanChange: React.ChangeEventHandler<HTMLSpanElement> = e => {
+    onChange(e.target.innerText)
+  }
+
+  const onBlurSpan: React.FocusEventHandler<HTMLSpanElement> = e => {
+    onChange(e.target.innerText.trim())
+  }
+
   return (
     <div
-      className={`w-24 h-24 border ${themeStyle.borderColor} flex items-center justify-center`}
+      className={`w-24 h-24 border ${
+        themeStyle.borderColor
+      } flex items-center justify-center ${themeStyle.backgroundColor} ${
+        isGridValid ? '' : 'bg-opacity-25'
+      }`}
     >
-      <input
-        type="text"
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        className={`w-full h-full text-center ${textColor} ${textBold} ${
-          themeStyle.backgroundColor
-        } ${isGridValid ? '' : 'bg-opacity-25'}`}
-        placeholder={placeHolder}
-      />
+      <span
+        contentEditable
+        suppressContentEditableWarning
+        onChange={handleSpanChange}
+        onBlur={onBlurSpan}
+        className={`w-full max-h-24 text-center ${textColor} ${textBold} p-0 cursor-text inline-block`}
+        data-placeholder={placeHolder}
+        style={{ whiteSpace: 'pre-wrap' }}
+      >
+        {value}
+      </span>
     </div>
   )
 }
