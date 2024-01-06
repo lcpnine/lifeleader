@@ -7,6 +7,7 @@ interface EdgeGridProps {
 }
 
 const EdgeGrid = ({ centerValue }: EdgeGridProps) => {
+  const isGridValid = centerValue !== ''
   const { themeStyle } = useTheme()
   const [edgeValues, setEdgeValues] = useState([
     '',
@@ -45,6 +46,7 @@ const EdgeGrid = ({ centerValue }: EdgeGridProps) => {
             onChange={handleEdgeChange(index)}
             isCenterGrid={false}
             isCenterSquare={index === 4}
+            isGridValid={isGridValid}
           />
         )
       })}

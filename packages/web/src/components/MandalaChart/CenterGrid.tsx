@@ -19,6 +19,7 @@ const CenterGrid = ({ centerValues, onCenterValueChange }: Props) => {
             onChange={onCenterValueChange(index)}
             isCenterGrid={true}
             isCenterSquare={index === 4}
+            isGridValid={true}
           />
         )
       })}

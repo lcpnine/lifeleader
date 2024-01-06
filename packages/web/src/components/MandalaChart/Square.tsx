@@ -5,9 +5,16 @@ interface Props {
   onChange: (newValue: string) => void
   isCenterGrid: boolean
   isCenterSquare: boolean
+  isGridValid: boolean
 }
 
-const Square = ({ value, onChange, isCenterGrid, isCenterSquare }: Props) => {
+const Square = ({
+  value,
+  onChange,
+  isCenterGrid,
+  isCenterSquare,
+  isGridValid,
+}: Props) => {
   const { themeStyle } = useTheme()
 
   const textBold = isCenterSquare ? 'font-bold' : ''
@@ -26,7 +33,9 @@ const Square = ({ value, onChange, isCenterGrid, isCenterSquare }: Props) => {
         type="text"
         value={value}
         onChange={e => onChange(e.target.value)}
-        className={`w-full h-full text-center ${textColor} ${textBold} ${themeStyle.backgroundColor}`}
+        className={`w-full h-full text-center ${textColor} ${textBold} ${
+          themeStyle.backgroundColor
+        } ${isGridValid ? '' : 'bg-opacity-25'}`}
       />
     </div>
   )
