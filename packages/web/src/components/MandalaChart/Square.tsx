@@ -20,13 +20,13 @@ const Square = ({ value, onChange, isCenterGrid, isCenterSquare }: Props) => {
 
   return (
     <div
-      className={`w-24 h-24 border ${themeStyle.borderColor} flex items-center justify-center ${themeStyle.backgroundColor}`}
+      className={`w-24 h-24 border ${themeStyle.borderColor} flex items-center justify-center`}
     >
       <input
         type="text"
         value={value}
         onChange={e => onChange(e.target.value)}
-        className={`w-full h-full text-center ${textColor} ${textBold}`}
+        className={`w-full h-full text-center ${textColor} ${textBold} ${themeStyle.backgroundColor}`}
       />
     </div>
   )
