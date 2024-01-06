@@ -1,14 +1,14 @@
 export enum MandalaTheme {
-  DEFAULT = 'default',
-  DARK = 'dark',
-  LIGHT = 'light',
-  NATURE = 'nature',
-  FUTURISTIC = 'futuristic',
-  OCEAN = 'ocean',
-  SUNSET = 'sunset',
-  SPACE = 'space',
-  PASTEL = 'pastel',
-  MONOCHROME = 'monochrome',
+  DEFAULT = 'Default',
+  DARK = 'Dark',
+  LIGHT = 'Light',
+  NATURE = 'Nature',
+  FUTURISTIC = 'Futuristic',
+  OCEAN = 'Ocean',
+  SUNSET = 'Sunset',
+  SPACE = 'Space',
+  PASTEL = 'Pastel',
+  MONOCHROME = 'Monochrome',
 }
 
 export const MANDALA_THEMES = {
