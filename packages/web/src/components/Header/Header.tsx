@@ -1,4 +1,4 @@
-import { SUPPORTING_LANGUAGES } from '@/constants/i18n'
+import { LANGUAGE_NAMES_SHORT, SUPPORTING_LANGUAGES } from '@/constants/i18n'
 import useI18n from '@/hooks/usei18n'
 import { useRouter } from 'next/router'
 import LifeLeaderIcon from 'public/life-leader-icon.png'
@@ -22,12 +22,12 @@ const Header = () => {
         <select
           className="border rounded p-1 text-gray-700 focus:ring-blue-500 focus:border-blue-500"
           value={locale}
-          onChange={e => changeLanguage(e.target.value)}
+          onChange={e => changeLanguage(e.target.value as SUPPORTING_LANGUAGES)}
         >
           {locales?.map(locale => (
             <option key={locale} value={locale}>
               {
-                SUPPORTING_LANGUAGES[
+                LANGUAGE_NAMES_SHORT[
                   locale as keyof typeof SUPPORTING_LANGUAGES
                 ]
               }
