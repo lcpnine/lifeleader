@@ -1,7 +1,7 @@
 import { SUPPORTING_LANGUAGES } from '@/constants/i18n'
 import useI18n from '@/hooks/usei18n'
 import { useRouter } from 'next/router'
-import LifeLeaderIcon from './LifeLeader.png'
+import LifeLeaderIcon from 'public/life-leader-icon.png'
 
 const Header = () => {
   const { locale, locales } = useRouter()
