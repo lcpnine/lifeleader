@@ -1,4 +1,4 @@
-import { useTheme } from '@/contexts/theme/ThemeContext'
+import { useTheme } from '@/contexts/ThemeContext'
 import { useEffect, useState } from 'react'
 import Square from './Square'
 

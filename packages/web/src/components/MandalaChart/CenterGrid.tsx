@@ -1,4 +1,4 @@
-import { useTheme } from '@/contexts/theme/ThemeContext'
+import { useTheme } from '@/contexts/ThemeContext'
 import Square from './Square'
 
 interface Props {

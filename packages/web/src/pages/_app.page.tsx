@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@/contexts/theme/ThemeContext'
+import { ThemeProvider } from '@/contexts/ThemeContext'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import Script from 'next/script'

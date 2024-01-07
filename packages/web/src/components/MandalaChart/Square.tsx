@@ -1,4 +1,4 @@
-import { useTheme } from '@/contexts/theme/ThemeContext'
+import { useTheme } from '@/contexts/ThemeContext'
 import useI18n from '@/hooks/useI18n'
 import TRANSLATIONS from './Square.i18n'
 

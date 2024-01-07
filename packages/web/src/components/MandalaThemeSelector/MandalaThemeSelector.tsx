@@ -1,5 +1,5 @@
 import { MandalaTheme } from '@/constants/mandalaThemes'
-import { useTheme } from '@/contexts/theme/ThemeContext'
+import { useTheme } from '@/contexts/ThemeContext'
 import useI18n from '@/hooks/useI18n'
 import Flicking from '@egjs/react-flicking'
 import '@egjs/react-flicking/dist/flicking.css'
