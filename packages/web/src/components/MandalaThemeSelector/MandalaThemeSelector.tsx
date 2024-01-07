@@ -1,7 +1,9 @@
 import { MandalaTheme } from '@/constants/mandalaThemes'
 import { useTheme } from '@/contexts/theme/ThemeContext'
+import useI18n from '@/hooks/useI18n'
 import Flicking from '@egjs/react-flicking'
 import '@egjs/react-flicking/dist/flicking.css'
+import TRANSLATIONS from './MandalaThemeSelector.i18n'
 
 const themeIcons = {
   [MandalaTheme.DEFAULT]: '🌟',
@@ -18,13 +20,13 @@ const themeIcons = {
 
 const MandalaThemeSelector = () => {
   const { theme, setTheme } = useTheme()
+  const { getTranslation } = useI18n()
+  const trasnlate = getTranslation(TRANSLATIONS)
   const mandalaThemes = Object.values(MandalaTheme)
 
   return (
     <div className="flex flex-col items-center justify-center pt-4">
-      <p className="mb-4 font-semibold">
-        Select a theme to personalize your Mandala Chart
-      </p>
+      <p className="mb-4 font-semibold">{trasnlate('description')}</p>
       <div className="w-3/4">
         <Flicking align="prev" bound={true}>
           {mandalaThemes.map(themeName => {
