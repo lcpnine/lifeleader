@@ -10,7 +10,7 @@ import TRANSLATIONS from './index.i18n'
 const Home = () => {
   const { locale } = useRouter()
   const { getTranslation } = useI18n()
-  const trasnlation = getTranslation(
+  const translation = getTranslation(
     TRANSLATIONS,
     locale as SUPPORTING_LANGUAGES
   )
@@ -19,11 +19,11 @@ const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-center text-blue-600 my-4 shadow-sm">
-        {trasnlation('title')}
+        {translation('title')}
       </h1>
 
       <div className="flex items-center justify-center mb-6 w-3/5">
-        <p className="max-w-prose">{trasnlation('description')}</p>
+        <p className="max-w-prose">{translation('description')}</p>
       </div>
       <MandalaThemeSelector />
       <MandalaChart screenShotRef={screenShotRef} />
