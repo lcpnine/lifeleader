@@ -12,10 +12,8 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>Life Leader</title>
         <link rel="icon" href={Favicon.src} />
         <meta charSet="utf-8" />
-        <meta name="description" content="Life Leader" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=0.6, maximum-scale=1"
