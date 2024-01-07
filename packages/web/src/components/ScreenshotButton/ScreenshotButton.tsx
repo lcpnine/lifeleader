@@ -1,6 +1,4 @@
-import { SUPPORTING_LANGUAGES } from '@/constants/i18n'
 import useI18n from '@/hooks/useI18n'
-import { useRouter } from 'next/router'
 import TRANSLATIONS from './ScreenshotButton.i18n'
 
 interface Props {
@@ -8,13 +6,9 @@ interface Props {
 }
 
 const ScreenshotButton = ({ takeScreenShot }: Props) => {
-  const { locale } = useRouter()
   const { getTranslation } = useI18n()
 
-  const translation = getTranslation(
-    TRANSLATIONS,
-    locale as SUPPORTING_LANGUAGES
-  )
+  const translation = getTranslation(TRANSLATIONS)
 
   return (
     <button

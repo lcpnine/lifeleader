@@ -1,19 +1,13 @@
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
-import { SUPPORTING_LANGUAGES } from '@/constants/i18n'
 import useI18n from '@/hooks/useI18n'
 import useScreenShot from '@/hooks/useScreenshot'
-import { useRouter } from 'next/router'
 import TRANSLATIONS from './index.i18n'
 
 const Home = () => {
-  const { locale } = useRouter()
   const { getTranslation } = useI18n()
-  const translation = getTranslation(
-    TRANSLATIONS,
-    locale as SUPPORTING_LANGUAGES
-  )
+  const translation = getTranslation(TRANSLATIONS)
   const { screenShotRef, takeScreenShot } = useScreenShot()
 
   return (

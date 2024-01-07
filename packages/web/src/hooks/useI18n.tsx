@@ -16,11 +16,11 @@ const useI18n = () => {
     router.push(router.pathname, router.pathname, { locale })
   }
 
-  const getTranslation = (
-    translations: TRANSLATIONS,
-    locale = SUPPORTING_LANGUAGES.en
-  ) => {
-    const translation = translations[locale]
+  const getTranslation = (translations: TRANSLATIONS) => {
+    const translation =
+      translations[
+        (router.locale as SUPPORTING_LANGUAGES) || SUPPORTING_LANGUAGES.en
+      ]
 
     return (key: string) => {
       if (translation) {
