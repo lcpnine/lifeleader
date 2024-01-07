@@ -14,10 +14,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       <Head>
         <link rel="icon" href={Favicon.src} />
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=0.6, maximum-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Script
         async
