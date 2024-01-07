@@ -1,5 +1,6 @@
 import Footer from '@/components/Footer/Footer'
 import Header from '@/components/Header/Header'
+import { Analytics } from '@vercel/analytics/react'
 import { ReactNode } from 'react'
 
 const Layout = ({ children }: { children: ReactNode }) => {
@@ -8,6 +9,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <Header />
       <main>{children}</main>
       <Footer />
+      <Analytics />
     </div>
   )
 }
