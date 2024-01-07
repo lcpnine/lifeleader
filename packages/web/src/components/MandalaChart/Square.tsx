@@ -1,4 +1,8 @@
+import { SUPPORTING_LANGUAGES } from '@/constants/i18n'
 import { useTheme } from '@/contexts/theme/ThemeContext'
+import useI18n from '@/hooks/useI18n'
+import { useRouter } from 'next/router'
+import TRANSLATIONS from './Square.i18n'
 
 interface Props {
   value: string
@@ -6,20 +10,6 @@ interface Props {
   isGridValid: boolean
   gridIndex: number
   squareIndex: number
-}
-
-const getPlaceHolder = (
-  isCenterGrid: boolean,
-  isCenterSquare: boolean,
-  gridIndex: number,
-  squareIndex: number
-) => {
-  if (isCenterGrid && isCenterSquare) return 'Main Goal'
-  if (isCenterGrid && !isCenterSquare)
-    return `Sub Goal ${squareIndex < 4 ? squareIndex + 1 : squareIndex}`
-  if (!isCenterGrid && isCenterSquare)
-    return `Sub Goal ${gridIndex < 4 ? gridIndex + 1 : gridIndex}`
-  return ''
 }
 
 const Square = ({
@@ -32,6 +22,12 @@ const Square = ({
   const isCenterGrid = gridIndex === 4
   const isCenterSquare = squareIndex === 4
   const { themeStyle } = useTheme()
+  const { locale } = useRouter()
+  const { getTranslation } = useI18n()
+  const translation = getTranslation(
+    TRANSLATIONS,
+    locale as SUPPORTING_LANGUAGES
+  )
 
   const textBold = isCenterSquare ? 'font-bold' : ''
 
@@ -40,6 +36,24 @@ const Square = ({
     : isCenterGrid
       ? themeStyle.centerGridCenterSquareTextColor
       : themeStyle.edgeGridCenterSquareTextColor
+
+  const getPlaceHolder = (
+    isCenterGrid: boolean,
+    isCenterSquare: boolean,
+    gridIndex: number,
+    squareIndex: number
+  ) => {
+    if (isCenterGrid && isCenterSquare) return translation('mainGoal')
+    if (isCenterGrid && !isCenterSquare)
+      return `${translation('subGoal')} ${
+        squareIndex < 4 ? squareIndex + 1 : squareIndex
+      }`
+    if (!isCenterGrid && isCenterSquare)
+      return `${translation('subGoal')} ${
+        gridIndex < 4 ? gridIndex + 1 : gridIndex
+      }`
+    return ''
+  }
 
   const placeHolder = getPlaceHolder(
     isCenterGrid,
