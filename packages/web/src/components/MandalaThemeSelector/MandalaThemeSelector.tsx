@@ -34,7 +34,7 @@ const MandalaThemeSelector = () => {
                 key={themeName + isSelected}
                 onClick={() => setTheme(themeName)}
                 className={`mr-2 flex items-center justify-center px-4 py-2 border rounded transition duration-300 ${
-                  isSelected ? 'bg-blue-500 text-white' : ''
+                  isSelected ? 'bg-blue-500 text-white' : 'bg-stone-200'
                 }`}
                 title={themeName}
                 aria-selected={isSelected}
