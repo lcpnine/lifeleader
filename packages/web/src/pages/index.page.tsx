@@ -23,7 +23,7 @@ const Home = () => {
         </h1>
 
         <div className="flex items-center justify-center mb-6 w-3/5">
-          <p className="max-w-prose">{translation('description')}</p>
+          <p className="break-words">{translation('description')}</p>
         </div>
         <MandalaThemeSelector />
         <MandalaChart screenShotRef={screenShotRef} />
