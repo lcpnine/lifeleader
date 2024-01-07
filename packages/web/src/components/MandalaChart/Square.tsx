@@ -70,8 +70,8 @@ const Square = ({
         themeStyle.borderColor
       } flex items-center justify-center overflow-hidden ${
         themeStyle.backgroundColor
-      } ${isGridValid ? '' : 'bg-opacity-25'} ${
-        isGridValid && !(!isCenterGrid && isCenterSquare)
+      } ${isGridValid ? '' : 'bg-opacity-25 pointer-events-none'} ${
+        isGridValid && !isCenterGrid && isCenterSquare
           ? 'pointer-events-none'
           : ''
       }`}
