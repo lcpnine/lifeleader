@@ -2,7 +2,7 @@
 const nextConfig = {
   pageExtensions: ['page.tsx'],
   i18n: {
-    locales: ['en', 'ko', 'zh', 'zh-Hant'],
+    locales: ['en', 'ko', 'zh-Hant'],
     defaultLocale: 'en',
   },
 }
