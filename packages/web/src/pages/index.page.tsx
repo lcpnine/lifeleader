@@ -1,22 +1,28 @@
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
+import { SUPPORTING_LANGUAGES } from '@/constants/i18n'
 import useScreenShot from '@/hooks/useScreenshot'
+import useI18n from '@/hooks/usei18n'
+import { useRouter } from 'next/router'
+import TRANSLATIONS from './index.i18n'
 
 const Home = () => {
+  const { locale } = useRouter()
+  const { getTranslation } = useI18n()
+  const trasnlation = getTranslation(
+    TRANSLATIONS,
+    locale as SUPPORTING_LANGUAGES
+  )
   const { screenShotRef, takeScreenShot } = useScreenShot()
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-center text-blue-600 my-4 shadow-lg">
-        Mandala Chart
+        {trasnlation('title')}
       </h1>
       <p className="text-center mb-6 max-w-prose">
-        The <span className="font-bold">Mandala Chart</span> is a powerful tool
-        for visualizing and achieving goals. It helps in organizing thoughts and
-        actions towards a specific objective. A great example of goal
-        achievement is the story of Shohei Ohtani, who has excelled in multiple
-        facets of baseball through focused effort and determination.
+        {trasnlation('description')}
       </p>
       <MandalaThemeSelector />
       <MandalaChart screenShotRef={screenShotRef} />
