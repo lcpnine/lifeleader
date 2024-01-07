@@ -1,7 +1,7 @@
 const TRANSLATIONS = {
   en: {
     title: 'Mandala Chart',
-    description: `The <span className="font-bold">Mandala Chart</span> is a powerful tool
+    description: `The Mandala Chart is a powerful tool
     for visualizing and achieving goals. It helps in organizing thoughts and
     actions towards a specific objective. A great example of goal
     achievement is the story of Shohei Ohtani, who has excelled in multiple

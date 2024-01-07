@@ -21,9 +21,10 @@ const Home = () => {
       <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-center text-blue-600 my-4 shadow-lg">
         {trasnlation('title')}
       </h1>
-      <p className="text-center mb-6 max-w-prose">
-        {trasnlation('description')}
-      </p>
+
+      <div className="flex items-center justify-center mb-6 w-3/5">
+        <p className="max-w-prose">{trasnlation('description')}</p>
+      </div>
       <MandalaThemeSelector />
       <MandalaChart screenShotRef={screenShotRef} />
       <ScreenshotButton takeScreenShot={takeScreenShot} />
