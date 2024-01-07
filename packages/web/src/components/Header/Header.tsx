@@ -1,9 +1,11 @@
 import { SUPPORTING_LANGUAGES } from '@/constants/i18n'
+import useI18n from '@/hooks/usei18n'
 import { useRouter } from 'next/router'
 import LifeLeaderIcon from './LifeLeader.png'
 
 const Header = () => {
-  const { locales } = useRouter()
+  const { locale, locales } = useRouter()
+  const { changeLanguage } = useI18n()
 
   return (
     <header className="w-full py-4 bg-gray-400 flex justify-between items-center px-4 md:px-10">
@@ -17,7 +19,11 @@ const Header = () => {
         </span>
       </div>
       <div>
-        <select className="border rounded p-1 text-gray-700 focus:ring-blue-500 focus:border-blue-500">
+        <select
+          className="border rounded p-1 text-gray-700 focus:ring-blue-500 focus:border-blue-500"
+          value={locale}
+          onChange={e => changeLanguage(e.target.value)}
+        >
           {locales?.map(locale => (
             <option key={locale} value={locale}>
               {
