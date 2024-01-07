@@ -1,5 +1,5 @@
 import { LANGUAGE_NAMES_SHORT, SUPPORTING_LANGUAGES } from '@/constants/i18n'
-import useI18n from '@/hooks/usei18n'
+import useI18n from '@/hooks/useI18n'
 import { useRouter } from 'next/router'
 import LifeLeaderIcon from 'public/life-leader-icon.png'
 
