@@ -1,4 +1,5 @@
 import { MandalaTheme } from '@/constants/mandalaThemes'
+import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import useI18n from '@/hooks/useI18n'
 import Flicking from '@egjs/react-flicking'
@@ -21,13 +22,19 @@ const themeIcons = {
 const MandalaThemeSelector = () => {
   const { theme, setTheme } = useTheme()
   const { getTranslation } = useI18n()
+  const { isMobile } = useEntryContext()
   const trasnlate = getTranslation(TRANSLATIONS)
   const mandalaThemes = Object.values(MandalaTheme)
 
   return (
-    <div className="flex flex-col items-center justify-center pt-4 w-1/2 whitespace-nowrap  ">
+    <div className="relative flex flex-col items-center justify-center pt-4 whitespace-nowrap h-max">
       <p className="mb-4 font-semibold">{trasnlate('description')}</p>
-      <Flicking align="prev" bound={true} cameraClass="space-x-4">
+      <Flicking
+        align="prev"
+        bound={true}
+        className={`${isMobile ? 'max-w-64' : 'max-w-[32rem]'}`}
+        cameraClass="space-x-4"
+      >
         {mandalaThemes.map(themeName => {
           const isSelected = themeName === theme
           return (
