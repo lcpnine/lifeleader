@@ -4,7 +4,11 @@ import TRANSLATIONS from './Square.i18n'
 
 interface Props {
   value: string
-  onChange: (newValue: string) => void
+  handleGridValue: (
+    gridIndex: number,
+    squareIndex: number,
+    newValue: string
+  ) => void
   isGridValid: boolean
   gridIndex: number
   squareIndex: number
@@ -12,7 +16,7 @@ interface Props {
 
 const Square = ({
   value,
-  onChange,
+  handleGridValue,
   isGridValid,
   gridIndex,
   squareIndex,
@@ -57,11 +61,11 @@ const Square = ({
   )
 
   const handleSpanChange: React.ChangeEventHandler<HTMLSpanElement> = e => {
-    onChange(e.target.innerText)
+    handleGridValue(gridIndex, squareIndex, e.target.innerText)
   }
 
   const onBlurSpan: React.FocusEventHandler<HTMLSpanElement> = e => {
-    onChange(e.target.innerText.trim())
+    handleGridValue(gridIndex, squareIndex, e.target.innerText.trim())
   }
 
   return (

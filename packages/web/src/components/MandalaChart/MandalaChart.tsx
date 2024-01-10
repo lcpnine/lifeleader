@@ -1,20 +1,29 @@
 import { DIMMED_Z_INDEX } from '@/constants/common'
 import { useState } from 'react'
-import CenterGrid from './CenterGrid'
-import EdgeGrid from './EdgeGrid'
+import { deepCopy } from '../../../utils/common'
+import Grid from './Grid'
 
 interface Props {
   screenShotRef: React.RefObject<HTMLDivElement>
 }
 
 const MandalaChart = ({ screenShotRef }: Props) => {
-  const [centerValues, setCenterValues] = useState(Array(9).fill(''))
   const [activeGrid, setActiveGrid] = useState<number | null>(null)
+  const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
+    new Array(9).fill(new Array(9).fill(''))
+  )
 
-  const handleCenterValueChange = (index: number) => (newValue: string) => {
-    const newValues = [...centerValues]
-    newValues[index] = newValue
-    setCenterValues(newValues)
+  const handleGridValue = (
+    gridIndex: number,
+    squareIndex: number,
+    newValue: string
+  ) => {
+    const newGridValues = deepCopy(wholeGridValues)
+    newGridValues[gridIndex][squareIndex] = newValue
+    if (gridIndex === 4 && squareIndex !== 4) {
+      newGridValues[squareIndex][gridIndex] = newValue
+    }
+    setWholeGridValues(newGridValues)
   }
 
   const handleGridActivation = (index: number) => {
@@ -44,23 +53,14 @@ const MandalaChart = ({ screenShotRef }: Props) => {
         </button>
       )}
       <div className={`grid grid-cols-3 gap-3`}>
-        {Array.from({ length: 9 }).map((_, index) => {
-          const isCenterSquareGrid = index === 4
-
-          return isCenterSquareGrid ? (
-            <CenterGrid
-              key={index}
-              centerValues={centerValues}
-              onCenterValueChange={handleCenterValueChange}
-            />
-          ) : (
-            <EdgeGrid
-              key={index}
-              centerValue={centerValues[index]}
-              gridIndex={index}
-            />
-          )
-        })}
+        {wholeGridValues.map((_, index) => (
+          <Grid
+            key={index}
+            wholeGridValues={wholeGridValues}
+            handleGridValue={handleGridValue}
+            gridIndex={index}
+          />
+        ))}
       </div>
     </div>
   )
