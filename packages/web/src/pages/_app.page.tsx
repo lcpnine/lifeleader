@@ -1,5 +1,7 @@
+import { EntryProvider } from '@/contexts/EntryContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
-import type { AppProps } from 'next/app'
+import type { AppContext, AppProps } from 'next/app'
+import App from 'next/app'
 import Head from 'next/head'
 import Script from 'next/script'
 import Favicon from 'public/favicon.ico'
@@ -8,16 +10,13 @@ import Layout from './layout'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_MEASUREMENT_ID
 
-const App = ({ Component, pageProps }: AppProps) => {
+const WebApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
         <link rel="icon" href={Favicon.src} />
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=0.6, maximum-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Script
         async
@@ -35,13 +34,32 @@ const App = ({ Component, pageProps }: AppProps) => {
         `,
         }}
       />
-      <ThemeProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ThemeProvider>
+      <EntryProvider serverProps={pageProps}>
+        <ThemeProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+      </EntryProvider>
     </>
   )
 }
 
-export default App
+WebApp.getInitialProps = async (context: AppContext) => {
+  const props = await App.getInitialProps(context)
+
+  const acceptLanguage = context.ctx.req?.headers['accept-language']
+  const userAgent = context.ctx.req?.headers['user-agent']
+  const referrer = context.ctx.req?.headers['referrer']
+
+  return {
+    ...props,
+    pageProps: {
+      acceptLanguage,
+      userAgent,
+      referrer,
+    },
+  }
+}
+
+export default WebApp

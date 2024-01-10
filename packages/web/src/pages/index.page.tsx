@@ -1,4 +1,3 @@
-import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
 import useI18n from '@/hooks/useI18n'
@@ -23,10 +22,10 @@ const Home = () => {
         </h1>
 
         <div className="flex items-center justify-center mb-6 w-3/5">
-          <p className="max-w-prose">{translation('description')}</p>
+          <p className="break-words">{translation('description')}</p>
         </div>
         <MandalaThemeSelector />
-        <MandalaChart screenShotRef={screenShotRef} />
+        {/* <MandalaChart screenShotRef={screenShotRef} /> */}
         <ScreenshotButton takeScreenShot={takeScreenShot} />
       </div>
     </>
