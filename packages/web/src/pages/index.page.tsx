@@ -37,7 +37,7 @@ const Home = () => {
         <div className="pt-4">{ToggleOptions}</div>
         <div className="pt-4">
           <MandalaChart
-            viewOption={MandalaChartView.SINGLE_VIEW}
+            viewOption={chartViewOption as MandalaChartView}
             screenShotRef={screenShotRef}
           />
         </div>
