@@ -1,7 +1,6 @@
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
-import ToggleOptions from '@/components/ToggleOptions/ToggleOptions'
 import useI18n from '@/hooks/useI18n'
 import useScreenShot from '@/hooks/useScreenshot'
 import Head from 'next/head'
@@ -30,9 +29,9 @@ const Home = () => {
         <div className="pt-4">
           <MandalaThemeSelector />
         </div>
-        <div className="pt-4">
+        {/* <div className="pt-4">
           <ToggleOptions options={viewOptions} />
-        </div>
+        </div> */}
         <div className="pt-4">
           <MandalaChart screenShotRef={screenShotRef} />
         </div>
