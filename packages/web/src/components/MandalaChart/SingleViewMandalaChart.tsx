@@ -1,3 +1,4 @@
+import { useDimmedScreenContext } from '@/contexts/DimmedScreenContext'
 import { useState } from 'react'
 import {
   BiSolidDownArrowCircle,
@@ -24,6 +25,7 @@ const SingleViewMandalaChart = ({
   wholeGridValues,
   handleGridValue,
 }: Props) => {
+  const { openDimmedScreen, closeDimmedScreen } = useDimmedScreenContext()
   const [activeGrid, setActiveGrid] = useState<number>(4) // Default to the central grid
   const getSubGridClassName = () => {
     switch (activeGrid) {
@@ -48,6 +50,11 @@ const SingleViewMandalaChart = ({
     }
   }
 
+  const getHandleArrowClick = (gridIndex: number) => () => {
+    setActiveGrid(gridIndex)
+    openDimmedScreen()
+  }
+
   return (
     <div className="flex-col justify-center align-bottom">
       <div className="flex w-full justify-between">
@@ -55,21 +62,21 @@ const SingleViewMandalaChart = ({
           <BiSolidLeftTopArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
-            onClick={() => setActiveGrid(0)}
+            onClick={getHandleArrowClick(0)}
           />
         </div>
         <div className="flex justify-center items-center">
           <BiSolidUpArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
-            onClick={() => setActiveGrid(1)}
+            onClick={getHandleArrowClick(1)}
           />
         </div>
         <div className="flex justify-center items-center">
           <BiSolidRightTopArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
-            onClick={() => setActiveGrid(2)}
+            onClick={getHandleArrowClick(2)}
           />
         </div>
       </div>
@@ -78,7 +85,7 @@ const SingleViewMandalaChart = ({
           <BiSolidLeftArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
-            onClick={() => setActiveGrid(3)}
+            onClick={getHandleArrowClick(3)}
           />
         </div>
         <div className="relative justify-center items-center m-4">
@@ -105,7 +112,7 @@ const SingleViewMandalaChart = ({
           <BiSolidRightArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
-            onClick={() => setActiveGrid(5)}
+            onClick={getHandleArrowClick(5)}
           />
         </div>
       </div>
@@ -114,21 +121,21 @@ const SingleViewMandalaChart = ({
           <BiSolidLeftDownArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
-            onClick={() => setActiveGrid(6)}
+            onClick={getHandleArrowClick(6)}
           />
         </div>
         <div className="flex justify-center items-center">
           <BiSolidDownArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
-            onClick={() => setActiveGrid(7)}
+            onClick={getHandleArrowClick(7)}
           />
         </div>
         <div className="flex justify-center items-center">
           <BiSolidRightDownArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
-            onClick={() => setActiveGrid(8)}
+            onClick={getHandleArrowClick(8)}
           />
         </div>
       </div>
