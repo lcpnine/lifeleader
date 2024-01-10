@@ -25,29 +25,26 @@ const MandalaThemeSelector = () => {
   const mandalaThemes = Object.values(MandalaTheme)
 
   return (
-    <div className="flex flex-col items-center justify-center pt-4">
+    <div className="flex flex-col items-center justify-center pt-4 w-1/2 whitespace-nowrap  ">
       <p className="mb-4 font-semibold">{trasnlate('description')}</p>
-      <div className="w-3/4">
-        <Flicking align="prev" bound={true}>
-          {mandalaThemes.map(themeName => {
-            const isSelected = themeName === theme
-            return (
-              <button
-                key={themeName + isSelected}
-                onClick={() => setTheme(themeName)}
-                className={`mr-2 flex items-center justify-center px-4 py-2 border rounded transition duration-300 ${
-                  isSelected ? 'bg-blue-500 text-white' : 'bg-stone-200'
-                }`}
-                title={themeName}
-                aria-selected={isSelected}
-              >
-                {themeIcons[themeName]}{' '}
-                <span className="ml-2">{themeName}</span>
-              </button>
-            )
-          })}
-        </Flicking>
-      </div>
+      <Flicking align="prev" bound={true} cameraClass="space-x-4">
+        {mandalaThemes.map(themeName => {
+          const isSelected = themeName === theme
+          return (
+            <button
+              key={themeName + isSelected}
+              onClick={() => setTheme(themeName)}
+              className={`flex items-center justify-center px-4 py-2 border rounded transition duration-300 ${
+                isSelected ? 'bg-blue-500 text-white' : 'bg-stone-200'
+              }`}
+              title={themeName}
+              aria-selected={isSelected}
+            >
+              {themeIcons[themeName]} <span className="ml-2">{themeName}</span>
+            </button>
+          )
+        })}
+      </Flicking>
     </div>
   )
 }
