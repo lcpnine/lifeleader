@@ -2,11 +2,12 @@ import ToggleOptionsComponent from '@/components/ToggleOptions/ToggleOptions'
 import { useState } from 'react'
 
 interface Props {
+  initOption?: string
   options: string[]
 }
 
-const useToggleOptions = ({ options }: Props) => {
-  const [selectedOption, setSelectedOption] = useState(options[0])
+const useToggleOptions = ({ initOption, options }: Props) => {
+  const [selectedOption, setSelectedOption] = useState(initOption ?? options[0])
 
   return {
     selectedOption,
