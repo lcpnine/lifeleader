@@ -1,4 +1,4 @@
-import { MandalaTheme } from '@/constants/mandalaThemes'
+import { MandalaTheme } from '@/constants/mandalaChart'
 import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import useI18n from '@/hooks/useI18n'

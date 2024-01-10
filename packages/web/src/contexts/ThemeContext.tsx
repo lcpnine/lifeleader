@@ -1,4 +1,4 @@
-import { MANDALA_THEMES, MandalaTheme } from '@/constants/mandalaThemes'
+import { MANDALA_THEMES, MandalaTheme } from '@/constants/mandalaChart'
 import { ReactNode, createContext, useContext, useState } from 'react'
 
 const DefaultThemeContext = {
