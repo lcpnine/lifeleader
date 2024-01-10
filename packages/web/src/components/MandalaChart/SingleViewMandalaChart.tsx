@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   BiSolidDownArrowCircle,
   BiSolidLeftArrowCircle,
@@ -23,6 +24,8 @@ const SingleViewMandalaChart = ({
   wholeGridValues,
   handleGridValue,
 }: Props) => {
+  const [activeGrid, setActiveGrid] = useState<number>(4) // Default to the central grid
+
   return (
     <div className="flex-col justify-center align-bottom">
       <div className="flex w-full justify-between">
@@ -30,18 +33,21 @@ const SingleViewMandalaChart = ({
           <BiSolidLeftTopArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
+            onClick={() => setActiveGrid(0)}
           />
         </div>
         <div className="flex justify-center items-center">
           <BiSolidUpArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
+            onClick={() => setActiveGrid(1)}
           />
         </div>
         <div className="flex justify-center items-center">
           <BiSolidRightTopArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
+            onClick={() => setActiveGrid(2)}
           />
         </div>
       </div>
@@ -50,11 +56,20 @@ const SingleViewMandalaChart = ({
           <BiSolidLeftArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
+            onClick={() => setActiveGrid(3)}
           />
         </div>
         <div className="flex justify-center items-center m-4">
+          {activeGrid !== 4 && (
+            <Grid
+              key={'sub' + activeGrid}
+              wholeGridValues={wholeGridValues}
+              handleGridValue={handleGridValue}
+              gridIndex={activeGrid}
+            />
+          )}
           <Grid
-            key={'init'}
+            key={'main'}
             wholeGridValues={wholeGridValues}
             handleGridValue={handleGridValue}
             gridIndex={4}
@@ -64,6 +79,7 @@ const SingleViewMandalaChart = ({
           <BiSolidRightArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
+            onClick={() => setActiveGrid(5)}
           />
         </div>
       </div>
@@ -72,18 +88,21 @@ const SingleViewMandalaChart = ({
           <BiSolidLeftDownArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
+            onClick={() => setActiveGrid(6)}
           />
         </div>
         <div className="flex justify-center items-center">
           <BiSolidDownArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
+            onClick={() => setActiveGrid(7)}
           />
         </div>
         <div className="flex justify-center items-center">
           <BiSolidRightDownArrowCircle
             size="2em"
             className="hover:text-blue-600 cursor-pointer"
+            onClick={() => setActiveGrid(8)}
           />
         </div>
       </div>
