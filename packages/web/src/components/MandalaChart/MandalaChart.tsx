@@ -1,18 +1,9 @@
 import { DIMMED_Z_INDEX } from '@/constants/common'
 import { MandalaChartView } from '@/constants/mandalaChart'
 import { useState } from 'react'
-import {
-  BiSolidDownArrowCircle,
-  BiSolidLeftArrowCircle,
-  BiSolidLeftDownArrowCircle,
-  BiSolidLeftTopArrowCircle,
-  BiSolidRightArrowCircle,
-  BiSolidRightDownArrowCircle,
-  BiSolidRightTopArrowCircle,
-  BiSolidUpArrowCircle,
-} from 'react-icons/bi'
 import { deepCopy } from '../../../utils/common'
-import Grid from './Grid'
+import FullViewMandalaChart from './FullViewMandalaChart'
+import SingleViewMandalaChart from './SingleViewMandalaChart'
 
 interface Props {
   viewOption: MandalaChartView
@@ -65,81 +56,15 @@ const MandalaChart = ({ viewOption, screenShotRef }: Props) => {
         </button>
       )}
       {viewOption === MandalaChartView.FULL_VIEW ? (
-        <div className={`grid grid-cols-3 gap-3`}>
-          {wholeGridValues.map((_, index) => (
-            <Grid
-              key={index}
-              wholeGridValues={wholeGridValues}
-              handleGridValue={handleGridValue}
-              gridIndex={index}
-            />
-          ))}
-        </div>
+        <FullViewMandalaChart
+          wholeGridValues={wholeGridValues}
+          handleGridValue={handleGridValue}
+        />
       ) : (
-        <div className="flex-col justify-center align-bottom">
-          <div className="flex w-full justify-between">
-            <div className="flex justify-center items-center">
-              <BiSolidLeftTopArrowCircle
-                size="2em"
-                className="hover:text-blue-600 cursor-pointer"
-              />
-            </div>
-            <div className="flex justify-center items-center">
-              <BiSolidUpArrowCircle
-                size="2em"
-                className="hover:text-blue-600 cursor-pointer"
-              />
-            </div>
-            <div className="flex justify-center items-center">
-              <BiSolidRightTopArrowCircle
-                size="2em"
-                className="hover:text-blue-600 cursor-pointer"
-              />
-            </div>
-          </div>
-          <div className="flex w-fit">
-            <div className="flex justify-center items-center">
-              <BiSolidLeftArrowCircle
-                size="2em"
-                className="hover:text-blue-600 cursor-pointer"
-              />
-            </div>
-            <div className="flex justify-center items-center m-4">
-              <Grid
-                key={'init'}
-                wholeGridValues={wholeGridValues}
-                handleGridValue={handleGridValue}
-                gridIndex={4}
-              />
-            </div>
-            <div className="flex justify-center items-center">
-              <BiSolidRightArrowCircle
-                size="2em"
-                className="hover:text-blue-600 cursor-pointer"
-              />
-            </div>
-          </div>
-          <div className="flex w-full justify-between">
-            <div className="flex justify-center items-center">
-              <BiSolidLeftDownArrowCircle
-                size="2em"
-                className="hover:text-blue-600 cursor-pointer"
-              />
-            </div>
-            <div className="flex justify-center items-center">
-              <BiSolidDownArrowCircle
-                size="2em"
-                className="hover:text-blue-600 cursor-pointer"
-              />
-            </div>
-            <div className="flex justify-center items-center">
-              <BiSolidRightDownArrowCircle
-                size="2em"
-                className="hover:text-blue-600 cursor-pointer"
-              />
-            </div>
-          </div>
-        </div>
+        <SingleViewMandalaChart
+          wholeGridValues={wholeGridValues}
+          handleGridValue={handleGridValue}
+        />
       )}
     </div>
   )
