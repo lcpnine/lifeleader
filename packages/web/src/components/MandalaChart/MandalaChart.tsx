@@ -52,7 +52,6 @@ const MandalaChart = ({ screenShotRef }: Props) => {
               key={index}
               centerValues={centerValues}
               onCenterValueChange={handleCenterValueChange}
-              gridIndex={index}
             />
           ) : (
             <EdgeGrid
