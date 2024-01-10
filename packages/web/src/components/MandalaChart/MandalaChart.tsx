@@ -2,15 +2,15 @@ import { DIMMED_Z_INDEX } from '@/constants/common'
 import { MandalaChartView } from '@/constants/mandalaChart'
 import { useState } from 'react'
 import {
-  ImArrowDown,
-  ImArrowDownLeft,
-  ImArrowDownRight,
-  ImArrowLeft,
-  ImArrowRight,
-  ImArrowUp,
-  ImArrowUpLeft,
-  ImArrowUpRight,
-} from 'react-icons/im'
+  BiSolidDownArrowCircle,
+  BiSolidLeftArrowCircle,
+  BiSolidLeftDownArrowCircle,
+  BiSolidLeftTopArrowCircle,
+  BiSolidRightArrowCircle,
+  BiSolidRightDownArrowCircle,
+  BiSolidRightTopArrowCircle,
+  BiSolidUpArrowCircle,
+} from 'react-icons/bi'
 import { deepCopy } from '../../../utils/common'
 import Grid from './Grid'
 
@@ -79,20 +79,20 @@ const MandalaChart = ({ viewOption, screenShotRef }: Props) => {
         <div className="flex-col justify-center align-bottom">
           <div className="flex w-full justify-between">
             <div className="flex justify-center items-center basis-[3px]">
-              <ImArrowUpLeft size="2em" />
+              <BiSolidLeftTopArrowCircle size="2em" />
             </div>
             <div className="flex justify-center items-center basis-[3px]">
-              <ImArrowUp size="2em" />
+              <BiSolidUpArrowCircle size="2em" />
             </div>
             <div className="flex justify-center items-center basis-[3px]">
-              <ImArrowUpRight size="2em" />
+              <BiSolidRightTopArrowCircle size="2em" />
             </div>
           </div>
           <div className="flex w-fit">
             <div className="flex justify-center items-center basis-[3px]">
-              <ImArrowLeft size="2em" />
+              <BiSolidLeftArrowCircle size="2em" />
             </div>
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center m-4">
               <Grid
                 key={'init'}
                 wholeGridValues={wholeGridValues}
@@ -101,18 +101,18 @@ const MandalaChart = ({ viewOption, screenShotRef }: Props) => {
               />
             </div>
             <div className="flex justify-center items-center basis-[3px]">
-              <ImArrowRight size="2em" />
+              <BiSolidRightArrowCircle size="2em" />
             </div>
           </div>
           <div className="flex w-full justify-between">
             <div className="flex justify-center items-center basis-[3px]">
-              <ImArrowDownLeft size="2em" />
+              <BiSolidLeftDownArrowCircle size="2em" />
             </div>
             <div className="flex justify-center items-center basis-[3px]">
-              <ImArrowDown size="2em" />
+              <BiSolidDownArrowCircle size="2em" />
             </div>
             <div className="flex justify-center items-center basis-[3px]">
-              <ImArrowDownRight size="2em" />
+              <BiSolidRightDownArrowCircle size="2em" />
             </div>
           </div>
         </div>
