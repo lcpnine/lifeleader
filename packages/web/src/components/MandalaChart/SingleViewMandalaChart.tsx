@@ -59,21 +59,25 @@ const SingleViewMandalaChart = ({
             onClick={() => setActiveGrid(3)}
           />
         </div>
-        <div className="flex justify-center items-center m-4">
-          {activeGrid !== 4 && (
+        <div className="relative justify-center items-center m-4">
+          <div className="absolute bg-white">
+            {activeGrid !== 4 && (
+              <Grid
+                key={'sub' + activeGrid}
+                wholeGridValues={wholeGridValues}
+                handleGridValue={handleGridValue}
+                gridIndex={activeGrid}
+              />
+            )}
+          </div>
+          <div>
             <Grid
-              key={'sub' + activeGrid}
+              key={'main'}
               wholeGridValues={wholeGridValues}
               handleGridValue={handleGridValue}
-              gridIndex={activeGrid}
+              gridIndex={4}
             />
-          )}
-          <Grid
-            key={'main'}
-            wholeGridValues={wholeGridValues}
-            handleGridValue={handleGridValue}
-            gridIndex={4}
-          />
+          </div>
         </div>
         <div className="flex justify-center items-center">
           <BiSolidRightArrowCircle
