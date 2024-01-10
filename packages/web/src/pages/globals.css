@@ -8,3 +8,28 @@
   cursor: text;
   pointer-events: none;
 }
+
+.shadow-top-left {
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
+}
+.shadow-top {
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+}
+.shadow-top-right {
+  box-shadow: -10px 10px 10px rgba(0, 0, 0, 0.25);
+}
+.shadow-left {
+  box-shadow: 10px 0 10px rgba(0, 0, 0, 0.25);
+}
+.shadow-right {
+  box-shadow: -10px 0 10px rgba(0, 0, 0, 0.25);
+}
+.shadow-bottom-left {
+  box-shadow: 10px -10px 10px rgba(0, 0, 0, 0.25);
+}
+.shadow-bottom {
+  box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.25);
+}
+.shadow-bottom-right {
+  box-shadow: -10px -10px 10px rgba(0, 0, 0, 0.25);
+}

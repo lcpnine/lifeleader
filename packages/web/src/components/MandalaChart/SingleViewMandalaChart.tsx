@@ -28,23 +28,21 @@ const SingleViewMandalaChart = ({
   const getSubGridClassName = () => {
     switch (activeGrid) {
       case 0:
-        return '-left-8 -top-8'
+        return '-left-8 -top-8 shadow-top-left'
       case 1:
-        return '-top-8 -left-0'
+        return '-top-8 -left-0 shadow-top'
       case 2:
-        return '-top-8 -right-8'
+        return '-top-8 -right-8 shadow-top-right'
       case 3:
-        return '-left-8 -top-0'
-      case 4:
-        return ''
+        return '-left-8 -top-0 shadow-left'
       case 5:
-        return '-right-8 -top-0'
+        return '-right-8 -top-0 shadow-right'
       case 6:
-        return '-left-8 -bottom-8'
+        return '-left-8 -bottom-8 shadow-bottom-left'
       case 7:
-        return '-bottom-8 -left-0'
+        return '-bottom-8 -left-0 shadow-bottom'
       case 8:
-        return '-bottom-8 -right-8'
+        return '-bottom-8 -right-8 shadow-bottom-right'
       default:
         return ''
     }
