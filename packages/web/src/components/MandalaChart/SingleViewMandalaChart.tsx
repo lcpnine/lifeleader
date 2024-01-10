@@ -1,5 +1,5 @@
 import { useDimmedScreenContext } from '@/contexts/DimmedScreenContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   BiSolidDownArrowCircle,
   BiSolidLeftArrowCircle,
@@ -25,7 +25,8 @@ const SingleViewMandalaChart = ({
   wholeGridValues,
   handleGridValue,
 }: Props) => {
-  const { openDimmedScreen, closeDimmedScreen } = useDimmedScreenContext()
+  const { isDimmedScreenOpen, openDimmedScreen, closeDimmedScreen } =
+    useDimmedScreenContext()
   const [activeGrid, setActiveGrid] = useState<number>(4) // Default to the central grid
   const getSubGridClassName = () => {
     switch (activeGrid) {
@@ -54,6 +55,12 @@ const SingleViewMandalaChart = ({
     setActiveGrid(gridIndex)
     openDimmedScreen()
   }
+
+  useEffect(() => {
+    if (!isDimmedScreenOpen) {
+      setActiveGrid(4)
+    }
+  }, [isDimmedScreenOpen])
 
   return (
     <div className="flex-col justify-center align-bottom">
