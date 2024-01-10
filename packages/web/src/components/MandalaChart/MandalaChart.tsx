@@ -1,13 +1,15 @@
 import { DIMMED_Z_INDEX } from '@/constants/common'
+import { MandalaChartView } from '@/constants/mandalaChart'
 import { useState } from 'react'
 import { deepCopy } from '../../../utils/common'
 import Grid from './Grid'
 
 interface Props {
+  viewOption: MandalaChartView
   screenShotRef: React.RefObject<HTMLDivElement>
 }
 
-const MandalaChart = ({ screenShotRef }: Props) => {
+const MandalaChart = ({ viewOption, screenShotRef }: Props) => {
   const [activeGrid, setActiveGrid] = useState<number | null>(null)
   const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
     new Array(9).fill(new Array(9).fill(''))

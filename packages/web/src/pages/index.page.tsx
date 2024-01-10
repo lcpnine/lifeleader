@@ -14,6 +14,7 @@ const Home = () => {
   const { screenShotRef, takeScreenShot } = useScreenShot()
   const { Component: ToggleOptions, selectedOption: chartViewOption } =
     useToggleOptions({
+      initOption: MandalaChartView.SINGLE_VIEW,
       options: Object.values(MandalaChartView),
     })
 
@@ -35,7 +36,10 @@ const Home = () => {
         </div>
         <div className="pt-4">{ToggleOptions}</div>
         <div className="pt-4">
-          <MandalaChart screenShotRef={screenShotRef} />
+          <MandalaChart
+            viewOption={MandalaChartView.SINGLE_VIEW}
+            screenShotRef={screenShotRef}
+          />
         </div>
         <div className="pt-4">
           <ScreenshotButton takeScreenShot={takeScreenShot} />
