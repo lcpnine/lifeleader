@@ -63,7 +63,7 @@ const SingleViewMandalaChart = ({
   }, [isDimmedScreenOpen])
 
   return (
-    <div className="flex-col justify-center align-bottom">
+    <div className="relative flex-col justify-center align-bottom">
       <div className="flex w-full justify-between">
         <div className="flex justify-center items-center">
           <BiSolidLeftTopArrowCircle
@@ -87,7 +87,7 @@ const SingleViewMandalaChart = ({
           />
         </div>
       </div>
-      <div className="flex w-fit">
+      <div className="flex w-full justify-between">
         <div className="flex justify-center items-center">
           <BiSolidLeftArrowCircle
             size="2em"
