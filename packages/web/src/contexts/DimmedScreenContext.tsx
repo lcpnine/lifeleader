@@ -3,6 +3,7 @@ import { ReactNode, createContext, useContext, useState } from 'react'
 export const DIMMED_Z_INDEX = 50
 
 const DefaultDimmedScreenContext = {
+  isDimmedScreenOpen: false,
   openDimmedScreen: () => {},
   closeDimmedScreen: () => {},
 }
@@ -35,7 +36,7 @@ export const DimmedScreenProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <DimmedScreenContext.Provider
-      value={{ openDimmedScreen, closeDimmedScreen }}
+      value={{ isDimmedScreenOpen, openDimmedScreen, closeDimmedScreen }}
     >
       {DimmedScreen()}
       {children}
