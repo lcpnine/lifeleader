@@ -1,4 +1,3 @@
-import { useTheme } from '@/contexts/ThemeContext'
 import Square from './Square'
 
 interface GridProps {
@@ -12,13 +11,12 @@ interface GridProps {
 }
 
 const Grid = ({ wholeGridValues, handleGridValue, gridIndex }: GridProps) => {
-  const { themeStyle } = useTheme()
   const isGridValid =
     gridIndex === 4 ? true : wholeGridValues[4][gridIndex] !== ''
   const values = wholeGridValues[gridIndex]
 
   return (
-    <div className={`grid grid-cols-3 gap-1 border ${themeStyle.gridBorder}`}>
+    <div className={`grid grid-cols-3 gap-1`}>
       {values.map((value, index) => (
         <Square
           key={index}
