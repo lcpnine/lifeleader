@@ -25,6 +25,30 @@ const SingleViewMandalaChart = ({
   handleGridValue,
 }: Props) => {
   const [activeGrid, setActiveGrid] = useState<number>(4) // Default to the central grid
+  const getSubGridClassName = () => {
+    switch (activeGrid) {
+      case 0:
+        return '-left-8 -top-8'
+      case 1:
+        return '-top-8 -left-0'
+      case 2:
+        return '-top-8 -right-8'
+      case 3:
+        return '-left-8 -top-0'
+      case 4:
+        return ''
+      case 5:
+        return '-right-8 -top-0'
+      case 6:
+        return '-left-8 -bottom-8'
+      case 7:
+        return '-bottom-8 -left-0'
+      case 8:
+        return '-bottom-8 -right-8'
+      default:
+        return ''
+    }
+  }
 
   return (
     <div className="flex-col justify-center align-bottom">
@@ -60,7 +84,7 @@ const SingleViewMandalaChart = ({
           />
         </div>
         <div className="relative justify-center items-center m-4">
-          <div className="absolute bg-white">
+          <div className={`absolute bg-white ${getSubGridClassName()}`}>
             {activeGrid !== 4 && (
               <Grid
                 key={'sub' + activeGrid}
