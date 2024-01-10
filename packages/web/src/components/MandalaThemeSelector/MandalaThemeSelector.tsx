@@ -27,7 +27,7 @@ const MandalaThemeSelector = () => {
   const mandalaThemes = Object.values(MandalaTheme)
 
   return (
-    <div className="relative flex flex-col items-center justify-center pt-4 whitespace-nowrap h-max">
+    <div className="relative flex flex-col items-center justify-center whitespace-nowrap h-max">
       <p className="mb-4 font-semibold">{trasnlate('description')}</p>
       <Flicking
         align="prev"

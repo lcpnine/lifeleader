@@ -26,7 +26,7 @@ const MandalaChart = ({ screenShotRef }: Props) => {
   }
 
   return (
-    <div className={`relative max-w-fit p-8`} ref={screenShotRef}>
+    <div className={`relative max-w-fit`} ref={screenShotRef}>
       {activeGrid !== null && (
         <div
           className={`fixed inset-0 bg-black bg-opacity-50 z-[${DIMMED_Z_INDEX}]`}

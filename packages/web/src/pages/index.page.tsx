@@ -10,6 +10,7 @@ const Home = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
   const { screenShotRef, takeScreenShot } = useScreenShot()
+  const viewOptions = ['Full View', 'One by One View']
 
   return (
     <>
@@ -25,9 +26,15 @@ const Home = () => {
         <div className="flex items-center justify-center mb-6 w-3/5">
           <p className="break-words">{translation('description')}</p>
         </div>
-        <MandalaThemeSelector />
-        <MandalaChart screenShotRef={screenShotRef} />
-        <ScreenshotButton takeScreenShot={takeScreenShot} />
+        <div className="pt-4">
+          <MandalaThemeSelector />
+        </div>
+        <div className="pt-4">
+          <MandalaChart screenShotRef={screenShotRef} />
+        </div>
+        <div className="pt-4">
+          <ScreenshotButton takeScreenShot={takeScreenShot} />
+        </div>
       </div>
     </>
   )
