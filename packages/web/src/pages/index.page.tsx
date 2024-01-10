@@ -1,8 +1,10 @@
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
+import { MandalaChartView } from '@/constants/mandalaChart'
 import useI18n from '@/hooks/useI18n'
 import useScreenShot from '@/hooks/useScreenshot'
+import useToggleOptions from '@/hooks/useToggleOptions'
 import Head from 'next/head'
 import TRANSLATIONS from './index.i18n'
 
@@ -10,7 +12,10 @@ const Home = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
   const { screenShotRef, takeScreenShot } = useScreenShot()
-  const viewOptions = ['Full View', 'One by One View']
+  const { Component: ToggleOptions, selectedOption: chartViewOption } =
+    useToggleOptions({
+      options: Object.values(MandalaChartView),
+    })
 
   return (
     <>
@@ -29,9 +34,7 @@ const Home = () => {
         <div className="pt-4">
           <MandalaThemeSelector />
         </div>
-        {/* <div className="pt-4">
-          <ToggleOptions options={viewOptions} />
-        </div> */}
+        <div className="pt-4">{ToggleOptions}</div>
         <div className="pt-4">
           <MandalaChart screenShotRef={screenShotRef} />
         </div>
