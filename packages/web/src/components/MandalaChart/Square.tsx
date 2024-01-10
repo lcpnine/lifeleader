@@ -1,3 +1,4 @@
+import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import useI18n from '@/hooks/useI18n'
 import TRANSLATIONS from './Square.i18n'
@@ -25,6 +26,7 @@ const Square = ({
   const isCenterSquare = squareIndex === 4
   const { themeStyle } = useTheme()
   const { getTranslation } = useI18n()
+  const { isMobile } = useEntryContext()
   const translation = getTranslation(TRANSLATIONS)
 
   const textBold = isCenterSquare ? 'font-bold' : ''
@@ -68,9 +70,11 @@ const Square = ({
     handleGridValue(gridIndex, squareIndex, e.target.innerText.trim())
   }
 
+  const length = isMobile ? '20' : '24'
+
   return (
     <div
-      className={`w-24 h-24 border ${
+      className={`w-${length} h-${length} border ${
         themeStyle.borderColor
       } flex items-center justify-center overflow-hidden ${
         themeStyle.backgroundColor
@@ -85,7 +89,7 @@ const Square = ({
         suppressContentEditableWarning
         onChange={handleSpanChange}
         onBlur={onBlurSpan}
-        className={`w-full max-h-24 text-center ${textColor} ${textBold} p-0 cursor-text inline-block focus:outline-none`}
+        className={`w-full max-h-${length} text-center ${textColor} ${textBold} p-0 cursor-text inline-block focus:outline-none`}
         data-placeholder={placeHolder}
         style={{ whiteSpace: 'pre-wrap' }}
       >
