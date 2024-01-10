@@ -27,7 +27,6 @@ const Home = () => {
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-center text-blue-600 my-4 shadow-sm">
           {translation('title')}
         </h1>
-
         <div className="flex items-center justify-center mb-6 w-3/5">
           <p className="break-words">{translation('description')}</p>
         </div>
