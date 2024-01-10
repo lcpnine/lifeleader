@@ -1,12 +1,14 @@
-import { useState } from 'react'
-
 interface ToggleOptionsComponentProps {
+  selectedOption: string
+  setSelectedOption: (option: string) => void
   options: string[]
 }
 
-const ToggleOptionsComponent = ({ options }: ToggleOptionsComponentProps) => {
-  const [selectedOption, setSelectedOption] = useState(options[0] || '')
-
+const ToggleOptionsComponent = ({
+  selectedOption,
+  setSelectedOption,
+  options,
+}: ToggleOptionsComponentProps) => {
   const selectOption = (option: string) => {
     setSelectedOption(option)
   }
