@@ -1,5 +1,6 @@
 import Alert from '@/components/Modal/Alert'
 import useModal from '@/hooks/useModal'
+import useModalState from '@/hooks/useModalState'
 import { useState } from 'react'
 import Grid from './Grid'
 
@@ -18,12 +19,15 @@ const SingleViewMandalaChart = ({
 }: Props) => {
   const [activeGrid, setActiveGrid] = useState<number>(4) // Default to the central grid
 
-  const [isGridModalOpen, setIsGridModalOpen] = useState<boolean>(false)
-  const openGridModal = () => setIsGridModalOpen(true)
-  const closeGridModal = () => {
-    setActiveGrid(4)
-    setIsGridModalOpen(false)
-  }
+  const {
+    isModalOpen: isGridModalOpen,
+    openModal: openGridModal,
+    closeModal: closeGridModal,
+  } = useModalState({
+    onModalClose: () => {
+      setActiveGrid(4)
+    },
+  })
   const { ModalComponent } = useModal({
     isModalOpen: isGridModalOpen,
     closeModal: closeGridModal,
@@ -37,9 +41,11 @@ const SingleViewMandalaChart = ({
     ),
   })
 
-  const [isAlertModalOpen, setIsAlertModalOpen] = useState<boolean>(false)
-  const openAlertModal = () => setIsAlertModalOpen(true)
-  const closeAlertModal = () => setIsAlertModalOpen(false)
+  const {
+    isModalOpen: isAlertModalOpen,
+    openModal: openAlertModal,
+    closeModal: closeAlertModal,
+  } = useModalState()
   const { ModalComponent: AlertModalComponent } = useModal({
     isModalOpen: isAlertModalOpen,
     closeModal: closeAlertModal,
