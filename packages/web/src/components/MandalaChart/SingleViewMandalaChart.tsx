@@ -27,11 +27,21 @@ const SingleViewMandalaChart = ({
     ),
   })
 
+  const checkIsSubGridValid = (gridIndex: number) => {
+    return wholeGridValues[4][gridIndex] !== ''
+  }
+
   const getHandleDoubleClick = (squareIndex: number) => () => {
     if (squareIndex === 4) return
     else {
-      setActiveGrid(squareIndex)
-      openModal()
+      const isGridValid = checkIsSubGridValid(squareIndex)
+      if (isGridValid) {
+        setActiveGrid(squareIndex)
+        openModal()
+      } else {
+        alert('Set your sub goal first')
+      }
+
       return
     }
   }
