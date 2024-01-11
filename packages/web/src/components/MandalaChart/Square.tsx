@@ -70,11 +70,9 @@ const Square = ({
     handleGridValue(gridIndex, squareIndex, e.target.innerText.trim())
   }
 
-  const length = isMobile ? '20' : '24'
-
   return (
     <div
-      className={`w-${length} h-${length} border ${
+      className={`${isMobile ? 'size-16' : 'size-24'} border ${
         themeStyle.borderColor
       } flex items-center justify-center overflow-hidden ${
         themeStyle.backgroundColor
@@ -89,7 +87,9 @@ const Square = ({
         suppressContentEditableWarning
         onChange={handleSpanChange}
         onBlur={onBlurSpan}
-        className={`w-full max-h-${length} text-center ${textColor} ${textBold} p-0 cursor-text inline-block focus:outline-none`}
+        className={`w-full max-h-${
+          isMobile ? '16' : '24'
+        } text-center ${textColor} ${textBold} p-0 cursor-text inline-block focus:outline-none`}
         data-placeholder={placeHolder}
         style={{ whiteSpace: 'pre-wrap' }}
       >
