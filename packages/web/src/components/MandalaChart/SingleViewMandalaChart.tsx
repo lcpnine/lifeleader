@@ -96,7 +96,7 @@ const SingleViewMandalaChart = ({
           />
         </div>
         <div className="relative justify-center items-center m-4">
-          <div className={`absolute bg-white ${getSubGridClassName()}`}>
+          <div className={`absolute bg-gray-100 ${getSubGridClassName()}`}>
             {activeGrid !== 4 && (
               <Grid
                 key={'sub' + activeGrid}
