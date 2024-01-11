@@ -9,6 +9,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <Header />
       <main>{children}</main>
       <Footer />
+      <div id="modal-root"></div>
       <Analytics />
     </div>
   )
