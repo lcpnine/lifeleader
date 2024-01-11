@@ -58,6 +58,17 @@ const useModal = ({ modal, isModalOpen, closeModal }: Props) => {
     }
   }, [isModalOpen])
 
+  useEffect(() => {
+    const modal = document.querySelector('.is_modal')
+    if (modal) {
+      const focusableElements = modal.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+      const firstFocusableElement = focusableElements[0]
+      if (firstFocusableElement) (firstFocusableElement as HTMLElement).focus()
+    }
+  }, [isModalOpen])
+
   const ModalComponent = () => {
     return (
       !IS_SSR &&
