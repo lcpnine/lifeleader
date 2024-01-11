@@ -1,3 +1,4 @@
+import useModal from '@/hooks/useModal'
 import { useState } from 'react'
 import {
   BiSolidDownArrowCircle,
@@ -25,31 +26,20 @@ const SingleViewMandalaChart = ({
   handleGridValue,
 }: Props) => {
   const [activeGrid, setActiveGrid] = useState<number>(4) // Default to the central grid
-  const getSubGridClassName = () => {
-    switch (activeGrid) {
-      case 0:
-        return '-left-8 -top-8 shadow-top-left'
-      case 1:
-        return '-top-8 -left-0 shadow-top'
-      case 2:
-        return '-top-8 -right-8 shadow-top-right'
-      case 3:
-        return '-left-8 -top-0 shadow-left'
-      case 5:
-        return '-right-8 -top-0 shadow-right'
-      case 6:
-        return '-left-8 -bottom-8 shadow-bottom-left'
-      case 7:
-        return '-bottom-8 -left-0 shadow-bottom'
-      case 8:
-        return '-bottom-8 -right-8 shadow-bottom-right'
-      default:
-        return ''
-    }
-  }
+  const { ModalComponent, openModal } = useModal({
+    modal: (
+      <Grid
+        key={'sub' + activeGrid}
+        wholeGridValues={wholeGridValues}
+        handleGridValue={handleGridValue}
+        gridIndex={activeGrid}
+      />
+    ),
+  })
 
   const getHandleArrowClick = (gridIndex: number) => () => {
     setActiveGrid(gridIndex)
+    openModal()
   }
 
   return (
@@ -86,24 +76,12 @@ const SingleViewMandalaChart = ({
           />
         </div>
         <div className="relative justify-center items-center m-4">
-          <div className={`absolute bg-gray-100 ${getSubGridClassName()}`}>
-            {activeGrid !== 4 && (
-              <Grid
-                key={'sub' + activeGrid}
-                wholeGridValues={wholeGridValues}
-                handleGridValue={handleGridValue}
-                gridIndex={activeGrid}
-              />
-            )}
-          </div>
-          <div>
-            <Grid
-              key={'main'}
-              wholeGridValues={wholeGridValues}
-              handleGridValue={handleGridValue}
-              gridIndex={4}
-            />
-          </div>
+          <Grid
+            key={'main'}
+            wholeGridValues={wholeGridValues}
+            handleGridValue={handleGridValue}
+            gridIndex={4}
+          />
         </div>
         <div className="flex justify-center items-center">
           <BiSolidRightArrowCircle
@@ -136,6 +114,7 @@ const SingleViewMandalaChart = ({
           />
         </div>
       </div>
+      {ModalComponent && <ModalComponent />}
     </div>
   )
 }
