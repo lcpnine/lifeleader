@@ -1,8 +1,10 @@
 import Alert from '@/components/Modal/Alert'
+import useI18n from '@/hooks/useI18n'
 import useModal from '@/hooks/useModal'
 import useModalState from '@/hooks/useModalState'
 import { useState } from 'react'
 import Grid from './Grid'
+import TRANSLATIONS from './SingleViewMandalaChart.i18n'
 
 interface Props {
   wholeGridValues: string[][]
@@ -17,6 +19,8 @@ const SingleViewMandalaChart = ({
   wholeGridValues,
   handleGridValue,
 }: Props) => {
+  const { getTranslation } = useI18n()
+  const translation = getTranslation(TRANSLATIONS)
   const [activeGrid, setActiveGrid] = useState<number>(4) // Default to the central grid
 
   const {
@@ -50,7 +54,7 @@ const SingleViewMandalaChart = ({
     isModalOpen: isAlertModalOpen,
     closeModal: closeAlertModal,
     modal: (
-      <Alert text="Set your sub goal first" closeModal={closeAlertModal} />
+      <Alert text={translation('alertText')} closeModal={closeAlertModal} />
     ),
   })
 
