@@ -35,15 +35,10 @@ const MandalaChart = ({ viewOption, screenShotRef }: Props) => {
           handleGridValue={handleGridValue}
         />
       ) : (
-        <div>
-          <SingleViewMandalaChart
-            wholeGridValues={wholeGridValues}
-            handleGridValue={handleGridValue}
-          />
-          <div className="flex justify-center items-center text-center text-gray-500">
-            Sorry, We are still working on this feature. Please come back later.
-          </div>
-        </div>
+        <SingleViewMandalaChart
+          wholeGridValues={wholeGridValues}
+          handleGridValue={handleGridValue}
+        />
       )}
     </div>
   )
