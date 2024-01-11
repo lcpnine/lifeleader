@@ -1,4 +1,3 @@
-import { DimmedScreenProvider } from '@/contexts/DimmedScreenContext'
 import { EntryProvider } from '@/contexts/EntryContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import type { AppContext, AppProps } from 'next/app'
@@ -37,11 +36,9 @@ const WebApp = ({ Component, pageProps }: AppProps) => {
       />
       <EntryProvider serverProps={pageProps}>
         <ThemeProvider>
-          <DimmedScreenProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </DimmedScreenProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </ThemeProvider>
       </EntryProvider>
     </>
