@@ -1,3 +1,4 @@
+import Alert from '@/components/Modal/Alert'
 import useModal from '@/hooks/useModal'
 import { useState } from 'react'
 import Grid from './Grid'
@@ -36,6 +37,17 @@ const SingleViewMandalaChart = ({
     ),
   })
 
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState<boolean>(false)
+  const openAlertModal = () => setIsAlertModalOpen(true)
+  const closeAlertModal = () => setIsAlertModalOpen(false)
+  const { ModalComponent: AlertModalComponent } = useModal({
+    isModalOpen: isAlertModalOpen,
+    closeModal: closeAlertModal,
+    modal: (
+      <Alert text="Set your sub goal first" closeModal={closeAlertModal} />
+    ),
+  })
+
   const checkIsSubGridValid = (gridIndex: number) => {
     return wholeGridValues[4][gridIndex] !== ''
   }
@@ -48,7 +60,7 @@ const SingleViewMandalaChart = ({
         setActiveGrid(squareIndex)
         openGridModal()
       } else {
-        alert('Set your sub goal first')
+        openAlertModal()
       }
 
       return
@@ -65,6 +77,7 @@ const SingleViewMandalaChart = ({
         gridIndex={4}
       />
       {ModalComponent && <ModalComponent />}
+      {AlertModalComponent && <AlertModalComponent />}
     </div>
   )
 }
