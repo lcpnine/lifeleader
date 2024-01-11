@@ -10,6 +10,7 @@ interface Props {
     squareIndex: number,
     newValue: string
   ) => void
+  handleDoubleClick?: () => void
   isGridValid: boolean
   gridIndex: number
   squareIndex: number
@@ -18,6 +19,7 @@ interface Props {
 const Square = ({
   value,
   handleGridValue,
+  handleDoubleClick = () => {},
   isGridValid,
   gridIndex,
   squareIndex,
@@ -85,6 +87,7 @@ const Square = ({
       <span
         contentEditable={isGridValid && !(!isCenterGrid && isCenterSquare)}
         suppressContentEditableWarning
+        onDoubleClick={handleDoubleClick}
         onChange={handleSpanChange}
         onBlur={onBlurSpan}
         className={`w-full max-h-${
