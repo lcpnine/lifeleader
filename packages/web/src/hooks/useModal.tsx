@@ -1,18 +1,14 @@
 import { IS_SSR } from '@/constants/common'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
 interface Props {
   modal: ReactNode
+  isModalOpen: boolean
+  closeModal: () => void
 }
 
-const useModal = ({ modal }: Props) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const openModal = () => setIsModalOpen(true)
-
-  const closeModal = () => setIsModalOpen(false)
-
+const useModal = ({ modal, isModalOpen, closeModal }: Props) => {
   useEffect(() => {
     const handleScroll = (e: Event) => {
       const target = e.target as HTMLElement
@@ -78,7 +74,7 @@ const useModal = ({ modal }: Props) => {
     )
   }
 
-  return { isModalOpen, openModal, closeModal, ModalComponent }
+  return { ModalComponent }
 }
 
 export default useModal

@@ -16,7 +16,16 @@ const SingleViewMandalaChart = ({
   handleGridValue,
 }: Props) => {
   const [activeGrid, setActiveGrid] = useState<number>(4) // Default to the central grid
-  const { ModalComponent, openModal } = useModal({
+
+  const [isGridModalOpen, setIsGridModalOpen] = useState<boolean>(false)
+  const openGridModal = () => setIsGridModalOpen(true)
+  const closeGridModal = () => {
+    setActiveGrid(4)
+    setIsGridModalOpen(false)
+  }
+  const { ModalComponent } = useModal({
+    isModalOpen: isGridModalOpen,
+    closeModal: closeGridModal,
     modal: (
       <Grid
         key={'sub' + activeGrid}
@@ -37,7 +46,7 @@ const SingleViewMandalaChart = ({
       const isGridValid = checkIsSubGridValid(squareIndex)
       if (isGridValid) {
         setActiveGrid(squareIndex)
-        openModal()
+        openGridModal()
       } else {
         alert('Set your sub goal first')
       }
