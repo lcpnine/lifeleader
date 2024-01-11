@@ -3,7 +3,7 @@ module.exports = {
   generateRobotsTxt: true,
   sitemapSize: 5000,
   changefreq: 'daily',
-  priority: 0.7,
+  priority: 1.0,
   transform: async (config, path) => {
     return {
       loc: path,
