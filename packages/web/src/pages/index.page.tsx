@@ -16,9 +16,7 @@ const Home = () => {
   const { isMobile } = useEntryContext()
   const { Component: ToggleOptions, selectedOption: chartViewOption } =
     useToggleOptions({
-      initOption: isMobile
-        ? MandalaChartView.SINGLE_VIEW
-        : MandalaChartView.FULL_VIEW,
+      initOption: MandalaChartView.FULL_VIEW,
       options: Object.values(MandalaChartView),
     })
 
@@ -38,7 +36,7 @@ const Home = () => {
         <div className="pt-4">
           <MandalaThemeSelector />
         </div>
-        {!isMobile && <div className="pt-4">{ToggleOptions}</div>}
+        <div className="pt-4">{ToggleOptions}</div>
         <div className="pt-4">
           <MandalaChart
             viewOption={chartViewOption as MandalaChartView}
