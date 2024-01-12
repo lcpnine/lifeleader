@@ -43,7 +43,7 @@ const Home = () => {
         <div className="pt-4">
           <MandalaThemeSelector />
         </div>
-        <div className="pt-4">{ToggleOptions}</div>
+        {/* <div className="pt-4">{ToggleOptions}</div> */}
         <div className="pt-4">
           <MandalaChart
             wholeGridValues={wholeGridValues}
