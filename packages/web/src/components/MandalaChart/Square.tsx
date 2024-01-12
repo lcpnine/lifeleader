@@ -64,12 +64,14 @@ const Square = ({
     squareIndex
   )
 
-  const handleSpanChange: React.ChangeEventHandler<HTMLSpanElement> = e => {
-    handleGridValue(gridIndex, squareIndex, e.target.innerText)
+  const handleTextAreaChange: React.ChangeEventHandler<
+    HTMLTextAreaElement
+  > = e => {
+    handleGridValue(gridIndex, squareIndex, e.target.value)
   }
 
-  const onBlurSpan: React.FocusEventHandler<HTMLSpanElement> = e => {
-    handleGridValue(gridIndex, squareIndex, e.target.innerText)
+  const onBlurTextArea: React.FocusEventHandler<HTMLTextAreaElement> = e => {
+    handleGridValue(gridIndex, squareIndex, e.target.value.trim())
   }
 
   return (
@@ -84,20 +86,16 @@ const Square = ({
           : ''
       }`}
     >
-      <span
-        contentEditable={isGridValid && !(!isCenterGrid && isCenterSquare)}
-        suppressContentEditableWarning
+      <textarea
+        value={value}
+        onChange={handleTextAreaChange}
+        onBlur={onBlurTextArea}
         onDoubleClick={handleDoubleClick}
-        onChange={handleSpanChange}
-        onBlur={onBlurSpan}
-        className={`w-full max-h-${
-          isMobile ? '20' : '24'
-        } text-center ${textColor} ${textBold} p-0 cursor-text inline-block focus:outline-none`}
-        data-placeholder={placeHolder}
+        disabled={!isGridValid || (!isCenterGrid && isCenterSquare)}
+        className={`w-full h-full text-center ${textColor} ${textBold} p-0 cursor-text resize-none overflow-auto focus:outline-none`}
+        placeholder={placeHolder}
         style={{ whiteSpace: 'pre-wrap' }}
-      >
-        {value}
-      </span>
+      />
     </div>
   )
 }
