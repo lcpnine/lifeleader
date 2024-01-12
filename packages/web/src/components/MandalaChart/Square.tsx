@@ -79,7 +79,7 @@ const Square = ({
       className={`${isMobile ? 'size-20' : 'size-24'} border ${
         themeStyle.borderColor
       } flex items-center justify-center overflow-hidden ${
-        isGridValid ? '' : 'bg-opacity-25 pointer-events-none'
+        isGridValid ? '' : 'pointer-events-none'
       } ${
         isGridValid && !isCenterGrid && isCenterSquare
           ? 'pointer-events-none'
@@ -94,7 +94,9 @@ const Square = ({
         disabled={!isGridValid || (!isCenterGrid && isCenterSquare)}
         className={`w-full h-full text-center ${textColor} ${textBold} 
           ${themeStyle.backgroundColor} p-0 cursor-text resize-none
-          overflow-auto focus:outline-none`}
+          overflow-auto focus:outline-none ${
+            isGridValid ? '' : 'bg-opacity-25'
+          }`}
         placeholder={placeHolder}
         style={{ whiteSpace: 'pre-wrap' }}
       />
