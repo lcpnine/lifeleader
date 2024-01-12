@@ -22,7 +22,7 @@ const Grid = ({
   const values = wholeGridValues[gridIndex]
 
   return (
-    <div className={`grid grid-cols-3 gap-1 w-fit`}>
+    <div className={`grid grid-cols-3 gap-1 w-max`}>
       {values.map((value, suqareIndex) => {
         const handleDoubleClick =
           getHandleDoubleClick && getHandleDoubleClick(suqareIndex)
