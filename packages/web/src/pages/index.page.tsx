@@ -25,7 +25,7 @@ const Home = () => {
         <meta name="description" content={translation('description')} />
       </Head>
       <div className="flex flex-col items-center justify-center p-4">
-        <h1 className="text-5xl md:text-5xl lg:text-7xl font-extrabold text-center text-blue-600 my-4 shadow-sm">
+        <h1 className="text-5xl font-extrabold text-center text-blue-600 my-4 shadow-sm">
           {translation('title')}
         </h1>
         <div className="flex items-center justify-center w-3/5">
