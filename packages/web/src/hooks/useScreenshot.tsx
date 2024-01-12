@@ -1,25 +1,24 @@
 import { IS_SSR } from '@/constants/common'
 import html2canvas from 'html2canvas'
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 interface Props {
   component: ReactNode
 }
 
+export const SCREENSHOT_ROOT_ID = 'screenshot-root'
+
 const useScreenShot = ({ component }: Props) => {
   const [isReady, setIsReady] = useState(false)
-  const screenShotRef = useRef(null)
 
   const ScreenShotComponent = () => {
     return (
       !IS_SSR &&
       isReady &&
       createPortal(
-        <div className="m-2" ref={screenShotRef}>
-          {component}
-        </div>,
-        document.getElementById('screenshot-root') as HTMLElement
+        <div className="m-2">{component}</div>,
+        document.getElementById(SCREENSHOT_ROOT_ID) as HTMLElement
       )
     )
   }
@@ -32,8 +31,11 @@ const useScreenShot = ({ component }: Props) => {
   }, [])
 
   const takeScreenShot = useCallback(() => {
-    if (screenShotRef.current) {
-      html2canvas(screenShotRef.current)
+    const screenshotRoot = document.getElementById(SCREENSHOT_ROOT_ID)
+
+    if (screenshotRoot) {
+      screenshotRoot.classList.remove('hidden')
+      html2canvas(screenshotRoot)
         .then(canvas => {
           const image = canvas.toDataURL('image/png')
 
@@ -44,6 +46,9 @@ const useScreenShot = ({ component }: Props) => {
         })
         .catch(err => {
           console.error('Error taking screenshot:', err)
+        })
+        .finally(() => {
+          screenshotRoot.classList.add('hidden')
         })
     }
   }, [])
