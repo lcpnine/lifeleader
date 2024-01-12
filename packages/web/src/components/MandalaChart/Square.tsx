@@ -117,7 +117,6 @@ const Square = ({
           overflow-auto focus:outline-none ${
             isGridValid ? '' : 'bg-opacity-25'
           }`}
-            placeholder={placeHolder}
             style={{ whiteSpace: 'pre-wrap' }}
           />
         </div>
@@ -126,6 +125,7 @@ const Square = ({
           value={value}
           gridIndex={gridIndex}
           squareIndex={squareIndex}
+          placeHolder={placeHolder}
         />
       )}
     </div>
