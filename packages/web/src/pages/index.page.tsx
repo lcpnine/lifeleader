@@ -1,3 +1,4 @@
+import DisplayingFullViewMandalaChart from '@/components/MandalaChart/DisplayingFullViewMandalaChart'
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
@@ -6,13 +7,19 @@ import useI18n from '@/hooks/useI18n'
 import useScreenShot from '@/hooks/useScreenshot'
 import useToggleOptions from '@/hooks/useToggleOptions'
 import Head from 'next/head'
+import { useState } from 'react'
 import TRANSLATIONS from './index.i18n'
 
 const Home = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
+  const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
+    new Array(9).fill(new Array(9).fill(''))
+  )
   const { takeScreenShot, ScreenShotComponent } = useScreenShot({
-    component: <div>Test</div>,
+    component: (
+      <DisplayingFullViewMandalaChart wholeGridValues={wholeGridValues} />
+    ),
   })
   const { Component: ToggleOptions, selectedOption: chartViewOption } =
     useToggleOptions({
@@ -38,7 +45,11 @@ const Home = () => {
         </div>
         <div className="pt-4">{ToggleOptions}</div>
         <div className="pt-4">
-          <MandalaChart viewOption={chartViewOption as MandalaChartView} />
+          <MandalaChart
+            wholeGridValues={wholeGridValues}
+            setWholeGridValues={setWholeGridValues}
+            viewOption={chartViewOption as MandalaChartView}
+          />
         </div>
         <div className="pt-4">
           <ScreenshotButton takeScreenShot={takeScreenShot} />

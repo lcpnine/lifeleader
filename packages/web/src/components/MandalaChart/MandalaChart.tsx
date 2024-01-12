@@ -1,20 +1,23 @@
 import { MandalaChartView } from '@/constants/mandalaChart'
 import { useEntryContext } from '@/contexts/EntryContext'
-import { useEffect, useRef, useState } from 'react'
+import { Dispatch, useEffect, useRef } from 'react'
 import { deepCopy } from '../../../utils/common'
 import FullViewMandalaChart from './FullViewMandalaChart'
 import SingleViewMandalaChart from './SingleViewMandalaChart'
 
 interface Props {
   viewOption: MandalaChartView
+  wholeGridValues: string[][]
+  setWholeGridValues: Dispatch<React.SetStateAction<string[][]>>
 }
 
-const MandalaChart = ({ viewOption }: Props) => {
+const MandalaChart = ({
+  viewOption,
+  wholeGridValues,
+  setWholeGridValues,
+}: Props) => {
   const { isMobile } = useEntryContext()
   const focusRef = useRef<HTMLDivElement>(null)
-  const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
-    new Array(9).fill(new Array(9).fill(''))
-  )
 
   const handleGridValue = (
     gridIndex: number,
