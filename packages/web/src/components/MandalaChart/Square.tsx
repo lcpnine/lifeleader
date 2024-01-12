@@ -69,7 +69,7 @@ const Square = ({
   }
 
   const onBlurSpan: React.FocusEventHandler<HTMLSpanElement> = e => {
-    handleGridValue(gridIndex, squareIndex, e.target.innerText.trim())
+    handleGridValue(gridIndex, squareIndex, e.target.innerText)
   }
 
   return (
