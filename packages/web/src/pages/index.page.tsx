@@ -28,11 +28,11 @@ const Home = () => {
         <title>{translation('tabTitle')}</title>
         <meta name="description" content={translation('description')} />
       </Head>
-      <div className="flex flex-col items-center justify-center p-4">
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-center text-blue-600 my-4 shadow-sm">
+      <div className="flex flex-col items-center justify-center p-4 prose">
+        <h1 className="text-5xl md:text-5xl lg:text-7xl font-extrabold text-center text-blue-600 my-4 shadow-sm">
           {translation('title')}
         </h1>
-        <div className="flex items-center justify-center mb-6 w-3/5">
+        <div className="flex items-center justify-center mb-6 w-3/5 prose">
           <p className="break-words">{translation('description')}</p>
         </div>
         <div className="pt-4">
