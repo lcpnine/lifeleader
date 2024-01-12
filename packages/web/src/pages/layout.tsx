@@ -10,6 +10,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <main className="max-w-[720px]">{children}</main>
       <Footer />
       <div id="modal-root"></div>
+      <div id="screenshot-root" className="absolute left-[9999px]"></div>
       <Analytics />
     </div>
   )

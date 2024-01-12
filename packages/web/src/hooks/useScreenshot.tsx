@@ -1,8 +1,24 @@
+import { IS_SSR } from '@/constants/common'
 import html2canvas from 'html2canvas'
-import { useCallback, useRef } from 'react'
+import { ReactNode, useCallback, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
-const useScreenShot = () => {
+interface Props {
+  component: ReactNode
+}
+
+const useScreenShot = ({ component }: Props) => {
   const screenShotRef = useRef(null)
+
+  const ScreenShotComponent = () => {
+    return (
+      !IS_SSR &&
+      createPortal(
+        <div ref={screenShotRef}>{component}</div>,
+        document.getElementById('screenshot-root') as HTMLElement
+      )
+    )
+  }
 
   const takeScreenShot = useCallback(() => {
     if (screenShotRef.current) {
@@ -21,7 +37,7 @@ const useScreenShot = () => {
     }
   }, [])
 
-  return { takeScreenShot, screenShotRef }
+  return { takeScreenShot, ScreenShotComponent }
 }
 
 export default useScreenShot

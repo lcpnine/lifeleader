@@ -1,17 +1,17 @@
 import { MandalaChartView } from '@/constants/mandalaChart'
 import { useEntryContext } from '@/contexts/EntryContext'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { deepCopy } from '../../../utils/common'
 import FullViewMandalaChart from './FullViewMandalaChart'
 import SingleViewMandalaChart from './SingleViewMandalaChart'
 
 interface Props {
   viewOption: MandalaChartView
-  screenShotRef: React.RefObject<HTMLDivElement>
 }
 
-const MandalaChart = ({ viewOption, screenShotRef }: Props) => {
+const MandalaChart = ({ viewOption }: Props) => {
   const { isMobile } = useEntryContext()
+  const focusRef = useRef<HTMLDivElement>(null)
   const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
     new Array(9).fill(new Array(9).fill(''))
   )
@@ -32,10 +32,10 @@ const MandalaChart = ({ viewOption, screenShotRef }: Props) => {
   useEffect(() => {
     if (
       isMobile &&
-      screenShotRef.current &&
+      focusRef.current &&
       viewOption === MandalaChartView.FULL_VIEW
     ) {
-      const div = screenShotRef.current
+      const div = focusRef.current
       const x = div.scrollWidth / 2
       const y = div.scrollHeight / 2
       div.scrollLeft = x - div.offsetWidth / 2
@@ -48,7 +48,7 @@ const MandalaChart = ({ viewOption, screenShotRef }: Props) => {
       className={`relative ${
         isMobile ? 'max-w-[400px] max-h-[400px]' : 'max-w-fit'
       } overflow-auto`}
-      ref={screenShotRef}
+      ref={focusRef}
     >
       {viewOption === MandalaChartView.FULL_VIEW ? (
         <FullViewMandalaChart

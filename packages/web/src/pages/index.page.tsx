@@ -11,7 +11,9 @@ import TRANSLATIONS from './index.i18n'
 const Home = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
-  const { screenShotRef, takeScreenShot } = useScreenShot()
+  const { takeScreenShot, ScreenShotComponent } = useScreenShot({
+    component: <div>Test</div>,
+  })
   const { Component: ToggleOptions, selectedOption: chartViewOption } =
     useToggleOptions({
       initOption: MandalaChartView.FULL_VIEW,
@@ -36,15 +38,13 @@ const Home = () => {
         </div>
         <div className="pt-4">{ToggleOptions}</div>
         <div className="pt-4">
-          <MandalaChart
-            viewOption={chartViewOption as MandalaChartView}
-            screenShotRef={screenShotRef}
-          />
+          <MandalaChart viewOption={chartViewOption as MandalaChartView} />
         </div>
         <div className="pt-4">
           <ScreenshotButton takeScreenShot={takeScreenShot} />
         </div>
       </div>
+      {ScreenShotComponent && <ScreenShotComponent />}
     </>
   )
 }
