@@ -2,7 +2,6 @@ import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
 import { MandalaChartView } from '@/constants/mandalaChart'
-import { useEntryContext } from '@/contexts/EntryContext'
 import useI18n from '@/hooks/useI18n'
 import useScreenShot from '@/hooks/useScreenshot'
 import useToggleOptions from '@/hooks/useToggleOptions'
@@ -13,7 +12,6 @@ const Home = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
   const { screenShotRef, takeScreenShot } = useScreenShot()
-  const { isMobile } = useEntryContext()
   const { Component: ToggleOptions, selectedOption: chartViewOption } =
     useToggleOptions({
       initOption: MandalaChartView.FULL_VIEW,
