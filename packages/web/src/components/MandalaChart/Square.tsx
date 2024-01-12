@@ -1,6 +1,8 @@
 import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import useI18n from '@/hooks/useI18n'
+import { useEffect, useRef, useState } from 'react'
+import DisplayingSquare from './DisplayingSquare'
 import TRANSLATIONS from './Square.i18n'
 
 interface Props {
@@ -69,37 +71,63 @@ const Square = ({
   > = e => {
     handleGridValue(gridIndex, squareIndex, e.target.value)
   }
+  // change to DisplayingSquare when it is clicked
+  const [isClicked, setIsClicked] = useState(false)
 
   const onBlurTextArea: React.FocusEventHandler<HTMLTextAreaElement> = e => {
     handleGridValue(gridIndex, squareIndex, e.target.value.trim())
+    setIsClicked(false)
   }
 
+  const handleClick = () => {
+    setIsClicked(true)
+  }
+
+  const ref = useRef<HTMLTextAreaElement>(null)
+  useEffect(() => {
+    if (isClicked) {
+      const textarea = ref.current as HTMLTextAreaElement
+      textarea.focus()
+    }
+  }, [isClicked])
+
   return (
-    <div
-      className={`${isMobile ? 'size-20' : 'size-24'} border ${
-        themeStyle.borderColor
-      } flex items-center justify-center overflow-hidden ${
-        isGridValid ? '' : 'pointer-events-none'
-      } ${
-        isGridValid && !isCenterGrid && isCenterSquare
-          ? 'pointer-events-none'
-          : ''
-      }`}
-    >
-      <textarea
-        value={value}
-        onChange={handleTextAreaChange}
-        onBlur={onBlurTextArea}
-        onDoubleClick={handleDoubleClick}
-        disabled={!isGridValid || (!isCenterGrid && isCenterSquare)}
-        className={`w-full h-full text-center ${textColor} ${textBold} 
+    <div onClick={handleClick}>
+      {isClicked ? (
+        <div
+          className={`${isMobile ? 'size-20' : 'size-24'} border ${
+            themeStyle.borderColor
+          } flex items-center justify-center overflow-hidden ${
+            isGridValid ? '' : 'pointer-events-none'
+          } ${
+            isGridValid && !isCenterGrid && isCenterSquare
+              ? 'pointer-events-none'
+              : ''
+          }`}
+        >
+          <textarea
+            value={value}
+            ref={ref}
+            onChange={handleTextAreaChange}
+            onBlur={onBlurTextArea}
+            onDoubleClick={handleDoubleClick}
+            disabled={!isGridValid || (!isCenterGrid && isCenterSquare)}
+            className={`w-full h-full text-center ${textColor} ${textBold} 
           ${themeStyle.backgroundColor} p-0 cursor-text resize-none
           overflow-auto focus:outline-none ${
             isGridValid ? '' : 'bg-opacity-25'
           }`}
-        placeholder={placeHolder}
-        style={{ whiteSpace: 'pre-wrap' }}
-      />
+            placeholder={placeHolder}
+            style={{ whiteSpace: 'pre-wrap' }}
+          />
+        </div>
+      ) : (
+        <DisplayingSquare
+          value={value}
+          gridIndex={gridIndex}
+          squareIndex={squareIndex}
+        />
+      )}
     </div>
   )
 }
