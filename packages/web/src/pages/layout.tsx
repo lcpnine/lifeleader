@@ -5,7 +5,7 @@ import { ReactNode } from 'react'
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100">
+    <div className="flex flex-col items-center justify-center bg-gray-100 tracking-[-1px]">
       <Header />
       <main>{children}</main>
       <Footer />
