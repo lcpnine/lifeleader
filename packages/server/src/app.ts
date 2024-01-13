@@ -2,6 +2,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import { configDotenv } from 'dotenv'
 import express from 'express'
+import expressSession from 'express-session'
 import mongoose from 'mongoose'
 import passport from 'passport'
 import initializePassport from './config/passport'
@@ -13,7 +14,16 @@ initializePassport(passport)
 
 const app = express()
 app.use(express.json())
+app.use(
+  expressSession({
+    secret: process.env.SESSION_SECRET || 'development secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  })
+)
 app.use(passport.initialize())
+app.use(passport.session())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(
