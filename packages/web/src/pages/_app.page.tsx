@@ -6,12 +6,15 @@ import App from 'next/app'
 import Head from 'next/head'
 import Script from 'next/script'
 import Favicon from 'public/favicon.ico'
+import { setupAxios } from '../../utils/axios'
 import './globals.css'
 import Layout from './layout'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_MEASUREMENT_ID
 
 const WebApp = ({ Component, pageProps }: AppProps) => {
+  setupAxios()
+
   return (
     <>
       <Head>

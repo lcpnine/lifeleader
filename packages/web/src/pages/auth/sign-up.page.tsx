@@ -17,7 +17,7 @@ const SignUp = () => {
         password,
         nickname,
       })
-      if (response.status === 200) router.replace('/signin')
+      if (response.status === 201) router.replace('/signin')
       else console.log(response)
     } catch (error) {
       console.error(error)
