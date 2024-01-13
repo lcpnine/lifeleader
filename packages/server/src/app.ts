@@ -4,12 +4,12 @@ import { configDotenv } from 'dotenv'
 import express from 'express'
 import mongoose from 'mongoose'
 import passport from 'passport'
-import configurePassport from './config/passport'
+import initializePassport from './config/passport'
 import healthCheckController from './controllers/healthCheck'
 import authRoutes from './routes/auth'
 
-configurePassport(passport)
 configDotenv()
+initializePassport(passport)
 
 const app = express()
 app.use(express.json())

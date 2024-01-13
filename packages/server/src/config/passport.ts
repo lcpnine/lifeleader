@@ -3,7 +3,7 @@ import { PassportStatic } from 'passport'
 import { Strategy as LocalStrategy } from 'passport-local'
 import User, { IUser } from '../models/User.model'
 
-export default function (passport: PassportStatic) {
+const initializePassport = (passport: PassportStatic) => {
   passport.use(
     new LocalStrategy(
       { usernameField: 'email' },
@@ -42,3 +42,5 @@ export default function (passport: PassportStatic) {
     }
   })
 }
+
+export default initializePassport
