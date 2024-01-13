@@ -15,6 +15,7 @@ const DisplayingFullViewMandalaChart = ({ wholeGridValues }: Props) => {
                 <DisplayingSquare
                   key={suqareIndex}
                   value={value}
+                  isGridValid={true}
                   gridIndex={gridIndex}
                   squareIndex={suqareIndex}
                 />
