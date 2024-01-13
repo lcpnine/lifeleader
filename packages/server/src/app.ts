@@ -1,16 +1,26 @@
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import express from 'express'
+import mongoose from 'mongoose'
+import passport from 'passport'
+import configurePassport from './config/passport'
 import healthCheckController from './controllers/healthCheck'
+import authRoutes from './routes/auth'
+
+configurePassport(passport)
 
 const app = express()
 app.use(express.json())
+app.use(passport.initialize())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(
   cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] })
 )
 
+mongoose.connect('mongodb://localhost/lifeleader')
+
+app.use('/api/auth', authRoutes)
 app.get('/health-check', healthCheckController.get)
 
 const PORT = 4003
