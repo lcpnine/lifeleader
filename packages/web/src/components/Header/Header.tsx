@@ -7,6 +7,8 @@ const Header = () => {
   const { locale, locales } = useRouter()
   const { changeLanguage } = useI18n()
 
+  const isSignedIn = false
+
   return (
     <header className="w-full py-4 bg-gray-400 flex justify-between items-center px-4 md:px-10">
       <div className="flex items-center">
@@ -18,9 +20,9 @@ const Header = () => {
           Life Leader
         </span>
       </div>
-      <div>
+      <div className="flex items-center">
         <select
-          className="border rounded p-1 text-gray-700 focus:ring-blue-500 focus:border-blue-500"
+          className="border rounded p-1 text-gray-700 focus:ring-blue-500 focus:border-blue-500 mr-4"
           value={locale}
           onChange={e => changeLanguage(e.target.value as SUPPORTING_LANGUAGES)}
         >
@@ -34,6 +36,13 @@ const Header = () => {
             </option>
           ))}
         </select>
+        {isSignedIn ? (
+          <span className="text-white mr-4">MockNickname</span>
+        ) : (
+          <a href="/auth/sign-in" className="text-white hover:text-blue-500">
+            Log In
+          </a>
+        )}
       </div>
     </header>
   )
