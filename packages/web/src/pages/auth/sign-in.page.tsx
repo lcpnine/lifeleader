@@ -1,4 +1,4 @@
-import axios from 'axios'
+import useAuth from '@/hooks/useAuth'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { FormEventHandler, useState } from 'react'
@@ -7,12 +7,14 @@ const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
+  const { handleSignIn } = useAuth()
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
     try {
-      await axios.post('/api/auth/signin', { email, password })
-      router.push('/dashboard')
+      await handleSignIn(email, password)
+
+      router.replace('/')
     } catch (error) {
       console.error(error)
     }

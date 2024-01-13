@@ -1,4 +1,6 @@
 import { LANGUAGE_NAMES_SHORT, SUPPORTING_LANGUAGES } from '@/constants/i18n'
+import { useUserInfoContext } from '@/contexts/UserInfoContext'
+import useAuth from '@/hooks/useAuth'
 import useI18n from '@/hooks/useI18n'
 import { useRouter } from 'next/router'
 import LifeLeaderIcon from 'public/logo/image-only.png'
@@ -6,8 +8,8 @@ import LifeLeaderIcon from 'public/logo/image-only.png'
 const Header = () => {
   const { locale, locales } = useRouter()
   const { changeLanguage } = useI18n()
-
-  const isSignedIn = false
+  const { isSignedIn } = useUserInfoContext()
+  const { handleSignOut } = useAuth()
 
   return (
     <header className="w-full py-4 bg-gray-400 flex justify-between items-center px-4 md:px-10">
@@ -37,7 +39,10 @@ const Header = () => {
           ))}
         </select>
         {isSignedIn ? (
-          <span className="text-white mr-4">MockNickname</span>
+          <>
+            <span className="text-white mr-4">MockNickname</span>
+            <button onClick={handleSignOut}>Logout</button>
+          </>
         ) : (
           <a href="/auth/sign-in" className="text-white hover:text-blue-500">
             Log In

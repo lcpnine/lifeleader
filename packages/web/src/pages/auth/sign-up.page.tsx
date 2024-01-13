@@ -12,8 +12,13 @@ const SignUp = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
     try {
-      await axios.post('/api/auth/signup', { email, password, nickname })
-      router.push('/signin')
+      const response = await axios.post('/api/auth/sign-up', {
+        email,
+        password,
+        nickname,
+      })
+      if (response.status === 200) router.replace('/signin')
+      else console.log(response)
     } catch (error) {
       console.error(error)
     }
