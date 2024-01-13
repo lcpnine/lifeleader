@@ -13,7 +13,7 @@ app.use(
 
 app.get('/health-check', healthCheckController.get)
 
-const PORT = 4000
+const PORT = 4003
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`)
 })
