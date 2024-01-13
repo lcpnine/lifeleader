@@ -49,7 +49,7 @@ const MandalaChart = ({
   return (
     <div
       className={`relative ${
-        isMobile ? 'max-w-[400px] max-h-[400px]' : 'max-w-fit'
+        isMobile ? 'max-w-[400px] max-h-[400px] p-40' : 'max-w-fit'
       } overflow-auto`}
       ref={focusRef}
     >
