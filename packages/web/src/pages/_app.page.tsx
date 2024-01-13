@@ -1,5 +1,6 @@
 import { EntryProvider } from '@/contexts/EntryContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
+import { UserInfoProvider } from '@/contexts/UserInfoContext'
 import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
 import Head from 'next/head'
@@ -38,11 +39,13 @@ const WebApp = ({ Component, pageProps }: AppProps) => {
         }}
       />
       <EntryProvider serverProps={pageProps}>
-        <ThemeProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
+        <UserInfoProvider>
+          <ThemeProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
+        </UserInfoProvider>
       </EntryProvider>
     </>
   )
