@@ -42,12 +42,12 @@ router.post('/sign-in', (req: Request, res: Response, next) => {
           return next(err)
         }
 
-        // TODO: Change JWT_SECRET into process.env.JWT_SECRET
-        const token = jwt.sign({ id: user.id }, 'JWT_SECRET', {
+        const JWT_SECRET = process.env.JWT_SECRET
+        const token = jwt.sign({ id: user.id }, JWT_SECRET as string, {
           expiresIn: '1h',
         })
 
-        res.json({ message: 'Successfully authenticated', user })
+        res.json({ token, message: 'Successfully authenticated', user })
       })
     }
   )(req, res, next)
