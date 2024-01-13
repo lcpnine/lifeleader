@@ -125,6 +125,7 @@ const Square = ({
           value={value}
           gridIndex={gridIndex}
           squareIndex={squareIndex}
+          isGridValid={isGridValid}
           placeHolder={placeHolder}
         />
       )}
