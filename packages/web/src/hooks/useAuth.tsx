@@ -9,7 +9,7 @@ const useAuth = () => {
     password: string,
     keepSignedIn: boolean
   ) => {
-    const response = await axios.post('/api/auth/sign-in', {
+    const response = await axios.post('/auth/sign-in', {
       email,
       password,
       keepSignedIn,
@@ -30,7 +30,7 @@ const useAuth = () => {
   }
 
   const handleSignOut = async () => {
-    await axios.get('/api/auth/sign-out')
+    await axios.get('/auth/sign-out')
 
     setUserInfo({
       isSignedIn: false,

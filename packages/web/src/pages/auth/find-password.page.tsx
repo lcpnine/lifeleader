@@ -14,7 +14,7 @@ const FindPassword = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
     try {
-      await axios.post('/api/auth/findpassword', { email })
+      await axios.post('/auth/findpassword', { email })
       alert('Password reset instructions sent to your email.')
     } catch (error) {
       console.error(error)

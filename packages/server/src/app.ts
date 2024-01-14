@@ -47,7 +47,7 @@ app.use(
 
 mongoose.connect(process.env.MONGO_URI as string)
 
-app.use('/api/auth', authRoutes)
+app.use('/auth', authRoutes)
 app.get('/health-check', healthCheckController.get)
 
 const PORT = process.env.PORT || 4003

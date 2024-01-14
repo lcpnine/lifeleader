@@ -64,7 +64,7 @@ WebApp.getInitialProps = async (context: AppContext) => {
   const token = cookies.token
 
   const checkUserResponse = token
-    ? await axios.get('/api/auth/get-user', {
+    ? await axios.get('/auth/get-user', {
         withCredentials: true,
         headers: {
           Cookie: `token=${token}`,

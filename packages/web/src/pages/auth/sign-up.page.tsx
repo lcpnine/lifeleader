@@ -18,7 +18,7 @@ const SignUp = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
     try {
-      const response = await axios.post('/api/auth/sign-up', {
+      const response = await axios.post('/auth/sign-up', {
         email,
         password,
         nickname,
