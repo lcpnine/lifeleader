@@ -1,6 +1,8 @@
+import { BASE_URL } from '@/constants/common'
 import { EntryProvider } from '@/contexts/EntryContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { UserInfoProvider } from '@/contexts/UserInfoContext'
+import axios from 'axios'
 import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
 import Head from 'next/head'
@@ -42,7 +44,7 @@ const WebApp = ({ Component, pageProps }: AppProps) => {
         }}
       />
       <EntryProvider serverProps={pageProps}>
-        <UserInfoProvider>
+        <UserInfoProvider initialUserInfo={pageProps.user}>
           <ThemeProvider>
             <Layout>
               <Component {...pageProps} />
@@ -57,6 +59,23 @@ const WebApp = ({ Component, pageProps }: AppProps) => {
 WebApp.getInitialProps = async (context: AppContext) => {
   const props = await App.getInitialProps(context)
 
+  // @ts-ignore
+  const cookies = (context.ctx.req?.cookies || {}) as Record<string, any>
+  const token = cookies.token
+
+  const checkUserResponse = token
+    ? await axios.get('/api/auth/get-user', {
+        withCredentials: true,
+        headers: {
+          Cookie: `token=${token}`,
+          Authorization: `Bearer ${token}`,
+        },
+        baseURL: BASE_URL,
+        validateStatus: status => status === 200 || status === 401,
+      })
+    : { data: null }
+  const user = checkUserResponse.data?._id ? checkUserResponse.data : null
+
   const acceptLanguage = context.ctx.req?.headers['accept-language']
   const userAgent = context.ctx.req?.headers['user-agent']
   const referrer = context.ctx.req?.headers['referrer']
@@ -67,6 +86,7 @@ WebApp.getInitialProps = async (context: AppContext) => {
       acceptLanguage,
       userAgent,
       referrer,
+      user,
     },
   }
 }

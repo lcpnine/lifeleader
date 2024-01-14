@@ -21,6 +21,11 @@ export interface UserInfo {
   >
 }
 
+export interface InitialUserInfo {
+  email: string
+  nickname: string
+}
+
 const DefaultUserInfoContext: UserInfo = {
   isSignedIn: false,
   email: '',
@@ -32,8 +37,18 @@ const UserInfoContext = createContext(DefaultUserInfoContext)
 
 export const useUserInfoContext = () => useContext(UserInfoContext)
 
-export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
-  const [UserInfo, setUserInfo] = useState(DefaultUserInfoContext)
+export const UserInfoProvider = ({
+  children,
+  initialUserInfo,
+}: {
+  children: ReactNode
+  initialUserInfo?: InitialUserInfo
+}) => {
+  const [UserInfo, setUserInfo] = useState(
+    initialUserInfo
+      ? { isSignedIn: true, setUserInfo: () => {}, ...initialUserInfo }
+      : DefaultUserInfoContext
+  )
 
   const value = {
     isSignedIn: UserInfo.isSignedIn,
