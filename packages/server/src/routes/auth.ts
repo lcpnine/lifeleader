@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 import passport from 'passport'
 import User, { IUser } from '../models/User.model'
 
-const ONE_DAY = 24 * 60 * 60 * 1000
+const ONE_HOUR = 60 * 60 * 1000
 
 const router = express.Router()
 
@@ -49,10 +49,11 @@ router.post('/sign-in', (req: Request, res: Response, next) => {
           expiresIn: '1h',
         })
 
+        const maxAge = req.body.keepSignedIn ? 365 * 24 * ONE_HOUR : ONE_HOUR
         res.cookie('token', token, {
           httpOnly: true,
           secure: process.env.PHASE !== 'development',
-          maxAge: ONE_DAY,
+          maxAge,
         })
 
         res.json({ token, message: 'Successfully authenticated', user })
