@@ -31,7 +31,7 @@ const MandalaThemeSelector = () => {
       <p className="mb-4 font-semibold">{trasnlate('description')}</p>
       <Flicking
         align="prev"
-        bound={true}
+        bound={false}
         className={`${isMobile ? 'max-w-64' : 'max-w-[32rem]'}`}
         cameraClass="space-x-4"
       >
