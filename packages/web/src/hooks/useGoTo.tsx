@@ -7,8 +7,8 @@ interface GoToOptions {
 const useGoTo = () => {
   const router = useRouter()
 
-  const goTo = (path: string, options: GoToOptions) => {
-    if (options.replace)
+  const goTo = (path: string, options?: GoToOptions) => {
+    if (options?.replace)
       return router.replace(path, path, { locale: router.locale })
     router.push(path, path, { locale: router.locale })
   }

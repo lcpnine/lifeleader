@@ -1,6 +1,7 @@
 import { LANGUAGE_NAMES_SHORT, SUPPORTING_LANGUAGES } from '@/constants/i18n'
 import { useUserInfoContext } from '@/contexts/UserInfoContext'
 import useAuth from '@/hooks/useAuth'
+import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import TRANSLATIONS from '@/pages/auth/auth.i18n'
 import Link from 'next/link'
@@ -13,11 +14,15 @@ const Header = () => {
   const translation = getTranslation(TRANSLATIONS)
   const { isSignedIn, nickname } = useUserInfoContext()
   const { handleSignOut } = useAuth()
+  const { goTo } = useGoTo()
 
   return (
     <header className="w-full py-4 bg-gray-400 flex justify-between items-center px-4 md:px-10">
-      {/* Logo and Title */}
-      <div className="flex items-center">
+      <div
+        className="flex items-center"
+        onClick={() => goTo('/')}
+        style={{ cursor: 'pointer' }}
+      >
         <img src={LifeLeaderIcon.src} alt="Logo" className="h-8 mr-2" />
         <span
           className="text-white text-xl font-semibold"
