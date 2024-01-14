@@ -4,8 +4,6 @@ import cors from 'cors'
 import { config as configDotenv } from 'dotenv'
 import express from 'express'
 import expressSession from 'express-session'
-import fs from 'fs'
-import https from 'https'
 import mongoose from 'mongoose'
 import passport from 'passport'
 import initializePassport from './config/passport'
@@ -56,20 +54,8 @@ app.get('/health-check', healthCheckController.get)
 
 const PORT = process.env.PORT || 4003
 
-if (IS_DEV) {
-  // In development, use HTTP
-  app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`)
-  })
-} else {
-  const KEY_PATH = '/home/opc/keys'
-  const certificate = fs.readFileSync(`${KEY_PATH}/fullchain.pem`, 'utf8')
-  const privateKey = fs.readFileSync(`${KEY_PATH}/privkey.pem`, 'utf8')
-  const credentials = { key: privateKey, cert: certificate }
-
-  https.createServer(credentials, app).listen(PORT, () => {
-    console.log(`HTTPS Server running on port ${PORT}`)
-  })
-}
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`)
+})
 
 export default app
