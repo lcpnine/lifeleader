@@ -2,12 +2,14 @@ import { LANGUAGE_NAMES_SHORT, SUPPORTING_LANGUAGES } from '@/constants/i18n'
 import { useUserInfoContext } from '@/contexts/UserInfoContext'
 import useAuth from '@/hooks/useAuth'
 import useI18n from '@/hooks/useI18n'
+import TRANSLATIONS from '@/pages/auth/auth.i18n'
 import { useRouter } from 'next/router'
 import LifeLeaderIcon from 'public/logo/image-only.png'
 
 const Header = () => {
   const { locale, locales } = useRouter()
-  const { changeLanguage } = useI18n()
+  const { changeLanguage, getTranslation } = useI18n()
+  const translation = getTranslation(TRANSLATIONS)
   const { isSignedIn } = useUserInfoContext()
   const { handleSignOut } = useAuth()
 
@@ -41,11 +43,11 @@ const Header = () => {
         {isSignedIn ? (
           <>
             <span className="text-white mr-4">MockNickname</span>
-            <button onClick={handleSignOut}>Logout</button>
+            <button onClick={handleSignOut}>{translation('signOut')}</button>
           </>
         ) : (
           <a href="/auth/sign-in" className="text-white hover:text-blue-500">
-            Log In
+            {translation('signIn')}
           </a>
         )}
       </div>

@@ -1,9 +1,15 @@
+import useI18n from '@/hooks/useI18n'
 import axios from 'axios'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { FormEventHandler, useState } from 'react'
+import TRANSLATIONS from './auth.i18n'
+import AuthLink, { AuthPage } from './authLink'
 
 const SignUp = () => {
+  const { getTranslation } = useI18n()
+  const translation = getTranslation(TRANSLATIONS)
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [nickname, setNickname] = useState('')
@@ -62,10 +68,10 @@ const SignUp = () => {
           </div>
         </form>
         <div className="mt-4">
-          Already have an account?{' '}
-          <a href="/auth/sign-in" className="text-blue-500 hover:text-blue-700">
-            Sign In
-          </a>
+          <AuthLink
+            destination={AuthPage.SignIn}
+            descriptoinText={translation('signInDescription')}
+          />
         </div>
       </div>
     </>

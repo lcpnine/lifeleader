@@ -1,9 +1,15 @@
 import useAuth from '@/hooks/useAuth'
+import useI18n from '@/hooks/useI18n'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { FormEventHandler, useState } from 'react'
+import TRANSLATIONS from './auth.i18n'
+import AuthLink, { AuthPage } from './authLink'
 
 const SignIn = () => {
+  const { getTranslation } = useI18n()
+  const translation = getTranslation(TRANSLATIONS)
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
@@ -51,19 +57,16 @@ const SignIn = () => {
           </div>
         </form>
         <div className="mt-4">
-          Don't have an account?{' '}
-          <a href="/auth/sign-up" className="text-blue-500 hover:text-blue-700">
-            Sign Up
-          </a>
+          <AuthLink
+            destination={AuthPage.SignUp}
+            descriptoinText={translation('signUpDescription')}
+          />
         </div>
         <div className="mt-2">
-          Forgot password?{' '}
-          <a
-            href="/auth/find-password"
-            className="text-blue-500 hover:text-blue-700"
-          >
-            Find Password
-          </a>
+          <AuthLink
+            destination={AuthPage.FindPassword}
+            descriptoinText={translation('findPasswordDescription')}
+          />
         </div>
       </div>
     </>

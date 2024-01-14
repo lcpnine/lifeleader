@@ -1,8 +1,14 @@
+import useI18n from '@/hooks/useI18n'
 import axios from 'axios'
 import Head from 'next/head'
 import { FormEventHandler, useState } from 'react'
+import TRANSLATIONS from './auth.i18n'
+import AuthLink, { AuthPage } from './authLink'
 
 const FindPassword = () => {
+  const { getTranslation } = useI18n()
+  const translation = getTranslation(TRANSLATIONS)
+
   const [email, setEmail] = useState('')
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
@@ -39,10 +45,10 @@ const FindPassword = () => {
           </div>
         </form>
         <div className="mt-4">
-          Remembered your password?{' '}
-          <a href="/auth/sign-in" className="text-blue-500 hover:text-blue-700">
-            Sign In
-          </a>
+          <AuthLink
+            destination={AuthPage.SignIn}
+            descriptoinText={translation('signInFromForgotPasswordDescription')}
+          />
         </div>
       </div>
     </>
