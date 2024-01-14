@@ -62,11 +62,11 @@ if (IS_DEV) {
     console.log(`Server is running at http://localhost:${PORT}`)
   })
 } else {
-  const privateKey = fs.readFileSync(
+  const certificate = fs.readFileSync(
     '/home/opc/lifeleader/packages/server/keys/fullchain.pem',
     'utf8'
   )
-  const certificate = fs.readFileSync(
+  const privateKey = fs.readFileSync(
     '/home/opc/lifeleader/packages/server/keys/privkey.pem',
     'utf8'
   )
