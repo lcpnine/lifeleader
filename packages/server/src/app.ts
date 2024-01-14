@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { configDotenv } from 'dotenv'
 import express from 'express'
@@ -15,14 +16,19 @@ initializePassport(passport)
 
 const app = express()
 app.use(express.json())
+app.use(cookieParser())
 app.use(
   expressSession({
     secret: process.env.SESSION_SECRET || 'development secret',
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true },
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    },
   })
 )
+
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(bodyParser.urlencoded({ extended: false }))

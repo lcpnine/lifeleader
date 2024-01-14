@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken'
 import passport from 'passport'
 import User, { IUser } from '../models/User.model'
 
+const ONE_DAY = 24 * 60 * 60 * 1000
+
 const router = express.Router()
 
 router.post('/sign-up', async (req: Request, res: Response) => {
@@ -47,10 +49,27 @@ router.post('/sign-in', (req: Request, res: Response, next) => {
           expiresIn: '1h',
         })
 
+        res.cookie('token', token, {
+          httpOnly: true,
+          secure: process.env.PHASE !== 'development',
+          maxAge: ONE_DAY,
+        })
+
         res.json({ token, message: 'Successfully authenticated', user })
       })
     }
   )(req, res, next)
+})
+
+router.get('/sign-out', (req: Request, res: Response) => {
+  req.logout(
+    {
+      keepSessionInfo: false,
+    },
+    (err: Error) => {}
+  )
+  res.clearCookie('token')
+  res.status(200).json({ message: 'Successfully logged out' })
 })
 
 export default router

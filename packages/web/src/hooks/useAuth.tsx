@@ -1,14 +1,6 @@
 import { useUserInfoContext } from '@/contexts/UserInfoContext'
 import axios from 'axios'
 
-const setAuthToken = (token: string | null) => {
-  if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-  } else {
-    delete axios.defaults.headers.common['Authorization']
-  }
-}
-
 const useAuth = () => {
   const { setUserInfo } = useUserInfoContext()
 
@@ -20,10 +12,8 @@ const useAuth = () => {
 
     if (response.status === 400) return { success: false }
 
-    const { user, token } = response.data
+    const { user } = response.data
 
-    localStorage.setItem('token', token)
-    setAuthToken(token)
     setUserInfo({
       isSignedIn: true,
       email: user.email,
@@ -34,9 +24,9 @@ const useAuth = () => {
     return { success: true }
   }
 
-  const handleSignOut = () => {
-    localStorage.removeItem('token')
-    setAuthToken(null)
+  const handleSignOut = async () => {
+    await axios.get('/api/auth/sign-out')
+
     setUserInfo({
       isSignedIn: false,
       email: '',
