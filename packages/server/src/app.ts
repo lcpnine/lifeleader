@@ -1,11 +1,14 @@
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
-import { configDotenv } from 'dotenv'
+import { config as configDotenv } from 'dotenv'
 import express from 'express'
 import expressSession from 'express-session'
+import fs from 'fs'
+import https from 'https'
 import mongoose from 'mongoose'
 import passport from 'passport'
+import path from 'path'
 import initializePassport from './config/passport'
 import { IS_DEV } from './constant/common'
 import healthCheckController from './controllers/healthCheck'
@@ -51,8 +54,29 @@ app.use('/auth', authRoutes)
 app.get('/health-check', healthCheckController.get)
 
 const PORT = process.env.PORT || 4003
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`)
-})
+
+if (IS_DEV) {
+  // In development, use HTTP
+  app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`)
+  })
+} else {
+  const privateKey = fs.readFileSync(
+    path.join(
+      __dirname,
+      '/etc/letsencrypt/live/api.lifeleader.me/fullchain.pem'
+    ),
+    'utf8'
+  )
+  const certificate = fs.readFileSync(
+    path.join(__dirname, '/etc/letsencrypt/live/api.lifeleader.me/privkey.pem'),
+    'utf8'
+  )
+  const credentials = { key: privateKey, cert: certificate }
+
+  https.createServer(credentials, app).listen(PORT, () => {
+    console.log(`HTTPS Server running on port ${PORT}`)
+  })
+}
 
 export default app
