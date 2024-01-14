@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'MyApp',
+      name: 'MandalaServer',
       script: 'dist/app.js',
       instances: 'max',
       autorestart: true,
