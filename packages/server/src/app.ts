@@ -62,14 +62,9 @@ if (IS_DEV) {
     console.log(`Server is running at http://localhost:${PORT}`)
   })
 } else {
-  const certificate = fs.readFileSync(
-    '/home/opc/lifeleader/packages/server/keys/fullchain.pem',
-    'utf8'
-  )
-  const privateKey = fs.readFileSync(
-    '/home/opc/lifeleader/packages/server/keys/privkey.pem',
-    'utf8'
-  )
+  const KEY_PATH = '/home/opc/keys'
+  const certificate = fs.readFileSync(`${KEY_PATH}/fullchain.pem`, 'utf8')
+  const privateKey = fs.readFileSync(`${KEY_PATH}/privkey.pem`, 'utf8')
   const credentials = { key: privateKey, cert: certificate }
 
   https.createServer(credentials, app).listen(PORT, () => {
