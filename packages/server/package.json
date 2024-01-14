@@ -8,7 +8,7 @@
     "dev": "PHASE='development' nodemon",
     "dev:production": "PHASE='production' nodemon",
     "start": "pm2 start ecosystem.config.js --env production",
-    "stop": "pm2 stop ecosystem.config.js",
+    "stop": "pm2 stop ecosystem.config.js && pm2 kill",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
