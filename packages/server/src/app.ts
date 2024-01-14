@@ -6,10 +6,11 @@ import expressSession from 'express-session'
 import mongoose from 'mongoose'
 import passport from 'passport'
 import initializePassport from './config/passport'
+import { IS_DEV } from './constant/common'
 import healthCheckController from './controllers/healthCheck'
 import authRoutes from './routes/auth'
 
-configDotenv()
+configDotenv({ path: IS_DEV ? '.env.development' : '.env.production' })
 initializePassport(passport)
 
 const app = express()
