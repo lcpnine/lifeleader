@@ -73,3 +73,6 @@ coverage/
 
 # recipe of perfume
 recipe.txt
+
+# certificate
+**/*.pem
