@@ -1,12 +1,13 @@
 import bcrypt from 'bcryptjs'
 import express, { Request, Response } from 'express'
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import passport from 'passport'
 import User, { IUser } from '../models/User.model'
 
 const ONE_HOUR = 60 * 60 * 1000
 
 const router = express.Router()
+const JWT_SECRET = process.env.JWT_SECRET as string
 
 router.post('/sign-up', async (req: Request, res: Response) => {
   try {
@@ -44,8 +45,7 @@ router.post('/sign-in', (req: Request, res: Response, next) => {
           return next(err)
         }
 
-        const JWT_SECRET = process.env.JWT_SECRET
-        const token = jwt.sign({ id: user.id }, JWT_SECRET as string, {
+        const token = jwt.sign({ id: user.id }, JWT_SECRET, {
           expiresIn: '1h',
         })
 
@@ -71,6 +71,28 @@ router.get('/sign-out', (req: Request, res: Response) => {
   )
   res.clearCookie('token')
   res.status(200).json({ message: 'Successfully logged out' })
+})
+
+router.get('/get-user', async (req: Request, res: Response) => {
+  try {
+    console.log('req.cookies: ', req.cookies)
+    const token = req.cookies.token
+
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' })
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload
+    const user = await User.findById(decoded.id).select('-password')
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+
+    res.json(user)
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to authenticate token', error })
+  }
 })
 
 export default router
