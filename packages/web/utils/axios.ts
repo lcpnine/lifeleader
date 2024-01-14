@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const setupAxios = () => {
   axios.defaults.baseURL = 'http://localhost:4003' // Your Express server URL
+  axios.defaults.withCredentials = true
 
   // You can set other global settings here
   // For example, headers common to all requests:

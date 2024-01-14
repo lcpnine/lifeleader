@@ -16,7 +16,6 @@ initializePassport(passport)
 
 const app = express()
 app.use(express.json())
-app.use(cookieParser())
 app.use(
   expressSession({
     secret: process.env.SESSION_SECRET || 'development secret',
@@ -28,13 +27,22 @@ app.use(
     },
   })
 )
+app.use(cookieParser())
 
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+const corsOrigin = IS_DEV
+  ? 'http://localhost:3000'
+  : 'https://www.lifeleader.me'
 app.use(
-  cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] })
+  cors({
+    origin: corsOrigin,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+  })
 )
 
 mongoose.connect(process.env.MONGO_URI as string)
