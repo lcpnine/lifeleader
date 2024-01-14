@@ -30,7 +30,7 @@ fi
 
 # Run Certbot renewal
 echo "Running Certbot renewal..."
-$CERTBOT_CMD renew --quiet --non-interactive --deploy-hook "reload_nginx && copy_keys"
+$CERTBOT_CMD renew --quiet --non-interactive --deploy-hook "systemctl reload nginx && cp $LE_LIVE_PATH/fullchain.pem $KEYS_DIR && cp $LE_LIVE_PATH/privkey.pem $KEYS_DIR"
 
 # Check if Certbot renewal was successful
 if [ $? -eq 0 ]; then
