@@ -8,7 +8,6 @@ import fs from 'fs'
 import https from 'https'
 import mongoose from 'mongoose'
 import passport from 'passport'
-import path from 'path'
 import initializePassport from './config/passport'
 import { IS_DEV, PHASE } from './constant/common'
 import healthCheckController from './controllers/healthCheck'
@@ -64,14 +63,11 @@ if (IS_DEV) {
   })
 } else {
   const privateKey = fs.readFileSync(
-    path.join(
-      __dirname,
-      '/etc/letsencrypt/live/api.lifeleader.me/fullchain.pem'
-    ),
+    '/etc/letsencrypt/live/api.lifeleader.me/fullchain.pem',
     'utf8'
   )
   const certificate = fs.readFileSync(
-    path.join(__dirname, '/etc/letsencrypt/live/api.lifeleader.me/privkey.pem'),
+    '/etc/letsencrypt/live/api.lifeleader.me/privkey.pem',
     'utf8'
   )
   const credentials = { key: privateKey, cert: certificate }
