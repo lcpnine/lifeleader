@@ -7,7 +7,6 @@ import User, { IUser } from '../models/User.model'
 const ONE_HOUR = 60 * 60 * 1000
 
 const router = express.Router()
-const JWT_SECRET = process.env.JWT_SECRET as string
 
 router.post('/sign-up', async (req: Request, res: Response) => {
   try {
@@ -31,6 +30,8 @@ router.post('/sign-up', async (req: Request, res: Response) => {
 })
 
 router.post('/sign-in', (req: Request, res: Response, next) => {
+  const JWT_SECRET = process.env.JWT_SECRET as string
+
   passport.authenticate(
     'local',
     (err: Error, user: IUser, info: Record<string, any>) => {
@@ -74,8 +75,9 @@ router.get('/sign-out', (req: Request, res: Response) => {
 })
 
 router.get('/get-user', async (req: Request, res: Response) => {
+  const JWT_SECRET = process.env.JWT_SECRET as string
+
   try {
-    console.log('req.cookies: ', req.cookies)
     const token = req.cookies.token
 
     if (!token) {
@@ -91,6 +93,11 @@ router.get('/get-user', async (req: Request, res: Response) => {
 
     res.json(user)
   } catch (error) {
+    //@ts-ignore
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ message: 'Token expired' })
+    }
+    console.log(JSON.stringify(error))
     res.status(500).json({ message: 'Failed to authenticate token', error })
   }
 })
