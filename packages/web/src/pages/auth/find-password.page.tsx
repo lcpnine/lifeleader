@@ -1,3 +1,4 @@
+import { useAlert } from '@/contexts/AlertContext'
 import useI18n from '@/hooks/useI18n'
 import axios from 'axios'
 import Head from 'next/head'
@@ -8,11 +9,17 @@ import AuthLink, { AuthPage } from './authLink'
 const FindPassword = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
+  const { openAlert } = useAlert()
 
   const [email, setEmail] = useState('')
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
+    if (!email) {
+      openAlert(translation('invalidForm'))
+      return
+    }
+
     try {
       await axios.post('/auth/findpassword', { email })
       alert('Password reset instructions sent to your email.')

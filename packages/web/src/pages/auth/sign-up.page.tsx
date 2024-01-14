@@ -1,3 +1,4 @@
+import { useAlert } from '@/contexts/AlertContext'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import axios from 'axios'
@@ -9,14 +10,22 @@ import AuthLink, { AuthPage } from './authLink'
 const SignUp = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
+  const { openAlert } = useAlert()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [nickname, setNickname] = useState('')
   const { goTo } = useGoTo()
 
+  const isFormValid = email && password && nickname
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
+    if (!isFormValid) {
+      openAlert(translation('invalidForm'))
+      return
+    }
+
     try {
       const response = await axios.post('/auth/sign-up', {
         email,

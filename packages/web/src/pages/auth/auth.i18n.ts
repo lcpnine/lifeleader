@@ -9,6 +9,7 @@ const TRANSLATIONS = {
     findPasswordDescription: 'Forgot password?',
     signOut: 'Sign Out',
     keepSignedIn: 'Keep me signed in',
+    invalidForm: 'Fill out the form correctly',
   },
   ko: {
     signIn: '로그인',
@@ -20,6 +21,7 @@ const TRANSLATIONS = {
     findPasswordDescription: '비밀번호를 잊으셨나요?',
     signOut: '로그아웃',
     keepSignedIn: '자동 로그인',
+    invalidForm: '양식을 올바르게 작성해주세요',
   },
   'zh-Hant': {
     signIn: '登入',
@@ -31,6 +33,7 @@ const TRANSLATIONS = {
     findPasswordDescription: '忘記密碼了嗎？',
     signOut: '登出',
     keepSignedIn: '保持登入',
+    invalidForm: '請正確填寫表單',
   },
 }
 
