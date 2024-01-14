@@ -63,11 +63,11 @@ if (IS_DEV) {
   })
 } else {
   const privateKey = fs.readFileSync(
-    '/etc/letsencrypt/live/api.lifeleader.me/fullchain.pem',
+    '/home/opc/lifeleader/packages/server/keys/fullchain.pem',
     'utf8'
   )
   const certificate = fs.readFileSync(
-    '/etc/letsencrypt/live/api.lifeleader.me/privkey.pem',
+    '/home/opc/lifeleader/packages/server/keys/privkey.pem',
     'utf8'
   )
   const credentials = { key: privateKey, cert: certificate }
