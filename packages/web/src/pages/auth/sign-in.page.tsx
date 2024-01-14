@@ -12,13 +12,15 @@ const SignIn = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [keepSignedIn, setKeepSignedIn] = useState(false)
+
   const router = useRouter()
   const { handleSignIn } = useAuth()
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
     try {
-      await handleSignIn(email, password)
+      await handleSignIn(email, password, keepSignedIn)
 
       router.replace('/')
     } catch (error) {
@@ -47,6 +49,19 @@ const SignIn = () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
+          <div className="flex justify-center items-center mb-4">
+            <label htmlFor="keep-signed-in" className="flex items-center">
+              <input
+                type="checkbox"
+                id="keep-signed-in"
+                checked={keepSignedIn}
+                onChange={e => setKeepSignedIn(e.target.checked)}
+                className="mr-2"
+              />
+              {translation('keepSignedIn')}
+            </label>
+          </div>
+
           <div className="flex justify-center">
             <button
               type="submit"

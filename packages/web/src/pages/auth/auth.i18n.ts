@@ -8,6 +8,7 @@ const TRANSLATIONS = {
     findPassword: 'Find Password',
     findPasswordDescription: 'Forgot password?',
     signOut: 'Sign Out',
+    keepSignedIn: 'Keep me signed in',
   },
   ko: {
     signIn: '로그인',
@@ -18,6 +19,7 @@ const TRANSLATIONS = {
     findPassword: '비밀번호 찾기',
     findPasswordDescription: '비밀번호를 잊으셨나요?',
     signOut: '로그아웃',
+    keepSignedIn: '자동 로그인',
   },
   'zh-Hant': {
     signIn: '登入',
@@ -28,6 +30,7 @@ const TRANSLATIONS = {
     findPassword: '找回密碼',
     findPasswordDescription: '忘記密碼了嗎？',
     signOut: '登出',
+    keepSignedIn: '保持登入',
   },
 }
 
