@@ -10,9 +10,11 @@ import mongoose from 'mongoose'
 import passport from 'passport'
 import path from 'path'
 import initializePassport from './config/passport'
-import { IS_DEV } from './constant/common'
+import { IS_DEV, PHASE } from './constant/common'
 import healthCheckController from './controllers/healthCheck'
 import authRoutes from './routes/auth'
+
+console.log('PHASE: ', PHASE)
 
 configDotenv({ path: IS_DEV ? '.env.development' : '.env.production' })
 initializePassport(passport)
@@ -26,7 +28,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: !IS_DEV,
     },
   })
 )
