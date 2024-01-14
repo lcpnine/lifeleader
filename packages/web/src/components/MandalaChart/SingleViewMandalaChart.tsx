@@ -1,4 +1,4 @@
-import Alert from '@/components/Modal/Alert'
+import { useAlert } from '@/contexts/AlertContext'
 import useI18n from '@/hooks/useI18n'
 import useModal from '@/hooks/useModal'
 import useModalState from '@/hooks/useModalState'
@@ -21,6 +21,7 @@ const SingleViewMandalaChart = ({
 }: Props) => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
+  const { openAlert } = useAlert()
   const [activeGrid, setActiveGrid] = useState<number>(4) // Default to the central grid
 
   const {
@@ -45,19 +46,6 @@ const SingleViewMandalaChart = ({
     ),
   })
 
-  const {
-    isModalOpen: isAlertModalOpen,
-    openModal: openAlertModal,
-    closeModal: closeAlertModal,
-  } = useModalState()
-  const { ModalComponent: AlertModalComponent } = useModal({
-    isModalOpen: isAlertModalOpen,
-    closeModal: closeAlertModal,
-    modal: (
-      <Alert text={translation('alertText')} closeModal={closeAlertModal} />
-    ),
-  })
-
   const checkIsSubGridValid = (gridIndex: number) => {
     return wholeGridValues[4][gridIndex] !== ''
   }
@@ -70,7 +58,7 @@ const SingleViewMandalaChart = ({
         setActiveGrid(squareIndex)
         openGridModal()
       } else {
-        openAlertModal()
+        openAlert(translation('alertText'))
       }
 
       return
@@ -87,7 +75,6 @@ const SingleViewMandalaChart = ({
         gridIndex={4}
       />
       {ModalComponent && <ModalComponent />}
-      {AlertModalComponent && <AlertModalComponent />}
     </div>
   )
 }
