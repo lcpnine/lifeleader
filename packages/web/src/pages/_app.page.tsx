@@ -1,4 +1,5 @@
 import { BASE_URL } from '@/constants/common'
+import { AlertProvider } from '@/contexts/AlertContext'
 import { EntryProvider } from '@/contexts/EntryContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { UserInfoProvider } from '@/contexts/UserInfoContext'
@@ -45,11 +46,13 @@ const WebApp = ({ Component, pageProps }: AppProps) => {
       />
       <EntryProvider serverProps={pageProps}>
         <UserInfoProvider initialUserInfo={pageProps.user}>
-          <ThemeProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
+          <AlertProvider>
+            <ThemeProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ThemeProvider>
+          </AlertProvider>
         </UserInfoProvider>
       </EntryProvider>
     </>
