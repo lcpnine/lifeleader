@@ -1,7 +1,8 @@
+import { BASE_URL } from '@/constants/common'
 import axios from 'axios'
 
 const setupAxios = () => {
-  axios.defaults.baseURL = 'http://localhost:4003' // Your Express server URL
+  axios.defaults.baseURL = BASE_URL // Your Express server URL
   axios.defaults.withCredentials = true
 
   // You can set other global settings here
