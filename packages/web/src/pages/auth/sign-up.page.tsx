@@ -1,7 +1,7 @@
+import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import axios from 'axios'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { FormEventHandler, useState } from 'react'
 import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
@@ -13,7 +13,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [nickname, setNickname] = useState('')
-  const router = useRouter()
+  const { goTo } = useGoTo()
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
@@ -23,7 +23,7 @@ const SignUp = () => {
         password,
         nickname,
       })
-      if (response.status === 201) router.replace('/auth/sign-in')
+      if (response.status === 201) goTo('/auth/sign-in', { replace: true })
       else console.log(response)
     } catch (error) {
       console.error(error)

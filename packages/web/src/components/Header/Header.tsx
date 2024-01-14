@@ -3,6 +3,7 @@ import { useUserInfoContext } from '@/contexts/UserInfoContext'
 import useAuth from '@/hooks/useAuth'
 import useI18n from '@/hooks/useI18n'
 import TRANSLATIONS from '@/pages/auth/auth.i18n'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import LifeLeaderIcon from 'public/logo/image-only.png'
 
@@ -59,12 +60,12 @@ const Header = () => {
             </button>
           </div>
         ) : (
-          <a
+          <Link
             href="/auth/sign-in"
             className="bg-blue-500 text-white px-3 py-1 text-sm rounded hover:bg-blue-600 transition duration-300"
           >
             {translation('signIn')}
-          </a>
+          </Link>
         )}
       </div>
     </header>

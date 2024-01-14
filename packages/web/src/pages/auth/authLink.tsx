@@ -1,4 +1,5 @@
 import useI18n from '@/hooks/useI18n'
+import Link from 'next/link'
 import TRANSLATIONS from './auth.i18n'
 
 export enum AuthPage {
@@ -46,9 +47,9 @@ const AuthLink = ({ destination, descriptoinText }: Props) => {
   return (
     <div>
       {descriptoinText}{' '}
-      <a href={href} className="text-blue-500 hover:text-blue-700">
+      <Link href={href} className="text-blue-500 hover:text-blue-700">
         {buttonText}
-      </a>
+      </Link>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import useAuth from '@/hooks/useAuth'
+import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { FormEventHandler, useState } from 'react'
 import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
@@ -14,7 +14,7 @@ const SignIn = () => {
   const [password, setPassword] = useState('')
   const [keepSignedIn, setKeepSignedIn] = useState(false)
 
-  const router = useRouter()
+  const { goTo } = useGoTo()
   const { handleSignIn } = useAuth()
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
@@ -22,7 +22,7 @@ const SignIn = () => {
     try {
       await handleSignIn(email, password, keepSignedIn)
 
-      router.replace('/')
+      goTo('/', { replace: true })
     } catch (error) {
       console.error(error)
     }
