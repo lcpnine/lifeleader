@@ -31,7 +31,7 @@ app.use(
   cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] })
 )
 
-mongoose.connect('mongodb://localhost/lifeleader')
+mongoose.connect(process.env.MONGO_URI as string)
 
 app.use('/api/auth', authRoutes)
 app.get('/health-check', healthCheckController.get)
