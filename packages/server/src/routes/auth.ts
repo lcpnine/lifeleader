@@ -1,7 +1,10 @@
 import bcrypt from 'bcryptjs'
+import crypto from 'crypto'
 import express, { Request, Response } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import passport from 'passport'
+import transporter from '../config/nodemailer'
+import { createResetPasswordTemplate } from '../constant/nodemail'
 import User, { IUser } from '../models/User.model'
 
 const ONE_HOUR = 60 * 60 * 1000
@@ -100,6 +103,30 @@ router.get('/get-user', async (req: Request, res: Response) => {
     console.log(JSON.stringify(error))
     res.status(500).json({ message: 'Failed to authenticate token', error })
   }
+})
+
+router.post('find-password', async (req: Request, res: Response) => {
+  const user = await User.findOne({ email: req.body.email })
+  if (!user) {
+    return res.status(404).send('User not found')
+  }
+
+  const token = crypto.randomBytes(20).toString('hex')
+  user.resetPassword.token = token
+  user.resetPassword.expires = new Date(Date.now() + ONE_HOUR)
+  await user.save()
+
+  const mailOptions = {
+    to: user.email,
+    subject: 'Password Reset',
+    text: createResetPasswordTemplate(user.nickname, token),
+  }
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.status(500).send({ sucess: false })
+    }
+    res.send({ success: true })
+  })
 })
 
 export default router

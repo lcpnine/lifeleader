@@ -21,7 +21,7 @@ const FindPassword = () => {
     }
 
     try {
-      await axios.post('/auth/findpassword', { email })
+      await axios.post('/auth/find-password', { email })
       alert('Password reset instructions sent to your email.')
     } catch (error) {
       console.error(error)
