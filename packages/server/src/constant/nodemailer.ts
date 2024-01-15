@@ -28,7 +28,7 @@ export const createResetPasswordTemplate = (
                   <div style="color: #000000; font-weight: 500; margin: 0; font-size: 28px; line-height: 1.4; margin: 20px;">Hi, ${nickname}!</div>
                   <p style="margin: 0; font-size: 16px; line-height: 1.4;">You recently requested to
                     reset your password for your Life Leader account. Click the button below to reset it.</p>
-                  <a href="${clientUrl}/reset-password?token=${token}"
+                  <a href="${clientUrl}/auth/reset-password?token=${token}"
                     style="background-color: #1ab394; border: none; border-radius: 5px; display: inline-block; color: #ffffff; text-decoration: none; font-size: 18px; font-weight: bold; margin-top: 30px; margin-bottom: 30px; padding: 15px 30px;">Reset
                     your password</a>
                   <p style="margin: 0; font-size: 16px; line-height: 1.4; margin-bottom: 30px;">If you did not request a
