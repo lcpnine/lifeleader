@@ -1,6 +1,7 @@
 import DisplayingFullViewMandalaChart from '@/components/MandalaChart/DisplayingFullViewMandalaChart'
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
+import { RecommendationItemProps } from '@/components/Recommend/RecommendationItem'
 import Recommendations from '@/components/Recommend/Recommendations'
 import MOCK_DATA from '@/components/Recommend/mockData'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
@@ -31,6 +32,29 @@ const Home = () => {
     })
   const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch()
 
+  //AI recommendation
+  const [recommendationItems, setRecommendationItems] = useState<
+    RecommendationItemProps[]
+  >(
+    MOCK_DATA.map((item, idx) => ({
+      id: idx,
+      text: item.text,
+      isClicked: false,
+    }))
+  )
+
+  const handleItemClick = (id: number) => () => {
+    const previousClickedItem = recommendationItems.find(item => item.isClicked)
+    const updatedItems = recommendationItems.map(item => ({
+      ...item,
+      isClicked: item.id === id ? !item.isClicked : false,
+    }))
+    if (previousClickedItem?.isClicked) {
+      updatedItems[previousClickedItem.id].isClicked = false
+    }
+    setRecommendationItems(updatedItems)
+  }
+
   return (
     <>
       <Head>
@@ -58,13 +82,17 @@ const Home = () => {
             setWholeGridValues={setWholeGridValues}
             viewOption={chartViewOption as MandalaChartView}
             isAIModeOn={isAIModeOn}
+            recommendationItems={recommendationItems}
           />
         </div>
         <div className="pt-4">
           <ScreenshotButton takeScreenShot={takeScreenShot} />
         </div>
       </div>
-      <Recommendations items={MOCK_DATA} />
+      <Recommendations
+        recommendationItems={recommendationItems}
+        handleItemClick={handleItemClick}
+      />
       {ScreenShotComponent && <ScreenShotComponent />}
     </>
   )

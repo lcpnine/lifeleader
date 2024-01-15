@@ -69,6 +69,8 @@ const Grid = ({
             gridIndex={gridIndex}
             squareIndex={squareIndex}
             placeHolder={placeHolder}
+            // TODO: AI mode에서는 value가 필요없기에 맞게 Props를 수정해야함
+            onClick={() => handleGridValue(gridIndex, squareIndex, value)}
           />
         ) : (
           <Square
