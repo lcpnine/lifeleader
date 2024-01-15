@@ -14,15 +14,22 @@ const SignUp = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [passwordConfirm, setPasswordConfirm] = useState('')
   const [nickname, setNickname] = useState('')
   const { goTo } = useGoTo()
 
   const isFormValid = email && password && nickname
+  const isPasswordMatch = password === passwordConfirm
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
     if (!isFormValid) {
       openAlert(translation('invalidForm'))
+      return
+    }
+
+    if (!isPasswordMatch) {
+      openAlert(translation('passwordsDoNotMatch'))
       return
     }
 
@@ -59,6 +66,13 @@ const SignUp = () => {
             className="border p-2 w-full mb-4"
             value={password}
             onChange={e => setPassword(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            className="border p-2 w-full mb-4"
+            value={passwordConfirm}
+            onChange={e => setPasswordConfirm(e.target.value)}
           />
           <input
             type="text"
