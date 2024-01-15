@@ -68,6 +68,7 @@ const Grid = ({
             isGridValid={isGridValid}
             gridIndex={gridIndex}
             squareIndex={squareIndex}
+            placeHolder={placeHolder}
           />
         ) : (
           <Square
