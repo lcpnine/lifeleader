@@ -5,9 +5,6 @@ const nextConfig = {
     locales: ['en', 'ko', 'zh-Hant'],
     defaultLocale: 'en',
   },
-  env: {
-    PHASE: 'development',
-  },
 }
 
 module.exports = nextConfig
