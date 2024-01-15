@@ -33,3 +33,26 @@
 .shadow-bottom-right {
   box-shadow: -10px -10px 10px rgba(0, 0, 0, 0.25);
 }
+
+// Scroll 줄이기
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #ffffff; /* thumb and track color */
+}
+
+/* This styles the scrollbar track */
+::-webkit-scrollbar {
+  width: 6px; /* Reduce the width of the scrollbar */
+  height: 6px; /* Reduce the height of the scrollbar for horizontal scroll */
+}
+
+/* This styles the scrollbar handle */
+::-webkit-scrollbar-thumb {
+  background: #888; /* Handle color */
+  border-radius: 3px; /* Handle border radius */
+}
+
+/* This styles the scrollbar handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Handle color on hover */
+}
