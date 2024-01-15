@@ -142,4 +142,24 @@ router.post('/find-password', async (req: Request, res: Response) => {
   )
 })
 
+router.post('/reset-password', async (req: Request, res: Response) => {
+  const { token, password } = req.body
+  const user = await User.findOne({
+    'resetPassword.token': token,
+    'resetPassword.expires': { $gt: Date.now() },
+  })
+
+  if (!user) {
+    return res.status(400).send('Invalid token')
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10)
+  user.password = hashedPassword
+  user.resetPassword.token = null
+  user.resetPassword.expires = null
+  await user.save()
+
+  res.send({ success: true })
+})
+
 export default router

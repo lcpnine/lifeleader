@@ -10,6 +10,8 @@ const TRANSLATIONS = {
     signOut: 'Sign Out',
     keepSignedIn: 'Keep me signed in',
     invalidForm: 'Fill out the form correctly',
+    invalidToken: 'Invalid token',
+    resetPassword: 'Reset Password',
   },
   ko: {
     signIn: '로그인',
@@ -22,6 +24,8 @@ const TRANSLATIONS = {
     signOut: '로그아웃',
     keepSignedIn: '자동 로그인',
     invalidForm: '양식을 올바르게 작성해주세요',
+    invalidToken: '유효하지 않은 토큰입니다',
+    resetPassword: '비밀번호 재설정',
   },
   'zh-Hant': {
     signIn: '登入',
@@ -34,6 +38,8 @@ const TRANSLATIONS = {
     signOut: '登出',
     keepSignedIn: '保持登入',
     invalidForm: '請正確填寫表單',
+    invalidToken: '無效的令牌',
+    resetPassword: '重設密碼',
   },
 }
 

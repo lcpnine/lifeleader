@@ -46,7 +46,7 @@ const AuthLink = ({ destination, descriptoinText }: Props) => {
 
   return (
     <div>
-      {descriptoinText}{' '}
+      <span className="pr-2">{descriptoinText}</span>
       <Link href={href} className="text-blue-500 hover:text-blue-700">
         {buttonText}
       </Link>
