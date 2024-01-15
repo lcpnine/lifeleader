@@ -2,8 +2,8 @@ import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import express, { Request, Response } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
+import nodemailer from 'nodemailer'
 import passport from 'passport'
-import transporter from '../config/nodemailer'
 import { createResetPasswordTemplate } from '../constant/nodemailer'
 import User, { IUser } from '../models/User.model'
 
@@ -116,17 +116,30 @@ router.post('/find-password', async (req: Request, res: Response) => {
   user.resetPassword.expires = new Date(Date.now() + ONE_HOUR)
   await user.save()
 
-  const mailOptions = {
-    to: user.email,
-    subject: 'Password Reset',
-    text: createResetPasswordTemplate(user.nickname, token),
-  }
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return res.status(500).send({ sucess: false })
-    }
-    res.send({ success: true })
+  const transporter = nodemailer.createTransport({
+    port: 465,
+    host: 'smtp.gmail.com',
+    secure: true,
+    auth: {
+      user: 'life.leader.me@gmail.com',
+      pass: process.env.LIFE_LEADER_EMAIL_PASSWORD,
+    },
   })
+
+  transporter.sendMail(
+    {
+      from: 'life.leader.me@gmail.com',
+      to: user.email,
+      subject: 'Password Reset',
+      html: createResetPasswordTemplate(user.nickname, token),
+    },
+    (error, info) => {
+      if (error) {
+        return res.status(500).send({ sucess: false })
+      }
+      res.send({ success: true })
+    }
+  )
 })
 
 export default router
