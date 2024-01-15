@@ -105,7 +105,7 @@ router.get('/get-user', async (req: Request, res: Response) => {
   }
 })
 
-router.post('find-password', async (req: Request, res: Response) => {
+router.post('/find-password', async (req: Request, res: Response) => {
   const user = await User.findOne({ email: req.body.email })
   if (!user) {
     return res.status(404).send('User not found')
