@@ -5,7 +5,7 @@ export const createResetPasswordTemplate = (
   token: string,
   logoCid: string
 ) => {
-  const clientUrl = 'https://life.leader.me'
+  const clientUrl = 'https://lifeleader.me'
 
   return `
     <div
