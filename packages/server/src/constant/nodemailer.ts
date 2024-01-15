@@ -24,7 +24,7 @@ export const createResetPasswordTemplate = (
                 </td>
               </tr>
               <tr>
-                <td style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
+                <td style="padding: 20px;">
                   <div style="color: #000000; font-weight: 500; margin: 0; font-size: 28px; line-height: 1.4; margin: 20px;">Hi, ${nickname}!</div>
                   <p style="margin: 0; font-size: 16px; line-height: 1.4;">You recently requested to
                     reset your password for your Life Leader account. Click the button below to reset it.</p>
