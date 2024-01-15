@@ -126,7 +126,7 @@ router.post('/find-password', async (req: Request, res: Response) => {
     },
   })
 
-  const logoPath = require.resolve('../public/logo.png')
+  const logoPath = require.resolve(__dirname + '/../public/logo.png')
   const logoCid = 'logo@lifeleader.me'
   transporter.sendMail(
     {
