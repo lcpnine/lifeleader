@@ -1,9 +1,11 @@
+import { ORIGIN } from './common'
+
 export const createResetPasswordTemplate = (
   nickname: string,
   token: string
 ) => {
   const clientUrl = 'https://life.leader.me'
-  const logoUrl = `${clientUrl}/_next/static/media/full-transparent.png`
+  const logoUrl = `${ORIGIN}/public/logo.png`
 
   return `
     <div style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px
@@ -23,7 +25,7 @@ export const createResetPasswordTemplate = (
               </tr>
               <tr>
                 <td style="background-color: #ffffff; border-radius: 5px; text-align: center;">
-                  <h1 style="color: #000000; font-weight: 400; margin: 0; font-size: 28px; line-height: 1.4; margin-bottom: 30px;">Hi ${nickname}!</h1>
+                  <h1 style="color: #000000; font-weight: 400; margin: 0; font-size: 28px; line-height: 1.4; margin-bottom: 30px;">Hi, ${nickname}!</h1>
                   <p style="margin: 0; font-size: 16px; line-height: 1.4; margin-bottom: 30px;">You recently requested to reset your password for your Life Leader account. Click the button below to reset it.</p>
                   <a href="
                   ${clientUrl}/reset-password?token=${token}
