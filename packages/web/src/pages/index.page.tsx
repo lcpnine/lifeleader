@@ -1,6 +1,8 @@
 import DisplayingFullViewMandalaChart from '@/components/MandalaChart/DisplayingFullViewMandalaChart'
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
+import Recommendations from '@/components/Recommend/Recommend'
+import MOCK_DATA from '@/components/Recommend/mockData'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
 import { MandalaChartView } from '@/constants/mandalaChart'
 import useI18n from '@/hooks/useI18n'
@@ -55,6 +57,7 @@ const Home = () => {
           <ScreenshotButton takeScreenShot={takeScreenShot} />
         </div>
       </div>
+      <Recommendations items={MOCK_DATA} />
       {ScreenShotComponent && <ScreenShotComponent />}
     </>
   )
