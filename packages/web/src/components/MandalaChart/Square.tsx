@@ -1,8 +1,6 @@
 import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
-import useI18n from '@/hooks/useI18n'
 import { useEffect, useRef, useState } from 'react'
-import TRANSLATIONS from './Square.i18n'
 
 interface Props {
   value: string
@@ -15,6 +13,7 @@ interface Props {
   isGridValid: boolean
   gridIndex: number
   squareIndex: number
+  placeHolder: string
 }
 
 const Square = ({
@@ -24,13 +23,12 @@ const Square = ({
   isGridValid,
   gridIndex,
   squareIndex,
+  placeHolder,
 }: Props) => {
   const isCenterGrid = gridIndex === 4
   const isCenterSquare = squareIndex === 4
   const { themeStyle } = useTheme()
-  const { getTranslation } = useI18n()
   const { isMobile } = useEntryContext()
-  const translation = getTranslation(TRANSLATIONS)
 
   const textBold = isCenterSquare ? 'font-bold' : ''
 
@@ -39,31 +37,6 @@ const Square = ({
     : isCenterGrid
       ? themeStyle.centerGridCenterSquareTextColor
       : themeStyle.edgeGridCenterSquareTextColor
-
-  const getPlaceHolder = (
-    isCenterGrid: boolean,
-    isCenterSquare: boolean,
-    gridIndex: number,
-    squareIndex: number
-  ) => {
-    if (isCenterGrid && isCenterSquare) return translation('mainGoal')
-    if (isCenterGrid && !isCenterSquare)
-      return `${translation('subGoal')} ${
-        squareIndex < 4 ? squareIndex + 1 : squareIndex
-      }`
-    if (!isCenterGrid && isCenterSquare)
-      return `${translation('subGoal')} ${
-        gridIndex < 4 ? gridIndex + 1 : gridIndex
-      }`
-    return ''
-  }
-
-  const placeHolder = getPlaceHolder(
-    isCenterGrid,
-    isCenterSquare,
-    gridIndex,
-    squareIndex
-  )
 
   const handleTextAreaChange: React.ChangeEventHandler<
     HTMLTextAreaElement
