@@ -126,12 +126,21 @@ router.post('/find-password', async (req: Request, res: Response) => {
     },
   })
 
+  const logoPath = require.resolve('../public/logo.png')
+  const logoCid = 'logo@lifeleader.me'
   transporter.sendMail(
     {
       from: 'life.leader.me@gmail.com',
       to: user.email,
       subject: 'Password Reset',
-      html: createResetPasswordTemplate(user.nickname, token),
+      html: createResetPasswordTemplate(user.nickname, token, logoCid),
+      attachments: [
+        {
+          filename: 'logo.png',
+          path: logoPath,
+          cid: logoCid,
+        },
+      ],
     },
     (error, info) => {
       if (error) {

@@ -1,11 +1,11 @@
-import { ORIGIN } from './common'
+import { CLIENT_URL, IS_DEV } from './common'
 
 export const createResetPasswordTemplate = (
   nickname: string,
-  token: string
+  token: string,
+  logoCid: string
 ) => {
   const clientUrl = 'https://life.leader.me'
-  const logoUrl = `${ORIGIN}/public/logo.png`
 
   return `
     <div
@@ -18,15 +18,14 @@ export const createResetPasswordTemplate = (
             <table cellpadding="0" cellspacing="0" style="width: 100%;">
               <tr>
                 <td style="text-align: center;">
-                  <a href="${clientUrl}" target="_blank">
-                    <img src="${logoUrl}" alt="Life Leader" width="300"
-                      style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; margin-bottom: 20px;">
+                  <a href="${CLIENT_URL}" target="_blank">
+                    <img src="cid:${logoCid}" alt="Life Leader" width="300" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;">
                   </a>
                 </td>
               </tr>
               <tr>
                 <td style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
-                  <h1 style="color: #000000; font-weight: 500; margin: 0; font-size: 28px; line-height: 1.4; margin-bottom: 30px;">Hi, ${nickname}!</h1>
+                  <div style="color: #000000; font-weight: 500; margin: 0; font-size: 28px; line-height: 1.4; margin: 20px;">Hi, ${nickname}!</div>
                   <p style="margin: 0; font-size: 16px; line-height: 1.4;">You recently requested to
                     reset your password for your Life Leader account. Click the button below to reset it.</p>
                   <a href="${clientUrl}/reset-password?token=${token}"
@@ -35,6 +34,13 @@ export const createResetPasswordTemplate = (
                   <p style="margin: 0; font-size: 16px; line-height: 1.4; margin-bottom: 30px;">If you did not request a
                     password reset, please ignore this email or reply to let us know. This password reset is only valid for
                     the next 60 minutes.</p>
+                  ${
+                    IS_DEV
+                      ? '<p style="margin: 0; font-size: 16px; line-height: 1.4; margin-bottom: 30px;">Token: ' +
+                        token +
+                        '</p>'
+                      : ''
+                  }
                 </td>
               </tr>
             </table>
