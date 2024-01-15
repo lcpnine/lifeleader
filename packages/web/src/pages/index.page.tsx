@@ -7,6 +7,7 @@ import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
 import { MandalaChartView } from '@/constants/mandalaChart'
 import useI18n from '@/hooks/useI18n'
 import useScreenShot from '@/hooks/useScreenshot'
+import useSwitch from '@/hooks/useSwitch'
 import useToggleOptions from '@/hooks/useToggleOptions'
 import Head from 'next/head'
 import { useState } from 'react'
@@ -28,6 +29,7 @@ const Home = () => {
       initOption: MandalaChartView.FULL_VIEW,
       options: Object.values(MandalaChartView),
     })
+  const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch()
 
   return (
     <>
@@ -46,6 +48,9 @@ const Home = () => {
           <MandalaThemeSelector />
         </div>
         {/* <div className="pt-4">{ToggleOptions}</div> */}
+        <div className="pt-4">
+          <AIModeSwitch />
+        </div>
         <div className="pt-4">
           <MandalaChart
             wholeGridValues={wholeGridValues}
