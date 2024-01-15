@@ -1,3 +1,4 @@
+import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
@@ -10,6 +11,7 @@ import AuthLink, { AuthPage } from './authLink'
 const SignUp = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
+  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const { openAlert } = useAlert()
 
   const [email, setEmail] = useState('')
@@ -40,7 +42,7 @@ const SignUp = () => {
         nickname,
       })
       if (response.status === 201) goTo('/auth/sign-in', { replace: true })
-      else console.log(response)
+      else openAlert(commonTranslation('serverError'))
     } catch (error) {
       console.error(error)
     }

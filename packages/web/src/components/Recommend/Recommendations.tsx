@@ -17,8 +17,6 @@ const Recommendations = ({ items }: Props) => {
     }))
   )
 
-  console.log('recommendationItems: ', recommendationItems)
-
   const handleItemClick = (id: number) => () => {
     const previousClickedItem = recommendationItems.find(item => item.isClicked)
     const updatedItems = recommendationItems.map(item => ({
