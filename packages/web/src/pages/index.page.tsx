@@ -1,7 +1,7 @@
 import DisplayingFullViewMandalaChart from '@/components/MandalaChart/DisplayingFullViewMandalaChart'
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
-import Recommendations from '@/components/Recommend/Recommend'
+import Recommendations from '@/components/Recommend/Recommendations'
 import MOCK_DATA from '@/components/Recommend/mockData'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
 import { MandalaChartView } from '@/constants/mandalaChart'
