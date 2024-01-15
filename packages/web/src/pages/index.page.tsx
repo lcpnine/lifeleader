@@ -48,7 +48,8 @@ const Home = () => {
           <MandalaThemeSelector />
         </div>
         {/* <div className="pt-4">{ToggleOptions}</div> */}
-        <div className="pt-4">
+        <div className="pt-4 flex flex-col items-center justify-center">
+          <div className="font-bold pb-2">AI Mode</div>
           <AIModeSwitch />
         </div>
         <div className="pt-4">
