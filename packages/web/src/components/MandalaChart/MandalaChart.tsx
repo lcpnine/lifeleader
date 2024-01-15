@@ -1,10 +1,13 @@
 import { MandalaChartView } from '@/constants/mandalaChart'
+import { useAlert } from '@/contexts/AlertContext'
 import { useEntryContext } from '@/contexts/EntryContext'
+import useI18n from '@/hooks/useI18n'
 import { Dispatch, useEffect, useRef } from 'react'
 import { deepCopy } from '../../../utils/common'
 import { RecommendationItemProps } from '../Recommend/RecommendationItem'
 import FullViewMandalaChart from './FullViewMandalaChart'
 import SingleViewMandalaChart from './SingleViewMandalaChart'
+import TRANSLATIONS from './Square.i18n'
 
 interface Props {
   viewOption: MandalaChartView
@@ -25,6 +28,9 @@ const MandalaChart = ({
 }: Props) => {
   const { isMobile } = useEntryContext()
   const focusRef = useRef<HTMLDivElement>(null)
+  const { openAlert } = useAlert()
+  const { getTranslation } = useI18n()
+  const translation = getTranslation(TRANSLATIONS)
 
   const selectedAIRecommendationItem = recommendationItems.find(
     item => item.isClicked
@@ -36,12 +42,17 @@ const MandalaChart = ({
   ) => {
     const newGridValues = deepCopy(wholeGridValues)
     if (isAIModeOn) {
-      newGridValues[gridIndex][squareIndex] = selectedAIRecommendationItem?.text
-      if (gridIndex === 4 && squareIndex !== 4) {
-        newGridValues[squareIndex][gridIndex] =
+      if (gridIndex === 4 && squareIndex === 4) {
+        openAlert(translation('cannotRecommendMainGoal'))
+      } else {
+        newGridValues[gridIndex][squareIndex] =
           selectedAIRecommendationItem?.text
+        if (gridIndex === 4 && squareIndex !== 4) {
+          newGridValues[squareIndex][gridIndex] =
+            selectedAIRecommendationItem?.text
+        }
+        onRecommendItemAccepted()
       }
-      onRecommendItemAccepted()
     } else {
       newGridValues[gridIndex][squareIndex] = newValue
       if (gridIndex === 4 && squareIndex !== 4) {
