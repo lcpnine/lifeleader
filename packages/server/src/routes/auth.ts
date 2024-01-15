@@ -4,6 +4,7 @@ import express, { Request, Response } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import nodemailer from 'nodemailer'
 import passport from 'passport'
+import { ORIGIN } from '../constant/common'
 import { createResetPasswordTemplate } from '../constant/nodemailer'
 import User, { IUser } from '../models/User.model'
 
@@ -126,7 +127,7 @@ router.post('/find-password', async (req: Request, res: Response) => {
     },
   })
 
-  const logoPath = require.resolve(__dirname + '/../public/logo.png')
+  const logoPath = `${ORIGIN}/static/logo.png`
   const logoCid = 'logo@lifeleader.me'
   transporter.sendMail(
     {

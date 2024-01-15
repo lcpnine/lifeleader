@@ -35,7 +35,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use('/public', express.static(__dirname + '/public'))
+app.use('/static', express.static(__dirname + '/public'))
 
 const corsOrigin = IS_DEV
   ? 'http://localhost:3000'
