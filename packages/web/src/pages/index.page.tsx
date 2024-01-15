@@ -42,6 +42,10 @@ const Home = () => {
       isClicked: false,
     }))
   )
+  const onRecommendItemAccepted = () => {
+    const updatedItems = recommendationItems.filter(item => !item.isClicked)
+    setRecommendationItems(updatedItems)
+  }
 
   const handleItemClick = (id: number) => () => {
     const previousClickedItem = recommendationItems.find(item => item.isClicked)
@@ -83,6 +87,7 @@ const Home = () => {
             viewOption={chartViewOption as MandalaChartView}
             isAIModeOn={isAIModeOn}
             recommendationItems={recommendationItems}
+            onRecommendItemAccepted={onRecommendItemAccepted}
           />
         </div>
         <div className="pt-4">

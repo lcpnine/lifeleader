@@ -12,6 +12,7 @@ interface Props {
   setWholeGridValues: Dispatch<React.SetStateAction<string[][]>>
   isAIModeOn: boolean
   recommendationItems: RecommendationItemProps[]
+  onRecommendItemAccepted: () => void
 }
 
 const MandalaChart = ({
@@ -20,6 +21,7 @@ const MandalaChart = ({
   setWholeGridValues,
   isAIModeOn,
   recommendationItems,
+  onRecommendItemAccepted,
 }: Props) => {
   const { isMobile } = useEntryContext()
   const focusRef = useRef<HTMLDivElement>(null)
@@ -33,14 +35,20 @@ const MandalaChart = ({
     newValue: string
   ) => {
     const newGridValues = deepCopy(wholeGridValues)
-    newGridValues[gridIndex][squareIndex] = isAIModeOn
-      ? selectedAIRecommendationItem?.text
-      : newValue
-    if (gridIndex === 4 && squareIndex !== 4) {
-      newGridValues[squareIndex][gridIndex] = isAIModeOn
-        ? selectedAIRecommendationItem?.text
-        : newValue
+    if (isAIModeOn) {
+      newGridValues[gridIndex][squareIndex] = selectedAIRecommendationItem?.text
+      if (gridIndex === 4 && squareIndex !== 4) {
+        newGridValues[squareIndex][gridIndex] =
+          selectedAIRecommendationItem?.text
+      }
+      onRecommendItemAccepted()
+    } else {
+      newGridValues[gridIndex][squareIndex] = newValue
+      if (gridIndex === 4 && squareIndex !== 4) {
+        newGridValues[squareIndex][gridIndex] = newValue
+      }
     }
+
     setWholeGridValues(newGridValues)
   }
 
