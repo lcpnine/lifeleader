@@ -47,7 +47,7 @@ const Home = () => {
     setRecommendationItems(updatedItems)
   }
 
-  const handleItemClick = (id: number) => () => {
+  const handleRecommendationItemClick = (id: number) => () => {
     const previousClickedItem = recommendationItems.find(item => item.isClicked)
     const updatedItems = recommendationItems.map(item => ({
       ...item,
@@ -96,7 +96,7 @@ const Home = () => {
       </div>
       <Recommendations
         recommendationItems={recommendationItems}
-        handleItemClick={handleItemClick}
+        handleRecommendationItemClick={handleRecommendationItemClick}
       />
       {ScreenShotComponent && <ScreenShotComponent />}
     </>

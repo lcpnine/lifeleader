@@ -4,9 +4,12 @@ import RecommendationItem, {
 
 export interface Props {
   recommendationItems: RecommendationItemProps[]
-  handleItemClick: (id: number) => () => void
+  handleRecommendationItemClick: (id: number) => () => void
 }
-const Recommendations = ({ recommendationItems, handleItemClick }: Props) => {
+const Recommendations = ({
+  recommendationItems,
+  handleRecommendationItemClick,
+}: Props) => {
   return (
     <div className="fixed bottom-10 left-10 right-10 bg-white shadow-lg p-4 rounded-lg">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -14,7 +17,7 @@ const Recommendations = ({ recommendationItems, handleItemClick }: Props) => {
           <RecommendationItem
             key={item.id}
             item={item}
-            onClickItem={handleItemClick(item.id)}
+            onClickItem={handleRecommendationItemClick(item.id)}
           />
         ))}
       </div>
