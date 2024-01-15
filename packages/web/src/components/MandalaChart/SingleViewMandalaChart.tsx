@@ -42,6 +42,7 @@ const SingleViewMandalaChart = ({
         wholeGridValues={wholeGridValues}
         handleGridValue={handleGridValue}
         gridIndex={activeGrid}
+        isAIModeOn={false}
       />
     ),
   })
@@ -73,6 +74,7 @@ const SingleViewMandalaChart = ({
         handleGridValue={handleGridValue}
         getHandleDoubleClick={getHandleDoubleClick}
         gridIndex={4}
+        isAIModeOn={false}
       />
       {ModalComponent && <ModalComponent />}
     </div>
