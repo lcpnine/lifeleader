@@ -4,7 +4,7 @@ import express, { Request, Response } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import passport from 'passport'
 import transporter from '../config/nodemailer'
-import { createResetPasswordTemplate } from '../constant/nodemail'
+import { createResetPasswordTemplate } from '../constant/nodemailer'
 import User, { IUser } from '../models/User.model'
 
 const ONE_HOUR = 60 * 60 * 1000
