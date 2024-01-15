@@ -9,12 +9,14 @@ interface Props {
   viewOption: MandalaChartView
   wholeGridValues: string[][]
   setWholeGridValues: Dispatch<React.SetStateAction<string[][]>>
+  isAIModeOn: boolean
 }
 
 const MandalaChart = ({
   viewOption,
   wholeGridValues,
   setWholeGridValues,
+  isAIModeOn,
 }: Props) => {
   const { isMobile } = useEntryContext()
   const focusRef = useRef<HTMLDivElement>(null)
@@ -57,6 +59,7 @@ const MandalaChart = ({
         <FullViewMandalaChart
           wholeGridValues={wholeGridValues}
           handleGridValue={handleGridValue}
+          isAIModeOn={isAIModeOn}
         />
       ) : (
         <SingleViewMandalaChart

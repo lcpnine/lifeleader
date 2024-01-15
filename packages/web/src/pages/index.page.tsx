@@ -57,6 +57,7 @@ const Home = () => {
             wholeGridValues={wholeGridValues}
             setWholeGridValues={setWholeGridValues}
             viewOption={chartViewOption as MandalaChartView}
+            isAIModeOn={isAIModeOn}
           />
         </div>
         <div className="pt-4">

@@ -9,6 +9,7 @@ interface GridProps {
   ) => void
   getHandleDoubleClick?: (squareIndex: number) => () => void
   gridIndex: number
+  isAIModeOn: boolean
 }
 
 const Grid = ({
@@ -16,6 +17,7 @@ const Grid = ({
   handleGridValue,
   getHandleDoubleClick,
   gridIndex,
+  isAIModeOn,
 }: GridProps) => {
   const isGridValid =
     gridIndex === 4 ? true : wholeGridValues[4][gridIndex] !== ''
