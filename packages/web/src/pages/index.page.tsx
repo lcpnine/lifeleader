@@ -98,6 +98,7 @@ const Home = () => {
         <div className="pt-4 flex flex-col items-center justify-center">
           <div className="font-bold pb-2">AI Mode</div>
           <AIModeSwitch />
+          <p className="text-xs pt-2">{translation('aiModeDescription')}</p>
         </div>
         <div className="pt-4">
           <MandalaChart
