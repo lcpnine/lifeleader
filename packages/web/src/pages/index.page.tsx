@@ -28,7 +28,9 @@ const Home = () => {
   const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch()
 
   //AI recommendation
-  const { data, loading } = useAxiosQuery<{ recommendations: string[] }>({
+  const { data, loading, refetch } = useAxiosQuery<{
+    recommendations: string[]
+  }>({
     url: '/recommendation/sub-goals',
     method: 'POST',
     body: {
@@ -109,6 +111,7 @@ const Home = () => {
         <Recommendations
           recommendationItems={recommendationItems}
           handleRecommendationItemClick={handleRecommendationItemClick}
+          handleRefresh={() => refetch()}
         />
       )}
       {ScreenShotComponent && <ScreenShotComponent />}
