@@ -3,15 +3,15 @@ import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
 import { RecommendationItemProps } from '@/components/Recommend/RecommendationItem'
 import Recommendations from '@/components/Recommend/Recommendations'
-import MOCK_DATA from '@/components/Recommend/mockData'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
 import { MandalaChartView } from '@/constants/mandalaChart'
+import useAxiosQuery from '@/hooks/useAxiosQuery'
 import useI18n from '@/hooks/useI18n'
 import useScreenShot from '@/hooks/useScreenshot'
 import useSwitch from '@/hooks/useSwitch'
 import useToggleOptions from '@/hooks/useToggleOptions'
 import Head from 'next/head'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TRANSLATIONS from './index.i18n'
 
 const Home = () => {
@@ -20,6 +20,8 @@ const Home = () => {
   const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
     new Array(9).fill(new Array(9).fill(''))
   )
+  const mainGoal = wholeGridValues[4][4]
+
   const { takeScreenShot, ScreenShotComponent } = useScreenShot({
     component: (
       <DisplayingFullViewMandalaChart wholeGridValues={wholeGridValues} />
@@ -33,15 +35,29 @@ const Home = () => {
   const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch()
 
   //AI recommendation
+  const { data, loading } = useAxiosQuery<{ recommendations: string[] }>({
+    url: '/recommendation/sub-goals',
+    method: 'POST',
+    body: {
+      mainGoal,
+      subGoals: wholeGridValues.flat(),
+    },
+  })
+  const { recommendations } = data || { recommendations: [] }
   const [recommendationItems, setRecommendationItems] = useState<
     RecommendationItemProps[]
-  >(
-    MOCK_DATA.map((item, idx) => ({
-      id: idx,
-      text: item.text,
-      isClicked: false,
-    }))
-  )
+  >([])
+  useEffect(() => {
+    if (!loading && recommendations) {
+      const items = recommendations.map((item: string, index: number) => ({
+        id: index,
+        text: item,
+        isClicked: false,
+      }))
+      setRecommendationItems(items)
+    }
+  }, [recommendations])
+
   const onRecommendItemAccepted = () => {
     const updatedItems = recommendationItems.filter(item => !item.isClicked)
     setRecommendationItems(updatedItems)
