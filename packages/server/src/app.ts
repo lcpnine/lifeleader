@@ -27,7 +27,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: !IS_DEV,
+      // secure true로 되있을 시 프로덕션에서 passport가 user 찾지 못하는 중
+      secure: false,
     },
   })
 )
