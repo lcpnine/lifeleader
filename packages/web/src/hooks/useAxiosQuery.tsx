@@ -5,9 +5,15 @@ type Props = {
   url: string
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
   body?: any
+  skip?: boolean
 }
 
-const useAxiosQuery = <T = unknown,>({ url, method, body }: Props) => {
+const useAxiosQuery = <T = unknown,>({
+  url,
+  method,
+  body,
+  skip = false,
+}: Props) => {
   const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<any>(null)
@@ -31,8 +37,8 @@ const useAxiosQuery = <T = unknown,>({ url, method, body }: Props) => {
   }
 
   useEffect(() => {
-    fetchData()
-  }, [url])
+    if (!skip) fetchData()
+  }, [url, skip])
 
   return { data, loading, error, refetch: fetchData }
 }
