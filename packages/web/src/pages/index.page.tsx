@@ -41,6 +41,7 @@ const Home = () => {
       mainGoal,
       subGoals,
     },
+    skip: !(isAIModeOn && mainGoal),
   })
   const { recommendations } = data || { recommendations: [] }
   const [recommendationItems, setRecommendationItems] = useState<
