@@ -1,5 +1,6 @@
 import { LANGUAGE_NAMES_SHORT, SUPPORTING_LANGUAGES } from '@/constants/i18n'
-import { useUserInfoContext } from '@/contexts/UserInfoContext'
+import { useUserContext } from '@/contexts/UserContext'
+
 import useAuth from '@/hooks/useAuth'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
@@ -12,7 +13,9 @@ const Header = () => {
   const { locale, locales } = useRouter()
   const { changeLanguage, getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
-  const { isSignedIn, nickname } = useUserInfoContext()
+  const {
+    user: { isSignedIn, nickname },
+  } = useUserContext()
   const { handleSignOut } = useAuth()
   const { goTo } = useGoTo()
 

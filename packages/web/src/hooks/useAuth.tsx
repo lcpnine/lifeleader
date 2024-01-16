@@ -1,8 +1,8 @@
-import { useUserInfoContext } from '@/contexts/UserInfoContext'
+import { DEFAULT_USER, useUserContext } from '@/contexts/UserContext'
 import axios from 'axios'
 
 const useAuth = () => {
-  const { setUserInfo } = useUserInfoContext()
+  const { setUser } = useUserContext()
 
   const handleSignIn = async (
     email: string,
@@ -19,11 +19,9 @@ const useAuth = () => {
 
     const { user } = response.data
 
-    setUserInfo({
+    setUser({
       isSignedIn: true,
-      email: user.email,
-      nickname: user.nickname,
-      setUserInfo,
+      ...user,
     })
 
     return { success: true }
@@ -31,13 +29,7 @@ const useAuth = () => {
 
   const handleSignOut = async () => {
     await axios.get('/auth/sign-out')
-
-    setUserInfo({
-      isSignedIn: false,
-      email: '',
-      nickname: 'Guest',
-      setUserInfo,
-    })
+    setUser(DEFAULT_USER)
   }
 
   return {

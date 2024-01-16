@@ -2,7 +2,7 @@ import { BASE_URL } from '@/constants/common'
 import { AlertProvider } from '@/contexts/AlertContext'
 import { EntryProvider } from '@/contexts/EntryContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
-import { UserInfoProvider } from '@/contexts/UserInfoContext'
+import { User, UserProvider } from '@/contexts/UserContext'
 import axios from 'axios'
 import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
@@ -45,7 +45,7 @@ const WebApp = ({ Component, pageProps }: AppProps) => {
         }}
       />
       <EntryProvider serverProps={pageProps}>
-        <UserInfoProvider initialUserInfo={pageProps.user}>
+        <UserProvider initialUser={pageProps.user}>
           <AlertProvider>
             <ThemeProvider>
               <Layout>
@@ -53,7 +53,7 @@ const WebApp = ({ Component, pageProps }: AppProps) => {
               </Layout>
             </ThemeProvider>
           </AlertProvider>
-        </UserInfoProvider>
+        </UserProvider>
       </EntryProvider>
     </>
   )
@@ -77,7 +77,9 @@ WebApp.getInitialProps = async (context: AppContext) => {
         validateStatus: status => status === 200 || status === 401,
       })
     : { data: null }
-  const user = checkUserResponse.data?._id ? checkUserResponse.data : null
+  const user: User | null = checkUserResponse.data?._id
+    ? { isSignedIn: true, ...checkUserResponse.data }
+    : null
 
   const acceptLanguage = context.ctx.req?.headers['accept-language']
   const userAgent = context.ctx.req?.headers['user-agent']
