@@ -12,13 +12,14 @@ const useAxiosQuery = <T = unknown,>({ url, method, body }: Props) => {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<any>(null)
 
-  const fetchData = async () => {
+  const fetchData = async (newData?: { newBody?: any }) => {
+    const { newBody } = newData || {}
     setLoading(true)
     try {
       const response = await axios({
         url,
         method,
-        data: body,
+        data: newBody ? newBody : body,
       })
       setData(response.data)
       setError(null)
