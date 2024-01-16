@@ -4,6 +4,7 @@ import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaTheme
 import { RecommendationItemProps } from '@/components/Recommend/RecommendationItem'
 import Recommendations from '@/components/Recommend/Recommendations'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
+import { useUserContext } from '@/contexts/UserContext'
 import useAxiosQuery from '@/hooks/useAxiosQuery'
 import useI18n from '@/hooks/useI18n'
 import useScreenShot from '@/hooks/useScreenshot'
@@ -14,6 +15,7 @@ import TRANSLATIONS from './index.i18n'
 
 const Home = () => {
   const { getTranslation } = useI18n()
+  const { user } = useUserContext()
   const translation = getTranslation(TRANSLATIONS)
   const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
     new Array(9).fill(new Array(9).fill(''))
@@ -27,8 +29,7 @@ const Home = () => {
     ),
   })
   const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch({
-    // TODO: isAIModeOn should be initially off after development
-    initialIsSwitchOn: true,
+    initialIsSwitchOn: false,
   })
 
   //AI recommendation
@@ -75,8 +76,8 @@ const Home = () => {
     setRecommendationItems(updatedItems)
   }
 
-  // TODO: isAIModeOn should be in the condition
-  const isShowingAIRecommendation = !loading && recommendationItems.length > 0
+  const isShowingAIRecommendation =
+    isAIModeOn && !loading && recommendationItems.length > 0
 
   return (
     <>
@@ -95,11 +96,13 @@ const Home = () => {
           <MandalaThemeSelector />
         </div>
         {/* <div className="pt-4">{ToggleOptions}</div> */}
-        <div className="pt-4 flex flex-col items-center justify-center">
-          <div className="font-bold pb-2">AI Mode</div>
-          <AIModeSwitch />
-          <p className="text-xs pt-2">{translation('aiModeDescription')}</p>
-        </div>
+        {user.purchasedInfo.isPurchased && (
+          <div className="pt-4 flex flex-col items-center justify-center">
+            <div className="font-bold pb-2">AI Mode</div>
+            <AIModeSwitch />
+            <p className="text-xs pt-2">{translation('aiModeDescription')}</p>
+          </div>
+        )}
         <div className="pt-4">
           <MandalaChart
             wholeGridValues={wholeGridValues}
