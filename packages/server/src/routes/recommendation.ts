@@ -16,7 +16,7 @@ router.post('/sub-goals', async (req: Request, res: Response) => {
     return
   }
 
-  const recommendations = await getRecommendations({
+  const { recommendations } = await getRecommendations({
     recommendationInNeed: RecommendationInNeed.SubGoals,
     params: {
       mainGoal,
