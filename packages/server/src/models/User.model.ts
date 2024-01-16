@@ -20,6 +20,11 @@ const UserSchema: Schema = new Schema({
     token: { type: String, default: null },
     expires: { type: Date, default: null },
   },
+  purchasedInfo: {
+    paid: { type: Boolean, default: false },
+    boughtAt: { type: Date, default: null },
+    expiresAt: { type: Date, default: null },
+  },
 })
 
 export default mongoose.model<IUser>('User', UserSchema)
