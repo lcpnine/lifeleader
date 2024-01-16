@@ -1,31 +1,83 @@
 import DisplayingFullViewMandalaChart from '@/components/MandalaChart/DisplayingFullViewMandalaChart'
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
+import { RecommendationItemProps } from '@/components/Recommend/RecommendationItem'
+import Recommendations from '@/components/Recommend/Recommendations'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
-import { MandalaChartView } from '@/constants/mandalaChart'
+import { useUserContext } from '@/contexts/UserContext'
+import useAxiosQuery from '@/hooks/useAxiosQuery'
 import useI18n from '@/hooks/useI18n'
 import useScreenShot from '@/hooks/useScreenshot'
-import useToggleOptions from '@/hooks/useToggleOptions'
+import useSwitch from '@/hooks/useSwitch'
 import Head from 'next/head'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TRANSLATIONS from './index.i18n'
 
 const Home = () => {
   const { getTranslation } = useI18n()
+  const { user } = useUserContext()
   const translation = getTranslation(TRANSLATIONS)
   const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
     new Array(9).fill(new Array(9).fill(''))
   )
+  const mainGoal = wholeGridValues[4][4]
+  const subGoals = wholeGridValues[4].filter((_, index) => index !== 4)
+
   const { takeScreenShot, ScreenShotComponent } = useScreenShot({
     component: (
       <DisplayingFullViewMandalaChart wholeGridValues={wholeGridValues} />
     ),
   })
-  const { Component: ToggleOptions, selectedOption: chartViewOption } =
-    useToggleOptions({
-      initOption: MandalaChartView.FULL_VIEW,
-      options: Object.values(MandalaChartView),
-    })
+  const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch({
+    initialIsSwitchOn: false,
+  })
+
+  //AI recommendation
+  const { data, loading, refetch } = useAxiosQuery<{
+    recommendations: string[]
+  }>({
+    url: '/recommendation/sub-goals',
+    method: 'POST',
+    body: {
+      mainGoal,
+      subGoals,
+    },
+    skip: !(isAIModeOn && mainGoal),
+  })
+  const { recommendations } = data || { recommendations: [] }
+  const [recommendationItems, setRecommendationItems] = useState<
+    RecommendationItemProps[]
+  >([])
+  useEffect(() => {
+    if (!loading && recommendations) {
+      const items = recommendations.map((item: string, index: number) => ({
+        id: index,
+        text: item,
+        isClicked: false,
+      }))
+      setRecommendationItems(items)
+    }
+  }, [recommendations])
+
+  const onRecommendItemAccepted = () => {
+    const updatedItems = recommendationItems.filter(item => !item.isClicked)
+    setRecommendationItems(updatedItems)
+  }
+
+  const handleRecommendationItemClick = (id: number) => () => {
+    const previousClickedItem = recommendationItems.find(item => item.isClicked)
+    const updatedItems = recommendationItems.map(item => ({
+      ...item,
+      isClicked: item.id === id ? !item.isClicked : false,
+    }))
+    if (previousClickedItem?.isClicked) {
+      updatedItems[previousClickedItem.id].isClicked = false
+    }
+    setRecommendationItems(updatedItems)
+  }
+
+  const isShowingAIRecommendation =
+    isAIModeOn && !loading && recommendationItems.length > 0
 
   return (
     <>
@@ -44,17 +96,33 @@ const Home = () => {
           <MandalaThemeSelector />
         </div>
         {/* <div className="pt-4">{ToggleOptions}</div> */}
+        {user.purchasedInfo.isPurchased && (
+          <div className="pt-4 flex flex-col items-center justify-center">
+            <div className="font-bold pb-2">AI Mode</div>
+            <AIModeSwitch />
+            <p className="text-xs pt-2">{translation('aiModeDescription')}</p>
+          </div>
+        )}
         <div className="pt-4">
           <MandalaChart
             wholeGridValues={wholeGridValues}
             setWholeGridValues={setWholeGridValues}
-            viewOption={chartViewOption as MandalaChartView}
+            isAIModeOn={isAIModeOn}
+            recommendationItems={recommendationItems}
+            onRecommendItemAccepted={onRecommendItemAccepted}
           />
         </div>
         <div className="pt-4">
           <ScreenshotButton takeScreenShot={takeScreenShot} />
         </div>
       </div>
+      {isShowingAIRecommendation && (
+        <Recommendations
+          recommendationItems={recommendationItems}
+          handleRecommendationItemClick={handleRecommendationItemClick}
+          handleRefresh={() => refetch()}
+        />
+      )}
       {ScreenShotComponent && <ScreenShotComponent />}
     </>
   )

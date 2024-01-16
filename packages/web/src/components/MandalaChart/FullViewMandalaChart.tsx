@@ -7,9 +7,14 @@ interface Props {
     squareIndex: number,
     newValue: string
   ) => void
+  isAIModeOn: boolean
 }
 
-const FullViewMandalaChart = ({ wholeGridValues, handleGridValue }: Props) => {
+const FullViewMandalaChart = ({
+  wholeGridValues,
+  handleGridValue,
+  isAIModeOn,
+}: Props) => {
   return (
     <div className={`grid grid-cols-3 gap-3 w-max`}>
       {wholeGridValues.map((_, index) => (
@@ -18,6 +23,7 @@ const FullViewMandalaChart = ({ wholeGridValues, handleGridValue }: Props) => {
           wholeGridValues={wholeGridValues}
           handleGridValue={handleGridValue}
           gridIndex={index}
+          isAIModeOn={isAIModeOn}
         />
       ))}
     </div>

@@ -7,6 +7,7 @@ interface Props {
   squareIndex: number
   isGridValid: boolean
   placeHolder?: string
+  onClick?: () => void
 }
 
 const DisplayingSquare = ({
@@ -15,6 +16,7 @@ const DisplayingSquare = ({
   squareIndex,
   isGridValid,
   placeHolder = '',
+  onClick = () => {},
 }: Props) => {
   const isCenterGrid = gridIndex === 4
   const isCenterSquare = squareIndex === 4
@@ -36,6 +38,7 @@ const DisplayingSquare = ({
       } flex items-center justify-center overflow-hidden ${
         themeStyle.backgroundColor
       } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
+      onClick={onClick}
     >
       <span
         className={`w-full max-h-${

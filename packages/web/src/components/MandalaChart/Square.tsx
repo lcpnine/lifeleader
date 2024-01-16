@@ -1,9 +1,6 @@
 import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
-import useI18n from '@/hooks/useI18n'
 import { useEffect, useRef, useState } from 'react'
-import DisplayingSquare from './DisplayingSquare'
-import TRANSLATIONS from './Square.i18n'
 
 interface Props {
   value: string
@@ -16,6 +13,7 @@ interface Props {
   isGridValid: boolean
   gridIndex: number
   squareIndex: number
+  placeHolder: string
 }
 
 const Square = ({
@@ -25,13 +23,12 @@ const Square = ({
   isGridValid,
   gridIndex,
   squareIndex,
+  placeHolder,
 }: Props) => {
   const isCenterGrid = gridIndex === 4
   const isCenterSquare = squareIndex === 4
   const { themeStyle } = useTheme()
-  const { getTranslation } = useI18n()
   const { isMobile } = useEntryContext()
-  const translation = getTranslation(TRANSLATIONS)
 
   const textBold = isCenterSquare ? 'font-bold' : ''
 
@@ -40,31 +37,6 @@ const Square = ({
     : isCenterGrid
       ? themeStyle.centerGridCenterSquareTextColor
       : themeStyle.edgeGridCenterSquareTextColor
-
-  const getPlaceHolder = (
-    isCenterGrid: boolean,
-    isCenterSquare: boolean,
-    gridIndex: number,
-    squareIndex: number
-  ) => {
-    if (isCenterGrid && isCenterSquare) return translation('mainGoal')
-    if (isCenterGrid && !isCenterSquare)
-      return `${translation('subGoal')} ${
-        squareIndex < 4 ? squareIndex + 1 : squareIndex
-      }`
-    if (!isCenterGrid && isCenterSquare)
-      return `${translation('subGoal')} ${
-        gridIndex < 4 ? gridIndex + 1 : gridIndex
-      }`
-    return ''
-  }
-
-  const placeHolder = getPlaceHolder(
-    isCenterGrid,
-    isCenterSquare,
-    gridIndex,
-    squareIndex
-  )
 
   const handleTextAreaChange: React.ChangeEventHandler<
     HTMLTextAreaElement
@@ -121,13 +93,30 @@ const Square = ({
           />
         </div>
       ) : (
-        <DisplayingSquare
-          value={value}
-          gridIndex={gridIndex}
-          squareIndex={squareIndex}
-          isGridValid={isGridValid}
-          placeHolder={placeHolder}
-        />
+        <div
+          className={`${isMobile ? 'size-20' : 'size-24'} border ${
+            themeStyle.borderColor
+          } flex items-center justify-center overflow-hidden ${
+            themeStyle.backgroundColor
+          } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
+        >
+          <span
+            className={`w-full max-h-${
+              isMobile ? '20' : '24'
+            } text-center ${textColor} ${textBold} p-0 inline-block focus:outline-none
+            ${
+              !value && placeHolder
+                ? squareIndex === 4
+                  ? 'text-opacity-75'
+                  : 'text-opacity-25'
+                : ''
+            }
+            `}
+            style={{ whiteSpace: 'pre-wrap' }}
+          >
+            {value ? value : placeHolder}
+          </span>
+        </div>
       )}
     </div>
   )
