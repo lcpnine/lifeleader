@@ -6,8 +6,8 @@ export interface ResetPassword {
 }
 
 export interface PurchasedInfo {
-  paid: boolean
-  boughtAt: Date | null
+  isPurchased: boolean
+  purchasedAt: Date | null
   expiresAt: Date | null
 }
 
@@ -29,8 +29,8 @@ const UserSchema: Schema = new Schema({
     expires: { type: Date, default: null },
   },
   purchasedInfo: {
-    paid: { type: Boolean, default: false },
-    boughtAt: { type: Date, default: null },
+    isPurchased: { type: Boolean, default: false },
+    purchasedAt: { type: Date, default: null },
     expiresAt: { type: Date, default: null },
   },
 })
