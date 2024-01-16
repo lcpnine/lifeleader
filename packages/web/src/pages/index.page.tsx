@@ -68,6 +68,9 @@ const Home = () => {
     setRecommendationItems(updatedItems)
   }
 
+  // TODO: isAIModeOn should be in the condition
+  const isShowingAIRecommendation = !loading && recommendationItems.length > 0
+
   return (
     <>
       <Head>
@@ -102,10 +105,12 @@ const Home = () => {
           <ScreenshotButton takeScreenShot={takeScreenShot} />
         </div>
       </div>
-      <Recommendations
-        recommendationItems={recommendationItems}
-        handleRecommendationItemClick={handleRecommendationItemClick}
-      />
+      {isShowingAIRecommendation && (
+        <Recommendations
+          recommendationItems={recommendationItems}
+          handleRecommendationItemClick={handleRecommendationItemClick}
+        />
+      )}
       {ScreenShotComponent && <ScreenShotComponent />}
     </>
   )
