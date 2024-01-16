@@ -1,0 +1,23 @@
+{
+  "id": "chatcmpl-8hg7Hok1YuXuu8tKujdLinNALDtnx",
+  "object": "chat.completion",
+  "created": 1705420691,
+  "model": "gpt-4-1106-preview",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"type\": \"sub_goals\",\n  \"recommendations\": [\n    \"Develop a regular exercise routine\",\n    \"Integrate more whole foods into diet\",\n    \"Establish a consistent sleep schedule\",\n    \"Stay hydrated with adequate water intake\",\n    \"Reduce sugar and salt consumption\",\n    \"Practice regular stress management techniques\",\n    \"Avoid smoking and reduce alcohol intake\",\n    \"Incorporate mindfulness or meditation practices\",\n    \"Monitor health with regular check-ups\",\n    \"Adopt meal planning and prep to maintain healthy eating habits\",\n    \"Participate in recreational physical activities\",\n    \"Educate yourself on nutrition and health\"\n  ]\n}"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 373,
+    "completion_tokens": 131,
+    "total_tokens": 504
+  },
+  "system_fingerprint": "fp_866b9ef0a9"
+}
