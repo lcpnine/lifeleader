@@ -26,7 +26,10 @@ const Home = () => {
       <DisplayingFullViewMandalaChart wholeGridValues={wholeGridValues} />
     ),
   })
-  const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch()
+  const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch({
+    // TODO: isAIModeOn should be initially off after development
+    initialIsSwitchOn: true,
+  })
 
   //AI recommendation
   const { data, loading, refetch } = useAxiosQuery<{

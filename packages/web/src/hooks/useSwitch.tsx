@@ -1,7 +1,11 @@
 import { useState } from 'react'
 
-const useSwitch = () => {
-  const [isSwitchOn, setIsSwitchOn] = useState(false)
+type Props = {
+  initialIsSwitchOn?: boolean
+}
+
+const useSwitch = ({ initialIsSwitchOn }: Props) => {
+  const [isSwitchOn, setIsSwitchOn] = useState(!!initialIsSwitchOn)
   const toggleSwitch = () => {
     setIsSwitchOn(!isSwitchOn)
   }
