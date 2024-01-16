@@ -10,6 +10,7 @@ import initializePassport from './config/passport'
 import { IS_DEV, PHASE } from './constant/common'
 import healthCheckController from './controllers/healthCheck'
 import authRoutes from './routes/auth'
+import recommendationRoutes from './routes/recommendation'
 
 console.log('PHASE: ', PHASE)
 
@@ -51,6 +52,7 @@ app.use(
 mongoose.connect(process.env.MONGO_URI as string)
 
 app.use('/auth', authRoutes)
+app.use('/recommendation', recommendationRoutes)
 app.get('/health-check', healthCheckController.get)
 
 const PORT = process.env.PORT || 4003

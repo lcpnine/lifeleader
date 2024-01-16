@@ -12,7 +12,11 @@ router.post('/sub-goals', async (req: Request, res: Response) => {
     "You're almost done!",
   ]
 
-  res
-    .status(200)
-    .json({ message: 'User successfully registered', user: recommendations })
+  res.status(200).json({
+    mainGoal,
+    message: 'User successfully registered',
+    user: recommendations,
+  })
 })
+
+export default router
