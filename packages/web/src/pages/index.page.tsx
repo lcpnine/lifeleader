@@ -19,6 +19,7 @@ const Home = () => {
     new Array(9).fill(new Array(9).fill(''))
   )
   const mainGoal = wholeGridValues[4][4]
+  const subGoals = wholeGridValues[4].filter((_, index) => index !== 4)
 
   const { takeScreenShot, ScreenShotComponent } = useScreenShot({
     component: (
@@ -35,7 +36,7 @@ const Home = () => {
     method: 'POST',
     body: {
       mainGoal,
-      subGoals: wholeGridValues.flat(),
+      subGoals,
     },
   })
   const { recommendations } = data || { recommendations: [] }
