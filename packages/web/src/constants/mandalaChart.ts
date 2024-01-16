@@ -93,8 +93,3 @@ export const MANDALA_THEMES = {
     gridBorder: 'border border-black',
   },
 }
-
-export enum MandalaChartView {
-  FULL_VIEW = 'Full View',
-  SINGLE_VIEW = 'Single View',
-}

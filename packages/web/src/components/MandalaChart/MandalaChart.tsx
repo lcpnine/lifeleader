@@ -1,4 +1,3 @@
-import { MandalaChartView } from '@/constants/mandalaChart'
 import { useAlert } from '@/contexts/AlertContext'
 import { useEntryContext } from '@/contexts/EntryContext'
 import useI18n from '@/hooks/useI18n'
@@ -6,11 +5,9 @@ import { Dispatch, useEffect, useRef } from 'react'
 import { deepCopy } from '../../../utils/common'
 import { RecommendationItemProps } from '../Recommend/RecommendationItem'
 import FullViewMandalaChart from './FullViewMandalaChart'
-import SingleViewMandalaChart from './SingleViewMandalaChart'
 import TRANSLATIONS from './Square.i18n'
 
 interface Props {
-  viewOption: MandalaChartView
   wholeGridValues: string[][]
   setWholeGridValues: Dispatch<React.SetStateAction<string[][]>>
   isAIModeOn: boolean
@@ -19,7 +16,6 @@ interface Props {
 }
 
 const MandalaChart = ({
-  viewOption,
   wholeGridValues,
   setWholeGridValues,
   isAIModeOn,
@@ -64,18 +60,14 @@ const MandalaChart = ({
   }
 
   useEffect(() => {
-    if (
-      isMobile &&
-      focusRef.current &&
-      viewOption === MandalaChartView.FULL_VIEW
-    ) {
+    if (isMobile && focusRef.current) {
       const div = focusRef.current
       const x = div.scrollWidth / 2
       const y = div.scrollHeight / 2
       div.scrollLeft = x - div.offsetWidth / 2
       div.scrollTop = y - div.clientHeight / 2
     }
-  }, [isMobile, viewOption])
+  }, [])
 
   return (
     <div
@@ -84,18 +76,11 @@ const MandalaChart = ({
       } overflow-auto`}
       ref={focusRef}
     >
-      {viewOption === MandalaChartView.FULL_VIEW ? (
-        <FullViewMandalaChart
-          wholeGridValues={wholeGridValues}
-          handleGridValue={handleGridValue}
-          isAIModeOn={isAIModeOn}
-        />
-      ) : (
-        <SingleViewMandalaChart
-          wholeGridValues={wholeGridValues}
-          handleGridValue={handleGridValue}
-        />
-      )}
+      <FullViewMandalaChart
+        wholeGridValues={wholeGridValues}
+        handleGridValue={handleGridValue}
+        isAIModeOn={isAIModeOn}
+      />
     </div>
   )
 }

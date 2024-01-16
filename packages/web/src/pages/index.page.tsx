@@ -4,12 +4,10 @@ import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaTheme
 import { RecommendationItemProps } from '@/components/Recommend/RecommendationItem'
 import Recommendations from '@/components/Recommend/Recommendations'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
-import { MandalaChartView } from '@/constants/mandalaChart'
 import useAxiosQuery from '@/hooks/useAxiosQuery'
 import useI18n from '@/hooks/useI18n'
 import useScreenShot from '@/hooks/useScreenshot'
 import useSwitch from '@/hooks/useSwitch'
-import useToggleOptions from '@/hooks/useToggleOptions'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import TRANSLATIONS from './index.i18n'
@@ -27,11 +25,6 @@ const Home = () => {
       <DisplayingFullViewMandalaChart wholeGridValues={wholeGridValues} />
     ),
   })
-  const { Component: ToggleOptions, selectedOption: chartViewOption } =
-    useToggleOptions({
-      initOption: MandalaChartView.FULL_VIEW,
-      options: Object.values(MandalaChartView),
-    })
   const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch()
 
   //AI recommendation
@@ -100,7 +93,6 @@ const Home = () => {
           <MandalaChart
             wholeGridValues={wholeGridValues}
             setWholeGridValues={setWholeGridValues}
-            viewOption={chartViewOption as MandalaChartView}
             isAIModeOn={isAIModeOn}
             recommendationItems={recommendationItems}
             onRecommendItemAccepted={onRecommendItemAccepted}
