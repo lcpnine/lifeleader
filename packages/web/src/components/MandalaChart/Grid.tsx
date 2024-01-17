@@ -1,6 +1,6 @@
 import useI18n from '@/hooks/useI18n'
 import TRANSLATIONS from './MandalaChart.i18n'
-import Square from './Square'
+import Square, { SquareType } from './Square'
 
 interface GridProps {
   wholeGridValues: string[][]
@@ -61,6 +61,7 @@ const Grid = ({
         return (
           <Square
             key={squareIndex}
+            type={isAIModeOn ? SquareType.AI : SquareType.MANUAL}
             value={value}
             isGridValid={isGridValid}
             gridIndex={gridIndex}
@@ -68,7 +69,6 @@ const Grid = ({
             placeHolder={placeHolder}
             handleGridValue={handleGridValue}
             handleGridValueOnAIMode={handleGridValueOnAIMode}
-            isAIModeOn={isAIModeOn}
           />
         )
       })}

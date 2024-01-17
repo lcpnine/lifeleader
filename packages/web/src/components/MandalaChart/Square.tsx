@@ -3,34 +3,53 @@ import { useTheme } from '@/contexts/ThemeContext'
 import useModal from '@/hooks/useModal'
 import TextInputModal from '../Modal/TextInput'
 
-interface Props {
+export enum SquareType {
+  DISPLAY = 'DISPLAY',
+  MANUAL = 'MANUAL',
+  AI = 'AI',
+}
+
+export interface DisplaySquareProps {
+  type: SquareType.DISPLAY
+  value: string
+  gridIndex: number
+  squareIndex: number
+  isGridValid: boolean
+}
+
+export interface ManualSquareProps {
+  type: SquareType.MANUAL
   value: string
   gridIndex: number
   squareIndex: number
   isGridValid: boolean
   placeHolder?: string
-  handleGridValue?: (
+  handleGridValue: (
     gridIndex: number,
     squareIndex: number,
     newValue: string
   ) => void
-  handleGridValueOnAIMode?: (gridIndex: number, squareIndex: number) => void
-  isAIModeOn?: boolean
 }
 
-const Square = ({
-  value,
-  gridIndex,
-  squareIndex,
-  isGridValid,
-  placeHolder = '',
-  handleGridValue = () => {},
-  handleGridValueOnAIMode = () => {},
-  isAIModeOn = false,
-}: Props) => {
-  // Text Input Section
+export interface AISquareProps {
+  type: SquareType.AI
+  value: string
+  gridIndex: number
+  squareIndex: number
+  isGridValid: boolean
+  placeHolder?: string
+  handleGridValueOnAIMode: (gridIndex: number, squareIndex: number) => void
+}
+
+export type SquareProps = DisplaySquareProps | ManualSquareProps | AISquareProps
+
+const Square = (props: SquareProps) => {
+  const { type, value, gridIndex, squareIndex, isGridValid } = props
+
+  // ManualSquareProps
   const setSquareValue = (newValue: string) => {
-    handleGridValue(gridIndex, squareIndex, newValue)
+    if (type === SquareType.MANUAL)
+      props.handleGridValue(gridIndex, squareIndex, newValue)
   }
   const {
     openModal: openTextInputModal,
@@ -42,6 +61,14 @@ const Square = ({
       setState: setSquareValue,
     },
   })
+
+  const onClickSquare = () => {
+    if (type === SquareType.AI) {
+      props.handleGridValueOnAIMode(gridIndex, squareIndex)
+    } else {
+      openTextInputModal()
+    }
+  }
 
   const isCenterGrid = gridIndex === 4
   const isCenterSquare = squareIndex === 4
@@ -56,13 +83,10 @@ const Square = ({
       ? themeStyle.centerGridCenterSquareTextColor
       : themeStyle.edgeGridCenterSquareTextColor
 
-  const onClickSquare = () => {
-    if (isAIModeOn) {
-      handleGridValueOnAIMode(gridIndex, squareIndex)
-    } else {
-      openTextInputModal()
-    }
-  }
+  const placeHolder =
+    type === SquareType.MANUAL || type === SquareType.AI
+      ? props.placeHolder
+      : ''
 
   return (
     <div
@@ -78,7 +102,7 @@ const Square = ({
           isMobile ? '20' : '24'
         } text-center ${textColor} ${textBold} p-0 inline-block focus:outline-none
         ${
-          !value && placeHolder
+          !value && placeHolder !== ''
             ? squareIndex === 4
               ? 'text-opacity-75'
               : 'text-opacity-25'

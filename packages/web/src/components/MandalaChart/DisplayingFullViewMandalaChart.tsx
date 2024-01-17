@@ -1,4 +1,4 @@
-import Square from './Square'
+import Square, { SquareType } from './Square'
 
 interface Props {
   wholeGridValues: string[][]
@@ -14,6 +14,7 @@ const DisplayingFullViewMandalaChart = ({ wholeGridValues }: Props) => {
               return (
                 <Square
                   key={suqareIndex}
+                  type={SquareType.DISPLAY}
                   value={value}
                   isGridValid={true}
                   gridIndex={gridIndex}
