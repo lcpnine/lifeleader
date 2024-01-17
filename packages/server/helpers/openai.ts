@@ -4,7 +4,9 @@ import {
   SUB_GOALS_RECOMMENDATION_INSTRUCTION,
 } from './../src/constant/prompot'
 
-const openai = new OpenAI()
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+})
 
 export enum RecommendationInNeed {
   SubGoals = 'sub-goals',
