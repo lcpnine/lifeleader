@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom'
 
 export interface DefaultModalProps {
   openModal: () => void
-  closeModal: (e: React.MouseEvent) => void
+  closeModal: (e: React.MouseEvent | Event | KeyboardEvent) => void
 }
 let i = 0
 interface Props<K> {
@@ -63,10 +63,10 @@ const useModal = <T = {},>({
   useEffect(() => {
     const handleOverlayClick = (e: Event) => {
       const target = e.target as HTMLElement
-      if (target.classList.contains('is_overlay')) closeModal()
+      if (target.classList.contains('is_overlay')) closeModal(e)
     }
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeModal()
+      if (e.key === 'Escape') closeModal(e)
     }
 
     if (isModalOpen) {
