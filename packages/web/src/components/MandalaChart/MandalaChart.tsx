@@ -65,14 +65,33 @@ const MandalaChart = ({
     })
   }
 
-  useEffect(() => {
-    if (isMobile && focusRef.current) {
-      const div = focusRef.current
-      const x = div.scrollWidth / 2
-      const y = div.scrollHeight / 2
-      div.scrollLeft = x - div.offsetWidth / 2
-      div.scrollTop = y - div.clientHeight / 2
+  const scrollMainGoalSquareToCenter = () => {
+    const container = focusRef.current
+    const mainGoalElement = document.getElementsByClassName('main-goal')[0]
+    if (container && mainGoalElement) {
+      const containerRect = container.getBoundingClientRect()
+      const elementRect = mainGoalElement.getBoundingClientRect()
+
+      // Calculating the position to scroll to
+      const scrollLeft =
+        elementRect.left +
+        window.scrollX -
+        containerRect.left -
+        (containerRect.width / 2 - elementRect.width / 2)
+      const scrollTop =
+        elementRect.top +
+        window.scrollY -
+        containerRect.top -
+        (containerRect.height / 2 - elementRect.height / 2)
+
+      // Scrolling the container to center the element
+      container.scrollLeft = scrollLeft
+      container.scrollTop = scrollTop
     }
+  }
+
+  useEffect(() => {
+    scrollMainGoalSquareToCenter()
   }, [])
 
   return (

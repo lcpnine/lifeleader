@@ -108,6 +108,7 @@ const Square = (props: SquareProps) => {
               : 'text-opacity-25'
             : ''
         }
+          ${isCenterGrid && isCenterSquare && 'main-goal'}
         `}
         style={{ whiteSpace: 'pre-wrap' }}
       >
