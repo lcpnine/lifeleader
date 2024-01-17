@@ -1,6 +1,5 @@
 import useI18n from '@/hooks/useI18n'
 import DisplayingSquare from './DisplayingSquare'
-import Square from './Square'
 import TRANSLATIONS from './Square.i18n'
 
 interface GridProps {
@@ -57,7 +56,7 @@ const Grid = ({
           squareIndex
         )
 
-        return isAIModeOn ? (
+        return (
           <DisplayingSquare
             key={squareIndex}
             value={value}
@@ -66,17 +65,11 @@ const Grid = ({
             squareIndex={squareIndex}
             placeHolder={placeHolder}
             // TODO: AI mode에서는 value가 필요없기에 맞게 Props를 수정해야함
-            onClick={() => handleGridValue(gridIndex, squareIndex, value)}
-          />
-        ) : (
-          <Square
-            key={squareIndex}
-            value={value}
-            handleGridValue={handleGridValue}
-            isGridValid={isGridValid}
-            gridIndex={gridIndex}
-            squareIndex={squareIndex}
-            placeHolder={placeHolder}
+            onClick={() =>
+              isAIModeOn
+                ? handleGridValue(gridIndex, squareIndex, value)
+                : () => alert('hallo')
+            }
           />
         )
       })}
