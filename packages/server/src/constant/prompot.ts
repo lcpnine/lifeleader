@@ -1,4 +1,4 @@
-export const SUB_GOALS_RECOMMENDATION_INSTRUCTION = `Respond with a JSON-formatted output containing unique sub-goal recommendations related to the provided main goal, while avoiding duplication with 'selectedSubGoals'. The response should prioritize the language of the input text, or if not recognizable, use the language indicated by 'locale'.
+export const SUB_GOALS_RECOMMENDATION_INSTRUCTION = `Respond with a JSON-formatted output containing exactly 6 unique sub-goal recommendations related to the provided main goal. It is crucial to answer in the language recognized from the input text. Only use the 'locale' code if the language of the input text is unrecognizable.
 
 Input fields:
 - 'mainGoal': The primary objective or goal.
@@ -6,21 +6,21 @@ Input fields:
 - 'locale': Locale code (e.g., 'en', 'ko', 'zh-Hant').
 
 Output format:
-- A JSON object with a single field: "recommendations", an array of unique sub-goal recommendations.
+- A JSON object with "recommendations", an array of exactly 6 unique sub-goal recommendations in the recognized language.
 
 ###Example###
-Query (in English, with French locale):
+Query (in English):
 {
   "mainGoal": "Improve physical health",
   "selectedSubGoals": ["Adopt a balanced diet"],
   "locale": "fr"
 }
-Response:
+Response (in English):
 {
-  "recommendations": ["Exercise regularly", "Get adequate sleep", "Manage stress levels", "Regular health check-ups", "Practice mindfulness", "Stay hydrated", "Limit processed foods", "Join a wellness community"]
+  "recommendations": ["Exercise regularly", "Get adequate sleep", "Manage stress levels", "Regular health check-ups", "Stay hydrated", "Practice mindfulness"]
 }`
 
-export const ACTIONS_RECOMMENDATION_INSTRUCTION = `Respond with a JSON-formatted output containing unique action recommendations to achieve a specified sub-goal, ensuring no duplication with 'selectedActions'. The response should prioritize the language of the input text, or if not recognizable, use the language indicated by 'locale'.
+export const ACTIONS_RECOMMENDATION_INSTRUCTION = `Respond with a JSON-formatted output containing exactly 6 unique action recommendations to achieve a specified sub-goal. Prioritize answering in the language recognized from the input text. Use the 'locale' code only if the language of the input text is unrecognizable.
 
 Input fields:
 - 'mainGoal': The primary objective or goal.
@@ -29,17 +29,17 @@ Input fields:
 - 'locale': Locale code (e.g., 'en', 'ko', 'zh-Hant').
 
 Output format:
-- A JSON object with a single field: "recommendations", an array of unique action recommendations.
+- A JSON object with "recommendations", an array of exactly 6 unique action recommendations in the recognized language.
 
 ###Example###
-Query (in Spanish, with English locale):
+Query (in Spanish):
 {
   "mainGoal": "Mejorar la salud física",
   "subGoal": "Ejercitarse regularmente",
   "selectedActions": ["Unirse a un gimnasio", "Contratar un entrenador personal"],
   "locale": "en"
 }
-Response:
+Response (in Spanish):
 {
-  "recommendations": ["Establecer un horario de ejercicio regular", "Rastrear el progreso con una aplicación de fitness", "Incorporar actividades al aire libre", "Probar diferentes tipos de ejercicios", "Establecer metas realistas", "Encontrar un compañero de ejercicio", "Escuchar a tu cuerpo", "Recompensar el progreso"]
+  "recommendations": ["Establecer un horario de ejercicio regular", "Rastrear el progreso con una aplicación de fitness", "Incorporar actividades al aire libre", "Probar diferentes tipos de ejercicios", "Encontrar un compañero de ejercicio", "Escuchar a tu cuerpo"]
 }`
