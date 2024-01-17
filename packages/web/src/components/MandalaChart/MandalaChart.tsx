@@ -4,7 +4,7 @@ import useI18n from '@/hooks/useI18n'
 import { Dispatch, useEffect, useRef } from 'react'
 import { deepCopy } from '../../../utils/common'
 import { RecommendationItemProps } from '../Recommend/RecommendationItem'
-import FullViewMandalaChart from './FullViewMandalaChart'
+import Grid from './Grid'
 import TRANSLATIONS from './MandalaChart.i18n'
 
 interface Props {
@@ -76,11 +76,17 @@ const MandalaChart = ({
       } overflow-auto`}
       ref={focusRef}
     >
-      <FullViewMandalaChart
-        wholeGridValues={wholeGridValues}
-        handleGridValue={handleGridValue}
-        isAIModeOn={isAIModeOn}
-      />
+      <div className={`grid grid-cols-3 gap-3 w-max`}>
+        {wholeGridValues.map((_, index) => (
+          <Grid
+            key={index}
+            wholeGridValues={wholeGridValues}
+            handleGridValue={handleGridValue}
+            gridIndex={index}
+            isAIModeOn={isAIModeOn}
+          />
+        ))}
+      </div>
     </div>
   )
 }
