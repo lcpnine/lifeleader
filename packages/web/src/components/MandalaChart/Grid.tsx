@@ -1,6 +1,6 @@
 import useI18n from '@/hooks/useI18n'
-import DisplayingSquare from './DisplayingSquare'
 import TRANSLATIONS from './MandalaChart.i18n'
+import Square from './Square'
 
 interface GridProps {
   wholeGridValues: string[][]
@@ -59,7 +59,7 @@ const Grid = ({
         )
 
         return (
-          <DisplayingSquare
+          <Square
             key={squareIndex}
             value={value}
             isGridValid={isGridValid}

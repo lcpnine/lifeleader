@@ -1,4 +1,4 @@
-import DisplayingSquare from './DisplayingSquare'
+import Square from './Square'
 
 interface Props {
   wholeGridValues: string[][]
@@ -12,7 +12,7 @@ const DisplayingFullViewMandalaChart = ({ wholeGridValues }: Props) => {
           <div key={gridIndex} className="grid grid-cols-3 gap-1 w-max">
             {values.map((value, suqareIndex) => {
               return (
-                <DisplayingSquare
+                <Square
                   key={suqareIndex}
                   value={value}
                   isGridValid={true}

@@ -18,7 +18,7 @@ interface Props {
   isAIModeOn?: boolean
 }
 
-const DisplayingSquare = ({
+const Square = ({
   value,
   gridIndex,
   squareIndex,
@@ -94,4 +94,4 @@ const DisplayingSquare = ({
   )
 }
 
-export default DisplayingSquare
+export default Square
