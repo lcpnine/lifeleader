@@ -1,14 +1,31 @@
 import { IS_SSR } from '@/constants/common'
-import { ReactNode, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-interface Props {
-  modal: ReactNode
-  isModalOpen: boolean
-  closeModal: () => void
+interface Props<K> {
+  Modal: (props: K) => JSX.Element
+  modalProps?: K
+  onModalOpen?: () => void
+  onModalClose?: () => void
 }
 
-const useModal = ({ modal, isModalOpen, closeModal }: Props) => {
+const useModal = <T = {},>({
+  Modal,
+  modalProps = {} as T,
+  onModalOpen = () => {},
+  onModalClose = () => {},
+}: Props<T>) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const openModal = () => {
+    onModalOpen()
+    setIsModalOpen(true)
+  }
+  const closeModal = () => {
+    onModalClose()
+    setIsModalOpen(false)
+  }
+
   useEffect(() => {
     const handleScroll = (e: Event) => {
       const target = e.target as HTMLElement
@@ -76,7 +93,8 @@ const useModal = ({ modal, isModalOpen, closeModal }: Props) => {
         isModalOpen && (
           <div className="is_overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div className="is_modal absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 min-w-60">
-              {modal}
+              {/* @ts-ignore */}
+              <Modal {...modalProps} />
             </div>
           </div>
         ),
@@ -85,7 +103,7 @@ const useModal = ({ modal, isModalOpen, closeModal }: Props) => {
     )
   }
 
-  return { ModalComponent }
+  return { openModal, closeModal, ModalComponent }
 }
 
 export default useModal

@@ -1,5 +1,4 @@
 import useModal from '@/hooks/useModal'
-import useModalState from '@/hooks/useModalState'
 import { useState } from 'react'
 import Grid from './Grid'
 
@@ -17,28 +16,19 @@ const SingleViewMandalaChart = ({
   handleGridValue,
 }: Props) => {
   const [activeGrid, setActiveGrid] = useState<number>(4)
+  const onModalClose = () => {
+    setActiveGrid(4)
+  }
 
-  const {
-    isModalOpen: isGridModalOpen,
-    openModal: openGridModal,
-    closeModal: closeGridModal,
-  } = useModalState({
-    onModalClose: () => {
-      setActiveGrid(4)
-    },
-  })
   const { ModalComponent } = useModal({
-    isModalOpen: isGridModalOpen,
-    closeModal: closeGridModal,
-    modal: (
-      <Grid
-        key={'sub' + activeGrid}
-        wholeGridValues={wholeGridValues}
-        handleGridValue={handleGridValue}
-        gridIndex={activeGrid}
-        isAIModeOn={false}
-      />
-    ),
+    Modal: Grid,
+    modalProps: {
+      wholeGridValues,
+      handleGridValue,
+      gridIndex: activeGrid,
+      isAIModeOn: false,
+    },
+    onModalClose,
   })
 
   return (
