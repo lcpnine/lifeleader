@@ -1,10 +1,10 @@
 import useI18n from '@/hooks/useI18n'
+import { DefaultModalProps } from '@/hooks/useModal'
 import TRANSLATIONS from './Alert.i18n'
 
-interface Props {
+type Props = {
   text: string
-  closeModal: () => void
-}
+} & DefaultModalProps
 
 const Alert = ({ text, closeModal }: Props) => {
   const { getTranslation } = useI18n()
