@@ -11,16 +11,14 @@ type TRANSLATIONS = {
 
 const useI18n = () => {
   const router = useRouter()
+  const currentLanguage = router.locale as SUPPORTING_LANGUAGES
 
   const changeLanguage = (locale: SUPPORTING_LANGUAGES) => {
     router.push(router.pathname, router.pathname, { locale })
   }
 
   const getTranslation = (translations: TRANSLATIONS) => {
-    const translation =
-      translations[
-        (router.locale as SUPPORTING_LANGUAGES) || SUPPORTING_LANGUAGES.en
-      ]
+    const translation = translations[currentLanguage || SUPPORTING_LANGUAGES.en]
 
     return (key: string) => {
       if (translation) {
@@ -31,7 +29,7 @@ const useI18n = () => {
     }
   }
 
-  return { changeLanguage, getTranslation }
+  return { currentLanguage, changeLanguage, getTranslation }
 }
 
 export default useI18n
