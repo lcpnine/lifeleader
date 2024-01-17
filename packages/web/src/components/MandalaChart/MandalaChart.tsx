@@ -5,7 +5,7 @@ import { Dispatch, useEffect, useRef } from 'react'
 import { deepCopy } from '../../../utils/common'
 import { RecommendationItemProps } from '../Recommend/RecommendationItem'
 import FullViewMandalaChart from './FullViewMandalaChart'
-import TRANSLATIONS from './Square.i18n'
+import TRANSLATIONS from './MandalaChart.i18n'
 
 interface Props {
   wholeGridValues: string[][]

@@ -1,6 +1,6 @@
 import useI18n from '@/hooks/useI18n'
 import DisplayingSquare from './DisplayingSquare'
-import TRANSLATIONS from './Square.i18n'
+import TRANSLATIONS from './MandalaChart.i18n'
 
 interface GridProps {
   wholeGridValues: string[][]
