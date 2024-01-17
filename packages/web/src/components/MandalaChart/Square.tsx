@@ -9,7 +9,6 @@ interface Props {
     squareIndex: number,
     newValue: string
   ) => void
-  handleDoubleClick?: () => void
   isGridValid: boolean
   gridIndex: number
   squareIndex: number
@@ -19,7 +18,6 @@ interface Props {
 const Square = ({
   value,
   handleGridValue,
-  handleDoubleClick = () => {},
   isGridValid,
   gridIndex,
   squareIndex,
@@ -82,7 +80,6 @@ const Square = ({
             ref={ref}
             onChange={handleTextAreaChange}
             onBlur={onBlurTextArea}
-            onDoubleClick={handleDoubleClick}
             disabled={!isGridValid || (!isCenterGrid && isCenterSquare)}
             className={`w-full h-full text-center ${textColor} ${textBold} 
           ${themeStyle.backgroundColor} p-0 cursor-text resize-none

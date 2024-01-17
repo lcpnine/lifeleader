@@ -10,7 +10,6 @@ interface GridProps {
     squareIndex: number,
     newValue: string
   ) => void
-  getHandleDoubleClick?: (squareIndex: number) => () => void
   gridIndex: number
   isAIModeOn: boolean
 }
@@ -18,7 +17,6 @@ interface GridProps {
 const Grid = ({
   wholeGridValues,
   handleGridValue,
-  getHandleDoubleClick,
   gridIndex,
   isAIModeOn,
 }: GridProps) => {
@@ -51,8 +49,6 @@ const Grid = ({
     <div className={`grid grid-cols-3 gap-1 w-max`}>
       {values.map((value, squareIndex) => {
         const isCenterSquare = squareIndex === 4
-        const handleDoubleClick =
-          getHandleDoubleClick && getHandleDoubleClick(squareIndex)
 
         const placeHolder = getSquarePlaceHolder(
           isCenterGrid,
@@ -77,7 +73,6 @@ const Grid = ({
             key={squareIndex}
             value={value}
             handleGridValue={handleGridValue}
-            handleDoubleClick={handleDoubleClick}
             isGridValid={isGridValid}
             gridIndex={gridIndex}
             squareIndex={squareIndex}
