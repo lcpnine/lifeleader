@@ -16,9 +16,11 @@ const useModal = <T = {},>({
   onModalClose = () => {},
 }: Props<T>) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [currentModalProps, setCurrentModalProps] = useState<T>(modalProps)
 
-  const openModal = () => {
+  const openModal = (newModalProps?: T) => {
     onModalOpen()
+    if (newModalProps) setCurrentModalProps(newModalProps)
     setIsModalOpen(true)
   }
   const closeModal = () => {
@@ -94,7 +96,11 @@ const useModal = <T = {},>({
           <div className="is_overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div className="is_modal absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 min-w-60">
               {/* @ts-ignore */}
-              <Modal {...modalProps} />
+              <Modal
+                {...currentModalProps}
+                openModal={openModal}
+                closeModal={closeModal}
+              />
             </div>
           </div>
         ),
