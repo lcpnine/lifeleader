@@ -1,9 +1,6 @@
 import { MandalaTheme } from '@/constants/mandalaChart'
-import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import useI18n from '@/hooks/useI18n'
-import Flicking from '@egjs/react-flicking'
-import '@egjs/react-flicking/dist/flicking.css'
 import TRANSLATIONS from './MandalaThemeSelector.i18n'
 
 const themeIcons = {
@@ -22,36 +19,30 @@ const themeIcons = {
 const MandalaThemeSelector = () => {
   const { theme, setTheme } = useTheme()
   const { getTranslation } = useI18n()
-  const { isMobile } = useEntryContext()
   const trasnlate = getTranslation(TRANSLATIONS)
   const mandalaThemes = Object.values(MandalaTheme)
+  const options = mandalaThemes.map(mandalaTheme => ({
+    value: mandalaTheme,
+    label: `${themeIcons[mandalaTheme as MandalaTheme]}  ${mandalaTheme}`,
+  }))
 
   return (
-    <div className="relative flex flex-col items-center justify-center whitespace-nowrap h-max">
-      <p className="mb-4 font-semibold">{trasnlate('description')}</p>
-      <Flicking
-        align="prev"
-        bound={false}
-        className={`${isMobile ? 'max-w-64' : 'max-w-[32rem]'}`}
-        cameraClass="space-x-4"
+    <div className="relative flex flex-col items-center justify-center h-max">
+      <label htmlFor="theme" className="mb-4 font-semibold text-gray-700">
+        {trasnlate('description')}
+      </label>
+      <select
+        name="theme"
+        className="w-48 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        value={theme}
+        onChange={e => setTheme(e.target.value as MandalaTheme)}
       >
-        {mandalaThemes.map(themeName => {
-          const isSelected = themeName === theme
-          return (
-            <button
-              key={themeName + isSelected}
-              onClick={() => setTheme(themeName)}
-              className={`flex items-center justify-center z-0 px-4 py-2 border rounded transition duration-300 ${
-                isSelected ? 'bg-blue-500 text-white' : 'bg-stone-200'
-              }`}
-              title={themeName}
-              aria-selected={isSelected}
-            >
-              {themeIcons[themeName]} <span className="ml-2">{themeName}</span>
-            </button>
-          )
-        })}
-      </Flicking>
+        {options.map(({ value, label }) => (
+          <option key={value} value={value} className="text-gray-700">
+            {label}
+          </option>
+        ))}
+      </select>
     </div>
   )
 }
