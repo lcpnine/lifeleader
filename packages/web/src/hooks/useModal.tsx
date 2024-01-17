@@ -2,8 +2,13 @@ import { IS_SSR } from '@/constants/common'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
+export interface DefaultModalProps {
+  openModal: () => void
+  closeModal: (e: React.MouseEvent) => void
+}
+let i = 0
 interface Props<K> {
-  Modal: (props: K) => JSX.Element
+  Modal: (props: K & DefaultModalProps) => JSX.Element
   modalProps?: K
   onModalOpen?: () => void
   onModalClose?: () => void
@@ -23,7 +28,8 @@ const useModal = <T = {},>({
     if (newModalProps) setCurrentModalProps(newModalProps)
     setIsModalOpen(true)
   }
-  const closeModal = () => {
+  const closeModal = (e: React.MouseEvent) => {
+    e.stopPropagation()
     onModalClose()
     setIsModalOpen(false)
   }
