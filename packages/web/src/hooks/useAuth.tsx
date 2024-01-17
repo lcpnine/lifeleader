@@ -30,6 +30,7 @@ const useAuth = () => {
   const handleSignOut = async () => {
     await axios.get('/auth/sign-out')
     setUser(DEFAULT_USER)
+    window.location.reload()
   }
 
   return {
