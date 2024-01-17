@@ -32,12 +32,14 @@ const getBrowserUserAgent = () => {
 
 interface EntryContext {
   isMobile: boolean
+  isSafari: boolean
   hash: string
   referrer?: string
 }
 
 const DefaultEntryContext: EntryContext = {
   isMobile: false,
+  isSafari: false,
   hash: '',
   referrer: undefined,
 }
@@ -58,10 +60,11 @@ export const EntryProvider = ({ serverProps, children }: Props) => {
   const referrer = serverReferrer || browserReferrer
   const userAgent = (serverUserAgent || browserUserAgent) as string
 
-  const { isMobile } = getSelectorsByUserAgent(userAgent)
+  const { isMobile, isSafari } = getSelectorsByUserAgent(userAgent)
 
   const value = {
     isMobile,
+    isSafari,
     hash,
     referrer,
   }
