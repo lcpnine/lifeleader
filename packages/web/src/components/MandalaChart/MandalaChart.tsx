@@ -31,32 +31,34 @@ const MandalaChart = ({
   const selectedAIRecommendationItem = recommendationItems.find(
     item => item.isClicked
   )
+
   const handleGridValue = (
     gridIndex: number,
     squareIndex: number,
     newValue: string
   ) => {
-    const newGridValues = deepCopy(wholeGridValues)
-    if (isAIModeOn) {
-      if (gridIndex === 4 && squareIndex === 4) {
-        openAlert(translation('cannotRecommendMainGoal'))
-      } else {
-        newGridValues[gridIndex][squareIndex] =
-          selectedAIRecommendationItem?.text
-        if (gridIndex === 4 && squareIndex !== 4) {
-          newGridValues[squareIndex][gridIndex] =
+    setWholeGridValues(prevGridValue => {
+      const newGridValues = deepCopy(prevGridValue)
+      if (isAIModeOn) {
+        if (gridIndex === 4 && squareIndex === 4) {
+          openAlert(translation('cannotRecommendMainGoal'))
+        } else {
+          newGridValues[gridIndex][squareIndex] =
             selectedAIRecommendationItem?.text
+          if (gridIndex === 4 && squareIndex !== 4) {
+            newGridValues[squareIndex][gridIndex] =
+              selectedAIRecommendationItem?.text
+          }
+          onRecommendItemAccepted()
         }
-        onRecommendItemAccepted()
+      } else {
+        newGridValues[gridIndex][squareIndex] = newValue
+        if (gridIndex === 4 && squareIndex !== 4) {
+          newGridValues[squareIndex][gridIndex] = newValue
+        }
       }
-    } else {
-      newGridValues[gridIndex][squareIndex] = newValue
-      if (gridIndex === 4 && squareIndex !== 4) {
-        newGridValues[squareIndex][gridIndex] = newValue
-      }
-    }
-
-    setWholeGridValues(newGridValues)
+      return newGridValues
+    })
   }
 
   useEffect(() => {
