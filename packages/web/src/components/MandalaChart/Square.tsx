@@ -41,7 +41,6 @@ const Square = ({
   > = e => {
     handleGridValue(gridIndex, squareIndex, e.target.value)
   }
-  // change to DisplayingSquare when it is clicked
   const [isClicked, setIsClicked] = useState(false)
 
   const onBlurTextArea: React.FocusEventHandler<HTMLTextAreaElement> = e => {
@@ -61,60 +60,62 @@ const Square = ({
     }
   }, [isClicked])
 
+  const InputBlock = () => (
+    <div
+      className={`${isMobile ? 'size-20' : 'size-24'} border ${
+        themeStyle.borderColor
+      } flex items-center justify-center overflow-hidden ${
+        isGridValid ? '' : 'pointer-events-none'
+      } ${
+        isGridValid && !isCenterGrid && isCenterSquare
+          ? 'pointer-events-none'
+          : ''
+      }`}
+    >
+      <textarea
+        value={value}
+        ref={ref}
+        onChange={handleTextAreaChange}
+        onBlur={onBlurTextArea}
+        disabled={!isGridValid || (!isCenterGrid && isCenterSquare)}
+        className={`w-full h-full text-center ${textColor} ${textBold} 
+    ${themeStyle.backgroundColor} p-0 cursor-text resize-none
+    overflow-auto focus:outline-none ${isGridValid ? '' : 'bg-opacity-25'}`}
+        style={{ whiteSpace: 'pre-wrap' }}
+      />
+    </div>
+  )
+
+  const DisplayingBlock = () => (
+    <div
+      className={`${isMobile ? 'size-20' : 'size-24'} border ${
+        themeStyle.borderColor
+      } flex items-center justify-center overflow-hidden ${
+        themeStyle.backgroundColor
+      } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
+    >
+      <span
+        className={`w-full max-h-${
+          isMobile ? '20' : '24'
+        } text-center ${textColor} ${textBold} p-0 inline-block focus:outline-none
+        ${
+          !value && placeHolder
+            ? squareIndex === 4
+              ? 'text-opacity-75'
+              : 'text-opacity-25'
+            : ''
+        }
+        `}
+        style={{ whiteSpace: 'pre-wrap' }}
+      >
+        {value ? value : placeHolder}
+      </span>
+    </div>
+  )
+
   return (
     <div onClick={handleClick}>
-      {isClicked ? (
-        <div
-          className={`${isMobile ? 'size-20' : 'size-24'} border ${
-            themeStyle.borderColor
-          } flex items-center justify-center overflow-hidden ${
-            isGridValid ? '' : 'pointer-events-none'
-          } ${
-            isGridValid && !isCenterGrid && isCenterSquare
-              ? 'pointer-events-none'
-              : ''
-          }`}
-        >
-          <textarea
-            value={value}
-            ref={ref}
-            onChange={handleTextAreaChange}
-            onBlur={onBlurTextArea}
-            disabled={!isGridValid || (!isCenterGrid && isCenterSquare)}
-            className={`w-full h-full text-center ${textColor} ${textBold} 
-          ${themeStyle.backgroundColor} p-0 cursor-text resize-none
-          overflow-auto focus:outline-none ${
-            isGridValid ? '' : 'bg-opacity-25'
-          }`}
-            style={{ whiteSpace: 'pre-wrap' }}
-          />
-        </div>
-      ) : (
-        <div
-          className={`${isMobile ? 'size-20' : 'size-24'} border ${
-            themeStyle.borderColor
-          } flex items-center justify-center overflow-hidden ${
-            themeStyle.backgroundColor
-          } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
-        >
-          <span
-            className={`w-full max-h-${
-              isMobile ? '20' : '24'
-            } text-center ${textColor} ${textBold} p-0 inline-block focus:outline-none
-            ${
-              !value && placeHolder
-                ? squareIndex === 4
-                  ? 'text-opacity-75'
-                  : 'text-opacity-25'
-                : ''
-            }
-            `}
-            style={{ whiteSpace: 'pre-wrap' }}
-          >
-            {value ? value : placeHolder}
-          </span>
-        </div>
-      )}
+      {isClicked ? <InputBlock /> : <DisplayingBlock />}
     </div>
   )
 }
