@@ -7,7 +7,7 @@ import {
 const router = express.Router()
 
 router.post('/sub-goals', async (req: Request, res: Response) => {
-  const { mainGoal, selectedSubGoals = [] } = req.body
+  const { mainGoal, selectedSubGoals = [], currentLanguage = 'en' } = req.body
   if (!mainGoal) {
     res.status(200).json({
       message: 'Main goal is required',
@@ -21,6 +21,7 @@ router.post('/sub-goals', async (req: Request, res: Response) => {
     params: {
       mainGoal,
       selectedSubGoals,
+      currentLanguage,
     },
   })
 

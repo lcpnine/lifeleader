@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react'
 import TRANSLATIONS from './index.i18n'
 
 const Home = () => {
-  const { getTranslation } = useI18n()
+  const { currentLanguage, getTranslation } = useI18n()
   const { user } = useUserContext()
   const translation = getTranslation(TRANSLATIONS)
   const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
@@ -41,6 +41,7 @@ const Home = () => {
     body: {
       mainGoal,
       subGoals,
+      language: currentLanguage,
     },
     skip: !(isAIModeOn && mainGoal),
   })

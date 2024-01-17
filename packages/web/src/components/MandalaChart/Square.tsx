@@ -1,30 +1,76 @@
 import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
-import { useEffect, useRef, useState } from 'react'
+import useModal from '@/hooks/useModal'
+import TextInputModal from '../Modal/TextInput'
 
-interface Props {
+export enum SquareType {
+  DISPLAY = 'DISPLAY',
+  MANUAL = 'MANUAL',
+  AI = 'AI',
+}
+
+export interface DisplaySquareProps {
+  type: SquareType.DISPLAY
   value: string
+  gridIndex: number
+  squareIndex: number
+  isGridValid: boolean
+}
+
+export interface ManualSquareProps {
+  type: SquareType.MANUAL
+  value: string
+  gridIndex: number
+  squareIndex: number
+  isGridValid: boolean
+  placeHolder?: string
   handleGridValue: (
     gridIndex: number,
     squareIndex: number,
     newValue: string
   ) => void
-  handleDoubleClick?: () => void
-  isGridValid: boolean
-  gridIndex: number
-  squareIndex: number
-  placeHolder: string
 }
 
-const Square = ({
-  value,
-  handleGridValue,
-  handleDoubleClick = () => {},
-  isGridValid,
-  gridIndex,
-  squareIndex,
-  placeHolder,
-}: Props) => {
+export interface AISquareProps {
+  type: SquareType.AI
+  value: string
+  gridIndex: number
+  squareIndex: number
+  isGridValid: boolean
+  placeHolder?: string
+  handleGridValueOnAIMode: (gridIndex: number, squareIndex: number) => void
+}
+
+export type SquareProps = DisplaySquareProps | ManualSquareProps | AISquareProps
+
+const Square = (props: SquareProps) => {
+  const { type, value, gridIndex, squareIndex, isGridValid } = props
+
+  // ManualSquareProps
+  const setSquareValue = (newValue: string) => {
+    if (type === SquareType.MANUAL)
+      props.handleGridValue(gridIndex, squareIndex, newValue)
+  }
+  const {
+    openModal: openTextInputModal,
+    ModalComponent: TextInputModalComponent,
+  } = useModal({
+    Modal: TextInputModal,
+    modalProps: {
+      state: value,
+      setState: setSquareValue,
+    },
+  })
+
+  const onClickSquare = () => {
+    if (type === SquareType.AI) {
+      props.handleGridValueOnAIMode(gridIndex, squareIndex)
+    } else {
+      // TODO: useModal에 들어가는 modalProps가 변경이 되지 않아 open시에 넣어주는 방식으로 우선 적용
+      openTextInputModal({ state: value })
+    }
+  }
+
   const isCenterGrid = gridIndex === 4
   const isCenterSquare = squareIndex === 4
   const { themeStyle } = useTheme()
@@ -38,86 +84,38 @@ const Square = ({
       ? themeStyle.centerGridCenterSquareTextColor
       : themeStyle.edgeGridCenterSquareTextColor
 
-  const handleTextAreaChange: React.ChangeEventHandler<
-    HTMLTextAreaElement
-  > = e => {
-    handleGridValue(gridIndex, squareIndex, e.target.value)
-  }
-  // change to DisplayingSquare when it is clicked
-  const [isClicked, setIsClicked] = useState(false)
-
-  const onBlurTextArea: React.FocusEventHandler<HTMLTextAreaElement> = e => {
-    handleGridValue(gridIndex, squareIndex, e.target.value.trim())
-    setIsClicked(false)
-  }
-
-  const handleClick = () => {
-    setIsClicked(true)
-  }
-
-  const ref = useRef<HTMLTextAreaElement>(null)
-  useEffect(() => {
-    if (isClicked) {
-      const textarea = ref.current as HTMLTextAreaElement
-      textarea.focus()
-    }
-  }, [isClicked])
+  const placeHolder =
+    type === SquareType.MANUAL || type === SquareType.AI
+      ? props.placeHolder
+      : ''
 
   return (
-    <div onClick={handleClick}>
-      {isClicked ? (
-        <div
-          className={`${isMobile ? 'size-20' : 'size-24'} border ${
-            themeStyle.borderColor
-          } flex items-center justify-center overflow-hidden ${
-            isGridValid ? '' : 'pointer-events-none'
-          } ${
-            isGridValid && !isCenterGrid && isCenterSquare
-              ? 'pointer-events-none'
-              : ''
-          }`}
-        >
-          <textarea
-            value={value}
-            ref={ref}
-            onChange={handleTextAreaChange}
-            onBlur={onBlurTextArea}
-            onDoubleClick={handleDoubleClick}
-            disabled={!isGridValid || (!isCenterGrid && isCenterSquare)}
-            className={`w-full h-full text-center ${textColor} ${textBold} 
-          ${themeStyle.backgroundColor} p-0 cursor-text resize-none
-          overflow-auto focus:outline-none ${
-            isGridValid ? '' : 'bg-opacity-25'
-          }`}
-            style={{ whiteSpace: 'pre-wrap' }}
-          />
-        </div>
-      ) : (
-        <div
-          className={`${isMobile ? 'size-20' : 'size-24'} border ${
-            themeStyle.borderColor
-          } flex items-center justify-center overflow-hidden ${
-            themeStyle.backgroundColor
-          } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
-        >
-          <span
-            className={`w-full max-h-${
-              isMobile ? '20' : '24'
-            } text-center ${textColor} ${textBold} p-0 inline-block focus:outline-none
-            ${
-              !value && placeHolder
-                ? squareIndex === 4
-                  ? 'text-opacity-75'
-                  : 'text-opacity-25'
-                : ''
-            }
-            `}
-            style={{ whiteSpace: 'pre-wrap' }}
-          >
-            {value ? value : placeHolder}
-          </span>
-        </div>
-      )}
+    <div
+      className={`${isMobile ? 'size-20' : 'size-24'} border ${
+        themeStyle.borderColor
+      } flex items-center justify-center overflow-hidden ${
+        themeStyle.backgroundColor
+      } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
+      onClick={() => onClickSquare()}
+    >
+      <span
+        className={`w-full max-h-${
+          isMobile ? '20' : '24'
+        } text-center ${textColor} ${textBold} p-0 inline-block focus:outline-none
+        ${
+          !value && placeHolder !== ''
+            ? squareIndex === 4
+              ? 'text-opacity-75'
+              : 'text-opacity-25'
+            : ''
+        }
+          ${isCenterGrid && isCenterSquare && 'main-goal'}
+        `}
+        style={{ whiteSpace: 'pre-wrap' }}
+      >
+        {value ? value : placeHolder}
+      </span>
+      {TextInputModalComponent && <TextInputModalComponent key={value} />}
     </div>
   )
 }

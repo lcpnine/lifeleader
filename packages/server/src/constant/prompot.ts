@@ -1,29 +1,45 @@
-export const MANDALA_RECOMMENDATION_INSTRUCTION = `Respond to two types of queries with a JSON-formatted output containing new, unique recommendations. The response should be a JSON object with two fields: "type" (indicating either "sub_goals" or "actions") and "recommendations" (an array of 12 unique recommendations). Ensure no duplication with already mentioned sub-goals or actions.
+export const SUB_GOALS_RECOMMENDATION_INSTRUCTION = `Respond with a JSON-formatted output containing exactly 6 unique sub-goal recommendations related to the provided main goal. It is crucial to answer in the language recognized from the input text. Only use the 'locale' code if the language of the input text is unrecognizable.
 
-1. For main goals:
-   - Input will include 'mainGoal' and 'selectedSubGoals'.
-   - Provide additional sub-goals to achieve the main goal, avoiding those listed in 'selectedSubGoals'.
+Input fields:
+- 'mainGoal': The primary objective or goal.
+- 'selectedSubGoals': A list of already chosen sub-goals.
+- 'locale': Locale code (e.g., 'en', 'ko', 'zh-Hant').
 
-2. For sub-goals:
-   - Input will include 'mainGoal', 'subGoal', and 'selectedActions'.
-   - Recommend additional actions to accomplish the sub-goal, ensuring they are not in 'selectedActions'.
+Output format:
+- A JSON object with "recommendations", an array of exactly 6 unique sub-goal recommendations in the recognized language.
 
 ###Example###
-1. Query: 
-   Main goal: "Improve physical health"
-   Selected sub-goals: ["Adopt a balanced diet"]
-Response: 
+Query (in English):
 {
-  "type": "sub_goals",
-  "recommendations": ["Exercise regularly", "Get adequate sleep", "Manage stress levels", "Regular health check-ups", "Practice mindfulness", "Stay hydrated", "Limit processed foods", "Join a wellness community"]
+  "mainGoal": "Improve physical health",
+  "selectedSubGoals": ["Adopt a balanced diet"],
+  "locale": "fr"
 }
-
-2. Query: 
-   Main goal: "Improve physical health"
-   Sub goal: "Exercise regularly"
-   Selected actions: ["Join a gym", "Hire a personal trainer"]
-Response: 
+Response (in English):
 {
-  "type": "actions",
-  "recommendations": ["Set a regular exercise schedule", "Track progress with a fitness app", "Incorporate outdoor activities", "Try different types of exercises", "Set realistic goals", "Find an exercise buddy", "Listen to your body", "Reward progress"]
+  "recommendations": ["Exercise regularly", "Get adequate sleep", "Manage stress levels", "Regular health check-ups", "Stay hydrated", "Practice mindfulness"]
+}`
+
+export const ACTIONS_RECOMMENDATION_INSTRUCTION = `Respond with a JSON-formatted output containing exactly 6 unique action recommendations to achieve a specified sub-goal. Prioritize answering in the language recognized from the input text. Use the 'locale' code only if the language of the input text is unrecognizable.
+
+Input fields:
+- 'mainGoal': The primary objective or goal.
+- 'subGoal': The specific sub-goal to be achieved.
+- 'selectedActions': A list of already chosen actions.
+- 'locale': Locale code (e.g., 'en', 'ko', 'zh-Hant').
+
+Output format:
+- A JSON object with "recommendations", an array of exactly 6 unique action recommendations in the recognized language.
+
+###Example###
+Query (in Spanish):
+{
+  "mainGoal": "Mejorar la salud física",
+  "subGoal": "Ejercitarse regularmente",
+  "selectedActions": ["Unirse a un gimnasio", "Contratar un entrenador personal"],
+  "locale": "en"
+}
+Response (in Spanish):
+{
+  "recommendations": ["Establecer un horario de ejercicio regular", "Rastrear el progreso con una aplicación de fitness", "Incorporar actividades al aire libre", "Probar diferentes tipos de ejercicios", "Encontrar un compañero de ejercicio", "Escuchar a tu cuerpo"]
 }`

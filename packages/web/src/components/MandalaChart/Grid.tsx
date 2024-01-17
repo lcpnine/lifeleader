@@ -1,7 +1,6 @@
 import useI18n from '@/hooks/useI18n'
-import DisplayingSquare from './DisplayingSquare'
-import Square from './Square'
-import TRANSLATIONS from './Square.i18n'
+import TRANSLATIONS from './MandalaChart.i18n'
+import Square, { SquareType } from './Square'
 
 interface GridProps {
   wholeGridValues: string[][]
@@ -10,7 +9,7 @@ interface GridProps {
     squareIndex: number,
     newValue: string
   ) => void
-  getHandleDoubleClick?: (squareIndex: number) => () => void
+  handleGridValueOnAIMode: (gridIndex: number, squareIndex: number) => void
   gridIndex: number
   isAIModeOn: boolean
 }
@@ -18,8 +17,8 @@ interface GridProps {
 const Grid = ({
   wholeGridValues,
   handleGridValue,
-  getHandleDoubleClick,
   gridIndex,
+  handleGridValueOnAIMode,
   isAIModeOn,
 }: GridProps) => {
   const isGridValid =
@@ -51,8 +50,6 @@ const Grid = ({
     <div className={`grid grid-cols-3 gap-1 w-max`}>
       {values.map((value, squareIndex) => {
         const isCenterSquare = squareIndex === 4
-        const handleDoubleClick =
-          getHandleDoubleClick && getHandleDoubleClick(squareIndex)
 
         const placeHolder = getSquarePlaceHolder(
           isCenterGrid,
@@ -61,27 +58,17 @@ const Grid = ({
           squareIndex
         )
 
-        return isAIModeOn ? (
-          <DisplayingSquare
-            key={squareIndex}
-            value={value}
-            isGridValid={isGridValid}
-            gridIndex={gridIndex}
-            squareIndex={squareIndex}
-            placeHolder={placeHolder}
-            // TODO: AI mode에서는 value가 필요없기에 맞게 Props를 수정해야함
-            onClick={() => handleGridValue(gridIndex, squareIndex, value)}
-          />
-        ) : (
+        return (
           <Square
             key={squareIndex}
+            type={isAIModeOn ? SquareType.AI : SquareType.MANUAL}
             value={value}
-            handleGridValue={handleGridValue}
-            handleDoubleClick={handleDoubleClick}
             isGridValid={isGridValid}
             gridIndex={gridIndex}
             squareIndex={squareIndex}
             placeHolder={placeHolder}
+            handleGridValue={handleGridValue}
+            handleGridValueOnAIMode={handleGridValueOnAIMode}
           />
         )
       })}

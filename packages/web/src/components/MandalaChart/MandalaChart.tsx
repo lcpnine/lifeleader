@@ -4,8 +4,8 @@ import useI18n from '@/hooks/useI18n'
 import { Dispatch, useEffect, useRef } from 'react'
 import { deepCopy } from '../../../utils/common'
 import { RecommendationItemProps } from '../Recommend/RecommendationItem'
-import FullViewMandalaChart from './FullViewMandalaChart'
-import TRANSLATIONS from './Square.i18n'
+import Grid from './Grid'
+import TRANSLATIONS from './MandalaChart.i18n'
 
 interface Props {
   wholeGridValues: string[][]
@@ -28,16 +28,28 @@ const MandalaChart = ({
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
 
-  const selectedAIRecommendationItem = recommendationItems.find(
-    item => item.isClicked
-  )
   const handleGridValue = (
     gridIndex: number,
     squareIndex: number,
     newValue: string
   ) => {
-    const newGridValues = deepCopy(wholeGridValues)
-    if (isAIModeOn) {
+    setWholeGridValues(prevGridValue => {
+      const newGridValues = deepCopy(prevGridValue)
+      newGridValues[gridIndex][squareIndex] = newValue
+      if (gridIndex === 4 && squareIndex !== 4) {
+        newGridValues[squareIndex][gridIndex] = newValue
+      }
+      return newGridValues
+    })
+  }
+
+  const handleGridValueOnAIMode = (gridIndex: number, squareIndex: number) => {
+    const selectedAIRecommendationItem = recommendationItems.find(
+      item => item.isClicked
+    )
+
+    setWholeGridValues(prevGridValue => {
+      const newGridValues = deepCopy(prevGridValue)
       if (gridIndex === 4 && squareIndex === 4) {
         openAlert(translation('cannotRecommendMainGoal'))
       } else {
@@ -49,24 +61,37 @@ const MandalaChart = ({
         }
         onRecommendItemAccepted()
       }
-    } else {
-      newGridValues[gridIndex][squareIndex] = newValue
-      if (gridIndex === 4 && squareIndex !== 4) {
-        newGridValues[squareIndex][gridIndex] = newValue
-      }
-    }
+      return newGridValues
+    })
+  }
 
-    setWholeGridValues(newGridValues)
+  const scrollMainGoalSquareToCenter = () => {
+    const container = focusRef.current
+    const mainGoalElement = document.getElementsByClassName('main-goal')[0]
+    if (container && mainGoalElement) {
+      const containerRect = container.getBoundingClientRect()
+      const elementRect = mainGoalElement.getBoundingClientRect()
+
+      // Calculating the position to scroll to
+      const scrollLeft =
+        elementRect.left +
+        window.scrollX -
+        containerRect.left -
+        (containerRect.width / 2 - elementRect.width / 2)
+      const scrollTop =
+        elementRect.top +
+        window.scrollY -
+        containerRect.top -
+        (containerRect.height / 2 - elementRect.height / 2)
+
+      // Scrolling the container to center the element
+      container.scrollLeft = scrollLeft
+      container.scrollTop = scrollTop
+    }
   }
 
   useEffect(() => {
-    if (isMobile && focusRef.current) {
-      const div = focusRef.current
-      const x = div.scrollWidth / 2
-      const y = div.scrollHeight / 2
-      div.scrollLeft = x - div.offsetWidth / 2
-      div.scrollTop = y - div.clientHeight / 2
-    }
+    scrollMainGoalSquareToCenter()
   }, [])
 
   return (
@@ -76,11 +101,18 @@ const MandalaChart = ({
       } overflow-auto`}
       ref={focusRef}
     >
-      <FullViewMandalaChart
-        wholeGridValues={wholeGridValues}
-        handleGridValue={handleGridValue}
-        isAIModeOn={isAIModeOn}
-      />
+      <div className={`grid grid-cols-3 gap-3 w-max`}>
+        {wholeGridValues.map((_, index) => (
+          <Grid
+            key={index}
+            wholeGridValues={wholeGridValues}
+            handleGridValue={handleGridValue}
+            handleGridValueOnAIMode={handleGridValueOnAIMode}
+            gridIndex={index}
+            isAIModeOn={isAIModeOn}
+          />
+        ))}
+      </div>
     </div>
   )
 }

@@ -1,5 +1,8 @@
 import OpenAI from 'openai'
-import { MANDALA_RECOMMENDATION_INSTRUCTION } from './../src/constant/prompot'
+import {
+  ACTIONS_RECOMMENDATION_INSTRUCTION,
+  SUB_GOALS_RECOMMENDATION_INSTRUCTION,
+} from './../src/constant/prompot'
 
 const openai = new OpenAI()
 
@@ -11,12 +14,14 @@ export enum RecommendationInNeed {
 export interface SubGoalsRecommendationParams {
   mainGoal: string
   selectedSubGoals: string[]
+  currentLanguage: string
 }
 
 export interface ActionsRecommendationParams {
   mainGoal: string
   subGoal: string[]
   selectedActions: string[]
+  currentLanguage: string
 }
 
 type Props =
@@ -33,6 +38,8 @@ type Props =
 export interface JSONResponse {
   type: RecommendationInNeed
   recommendations: string[]
+  // web의 SUPPORTING_LANGUAGES 참고 / 현재 en, ko, zh-Hant
+  currentLanguage?: string
 }
 
 export const getRecommendations = async (
@@ -44,24 +51,28 @@ export const getRecommendations = async (
     switch (recommendationInNeed) {
       case RecommendationInNeed.SubGoals:
         return [
-          { role: 'system', content: MANDALA_RECOMMENDATION_INSTRUCTION },
+          { role: 'system', content: SUB_GOALS_RECOMMENDATION_INSTRUCTION },
           {
             role: 'user',
-            content: `Main Goal: ${
+            content: `mainGoal: ${
               params.mainGoal
-            }, Sub Goals: ${params.selectedSubGoals.join(', ')}`,
+            }, selectedSubGoals: ${params.selectedSubGoals.join(
+              ', '
+            )}, locale: ${params.currentLanguage}`,
           },
         ]
       case RecommendationInNeed.Actions:
         return [
-          { role: 'system', content: MANDALA_RECOMMENDATION_INSTRUCTION },
+          { role: 'system', content: ACTIONS_RECOMMENDATION_INSTRUCTION },
           {
             role: 'user',
-            content: `Main Goal: ${
+            content: `mainGoal: ${
               params.mainGoal
-            }, Sub Goals: ${params.subGoal.join(
+            }, subGoal: ${params.subGoal.join(
               ', '
-            )}, Actions: ${params.selectedActions.join(', ')}`,
+            )}, selectedActions: ${params.selectedActions.join(
+              ', '
+            )}, Locale: ${params.currentLanguage}`,
           },
         ]
       default:
