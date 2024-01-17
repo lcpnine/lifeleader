@@ -23,9 +23,11 @@ const useModal = <T = {},>({
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentModalProps, setCurrentModalProps] = useState<T>(modalProps)
 
-  const openModal = (newModalProps?: T) => {
+  // TODO: 현재 modalProps가 변경되어도 ModalComponent가 re-rendering 되지 않아 Open시에 새로운 값을 넣어 임시로 사용
+  const openModal = (newModalProps?: Partial<T>) => {
     onModalOpen()
-    if (newModalProps) setCurrentModalProps(newModalProps)
+    if (newModalProps)
+      setCurrentModalProps({ ...currentModalProps, ...newModalProps })
     setIsModalOpen(true)
   }
   const closeModal = (e: React.MouseEvent) => {
@@ -63,10 +65,10 @@ const useModal = <T = {},>({
   useEffect(() => {
     const handleOverlayClick = (e: Event) => {
       const target = e.target as HTMLElement
-      if (target.classList.contains('is_overlay')) closeModal(e)
+      if (target.classList.contains('is_overlay')) closeModal(e as any)
     }
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeModal(e)
+      if (e.key === 'Escape') closeModal(e as any)
     }
 
     if (isModalOpen) {
@@ -103,6 +105,7 @@ const useModal = <T = {},>({
             <div className="is_modal absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 min-w-60">
               {/* @ts-ignore */}
               <Modal
+                key={currentModalProps}
                 {...currentModalProps}
                 openModal={openModal}
                 closeModal={closeModal}

@@ -66,7 +66,8 @@ const Square = (props: SquareProps) => {
     if (type === SquareType.AI) {
       props.handleGridValueOnAIMode(gridIndex, squareIndex)
     } else {
-      openTextInputModal()
+      // TODO: useModal에 들어가는 modalProps가 변경이 되지 않아 open시에 넣어주는 방식으로 우선 적용
+      openTextInputModal({ state: value })
     }
   }
 
@@ -114,7 +115,7 @@ const Square = (props: SquareProps) => {
       >
         {value ? value : placeHolder}
       </span>
-      {TextInputModalComponent && <TextInputModalComponent />}
+      {TextInputModalComponent && <TextInputModalComponent key={value} />}
     </div>
   )
 }
