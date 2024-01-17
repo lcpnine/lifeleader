@@ -14,6 +14,8 @@ interface Props {
     squareIndex: number,
     newValue: string
   ) => void
+  handleGridValueOnAIMode?: (gridIndex: number, squareIndex: number) => void
+  isAIModeOn?: boolean
 }
 
 const DisplayingSquare = ({
@@ -23,12 +25,17 @@ const DisplayingSquare = ({
   isGridValid,
   placeHolder = '',
   handleGridValue = () => {},
+  handleGridValueOnAIMode = () => {},
+  isAIModeOn = false,
 }: Props) => {
   // Text Input Section
   const setSquareValue = (newValue: string) => {
     handleGridValue(gridIndex, squareIndex, newValue)
   }
-  const { openModal, ModalComponent } = useModal({
+  const {
+    openModal: openTextInputModal,
+    ModalComponent: TextInputModalComponent,
+  } = useModal({
     Modal: TextInputModal,
     modalProps: {
       state: value,
@@ -49,6 +56,14 @@ const DisplayingSquare = ({
       ? themeStyle.centerGridCenterSquareTextColor
       : themeStyle.edgeGridCenterSquareTextColor
 
+  const onClickSquare = () => {
+    if (isAIModeOn) {
+      handleGridValueOnAIMode(gridIndex, squareIndex)
+    } else {
+      openTextInputModal()
+    }
+  }
+
   return (
     <div
       className={`${isMobile ? 'size-20' : 'size-24'} border ${
@@ -56,7 +71,7 @@ const DisplayingSquare = ({
       } flex items-center justify-center overflow-hidden ${
         themeStyle.backgroundColor
       } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
-      onClick={() => openModal()}
+      onClick={() => onClickSquare()}
     >
       <span
         className={`w-full max-h-${
@@ -74,7 +89,7 @@ const DisplayingSquare = ({
       >
         {value ? value : placeHolder}
       </span>
-      {ModalComponent && <ModalComponent />}
+      {TextInputModalComponent && <TextInputModalComponent />}
     </div>
   )
 }

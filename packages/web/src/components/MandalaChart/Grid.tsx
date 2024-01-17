@@ -9,6 +9,7 @@ interface GridProps {
     squareIndex: number,
     newValue: string
   ) => void
+  handleGridValueOnAIMode: (gridIndex: number, squareIndex: number) => void
   gridIndex: number
   isAIModeOn: boolean
 }
@@ -17,6 +18,7 @@ const Grid = ({
   wholeGridValues,
   handleGridValue,
   gridIndex,
+  handleGridValueOnAIMode,
   isAIModeOn,
 }: GridProps) => {
   const isGridValid =
@@ -64,8 +66,9 @@ const Grid = ({
             gridIndex={gridIndex}
             squareIndex={squareIndex}
             placeHolder={placeHolder}
-            // TODO: AI mode에서는 value가 필요없기에 맞게 Props를 수정해야함
             handleGridValue={handleGridValue}
+            handleGridValueOnAIMode={handleGridValueOnAIMode}
+            isAIModeOn={isAIModeOn}
           />
         )
       })}

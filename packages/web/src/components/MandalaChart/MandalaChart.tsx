@@ -28,10 +28,6 @@ const MandalaChart = ({
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
 
-  const selectedAIRecommendationItem = recommendationItems.find(
-    item => item.isClicked
-  )
-
   const handleGridValue = (
     gridIndex: number,
     squareIndex: number,
@@ -39,23 +35,31 @@ const MandalaChart = ({
   ) => {
     setWholeGridValues(prevGridValue => {
       const newGridValues = deepCopy(prevGridValue)
-      if (isAIModeOn) {
-        if (gridIndex === 4 && squareIndex === 4) {
-          openAlert(translation('cannotRecommendMainGoal'))
-        } else {
-          newGridValues[gridIndex][squareIndex] =
-            selectedAIRecommendationItem?.text
-          if (gridIndex === 4 && squareIndex !== 4) {
-            newGridValues[squareIndex][gridIndex] =
-              selectedAIRecommendationItem?.text
-          }
-          onRecommendItemAccepted()
-        }
+      newGridValues[gridIndex][squareIndex] = newValue
+      if (gridIndex === 4 && squareIndex !== 4) {
+        newGridValues[squareIndex][gridIndex] = newValue
+      }
+      return newGridValues
+    })
+  }
+
+  const handleGridValueOnAIMode = (gridIndex: number, squareIndex: number) => {
+    const selectedAIRecommendationItem = recommendationItems.find(
+      item => item.isClicked
+    )
+
+    setWholeGridValues(prevGridValue => {
+      const newGridValues = deepCopy(prevGridValue)
+      if (gridIndex === 4 && squareIndex === 4) {
+        openAlert(translation('cannotRecommendMainGoal'))
       } else {
-        newGridValues[gridIndex][squareIndex] = newValue
+        newGridValues[gridIndex][squareIndex] =
+          selectedAIRecommendationItem?.text
         if (gridIndex === 4 && squareIndex !== 4) {
-          newGridValues[squareIndex][gridIndex] = newValue
+          newGridValues[squareIndex][gridIndex] =
+            selectedAIRecommendationItem?.text
         }
+        onRecommendItemAccepted()
       }
       return newGridValues
     })
@@ -84,6 +88,7 @@ const MandalaChart = ({
             key={index}
             wholeGridValues={wholeGridValues}
             handleGridValue={handleGridValue}
+            handleGridValueOnAIMode={handleGridValueOnAIMode}
             gridIndex={index}
             isAIModeOn={isAIModeOn}
           />
