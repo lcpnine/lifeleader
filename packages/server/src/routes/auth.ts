@@ -4,7 +4,6 @@ import express, { Request, Response } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import nodemailer from 'nodemailer'
 import passport from 'passport'
-import { ORIGIN } from '../constant/common'
 import { createResetPasswordTemplate } from '../constant/nodemailer'
 import User, { IUser } from '../models/User.model'
 
@@ -127,21 +126,12 @@ router.post('/find-password', async (req: Request, res: Response) => {
     },
   })
 
-  const logoPath = `${ORIGIN}/static/logo.png`
-  const logoCid = 'logo@lifeleader.me'
   transporter.sendMail(
     {
       from: 'life.leader.me@gmail.com',
       to: user.email,
       subject: 'Password Reset',
-      html: createResetPasswordTemplate(user.nickname, token, logoCid),
-      attachments: [
-        {
-          filename: 'logo.png',
-          path: logoPath,
-          cid: logoCid,
-        },
-      ],
+      html: createResetPasswordTemplate(user.nickname, token),
     },
     (error, info) => {
       if (error) {

@@ -1,9 +1,8 @@
-import { CLIENT_URL, IS_DEV } from './common'
+import { IS_DEV } from './common'
 
 export const createResetPasswordTemplate = (
   nickname: string,
-  token: string,
-  logoCid: string
+  token: string
 ) => {
   const clientUrl = 'https://lifeleader.me'
 
@@ -17,11 +16,11 @@ export const createResetPasswordTemplate = (
           <td>
             <table cellpadding="0" cellspacing="0" style="width: 100%;">
               <tr>
-                <td style="text-align: center;">
-                  <a href="${CLIENT_URL}" target="_blank">
-                    <img src="cid:${logoCid}" alt="Life Leader" width="300" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;">
+                <td style="padding: 20px 0; text-align: center;">
+                  <a href="${clientUrl}" target="_blank" style="display: inline-block;">
+                    <div style="color: #1ab394; font-weight: 600; font-size: 32px; margin: 0;">Life Leader</div>
                   </a>
-                </td>
+                </td>  
               </tr>
               <tr>
                 <td style="padding: 20px;">
