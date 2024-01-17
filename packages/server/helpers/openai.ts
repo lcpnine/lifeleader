@@ -11,12 +11,14 @@ export enum RecommendationInNeed {
 export interface SubGoalsRecommendationParams {
   mainGoal: string
   selectedSubGoals: string[]
+  currentLanguage: string
 }
 
 export interface ActionsRecommendationParams {
   mainGoal: string
   subGoal: string[]
   selectedActions: string[]
+  currentLanguage: string
 }
 
 type Props =
@@ -33,6 +35,8 @@ type Props =
 export interface JSONResponse {
   type: RecommendationInNeed
   recommendations: string[]
+  // web의 SUPPORTING_LANGUAGES 참고 / 현재 en, ko, zh-Hant
+  currentLanguage?: string
 }
 
 export const getRecommendations = async (
@@ -49,7 +53,9 @@ export const getRecommendations = async (
             role: 'user',
             content: `Main Goal: ${
               params.mainGoal
-            }, Sub Goals: ${params.selectedSubGoals.join(', ')}`,
+            }, Sub Goals: ${params.selectedSubGoals.join(', ')}, Locale: ${
+              params.currentLanguage
+            }`,
           },
         ]
       case RecommendationInNeed.Actions:
@@ -61,7 +67,9 @@ export const getRecommendations = async (
               params.mainGoal
             }, Sub Goals: ${params.subGoal.join(
               ', '
-            )}, Actions: ${params.selectedActions.join(', ')}`,
+            )}, Actions: ${params.selectedActions.join(', ')}, Locale: ${
+              params.currentLanguage
+            }`,
           },
         ]
       default:
