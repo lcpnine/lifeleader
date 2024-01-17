@@ -1,5 +1,7 @@
 import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
+import useModal from '@/hooks/useModal'
+import TextInputModal from '../Modal/TextInput'
 
 interface Props {
   value: string
@@ -7,7 +9,11 @@ interface Props {
   squareIndex: number
   isGridValid: boolean
   placeHolder?: string
-  onClick?: () => void
+  handleGridValue?: (
+    gridIndex: number,
+    squareIndex: number,
+    newValue: string
+  ) => void
 }
 
 const DisplayingSquare = ({
@@ -16,8 +22,20 @@ const DisplayingSquare = ({
   squareIndex,
   isGridValid,
   placeHolder = '',
-  onClick = () => {},
+  handleGridValue = () => {},
 }: Props) => {
+  // Text Input Section
+  const setSquareValue = (newValue: string) => {
+    handleGridValue(gridIndex, squareIndex, newValue)
+  }
+  const { openModal, ModalComponent } = useModal({
+    Modal: TextInputModal,
+    modalProps: {
+      state: value,
+      setState: setSquareValue,
+    },
+  })
+
   const isCenterGrid = gridIndex === 4
   const isCenterSquare = squareIndex === 4
   const { themeStyle } = useTheme()
@@ -38,7 +56,7 @@ const DisplayingSquare = ({
       } flex items-center justify-center overflow-hidden ${
         themeStyle.backgroundColor
       } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
-      onClick={onClick}
+      onClick={() => openModal()}
     >
       <span
         className={`w-full max-h-${
@@ -56,6 +74,7 @@ const DisplayingSquare = ({
       >
         {value ? value : placeHolder}
       </span>
+      {ModalComponent && <ModalComponent />}
     </div>
   )
 }
