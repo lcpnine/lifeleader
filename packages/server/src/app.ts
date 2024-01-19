@@ -1,8 +1,15 @@
+import { config as configDotenv } from 'dotenv'
+configDotenv({
+  path:
+    process.env.PHASE === 'development'
+      ? '.env.development'
+      : '.env.production',
+})
+
 import bodyParser from 'body-parser'
 import RedisStore from 'connect-redis'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
-import { config as configDotenv } from 'dotenv'
 import express from 'express'
 import expressSession from 'express-session'
 import mongoose from 'mongoose'
@@ -17,7 +24,6 @@ import recommendationRoutes from './routes/recommendation'
 
 console.log('PHASE: ', PHASE)
 
-configDotenv({ path: IS_DEV ? '.env.development' : '.env.production' })
 initializePassport(passport)
 
 const app = express()
