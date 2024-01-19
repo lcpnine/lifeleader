@@ -21,6 +21,7 @@ import healthCheckController from './controllers/healthCheck'
 import preventUnpaidUser from './middlewares/preventUnpaidUser'
 import authRoutes from './routes/auth'
 import recommendationRoutes from './routes/recommendation'
+import testRoutes from './routes/test'
 
 console.log('PHASE: ', PHASE)
 
@@ -84,6 +85,7 @@ mongoose.connect(process.env.MONGO_URI as string)
 
 app.use('/auth', authRoutes)
 app.use('/recommendation', preventUnpaidUser, recommendationRoutes)
+app.use('/test', preventUnpaidUser, testRoutes)
 app.get('/health-check', healthCheckController.get)
 
 const PORT = process.env.PORT || 4003
