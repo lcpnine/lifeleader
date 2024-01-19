@@ -4,6 +4,7 @@ import express, { Request, Response } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import nodemailer from 'nodemailer'
 import passport from 'passport'
+import { COOKIE_DOMAIN } from '../constant/common'
 import { createResetPasswordTemplate } from '../constant/nodemailer'
 import User, { IUser } from '../models/User.model'
 
@@ -57,6 +58,7 @@ router.post('/sign-in', (req: Request, res: Response, next) => {
         res.cookie('token', token, {
           httpOnly: true,
           secure: process.env.PHASE !== 'development',
+          domain: COOKIE_DOMAIN,
           maxAge,
         })
 

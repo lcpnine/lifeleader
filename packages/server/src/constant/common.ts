@@ -6,3 +6,4 @@ export const ORIGIN = IS_DEV
 export const CLIENT_URL = IS_DEV
   ? 'http://localhost:3000'
   : 'https://lifeleader.me'
+export const COOKIE_DOMAIN = IS_DEV ? 'localhost' : 'lifeleader.me'
