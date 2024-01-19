@@ -58,7 +58,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: !IS_DEV, // Set to true in production if using HTTPS
+      secure: !IS_DEV,
     },
   })
 )
