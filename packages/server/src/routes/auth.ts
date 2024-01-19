@@ -73,7 +73,9 @@ router.get('/sign-out', (req: Request, res: Response) => {
     {
       keepSessionInfo: false,
     },
-    (err: Error) => {}
+    (err: Error) => {
+      if (err) console.log('logout error', err)
+    }
   )
   res.clearCookie('token', {
     httpOnly: true,
