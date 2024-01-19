@@ -4,7 +4,7 @@ import express, { Request, Response } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import nodemailer from 'nodemailer'
 import passport from 'passport'
-import { COOKIE_DOMAIN } from '../constant/common'
+import { COOKIE_DOMAIN, IS_DEV } from '../constant/common'
 import { createResetPasswordTemplate } from '../constant/nodemailer'
 import User, { IUser } from '../models/User.model'
 
@@ -75,7 +75,11 @@ router.get('/sign-out', (req: Request, res: Response) => {
     },
     (err: Error) => {}
   )
-  res.clearCookie('token')
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: !IS_DEV,
+    domain: COOKIE_DOMAIN,
+  })
   res.status(200).json({ message: 'Successfully logged out' })
 })
 
