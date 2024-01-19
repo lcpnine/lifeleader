@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser'
+import RedisStore from 'connect-redis'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { config as configDotenv } from 'dotenv'
@@ -6,6 +7,7 @@ import express from 'express'
 import expressSession from 'express-session'
 import mongoose from 'mongoose'
 import passport from 'passport'
+import { createClient } from 'redis'
 import initializePassport from './config/passport'
 import { IS_DEV, PHASE } from './constant/common'
 import healthCheckController from './controllers/healthCheck'
@@ -19,16 +21,38 @@ configDotenv({ path: IS_DEV ? '.env.development' : '.env.production' })
 initializePassport(passport)
 
 const app = express()
+
+const redisClient = createClient({
+  socket: {
+    host: 'localhost',
+    port: 6379,
+  },
+  password: process.env.REDIS_PASSWORD,
+})
+redisClient.connect()
+redisClient.on('error', function (err) {
+  console.log('Could not establish a connection with Redis. ' + err)
+})
+
+redisClient.on('connect', function () {
+  console.log('Connected to Redis successfully')
+})
+
+const redisStore = new RedisStore({
+  client: redisClient,
+  prefix: 'lifeleader:',
+})
+
 app.use(express.json())
 app.use(
   expressSession({
+    store: redisStore,
     secret: process.env.SESSION_SECRET || 'development secret',
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      // secure true로 되있을 시 프로덕션에서 passport가 user 찾지 못하는 중
-      secure: false,
+      secure: !IS_DEV, // Set to true in production if using HTTPS
     },
   })
 )
