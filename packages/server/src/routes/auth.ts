@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import express, { Request, Response } from 'express'
-import jwt, { JwtPayload } from 'jsonwebtoken'
 import nodemailer from 'nodemailer'
 import passport from 'passport'
+import { COOKIE_DOMAIN, IS_DEV } from '../constant/common'
 import { createResetPasswordTemplate } from '../constant/nodemailer'
 import User, { IUser } from '../models/User.model'
 
@@ -33,8 +33,6 @@ router.post('/sign-up', async (req: Request, res: Response) => {
 })
 
 router.post('/sign-in', (req: Request, res: Response, next) => {
-  const JWT_SECRET = process.env.JWT_SECRET as string
-
   passport.authenticate(
     'local',
     (err: Error, user: IUser, info: Record<string, any>) => {
@@ -49,60 +47,38 @@ router.post('/sign-in', (req: Request, res: Response, next) => {
           return next(err)
         }
 
-        const token = jwt.sign({ id: user.id }, JWT_SECRET, {
-          expiresIn: '1h',
-        })
-
-        const maxAge = req.body.keepSignedIn ? 365 * 24 * ONE_HOUR : ONE_HOUR
-        res.cookie('token', token, {
-          httpOnly: true,
-          secure: process.env.PHASE !== 'development',
-          maxAge,
-        })
-
-        res.json({ token, message: 'Successfully authenticated', user })
+        res.json({ message: 'Successfully authenticated', user })
       })
     }
   )(req, res, next)
 })
 
-router.get('/sign-out', (req: Request, res: Response) => {
+router.delete('/sign-out', (req: Request, res: Response) => {
   req.logout(
     {
       keepSessionInfo: false,
     },
-    (err: Error) => {}
+    (err: Error) => {
+      if (err) console.log('logout error', err)
+    }
   )
-  res.clearCookie('token')
+  res.clearCookie('connect.sid', {
+    httpOnly: true,
+    secure: !IS_DEV,
+    domain: COOKIE_DOMAIN,
+  })
+  req.sessionStore.destroy(req.sessionID, err => {
+    if (err) console.log('session store destroy error', err)
+  })
+  req.session?.destroy(err => {
+    if (err) console.log('session destroy error', err)
+  })
   res.status(200).json({ message: 'Successfully logged out' })
 })
 
 router.get('/get-user', async (req: Request, res: Response) => {
-  const JWT_SECRET = process.env.JWT_SECRET as string
-
-  try {
-    const token = req.cookies.token
-
-    if (!token) {
-      return res.status(401).json({ message: 'No token provided' })
-    }
-
-    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload
-    const user = await User.findById(decoded.id).select('-password')
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' })
-    }
-
-    res.json(user)
-  } catch (error) {
-    //@ts-ignore
-    if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({ message: 'Token expired' })
-    }
-    console.log(JSON.stringify(error))
-    res.status(500).json({ message: 'Failed to authenticate token', error })
-  }
+  const user = (req.user as IUser | undefined)?.set('password', null).toObject()
+  res.send(req.isAuthenticated() ? { ...user } : null)
 })
 
 router.post('/find-password', async (req: Request, res: Response) => {

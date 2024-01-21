@@ -10,7 +10,7 @@ import bodyParser from 'body-parser'
 import RedisStore from 'connect-redis'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
-import express from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import expressSession from 'express-session'
 import mongoose from 'mongoose'
 import passport from 'passport'
@@ -18,15 +18,17 @@ import { createClient } from 'redis'
 import initializePassport from './config/passport'
 import { IS_DEV, PHASE } from './constant/common'
 import healthCheckController from './controllers/healthCheck'
-import preventUnpaidUser from './middlewares/preventUnpaidUser'
+import { IUser } from './models/User.model'
 import authRoutes from './routes/auth'
 import recommendationRoutes from './routes/recommendation'
+import testRoutes from './routes/test'
 
 console.log('PHASE: ', PHASE)
 
 initializePassport(passport)
 
 const app = express()
+app.set('trust proxy', 'loopback')
 
 const redisClient = createClient({
   socket: {
@@ -46,19 +48,19 @@ redisClient.on('connect', function () {
 
 const redisStore = new RedisStore({
   client: redisClient,
-  prefix: 'lifeleader:',
 })
 
 app.use(express.json())
 app.use(
   expressSession({
     store: redisStore,
-    secret: process.env.SESSION_SECRET || 'development secret',
+    secret: process.env.SESSION_SECRET as string,
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: !IS_DEV, // Set to true in production if using HTTPS
+      maxAge: 1000 * 60 * 30,
+      secure: !IS_DEV,
     },
   })
 )
@@ -83,7 +85,22 @@ app.use(
 mongoose.connect(process.env.MONGO_URI as string)
 
 app.use('/auth', authRoutes)
-app.use('/recommendation', preventUnpaidUser, recommendationRoutes)
+app.use(
+  '/recommendation',
+  passport.authenticate(
+    'session',
+    (req: Request, res: Response, next: NextFunction) => {
+      const user = req.user as IUser | undefined
+      if (user?.purchasedInfo.isPurchased) {
+        next()
+      } else {
+        res.status(403).json({ message: 'Not purchased' })
+      }
+    }
+  ),
+  recommendationRoutes
+)
+app.use('/test', passport.authenticate('session'), testRoutes)
 app.get('/health-check', healthCheckController.get)
 
 const PORT = process.env.PORT || 4003

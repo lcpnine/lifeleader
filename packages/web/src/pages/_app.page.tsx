@@ -64,17 +64,15 @@ WebApp.getInitialProps = async (context: AppContext) => {
 
   // @ts-ignore
   const cookies = (context.ctx.req?.cookies || {}) as Record<string, any>
-  const token = cookies.token
+  const connectSid = cookies['connect.sid']
 
-  const checkUserResponse = token
+  const checkUserResponse = connectSid
     ? await axios.get('/auth/get-user', {
         withCredentials: true,
         headers: {
-          Cookie: `token=${token}`,
-          Authorization: `Bearer ${token}`,
+          Cookie: `connect.sid=${connectSid}`,
         },
         baseURL: BASE_URL,
-        validateStatus: status => status === 200 || status === 401,
       })
     : { data: null }
   const user: User | null = checkUserResponse.data?._id
