@@ -53,7 +53,7 @@ app.use(express.json())
 app.use(
   expressSession({
     store: redisStore,
-    secret: process.env.SESSION_SECRET || 'development secret',
+    secret: process.env.SESSION_SECRET as string,
     resave: false,
     saveUninitialized: false,
     cookie: {
