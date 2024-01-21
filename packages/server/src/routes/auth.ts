@@ -82,6 +82,9 @@ router.delete('/sign-out', (req: Request, res: Response) => {
     secure: !IS_DEV,
     domain: COOKIE_DOMAIN,
   })
+  req.session?.destroy(err => {
+    if (err) console.log('session destroy error', err)
+  })
   res.status(200).json({ message: 'Successfully logged out' })
 })
 
