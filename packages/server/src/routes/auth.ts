@@ -67,6 +67,10 @@ router.delete('/sign-out', (req: Request, res: Response) => {
     secure: !IS_DEV,
     domain: COOKIE_DOMAIN,
   })
+  console.log('req.sessionID: ', req.sessionID)
+  req.sessionStore.destroy(req.sessionID, err => {
+    if (err) console.log('session store destroy error', err)
+  })
   req.session?.destroy(err => {
     if (err) console.log('session destroy error', err)
   })
