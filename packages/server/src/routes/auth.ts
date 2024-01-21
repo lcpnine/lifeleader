@@ -68,7 +68,7 @@ router.post('/sign-in', (req: Request, res: Response, next) => {
   )(req, res, next)
 })
 
-router.get('/sign-out', (req: Request, res: Response) => {
+router.delete('/sign-out', (req: Request, res: Response) => {
   req.logout(
     {
       keepSessionInfo: false,
