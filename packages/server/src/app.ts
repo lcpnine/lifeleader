@@ -47,7 +47,6 @@ redisClient.on('connect', function () {
 
 const redisStore = new RedisStore({
   client: redisClient,
-  prefix: 'lifeleader:',
 })
 
 app.use(express.json())
