@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import express, { Request, Response } from 'express'
-import jwt, { JwtPayload } from 'jsonwebtoken'
 import nodemailer from 'nodemailer'
 import passport from 'passport'
 import { COOKIE_DOMAIN, IS_DEV } from '../constant/common'
@@ -50,19 +49,7 @@ router.post('/sign-in', (req: Request, res: Response, next) => {
           return next(err)
         }
 
-        const token = jwt.sign({ id: user.id }, JWT_SECRET, {
-          expiresIn: '1h',
-        })
-
-        const maxAge = req.body.keepSignedIn ? 365 * 24 * ONE_HOUR : ONE_HOUR
-        res.cookie('token', token, {
-          httpOnly: true,
-          secure: process.env.PHASE !== 'development',
-          domain: COOKIE_DOMAIN,
-          maxAge,
-        })
-
-        res.json({ token, message: 'Successfully authenticated', user })
+        res.json({ message: 'Successfully authenticated', user })
       })
     }
   )(req, res, next)
@@ -89,31 +76,8 @@ router.delete('/sign-out', (req: Request, res: Response) => {
 })
 
 router.get('/get-user', async (req: Request, res: Response) => {
-  const JWT_SECRET = process.env.JWT_SECRET as string
-
-  try {
-    const token = req.cookies.token
-
-    if (!token) {
-      return res.status(401).json({ message: 'No token provided' })
-    }
-
-    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload
-    const user = await User.findById(decoded.id).select('-password')
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' })
-    }
-
-    res.json(user)
-  } catch (error) {
-    //@ts-ignore
-    if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({ message: 'Token expired' })
-    }
-    console.log(JSON.stringify(error))
-    res.status(500).json({ message: 'Failed to authenticate token', error })
-  }
+  const user = (req.user as IUser | undefined)?.set('password', null).toObject()
+  res.send(req.isAuthenticated() ? { ...user } : null)
 })
 
 router.post('/find-password', async (req: Request, res: Response) => {
