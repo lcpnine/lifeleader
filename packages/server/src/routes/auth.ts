@@ -33,8 +33,6 @@ router.post('/sign-up', async (req: Request, res: Response) => {
 })
 
 router.post('/sign-in', (req: Request, res: Response, next) => {
-  const JWT_SECRET = process.env.JWT_SECRET as string
-
   passport.authenticate(
     'local',
     (err: Error, user: IUser, info: Record<string, any>) => {
