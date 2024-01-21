@@ -62,7 +62,7 @@ router.delete('/sign-out', (req: Request, res: Response) => {
       if (err) console.log('logout error', err)
     }
   )
-  res.clearCookie('token', {
+  res.clearCookie('connect.sid', {
     httpOnly: true,
     secure: !IS_DEV,
     domain: COOKIE_DOMAIN,
