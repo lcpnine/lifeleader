@@ -28,6 +28,7 @@ console.log('PHASE: ', PHASE)
 initializePassport(passport)
 
 const app = express()
+app.set('trust proxy', 1)
 
 const redisClient = createClient({
   socket: {
