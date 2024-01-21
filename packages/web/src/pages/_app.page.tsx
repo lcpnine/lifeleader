@@ -78,7 +78,6 @@ WebApp.getInitialProps = async (context: AppContext) => {
   const user: User | null = checkUserResponse.data?._id
     ? { isSignedIn: true, ...checkUserResponse.data }
     : null
-  console.log('user: ', checkUserResponse.data)
 
   const acceptLanguage = context.ctx.req?.headers['accept-language']
   const userAgent = context.ctx.req?.headers['user-agent']
