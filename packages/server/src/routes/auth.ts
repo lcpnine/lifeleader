@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs'
-import signature from 'cookie-signature'
 import crypto from 'crypto'
 import express, { Request, Response } from 'express'
 import nodemailer from 'nodemailer'
@@ -63,24 +62,11 @@ router.delete('/sign-out', (req: Request, res: Response) => {
       if (err) console.log('logout error', err)
     }
   )
-  const connectSID = req.cookies['connect.sid']
   res.clearCookie('connect.sid', {
     httpOnly: true,
     secure: !IS_DEV,
     domain: COOKIE_DOMAIN,
   })
-  console.log('req.sessionID: ', req.sessionID)
-  const unsignedSessionID = signature.unsign(
-    req.sessionID,
-    process.env.SESSION_SECRET as string
-  )
-  const unsignedConnectSessionID = signature.unsign(
-    connectSID,
-    process.env.SESSION_SECRET as string
-  )
-  console.log('process.env.SESSION_SECRET: ', process.env.SESSION_SECRET)
-  console.log('unsignedSessionID: ', unsignedSessionID)
-  console.log('unsignedConnectSessionID: ', unsignedConnectSessionID)
   req.sessionStore.destroy(req.sessionID, err => {
     if (err) console.log('session store destroy error', err)
   })
