@@ -19,7 +19,7 @@ const FindPassword = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
     if (!email) {
-      openAlert(translation('invalidForm'))
+      openAlert({ text: translation('invalidForm') })
       return
     }
 
@@ -31,13 +31,14 @@ const FindPassword = () => {
           validateStatus: status => status === 200 || status === 404,
         }
       )
-      if (response.status === 404) return openAlert(translation('noUser'))
+      if (response.status === 404)
+        return openAlert({ text: translation('noUser') })
       if (response.status === 200) {
-        openAlert(translation('notifyResetPasswordMail'))
+        openAlert({ text: translation('notifyResetPasswordMail') })
         return
       }
     } catch (error) {
-      openAlert(commonTranslation('serverError'))
+      openAlert({ text: commonTranslation('serverError') })
     }
   }
 

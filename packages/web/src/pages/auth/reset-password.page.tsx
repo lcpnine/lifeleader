@@ -32,12 +32,12 @@ const ResetPassword = () => {
         { validateStatus: status => status === 200 || status === 400 }
       )
       if (res.status === 400) {
-        openAlert(translation('invalidToken'))
+        openAlert({ text: translation('invalidToken') })
         return
       }
       goTo('/auth/sign-in', { replace: true })
     } catch (error) {
-      openAlert(commonTranslation('serverError'))
+      openAlert({ text: commonTranslation('serverError') })
     }
   }
 

@@ -27,7 +27,7 @@ const SignIn = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
     if (!isFormValid) {
-      openAlert(translation('invalidForm'))
+      openAlert({ text: translation('invalidForm') })
       return
     }
 
@@ -39,12 +39,12 @@ const SignIn = () => {
 
     if (!success) {
       if (status === 400) {
-        openAlert(translation('invalidUser'))
+        openAlert({ text: translation('invalidUser') })
         return
       }
 
       if (status === 500) {
-        openAlert(commonTranslation('serverError'))
+        openAlert({ text: commonTranslation('serverError') })
         return
       }
     }

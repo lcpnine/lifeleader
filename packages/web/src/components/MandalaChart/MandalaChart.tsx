@@ -51,7 +51,7 @@ const MandalaChart = ({
     setWholeGridValues(prevGridValue => {
       const newGridValues = deepCopy(prevGridValue)
       if (gridIndex === 4 && squareIndex === 4) {
-        openAlert(translation('cannotRecommendMainGoal'))
+        openAlert({ text: translation('cannotRecommendMainGoal') })
       } else {
         newGridValues[gridIndex][squareIndex] =
           selectedAIRecommendationItem?.text
