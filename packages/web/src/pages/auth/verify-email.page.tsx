@@ -33,14 +33,33 @@ const VerifyEmailPage = () => {
   }
 
   if (!token) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-lg font-semibold text-blue-600">
+          <p>Loading...</p>
+        </div>
+      </div>
+    )
   }
 
   if (isVerified) {
-    return <div>Email successfully verified! Redirecting to sign in...</div>
+    return (
+      <div className="flex flex-col items-center justify-center h-screen text-center">
+        <div className="text-xl font-bold text-green-600 mb-4">
+          Email successfully verified!
+        </div>
+        <div className="text-lg text-gray-700">Redirecting to sign in...</div>
+      </div>
+    )
   }
 
-  return <div>Verifying your email...</div>
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <div className="text-lg font-semibold text-blue-600">
+        Verifying your email...
+      </div>
+    </div>
+  )
 }
 
 export default VerifyEmailPage
