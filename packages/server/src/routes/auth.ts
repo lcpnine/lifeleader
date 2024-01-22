@@ -47,6 +47,13 @@ router.post('/sign-in', (req: Request, res: Response, next) => {
           return next(err)
         }
 
+        if (req.body.keepSignedIn) {
+          req.session.cookie.maxAge = 12 * 30 * 24 * 60 * 60 * 1000
+        } else {
+          // Make cookie becomes a session cookie
+          req.session.cookie.maxAge = undefined
+        }
+
         res.json({ message: 'Successfully authenticated', user })
       })
     }
