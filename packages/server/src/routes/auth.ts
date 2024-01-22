@@ -1,12 +1,12 @@
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import express, { Request, Response } from 'express'
-import nodemailer from 'nodemailer'
 import passport from 'passport'
 import { COOKIE_DOMAIN, IS_DEV } from '../constant/common'
 import { createResetPasswordTemplate } from '../constant/nodemailer'
 import User, { IUser } from '../models/User.model'
 import { isPasswordValid } from '../utils/common'
+import { sendEmail } from '../utils/nodemailer'
 
 const ONE_HOUR = 60 * 60 * 1000
 
@@ -41,31 +41,12 @@ router.post('/sign-up', async (req: Request, res: Response) => {
       emailVerification,
     })
     await newUser.save()
-
-    const transporter = nodemailer.createTransport({
-      port: 465,
-      host: 'smtp.gmail.com',
-      secure: true,
-      auth: {
-        user: 'life.leader.me@gmail.com',
-        pass: process.env.LIFE_LEADER_EMAIL_PASSWORD,
-      },
-    })
-
-    transporter.sendMail(
-      {
-        from: 'life.leader.me@gmail.com',
-        to: email,
-        subject: 'Password Reset',
-        html: createResetPasswordTemplate(nickname, emailToken),
-      },
-      (error, info) => {
-        if (error) {
-          return res.status(500).send({ message: 'Error sending email' })
-        }
-        res.status(200).send({ message: 'Successfully sent email' })
-      }
+    await sendEmail(
+      email,
+      'Verify Email',
+      createResetPasswordTemplate(nickname, emailToken)
     )
+    res.status(200).send({ message: 'Successfully sent email' })
   } catch (error) {
     res.status(500).json({ message: 'Error registering new user', error })
   }
@@ -138,30 +119,16 @@ router.post('/find-password', async (req: Request, res: Response) => {
   user.resetPassword.expires = new Date(Date.now() + ONE_HOUR)
   await user.save()
 
-  const transporter = nodemailer.createTransport({
-    port: 465,
-    host: 'smtp.gmail.com',
-    secure: true,
-    auth: {
-      user: 'life.leader.me@gmail.com',
-      pass: process.env.LIFE_LEADER_EMAIL_PASSWORD,
-    },
-  })
-
-  transporter.sendMail(
-    {
-      from: 'life.leader.me@gmail.com',
-      to: user.email,
-      subject: 'Password Reset',
-      html: createResetPasswordTemplate(user.nickname, token),
-    },
-    (error, info) => {
-      if (error) {
-        return res.status(500).send({ sucess: false })
-      }
-      res.status(200).send({ success: true })
-    }
-  )
+  try {
+    await sendEmail(
+      user.email,
+      'Password Reset',
+      createResetPasswordTemplate(user.nickname, token)
+    )
+    res.status(200).send({ success: true })
+  } catch (error) {
+    res.status(500).send({ success: false })
+  }
 })
 
 router.post('/reset-password', async (req: Request, res: Response) => {
