@@ -9,13 +9,21 @@ const useAuth = () => {
     password: string,
     keepSignedIn: boolean
   ) => {
-    const response = await axios.post('/auth/sign-in', {
-      email,
-      password,
-      keepSignedIn,
-    })
+    const response = await axios.post(
+      '/auth/sign-in',
+      {
+        email,
+        password,
+        keepSignedIn,
+      },
+      {
+        validateStatus: status =>
+          status === 200 || status === 400 || status === 500,
+      }
+    )
 
-    if (response.status === 400) return { success: false }
+    if (response.status === 400 || response.status === 500)
+      return { success: false, status: response.status }
 
     const { user } = response.data
 
@@ -24,7 +32,7 @@ const useAuth = () => {
       ...user,
     })
 
-    return { success: true }
+    return { success: true, status: response.status }
   }
 
   const handleSignOut = async () => {

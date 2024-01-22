@@ -6,6 +6,7 @@ import passport from 'passport'
 import { COOKIE_DOMAIN, IS_DEV } from '../constant/common'
 import { createResetPasswordTemplate } from '../constant/nodemailer'
 import User, { IUser } from '../models/User.model'
+import { isPasswordValid } from '../utils/common'
 
 const ONE_HOUR = 60 * 60 * 1000
 
@@ -13,11 +14,16 @@ const router = express.Router()
 
 router.post('/sign-up', async (req: Request, res: Response) => {
   try {
-    const { email, password, nickname } = req.body
+    const { email, password, passwordConfirm, nickname } = req.body
     const existingUser = await User.findOne({ email })
 
     if (existingUser) {
-      return res.status(400).json({ message: 'Email already in use' })
+      return res.status(409).json({ message: 'User already exists' })
+    }
+
+    const isValidPassword = isPasswordValid(password)
+    if (!isValidPassword || password !== passwordConfirm) {
+      return res.status(400).json({ message: 'Invalid password' })
     }
 
     const hashedPassword = await bcrypt.hash(password, 10)
@@ -44,7 +50,7 @@ router.post('/sign-in', (req: Request, res: Response, next) => {
       }
       req.logIn(user, err => {
         if (err) {
-          return next(err)
+          return res.status(500).json({ message: 'Error logging in' })
         }
 
         if (req.body.keepSignedIn) {
@@ -120,7 +126,7 @@ router.post('/find-password', async (req: Request, res: Response) => {
       if (error) {
         return res.status(500).send({ sucess: false })
       }
-      res.send({ success: true })
+      res.status(200).send({ success: true })
     }
   )
 })
@@ -142,7 +148,7 @@ router.post('/reset-password', async (req: Request, res: Response) => {
   user.resetPassword.expires = null
   await user.save()
 
-  res.send({ success: true })
+  res.status(200).send({ success: true })
 })
 
 export default router
