@@ -154,4 +154,32 @@ router.post('/reset-password', async (req: Request, res: Response) => {
   res.status(200).send({ success: true })
 })
 
+router.post('/verify-email', async (req: Request, res: Response) => {
+  const { token } = req.body
+
+  if (!token) {
+    return res.status(400).json({ message: 'Token is required' })
+  }
+
+  try {
+    const user = await User.findOne({
+      'emailVerification.token': token,
+      'emailVerification.expires': { $gt: Date.now() },
+    })
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired token' })
+    }
+
+    user.emailVerification.token = null
+    user.emailVerification.expires = null
+    user.emailVerification.isVerified = true
+    await user.save()
+
+    res.status(200).json({ message: 'Email verified successfully' })
+  } catch (error) {
+    res.status(500).json({ message: 'Error verifying email', error })
+  }
+})
+
 export default router
