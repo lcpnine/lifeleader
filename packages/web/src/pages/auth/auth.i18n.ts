@@ -19,6 +19,12 @@ const TRANSLATIONS = {
     passwordLabel: 'Password',
     passwordConfirmLabel: 'Password Confirm',
     nicknameLabel: 'Nickname',
+    emailPlaceholder: 'Email',
+    passwordPlaceholder: 'Password',
+    confirmPasswordPlaceholder: 'Confirm Password',
+    nicknamePlaceholder: 'Nickname',
+    newPasswordPlaceholder: 'New Password',
+    confirmNewPasswordPlaceholder: 'Confirm New Password',
   },
   ko: {
     signIn: '로그인',
@@ -40,6 +46,12 @@ const TRANSLATIONS = {
     passwordLabel: '비밀번호',
     passwordConfirmLabel: '비밀번호 확인',
     nicknameLabel: '닉네임',
+    emailPlaceholder: '이메일',
+    passwordPlaceholder: '비밀번호',
+    confirmPasswordPlaceholder: '비밀번호 확인',
+    nicknamePlaceholder: '닉네임',
+    newPasswordPlaceholder: '새 비밀번호',
+    confirmNewPasswordPlaceholder: '새 비밀번호 확인',
   },
   'zh-Hant': {
     signIn: '登入',
@@ -61,6 +73,12 @@ const TRANSLATIONS = {
     passwordLabel: '密碼',
     passwordConfirmLabel: '確認密碼',
     nicknameLabel: '暱稱',
+    emailPlaceholder: '電子郵件',
+    passwordPlaceholder: '密碼',
+    confirmPasswordPlaceholder: '確認密碼',
+    nicknamePlaceholder: '暱稱',
+    newPasswordPlaceholder: '新密碼',
+    confirmNewPasswordPlaceholder: '確認新密碼',
   },
 }
 

@@ -60,14 +60,14 @@ const SignUp = () => {
           <GeneralInput
             label={translation('emailLabel')}
             type="email"
-            placeholder="Email"
+            placeholder={translation('emailPlaceholder')}
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
           <GeneralInput
             label={translation('passwordLabel')}
             type="password"
-            placeholder="Password"
+            placeholder={translation('passwordPlaceholder')}
             value={password}
             onChange={e => setPassword(e.target.value)}
             invalidCondition={password.length > 0 && !isPasswordValid(password)}
@@ -77,7 +77,7 @@ const SignUp = () => {
           <GeneralInput
             label={translation('passwordConfirmLabel')}
             type="password"
-            placeholder="Confirm Password"
+            placeholder={translation('confirmPasswordPlaceholder')}
             value={passwordConfirm}
             onChange={e => setPasswordConfirm(e.target.value)}
             invalidCondition={passwordConfirm.length > 0 && !isPasswordMatch}
@@ -86,7 +86,7 @@ const SignUp = () => {
           <GeneralInput
             label={translation('nicknameLabel')}
             type="text"
-            placeholder="Nickname"
+            placeholder={translation('nicknamePlaceholder')}
             value={nickname}
             onChange={e => setNickname(e.target.value)}
           />
