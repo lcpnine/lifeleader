@@ -1,4 +1,5 @@
 import GeneralInput from '@/components/GeneralInput/GeneralInput'
+import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import useAuth from '@/hooks/useAuth'
 import useGoTo from '@/hooks/useGoTo'
@@ -11,6 +12,7 @@ import AuthLink, { AuthPage } from './authLink'
 const SignIn = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
+  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const { openAlert } = useAlert()
 
   const [email, setEmail] = useState('')
@@ -29,13 +31,25 @@ const SignIn = () => {
       return
     }
 
-    try {
-      await handleSignIn(email, password, keepSignedIn)
+    const { status, success } = await handleSignIn(
+      email,
+      password,
+      keepSignedIn
+    )
 
-      goTo('/', { replace: true })
-    } catch (error) {
-      console.error(error)
+    if (!success) {
+      if (status === 400) {
+        openAlert(translation('invalidUser'))
+        return
+      }
+
+      if (status === 500) {
+        openAlert(commonTranslation('serverError'))
+        return
+      }
     }
+
+    return goTo('/', { replace: true })
   }
 
   return (

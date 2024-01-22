@@ -44,7 +44,7 @@ router.post('/sign-in', (req: Request, res: Response, next) => {
       }
       req.logIn(user, err => {
         if (err) {
-          return next(err)
+          return res.status(500).json({ message: 'Error logging in' })
         }
 
         if (req.body.keepSignedIn) {
