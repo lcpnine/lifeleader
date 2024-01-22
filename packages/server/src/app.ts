@@ -16,7 +16,7 @@ import mongoose from 'mongoose'
 import passport from 'passport'
 import { createClient } from 'redis'
 import initializePassport from './config/passport'
-import { IS_DEV, PHASE } from './constant/common'
+import { COOKIE_DOMAIN, IS_DEV, PHASE } from './constant/common'
 import healthCheckController from './controllers/healthCheck'
 import { IUser } from './models/User.model'
 import authRoutes from './routes/auth'
@@ -61,6 +61,7 @@ app.use(
       httpOnly: true,
       maxAge: 2 * 60 * 60 * 1000,
       secure: !IS_DEV,
+      domain: COOKIE_DOMAIN,
     },
   })
 )
