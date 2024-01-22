@@ -16,8 +16,14 @@ const AlertContext = createContext(DefaultAlertContext)
 export const useAlert = () => useContext(AlertContext)
 
 export const AlertProvider = ({ children }: { children: ReactNode }) => {
-  const [alertProps, setAlertProps] = useState({ text: '' })
-  const [onClose, setOnClose] = useState<() => void>((e?: Event) => {})
+  const [alertProps, setAlertProps] = useState<{
+    text: OpenAlertProps['text']
+  }>({
+    text: '',
+  })
+  const [onClose, setOnClose] = useState<OpenAlertProps['onClose']>(
+    (e?: Event) => {}
+  )
 
   const { ModalComponent, openModal } = useModal({
     Modal: Alert,
@@ -25,7 +31,7 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
       text: alertProps.text,
     },
     onModalClose: () => {
-      onClose()
+      onClose?.()
       setAlertProps({ text: '' })
     },
   })
