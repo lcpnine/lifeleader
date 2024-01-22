@@ -47,14 +47,19 @@ const SignUp = () => {
         },
         {
           validateStatus: status =>
-            status === 201 || status === 400 || status === 409,
+            status === 200 || status === 400 || status === 409,
         }
       )
       if (response.status === 409)
         return openAlert({ text: translation('duplicatedUser') })
       if (response.status === 400)
         return openAlert({ text: translation('invalidForm') })
-      if (response.status === 201) goTo('/auth/sign-in', { replace: true })
+      if (response.status === 200) {
+        return openAlert({
+          text: translation('sendVerificationEmail'),
+          onClose: () => goTo('/'),
+        })
+      }
     } catch (error) {
       openAlert({ text: commonTranslation('serverError') })
     }

@@ -33,6 +33,7 @@ const TRANSLATIONS = {
     invalidUser: 'Check your email and password',
     duplicatedUser: 'Email already exists',
     noUser: 'User not found',
+    sendVerificationEmail: 'Verification email sent. Please check your email.',
   },
   ko: {
     signIn: '로그인',
@@ -68,6 +69,7 @@ const TRANSLATIONS = {
     invalidUser: '이메일과 비밀번호를 확인해주세요',
     duplicatedUser: '이미 존재하는 이메일입니다',
     noUser: '존재하지 않는 이메일입니다',
+    sendVerificationEmail: '인증 이메일을 발송했습니다. 이메일을 확인해주세요.',
   },
   'zh-Hant': {
     signIn: '登入',
@@ -103,6 +105,7 @@ const TRANSLATIONS = {
     invalidUser: '請檢查您的電子郵件和密碼',
     duplicatedUser: '電子郵件已經存在',
     noUser: '找不到使用者',
+    sendVerificationEmail: '驗證電子郵件已發送。請檢查您的電子郵件。',
   },
 }
 
