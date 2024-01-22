@@ -15,11 +15,14 @@ export enum LANGUAGE_NAMES_SHORT {
 export const COMMON_TRANSLATIONS = {
   en: {
     serverError: 'Server error occurred. Please try again later.',
+    loading: 'Loading...',
   },
   ko: {
     serverError: '서버 에러가 발생했습니다. 잠시 후 다시 시도해주세요.',
+    loading: '로딩 중...',
   },
   'zh-Hant': {
     serverError: '伺服器錯誤。請稍後再試。',
+    loading: '載入中...',
   },
 }
