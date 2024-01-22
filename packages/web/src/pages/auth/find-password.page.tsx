@@ -23,7 +23,7 @@ const FindPassword = () => {
 
     try {
       await axios.post('/auth/find-password', { email })
-      alert('Password reset instructions sent to your email.')
+      openAlert(translation('notifyResetPasswordMail'))
     } catch (error) {
       console.error(error)
     }
