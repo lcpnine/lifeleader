@@ -1,3 +1,4 @@
+import GeneralInput from '@/components/GeneralInput/GeneralInput'
 import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import useGoTo from '@/hooks/useGoTo'
@@ -6,12 +7,13 @@ import axios from 'axios'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { FormEventHandler, useState } from 'react'
+import { isPasswordValid } from '../../../utils/common'
 import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [passwordConfirm, setPasswordConfirm] = useState('')
   const router = useRouter()
   const { token } = router.query
   const { goTo } = useGoTo()
@@ -19,6 +21,7 @@ const ResetPassword = () => {
   const { getTranslation } = useI18n()
   const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const translation = getTranslation(TRANSLATIONS)
+  const isPasswordMatch = password === passwordConfirm
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
@@ -38,33 +41,43 @@ const ResetPassword = () => {
     }
   }
 
+  if (!token) {
+    goTo('/auth/sign-in', { replace: true })
+    return null
+  }
+
   return (
     <>
       <Head>
-        <title>Reset Password</title>
+        <title>{translation('resetPassword')}</title>
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <form onSubmit={handleSubmit} className="w-full max-w-xs">
-          <input
+          <GeneralInput
+            label={translation('newPasswordLabel')}
             type="password"
-            placeholder="New Password"
-            className="border p-2 w-full mb-4"
+            placeholder={translation('newPasswordPlaceholder')}
             value={password}
             onChange={e => setPassword(e.target.value)}
+            invalidCondition={password.length > 0 && !isPasswordValid(password)}
+            invalidAlert={translation('invalidPassword')}
+            guide={translation('passwordGuide')}
           />
-          <input
+          <GeneralInput
+            label={translation('confirmNewPasswordLabel')}
             type="password"
-            placeholder="Confirm New Password"
-            className="border p-2 w-full mb-4"
-            value={confirmPassword}
-            onChange={e => setConfirmPassword(e.target.value)}
+            placeholder={translation('confirmNewPasswordPlaceholder')}
+            value={passwordConfirm}
+            onChange={e => setPasswordConfirm(e.target.value)}
+            invalidCondition={passwordConfirm.length > 0 && !isPasswordMatch}
+            invalidAlert={translation('passwordMismatch')}
           />
           <div className="flex justify-center">
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
-              Reset Password
+              {translation('resetPassword')}
             </button>
           </div>
         </form>
