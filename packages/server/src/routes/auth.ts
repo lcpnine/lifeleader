@@ -6,6 +6,7 @@ import passport from 'passport'
 import { COOKIE_DOMAIN, IS_DEV } from '../constant/common'
 import { createResetPasswordTemplate } from '../constant/nodemailer'
 import User, { IUser } from '../models/User.model'
+import { isPasswordValid } from '../utils/common'
 
 const ONE_HOUR = 60 * 60 * 1000
 
@@ -13,11 +14,16 @@ const router = express.Router()
 
 router.post('/sign-up', async (req: Request, res: Response) => {
   try {
-    const { email, password, nickname } = req.body
+    const { email, password, passwordConfirm, nickname } = req.body
     const existingUser = await User.findOne({ email })
 
     if (existingUser) {
-      return res.status(400).json({ message: 'Email already in use' })
+      return res.status(409).json({ message: 'User already exists' })
+    }
+
+    const isValidPassword = isPasswordValid(password)
+    if (!isValidPassword || password !== passwordConfirm) {
+      return res.status(400).json({ message: 'Invalid password' })
     }
 
     const hashedPassword = await bcrypt.hash(password, 10)

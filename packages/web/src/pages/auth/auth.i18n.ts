@@ -31,6 +31,7 @@ const TRANSLATIONS = {
     notifyResetPasswordMail:
       'Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.',
     invalidUser: 'Check your email and password',
+    duplicatedUser: 'Email already exists',
   },
   ko: {
     signIn: '로그인',
@@ -64,6 +65,7 @@ const TRANSLATIONS = {
     notifyResetPasswordMail:
       '비밀번호 재설정을 위한 링크가 이메일로 발송되었습니다. 몇 분 안에 도착하지 않으면 스팸 메일함을 확인해주세요.',
     invalidUser: '이메일과 비밀번호를 확인해주세요',
+    duplicatedUser: '이미 존재하는 이메일입니다',
   },
   'zh-Hant': {
     signIn: '登入',
@@ -97,6 +99,7 @@ const TRANSLATIONS = {
     notifyResetPasswordMail:
       '請檢查您的電子郵件以獲取重設密碼的連結。如果幾分鐘後仍未收到，請檢查您的垃圾郵件文件夾。',
     invalidUser: '請檢查您的電子郵件和密碼',
+    duplicatedUser: '電子郵件已經存在',
   },
 }
 

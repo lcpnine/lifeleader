@@ -38,15 +38,24 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post('/auth/sign-up', {
-        email,
-        password,
-        nickname,
-      })
+      const response = await axios.post(
+        '/auth/sign-up',
+        {
+          email,
+          password,
+          nickname,
+        },
+        {
+          validateStatus: status =>
+            status === 201 || status === 400 || status === 409,
+        }
+      )
+      if (response.status === 409)
+        return openAlert(translation('duplicatedUser'))
+      if (response.status === 400) return openAlert(translation('invalidForm'))
       if (response.status === 201) goTo('/auth/sign-in', { replace: true })
-      else openAlert(commonTranslation('serverError'))
     } catch (error) {
-      console.error(error)
+      openAlert(commonTranslation('serverError'))
     }
   }
 
