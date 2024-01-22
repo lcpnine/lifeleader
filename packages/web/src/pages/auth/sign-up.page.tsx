@@ -28,12 +28,12 @@ const SignUp = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
     if (!isFormValid) {
-      openAlert(translation('invalidForm'))
+      openAlert({ text: translation('invalidForm') })
       return
     }
 
     if (!isPasswordMatch) {
-      openAlert(translation('passwordMismatch'))
+      openAlert({ text: translation('passwordMismatch') })
       return
     }
 
@@ -51,11 +51,12 @@ const SignUp = () => {
         }
       )
       if (response.status === 409)
-        return openAlert(translation('duplicatedUser'))
-      if (response.status === 400) return openAlert(translation('invalidForm'))
+        return openAlert({ text: translation('duplicatedUser') })
+      if (response.status === 400)
+        return openAlert({ text: translation('invalidForm') })
       if (response.status === 201) goTo('/auth/sign-in', { replace: true })
     } catch (error) {
-      openAlert(commonTranslation('serverError'))
+      openAlert({ text: commonTranslation('serverError') })
     }
   }
 
