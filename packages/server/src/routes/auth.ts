@@ -148,7 +148,7 @@ router.post('/reset-password', async (req: Request, res: Response) => {
   user.resetPassword.expires = null
   await user.save()
 
-  res.send({ success: true })
+  res.status(200).send({ success: true })
 })
 
 export default router
