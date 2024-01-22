@@ -4,6 +4,7 @@ import useI18n from '@/hooks/useI18n'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import TRANSLATIONS from './auth.i18n'
 
 const VerifyEmailPage = () => {
   const router = useRouter()
@@ -12,6 +13,7 @@ const VerifyEmailPage = () => {
   const [isVerified, setIsVerified] = useState(false)
   const { getTranslation } = useI18n()
   const commonTranslations = getTranslation(COMMON_TRANSLATIONS)
+  const translation = getTranslation(TRANSLATIONS)
 
   useEffect(() => {
     if (token) {
@@ -25,13 +27,13 @@ const VerifyEmailPage = () => {
       if (response.status === 200) {
         setIsVerified(true)
         openAlert({
-          text: 'Email verified successfully!',
+          text: translation('emailVerified'),
           onClose: () => router.push('/auth/sign-in'),
         })
       }
     } catch (error) {
       openAlert({
-        text: 'Verification failed. Please try again or contact support.',
+        text: translation('emailVerificationFailed'),
       })
     }
   }
@@ -50,7 +52,7 @@ const VerifyEmailPage = () => {
     return (
       <div className="flex flex-col items-center justify-center h-screen text-center">
         <div className="text-xl font-bold text-green-600 mb-4">
-          Email successfully verified!
+          {translation('emailVerified')}
         </div>
         <div className="text-lg text-gray-700">Redirecting to sign in...</div>
       </div>
@@ -60,7 +62,7 @@ const VerifyEmailPage = () => {
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="text-lg font-semibold text-blue-600">
-        Verifying your email...
+        <p>{translation('onEmailVerification')}</p>
       </div>
     </div>
   )
