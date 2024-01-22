@@ -1,4 +1,6 @@
+import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
+import useI18n from '@/hooks/useI18n'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -8,6 +10,8 @@ const VerifyEmailPage = () => {
   const { token } = router.query
   const { openAlert } = useAlert()
   const [isVerified, setIsVerified] = useState(false)
+  const { getTranslation } = useI18n()
+  const commonTranslations = getTranslation(COMMON_TRANSLATIONS)
 
   useEffect(() => {
     if (token) {
@@ -36,7 +40,7 @@ const VerifyEmailPage = () => {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-lg font-semibold text-blue-600">
-          <p>Loading...</p>
+          <p>{commonTranslations('loading')}</p>
         </div>
       </div>
     )
