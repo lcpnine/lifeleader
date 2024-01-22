@@ -1,3 +1,4 @@
+import GeneralInput from '@/components/GeneralInput/GeneralInput'
 import { useAlert } from '@/contexts/AlertContext'
 import useI18n from '@/hooks/useI18n'
 import axios from 'axios'
@@ -35,10 +36,10 @@ const FindPassword = () => {
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <form onSubmit={handleSubmit} className="w-full max-w-xs">
-          <input
+          <GeneralInput
+            label={translation('emailLabel')}
             type="email"
-            placeholder="Email"
-            className="border p-2 w-full mb-4"
+            placeholder={translation('emailPlaceholder')}
             value={email}
             onChange={e => setEmail(e.target.value)}
           />

@@ -1,3 +1,4 @@
+import GeneralInput from '@/components/GeneralInput/GeneralInput'
 import { useAlert } from '@/contexts/AlertContext'
 import useAuth from '@/hooks/useAuth'
 import useGoTo from '@/hooks/useGoTo'
@@ -44,17 +45,17 @@ const SignIn = () => {
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <form onSubmit={handleSubmit} className="w-full max-w-xs">
-          <input
+          <GeneralInput
+            label={translation('emailLabel')}
             type="email"
-            placeholder="Email"
-            className="border p-2 w-full mb-4"
+            placeholder={translation('emailPlaceholder')}
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
-          <input
+          <GeneralInput
+            label={translation('passwordLabel')}
             type="password"
-            placeholder="Password"
-            className="border p-2 w-full mb-4"
+            placeholder={translation('passwordPlaceholder')}
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
