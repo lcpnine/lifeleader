@@ -54,7 +54,9 @@ const VerifyEmailPage = () => {
         <div className="text-xl font-bold text-green-600 mb-4">
           {translation('emailVerified')}
         </div>
-        <div className="text-lg text-gray-700">Redirecting to sign in...</div>
+        <div className="text-lg text-gray-700">
+          {commonTranslations('redirecting')}
+        </div>
       </div>
     )
   }
