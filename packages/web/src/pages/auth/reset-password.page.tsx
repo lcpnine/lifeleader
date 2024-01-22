@@ -46,7 +46,7 @@ const ResetPassword = () => {
   return (
     <>
       <Head>
-        <title>Reset Password</title>
+        <title>{translation('resetPassword')}</title>
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <form onSubmit={handleSubmit} className="w-full max-w-xs">

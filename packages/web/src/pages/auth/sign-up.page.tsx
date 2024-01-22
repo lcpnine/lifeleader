@@ -51,7 +51,7 @@ const SignUp = () => {
   return (
     <>
       <Head>
-        <title>Sign Up</title>
+        <title>{translation('signUp')}</title>
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <form onSubmit={handleSubmit} className="w-full max-w-xs">

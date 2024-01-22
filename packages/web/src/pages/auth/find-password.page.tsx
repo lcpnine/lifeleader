@@ -31,7 +31,7 @@ const FindPassword = () => {
   return (
     <>
       <Head>
-        <title>Find Password</title>
+        <title>{translation('findPassword')}</title>
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <form onSubmit={handleSubmit} className="w-full max-w-xs">

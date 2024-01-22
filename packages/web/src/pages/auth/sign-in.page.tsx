@@ -40,7 +40,7 @@ const SignIn = () => {
   return (
     <>
       <Head>
-        <title>Sign In</title>
+        <title>{translation('signIn')}</title>
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <form onSubmit={handleSubmit} className="w-full max-w-xs">
