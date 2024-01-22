@@ -12,9 +12,19 @@ type TRANSLATIONS = {
 const useI18n = () => {
   const router = useRouter()
   const currentLanguage = router.locale as SUPPORTING_LANGUAGES
-
   const changeLanguage = (locale: SUPPORTING_LANGUAGES) => {
-    router.push(router.pathname, router.pathname, { locale })
+    const currentPath = router.pathname
+    const currentQueries = router.query
+    const newQueries = { ...currentQueries }
+    const newQueriesString = Object.keys(newQueries)
+      .map(key => `${key}=${newQueries[key]}`)
+      .join('&')
+    const newUrl = `${currentPath}?${newQueriesString}`
+
+    router.push(newUrl, undefined, {
+      locale,
+      shallow: true,
+    })
   }
 
   const getTranslation = (translations: TRANSLATIONS) => {
