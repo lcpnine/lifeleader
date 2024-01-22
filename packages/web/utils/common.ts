@@ -8,3 +8,9 @@ export const deepCopy = (obj: any) => {
   }
   return newObj
 }
+
+export function isPasswordValid(password: string) {
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+  return regex.test(password)
+}

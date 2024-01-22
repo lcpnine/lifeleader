@@ -11,8 +11,14 @@ const TRANSLATIONS = {
     keepSignedIn: 'Keep me signed in',
     invalidForm: 'Fill out the form correctly',
     invalidToken: 'Invalid token',
-    passwordsDoNotMatch: 'The passwords do not match',
+    passwordMismatch: 'The passwords do not match',
     resetPassword: 'Reset Password',
+    passwordGuide:
+      'Your password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., @, $, !, %, *, ?, &)',
+    emailLabel: 'Email',
+    passwordLabel: 'Password',
+    passwordConfirmLabel: 'Password Confirm',
+    nicknameLabel: 'Nickname',
   },
   ko: {
     signIn: '로그인',
@@ -26,8 +32,14 @@ const TRANSLATIONS = {
     keepSignedIn: '자동 로그인',
     invalidForm: '양식을 올바르게 작성해주세요',
     invalidToken: '유효하지 않은 토큰입니다',
-    passwordsDoNotMatch: '비밀번호 확인이 일치하지 않습니다',
+    passwordMismatch: '비밀번호 확인이 일치하지 않습니다',
     resetPassword: '비밀번호 재설정',
+    passwordGuide:
+      '비밀번호는 최소 8자 이상이어야 하며, 최소 한 개의 대문자, 소문자, 숫자, 특수문자 (@, $, !, %, *, ?, &)를 포함해야 합니다',
+    emailLabel: '이메일',
+    passwordLabel: '비밀번호',
+    passwordConfirmLabel: '비밀번호 확인',
+    nicknameLabel: '닉네임',
   },
   'zh-Hant': {
     signIn: '登入',
@@ -41,8 +53,14 @@ const TRANSLATIONS = {
     keepSignedIn: '保持登入',
     invalidForm: '請正確填寫表單',
     invalidToken: '無效的令牌',
-    passwordsDoNotMatch: '密碼不一致',
+    passwordMismatch: '密碼不一致',
     resetPassword: '重設密碼',
+    passwordGuide:
+      '您的密碼至少要有8個字符長，並且包括至少一個大寫字母、一個小寫字母、一個數字和一個特殊字符（例如 @, $, !, %, *, ?, &）',
+    emailLabel: '電子郵件',
+    passwordLabel: '密碼',
+    passwordConfirmLabel: '確認密碼',
+    nicknameLabel: '暱稱',
   },
 }
 

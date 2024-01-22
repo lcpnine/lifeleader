@@ -1,3 +1,4 @@
+import GeneralInput from '@/components/GeneralInput/GeneralInput'
 import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import useGoTo from '@/hooks/useGoTo'
@@ -5,6 +6,7 @@ import useI18n from '@/hooks/useI18n'
 import axios from 'axios'
 import Head from 'next/head'
 import { FormEventHandler, useState } from 'react'
+import { isPasswordValid } from '../../../utils/common'
 import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
 
@@ -20,7 +22,7 @@ const SignUp = () => {
   const [nickname, setNickname] = useState('')
   const { goTo } = useGoTo()
 
-  const isFormValid = email && password && nickname
+  const isFormValid = email && isPasswordValid(password) && nickname
   const isPasswordMatch = password === passwordConfirm
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
@@ -31,7 +33,7 @@ const SignUp = () => {
     }
 
     if (!isPasswordMatch) {
-      openAlert(translation('passwordsDoNotMatch'))
+      openAlert(translation('passwordMismatch'))
       return
     }
 
@@ -55,31 +57,36 @@ const SignUp = () => {
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <form onSubmit={handleSubmit} className="w-full max-w-xs">
-          <input
+          <GeneralInput
+            label={translation('emailLabel')}
             type="email"
             placeholder="Email"
-            className="border p-2 w-full mb-4"
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
-          <input
+          <GeneralInput
+            label={translation('passwordLabel')}
             type="password"
             placeholder="Password"
-            className="border p-2 w-full mb-4"
             value={password}
             onChange={e => setPassword(e.target.value)}
+            invalidCondition={password.length > 0 && !isPasswordValid(password)}
+            invalidAlert={translation('invalidPassword')}
+            guide={translation('passwordGuide')}
           />
-          <input
+          <GeneralInput
+            label={translation('passwordConfirmLabel')}
             type="password"
             placeholder="Confirm Password"
-            className="border p-2 w-full mb-4"
             value={passwordConfirm}
             onChange={e => setPasswordConfirm(e.target.value)}
+            invalidCondition={passwordConfirm.length > 0 && !isPasswordMatch}
+            invalidAlert={translation('passwordMismatch')}
           />
-          <input
+          <GeneralInput
+            label={translation('nicknameLabel')}
             type="text"
             placeholder="Nickname"
-            className="border p-2 w-full mb-4"
             value={nickname}
             onChange={e => setNickname(e.target.value)}
           />
