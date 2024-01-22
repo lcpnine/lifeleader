@@ -43,6 +43,7 @@ const SignUp = () => {
         {
           email,
           password,
+          passwordConfirm,
           nickname,
         },
         {
