@@ -3,7 +3,10 @@ import crypto from 'crypto'
 import express, { Request, Response } from 'express'
 import passport from 'passport'
 import { COOKIE_DOMAIN, IS_DEV } from '../constant/common'
-import { createResetPasswordTemplate } from '../constant/nodemailer'
+import {
+  createEmailVerificationTemplate,
+  createResetPasswordTemplate,
+} from '../constant/nodemailer'
 import User, { IUser } from '../models/User.model'
 import { isPasswordValid } from '../utils/common'
 import { sendEmail } from '../utils/nodemailer'
@@ -44,7 +47,7 @@ router.post('/sign-up', async (req: Request, res: Response) => {
     await sendEmail(
       email,
       'Verify Email',
-      createResetPasswordTemplate(nickname, emailToken)
+      createEmailVerificationTemplate(nickname, emailToken)
     )
     res.status(200).send({ message: 'Successfully sent email' })
   } catch (error) {
