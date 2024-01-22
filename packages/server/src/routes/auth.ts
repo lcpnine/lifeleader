@@ -27,12 +27,45 @@ router.post('/sign-up', async (req: Request, res: Response) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10)
-    const newUser = new User({ email, password: hashedPassword, nickname })
+    const emailToken = crypto.randomBytes(20).toString('hex')
+    const emailVerification = {
+      token: emailToken,
+      expires: new Date(Date.now() + ONE_HOUR),
+      isVerified: false,
+    }
+
+    const newUser = new User({
+      email,
+      password: hashedPassword,
+      nickname,
+      emailVerification,
+    })
     await newUser.save()
 
-    res
-      .status(201)
-      .json({ message: 'User successfully registered', user: newUser })
+    const transporter = nodemailer.createTransport({
+      port: 465,
+      host: 'smtp.gmail.com',
+      secure: true,
+      auth: {
+        user: 'life.leader.me@gmail.com',
+        pass: process.env.LIFE_LEADER_EMAIL_PASSWORD,
+      },
+    })
+
+    transporter.sendMail(
+      {
+        from: 'life.leader.me@gmail.com',
+        to: email,
+        subject: 'Password Reset',
+        html: createResetPasswordTemplate(nickname, emailToken),
+      },
+      (error, info) => {
+        if (error) {
+          return res.status(500).send({ message: 'Error sending email' })
+        }
+        res.status(200).send({ message: 'Successfully sent email' })
+      }
+    )
   } catch (error) {
     res.status(500).json({ message: 'Error registering new user', error })
   }
