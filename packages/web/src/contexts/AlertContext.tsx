@@ -4,7 +4,7 @@ import { ReactNode, createContext, useContext, useState } from 'react'
 
 interface OpenAlertProps {
   text: string
-  onClose?: (e?: Event) => void
+  onClose?: () => void
 }
 
 const DefaultAlertContext = {
@@ -21,9 +21,7 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
   }>({
     text: '',
   })
-  const [onClose, setOnClose] = useState<OpenAlertProps['onClose']>(
-    (e?: Event) => {}
-  )
+  const [onClose, setOnClose] = useState<OpenAlertProps['onClose']>(() => {})
 
   const { ModalComponent, openModal } = useModal({
     Modal: Alert,
@@ -37,7 +35,7 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
   })
 
   const openAlert = ({ text, onClose = () => {} }: OpenAlertProps) => {
-    setOnClose(onClose)
+    setOnClose(() => onClose)
     openModal({ text })
   }
 
