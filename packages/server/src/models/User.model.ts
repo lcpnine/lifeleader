@@ -6,12 +6,19 @@ export interface TokenInfo {
   isVerified?: boolean
 }
 
+export interface PurchasedInfo {
+  isPurchased: boolean
+  purchasedAt: Date | null
+  expiresAt: Date | null
+}
+
 export interface IUser extends Document {
   email: string
   password: string
   nickname: string
   emailVerification: TokenInfo
   resetPassword: TokenInfo
+  purchasedInfo: PurchasedInfo
 }
 
 const tokenInfoSchema: Schema = new Schema({
@@ -27,6 +34,14 @@ const UserSchema: Schema = new Schema({
   createdAt: { type: Date, default: Date.now },
   emailVerification: { type: tokenInfoSchema, default: () => ({}) },
   resetPassword: { type: tokenInfoSchema, default: () => ({}) },
+  purchasedInfo: {
+    type: {
+      isPurchased: { type: Boolean, default: false },
+      purchasedAt: { type: Date, default: null },
+      expiresAt: { type: Date, default: null },
+    },
+    default: () => ({}),
+  },
 })
 
 export default mongoose.model<IUser>('User', UserSchema)
