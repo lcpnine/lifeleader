@@ -1,4 +1,5 @@
 import GeneralInput from '@/components/GeneralInput/GeneralInput'
+import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import useI18n from '@/hooks/useI18n'
 import axios from 'axios'
@@ -10,6 +11,7 @@ import AuthLink, { AuthPage } from './authLink'
 const FindPassword = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
+  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const { openAlert } = useAlert()
 
   const [email, setEmail] = useState('')
@@ -22,10 +24,20 @@ const FindPassword = () => {
     }
 
     try {
-      await axios.post('/auth/find-password', { email })
-      openAlert(translation('notifyResetPasswordMail'))
+      const response = await axios.post(
+        '/auth/find-password',
+        { email },
+        {
+          validateStatus: status => status === 200 || status === 404,
+        }
+      )
+      if (response.status === 404) return openAlert(translation('noUser'))
+      if (response.status === 200) {
+        openAlert(translation('notifyResetPasswordMail'))
+        return
+      }
     } catch (error) {
-      console.error(error)
+      openAlert(commonTranslation('serverError'))
     }
   }
 

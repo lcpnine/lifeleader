@@ -126,7 +126,7 @@ router.post('/find-password', async (req: Request, res: Response) => {
       if (error) {
         return res.status(500).send({ sucess: false })
       }
-      res.send({ success: true })
+      res.status(200).send({ success: true })
     }
   )
 })
