@@ -1,8 +1,8 @@
 import 'reflect-metadata'
 import { Arg, Query, Resolver } from 'type-graphql'
-import { ErrorResponse } from '../types/common'
 import Recommendation from '../types/recommendation'
 import { RecommendationInNeed, getRecommendations } from '../utils/openai'
+import { BaseError } from './dto/common'
 
 @Resolver()
 export class RecommendationResolver {
@@ -12,7 +12,7 @@ export class RecommendationResolver {
     @Arg('selectedSubGoals', () => [String], { nullable: true })
     selectedSubGoals: string[] = [],
     @Arg('currentLanguage', { defaultValue: 'en' }) currentLanguage: string
-  ): Promise<Recommendation[] | ErrorResponse> {
+  ): Promise<Recommendation[] | BaseError> {
     if (!mainGoal) {
       return {
         displayMessage: 'Main goal is required',
