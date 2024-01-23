@@ -5,9 +5,42 @@ const config: CodegenConfig = {
   schema: '../server/src/schema.gql',
   documents: 'src/**/*.tsx',
   generates: {
-    'src/gql/': {
+    'types/possible-types.ts': {
+      plugins: ['fragment-matcher'],
+    },
+    'types/graphql.ts': {
+      plugins: ['typescript'],
+      config: {
+        avoidOptionals: { field: true, inputValue: false },
+        strictScalars: true,
+      },
+    },
+    'libs/apollo/typePolicies.helper.ts': {
+      plugins: ['typescript-apollo-client-helpers'],
+    },
+    './': {
+      documents: [
+        './graphql/**/*.graphql',
+        './pages/**/*.{ts,tsx,graphql}',
+        './components/**/*.{ts,tsx}',
+        './hooks/**/*.{ts,tsx,graphql}',
+        './contexts/**/*.{ts,tsx,graphql}',
+      ],
+      preset: 'near-operation-file',
+      presetConfig: {
+        extension: '.generated.ts',
+        baseTypesPath: 'types/graphql.ts',
+      },
+      plugins: ['typescript-operations', 'typed-document-node'],
+    },
+    './gql/': {
+      documents: ['./pages/setting/tags/**/*.tsx'],
       preset: 'client',
       plugins: [],
+      config: {
+        avoidOptionals: { field: true, inputValue: false },
+        strictScalars: true,
+      },
     },
   },
 }
