@@ -11,7 +11,7 @@ scalar DateTime
 type Mutation {
   findPassword(email: String!): Boolean!
   resetPassword(newPassword: String!, newPasswordConfirm: String!, token: String!): Boolean!
-  signIn(email: String!, password: String!): SignInSuccessResponse!
+  signIn(email: String!, keepSignedIn: Boolean!, password: String!): SignInSuccessResponse!
   signUp(email: String!, nickname: String!, password: String!, passwordConfirm: String!): User!
   verifyEmail(token: String!): Boolean!
 }
