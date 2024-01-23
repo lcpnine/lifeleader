@@ -2,7 +2,10 @@ import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import { Arg, Mutation, Query, Resolver } from 'type-graphql'
-import { createEmailVerificationTemplate } from '../constant/nodemailer'
+import {
+  createEmailVerificationTemplate,
+  createResetPasswordTemplate,
+} from '../constant/nodemailer'
 import UserModel, { IUser } from '../models/User.model'
 import { User } from '../types/user'
 import { isPasswordValid } from '../utils/common'
