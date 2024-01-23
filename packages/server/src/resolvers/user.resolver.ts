@@ -12,7 +12,12 @@ import { MyContext } from '../types/common'
 import { User } from '../types/user'
 import { isPasswordValid } from '../utils/common'
 import { sendEmail } from '../utils/nodemailer'
-import { SignInFailureType, SignInResponse, SignUpResponse } from './dto/user'
+import {
+  SignInFailureType,
+  SignInResponse,
+  SignUpFailureType,
+  SignUpResponse,
+} from './dto/user'
 
 @Resolver()
 export class UserResolver {
@@ -69,19 +74,19 @@ export class UserResolver {
     return true
   }
 
-  @Mutation(() => User)
+  @Mutation(() => SignUpResponse)
   async signUp(
     @Arg('email') email: string,
     @Arg('password') password: string,
     @Arg('passwordConfirm') passwordConfirm: string,
     @Arg('nickname') nickname: string
-  ): Promise<SignUpResponse> {
+  ): Promise<typeof SignUpResponse> {
     const existingUser = await UserModel.findOne({ email })
-    if (existingUser) throw new Error('User already exists')
+    if (existingUser) return { errorType: SignUpFailureType.EXISTING_EMAIL }
 
     const isValidPassword = isPasswordValid(password)
     if (!isValidPassword || password !== passwordConfirm) {
-      throw new Error('Invalid password')
+      return { errorType: SignUpFailureType.INVALID_PASSWORD }
     }
 
     const hashedPassword = await bcrypt.hash(password, 10)
@@ -105,7 +110,7 @@ export class UserResolver {
       createEmailVerificationTemplate(nickname, emailToken)
     )
 
-    return { message: 'Verification email sent' }
+    return { isMailSent: true }
   }
 
   @Mutation(() => Boolean)

@@ -24,7 +24,7 @@ export type Mutation = {
   resetPassword: Scalars['Boolean']['output'];
   signIn: SignInResponse;
   signOut: Scalars['Boolean']['output'];
-  signUp: User;
+  signUp: SignUpResponse;
   verifyEmail: Scalars['Boolean']['output'];
 };
 
@@ -106,6 +106,23 @@ export type SignInSuccess = {
   __typename?: 'SignInSuccess';
   token: Scalars['String']['output'];
   user: User;
+};
+
+export type SignUpFailure = {
+  __typename?: 'SignUpFailure';
+  errorType: SignUpFailureType;
+};
+
+export enum SignUpFailureType {
+  ExistingEmail = 'EXISTING_EMAIL',
+  InvalidPassword = 'INVALID_PASSWORD'
+}
+
+export type SignUpResponse = SignUpFailure | SignUpSuccess;
+
+export type SignUpSuccess = {
+  __typename?: 'SignUpSuccess';
+  isMailSent: Scalars['Boolean']['output'];
 };
 
 export type TokenInfo = {

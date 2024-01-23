@@ -32,6 +32,14 @@ export type SignInSuccessFieldPolicy = {
 	token?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type SignUpFailureKeySpecifier = ('errorType' | SignUpFailureKeySpecifier)[];
+export type SignUpFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SignUpSuccessKeySpecifier = ('isMailSent' | SignUpSuccessKeySpecifier)[];
+export type SignUpSuccessFieldPolicy = {
+	isMailSent?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type TokenInfoKeySpecifier = ('expiresAt' | 'isVerified' | 'token' | TokenInfoKeySpecifier)[];
 export type TokenInfoFieldPolicy = {
 	expiresAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -72,6 +80,14 @@ export type StrictTypedTypePolicies = {
 	SignInSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SignInSuccessKeySpecifier | (() => undefined | SignInSuccessKeySpecifier),
 		fields?: SignInSuccessFieldPolicy,
+	},
+	SignUpFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SignUpFailureKeySpecifier | (() => undefined | SignUpFailureKeySpecifier),
+		fields?: SignUpFailureFieldPolicy,
+	},
+	SignUpSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SignUpSuccessKeySpecifier | (() => undefined | SignUpSuccessKeySpecifier),
+		fields?: SignUpSuccessFieldPolicy,
 	},
 	TokenInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TokenInfoKeySpecifier | (() => undefined | TokenInfoKeySpecifier),

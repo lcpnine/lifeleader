@@ -3,6 +3,7 @@ import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
+import { gql } from '@apollo/client'
 import axios from 'axios'
 import Head from 'next/head'
 import { FormEventHandler, useState } from 'react'
@@ -125,5 +126,22 @@ const SignUp = () => {
     </>
   )
 }
+
+const SIGN_UP_MUTATION = gql`
+  mutation SignUp(
+    $email: String!
+    $password: String!
+    $passwordConfirm: String!
+    $nickname: String!
+  ) {
+    signUp(
+      email: $email
+      password: $password
+      passwordConfirm: $passwordConfirm
+      nickname: $nickname
+    ) {
+    }
+  }
+`
 
 export default SignUp

@@ -13,7 +13,7 @@ type Mutation {
   resetPassword(newPassword: String!, newPasswordConfirm: String!, token: String!): Boolean!
   signIn(email: String!, keepSignedIn: Boolean!, password: String!): SignInResponse!
   signOut: Boolean!
-  signUp(email: String!, nickname: String!, password: String!, passwordConfirm: String!): User!
+  signUp(email: String!, nickname: String!, password: String!, passwordConfirm: String!): SignUpResponse!
   verifyEmail(token: String!): Boolean!
 }
 
@@ -46,6 +46,21 @@ union SignInResponse = SignInFailure | SignInSuccess
 type SignInSuccess {
   token: String!
   user: User!
+}
+
+type SignUpFailure {
+  errorType: SignUpFailureType!
+}
+
+enum SignUpFailureType {
+  EXISTING_EMAIL
+  INVALID_PASSWORD
+}
+
+union SignUpResponse = SignUpFailure | SignUpSuccess
+
+type SignUpSuccess {
+  isMailSent: Boolean!
 }
 
 type TokenInfo {

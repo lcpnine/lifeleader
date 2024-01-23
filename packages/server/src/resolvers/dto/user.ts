@@ -43,7 +43,33 @@ export const SignInResponse = createUnionType({
 })
 
 @ObjectType()
-export class SignUpResponse {
+export class SignUpSuccess {
   @Field()
-  message: string
+  isMailSent: boolean
 }
+
+export enum SignUpFailureType {
+  EXISTING_EMAIL = 'EXISTING_EMAIL',
+  INVALID_PASSWORD = 'INVALID_PASSWORD',
+}
+
+registerEnumType(SignUpFailureType, {
+  name: 'SignUpFailureType',
+})
+
+@ObjectType()
+export class SignUpFailure implements BaseError {
+  @Field(type => SignUpFailureType)
+  errorType: SignUpFailureType
+}
+
+export const SignUpResponse = createUnionType({
+  name: 'SignUpResponse',
+  types: () => [SignUpSuccess, SignUpFailure] as const,
+  resolveType: (value: any) => {
+    if ('isMailSent' in value) {
+      return SignUpSuccess.name
+    }
+    return SignUpFailure.name
+  },
+})

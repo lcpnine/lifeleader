@@ -9,6 +9,10 @@
     "SignInResponse": [
       "SignInFailure",
       "SignInSuccess"
+    ],
+    "SignUpResponse": [
+      "SignUpFailure",
+      "SignUpSuccess"
     ]
   }
 };
