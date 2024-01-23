@@ -6,29 +6,29 @@ import {
   useContext,
   useState,
 } from 'react'
-
-export interface User {
-  isSignedIn: boolean
-  email: string
-  nickname: string
-  createdAt: string
-  purchasedInfo: {
-    isPurchased: boolean
-    purchasedAt: string
-    expiresAt: string
-  }
-}
+import { User } from '../../gql/graphql'
 
 export interface UserContext {
   user: User
   setUser: Dispatch<SetStateAction<User>>
+  isSignedIn: boolean
 }
 
 export const DEFAULT_USER = {
-  isSignedIn: false,
+  _id: '',
   email: '',
   nickname: 'Guest',
   createdAt: '',
+  emailVerification: {
+    isVerified: false,
+    token: '',
+    expires: '',
+  },
+  resetPassword: {
+    token: '',
+    expires: '',
+    isVerified: false,
+  },
   purchasedInfo: {
     isPurchased: false,
     purchasedAt: '',
@@ -39,6 +39,7 @@ export const DEFAULT_USER = {
 const DefaultUserInfoContext: UserContext = {
   user: DEFAULT_USER,
   setUser: (userInfo: any) => {},
+  isSignedIn: false,
 }
 
 const UserInfoContext = createContext(DefaultUserInfoContext)
@@ -59,6 +60,7 @@ export const UserProvider = ({
   const value: UserContext = {
     user,
     setUser,
+    isSignedIn: user._id !== '',
   }
 
   return (
