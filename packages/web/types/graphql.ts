@@ -107,7 +107,7 @@ export type SignInSuccess = {
 
 export type TokenInfo = {
   __typename?: 'TokenInfo';
-  expires: Maybe<Scalars['DateTime']['output']>;
+  expiresAt: Maybe<Scalars['DateTime']['output']>;
   isVerified: Maybe<Scalars['Boolean']['output']>;
   token: Maybe<Scalars['String']['output']>;
 };

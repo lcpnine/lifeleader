@@ -48,7 +48,7 @@ type SignInSuccess {
 }
 
 type TokenInfo {
-  expires: DateTime
+  expiresAt: DateTime
   isVerified: Boolean
   token: String
 }

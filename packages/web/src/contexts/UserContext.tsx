@@ -22,11 +22,11 @@ export const DEFAULT_USER = {
   emailVerification: {
     isVerified: false,
     token: '',
-    expires: '',
+    expiresAt: '',
   },
   resetPassword: {
     token: '',
-    expires: '',
+    expiresAt: '',
     isVerified: false,
   },
   purchasedInfo: {

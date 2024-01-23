@@ -140,11 +140,11 @@ const SIGN_IN_MUTATION = gql`
           emailVerification {
             isVerified
             token
-            expires
+            expiresAt
           }
           resetPassword {
             token
-            expires
+            expiresAt
             isVerified
           }
           purchasedInfo {

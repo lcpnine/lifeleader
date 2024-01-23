@@ -77,7 +77,7 @@ export class UserResolver {
     const emailToken = crypto.randomBytes(20).toString('hex')
     const emailVerification = {
       token: emailToken,
-      expires: new Date(Date.now() + 60 * 60 * 1000),
+      expiresAt: new Date(Date.now() + 60 * 60 * 1000),
       isVerified: false,
     }
 
@@ -101,13 +101,13 @@ export class UserResolver {
   async verifyEmail(@Arg('token') token: string): Promise<boolean> {
     const user = await UserModel.findOne({
       'emailVerification.token': token,
-      'emailVerification.expires': { $gt: new Date() },
+      'emailVerification.expiresAt': { $gt: new Date() },
     })
 
     if (!user) throw new Error('Invalid or expired token')
 
     user.emailVerification.token = null
-    user.emailVerification.expires = null
+    user.emailVerification.expiresAt = null
     user.emailVerification.isVerified = true
     await user.save()
 
@@ -121,7 +121,7 @@ export class UserResolver {
 
     const token = crypto.randomBytes(20).toString('hex')
     user.resetPassword.token = token
-    user.resetPassword.expires = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+    user.resetPassword.expiresAt = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
     await user.save()
 
     await sendEmail(
@@ -149,7 +149,7 @@ export class UserResolver {
 
     const user = await UserModel.findOne({
       'resetPassword.token': token,
-      'resetPassword.expires': { $gt: new Date() },
+      'resetPassword.expiresAt': { $gt: new Date() },
     })
 
     if (!user) throw new Error('Invalid or expired token')
@@ -157,7 +157,7 @@ export class UserResolver {
     const hashedPassword = await bcrypt.hash(newPassword, 10)
     user.password = hashedPassword
     user.resetPassword.token = null
-    user.resetPassword.expires = null
+    user.resetPassword.expiresAt = null
     await user.save()
 
     return true

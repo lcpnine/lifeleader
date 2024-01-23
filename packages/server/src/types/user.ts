@@ -7,7 +7,7 @@ export class TokenInfo {
   token: string | null
 
   @Field(() => Date, { nullable: true })
-  expires: Date | null
+  expiresAt: Date | null
 
   @Field(() => Boolean, { nullable: true })
   isVerified?: boolean

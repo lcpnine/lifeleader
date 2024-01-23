@@ -31,9 +31,9 @@ export type SignInSuccessFieldPolicy = {
 	token?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TokenInfoKeySpecifier = ('expires' | 'isVerified' | 'token' | TokenInfoKeySpecifier)[];
+export type TokenInfoKeySpecifier = ('expiresAt' | 'isVerified' | 'token' | TokenInfoKeySpecifier)[];
 export type TokenInfoFieldPolicy = {
-	expires?: FieldPolicy<any> | FieldReadFunction<any>,
+	expiresAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	isVerified?: FieldPolicy<any> | FieldReadFunction<any>,
 	token?: FieldPolicy<any> | FieldReadFunction<any>
 };

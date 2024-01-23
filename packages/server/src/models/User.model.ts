@@ -4,7 +4,7 @@ import { PurchasedInfo, TokenInfo } from '../types/user'
 
 const tokenInfoSchema: Schema = new Schema({
   token: { type: String, default: null },
-  expires: { type: Date, default: null },
+  expiresAt: { type: Date, default: null },
   isVerified: { type: Boolean, default: false },
 })
 
