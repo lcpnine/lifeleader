@@ -2,9 +2,14 @@ import GeneralInput from '@/components/GeneralInput/GeneralInput'
 import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import useI18n from '@/hooks/useI18n'
-import axios from 'axios'
+import { gql, useMutation } from '@apollo/client'
 import Head from 'next/head'
 import { FormEventHandler, useState } from 'react'
+import {
+  FindPasswordDocument,
+  FindPasswordFailureType,
+} from '../../../gql/graphql'
+import { extractByTypename } from '../../../utils/typeguard'
 import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
 
@@ -12,6 +17,7 @@ const FindPassword = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
   const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
+  const [findPasswordMutation] = useMutation(FindPasswordDocument)
   const { openAlert } = useAlert()
 
   const [email, setEmail] = useState('')
@@ -24,21 +30,23 @@ const FindPassword = () => {
     }
 
     try {
-      const response = await axios.post(
-        '/auth/find-password',
-        { email },
-        {
-          validateStatus: status => status === 200 || status === 404,
-        }
+      const { data } = await findPasswordMutation({ variables: { email } })
+      const { FindPasswordSuccess, FindPasswordFailure } = extractByTypename(
+        data?.findPassword
       )
-      if (response.status === 404)
-        return openAlert({ text: translation('noUser') })
-      if (response.status === 200) {
-        openAlert({ text: translation('notifyResetPasswordMail') })
+      const errorType = FindPasswordFailure?.errorType
+      if (errorType) {
+        if (errorType === FindPasswordFailureType.UserNotFound)
+          return openAlert({ text: translation('UserNotFound') })
+        if (errorType === FindPasswordFailureType.ServerError)
+          return openAlert({ text: commonTranslation('ServerError') })
+      }
+      if (!!FindPasswordSuccess?.success) {
+        openAlert({ text: translation('SendResetPasswordMail') })
         return
       }
     } catch (error) {
-      openAlert({ text: commonTranslation('serverError') })
+      return openAlert({ text: commonTranslation('ServerError') })
     }
   }
 
@@ -75,5 +83,18 @@ const FindPassword = () => {
     </>
   )
 }
+
+const FIND_PASSWORD_MUTATION = gql`
+  mutation FindPassword($email: String!) {
+    findPassword(email: $email) {
+      ... on FindPasswordSuccess {
+        success
+      }
+      ... on FindPasswordFailure {
+        errorType
+      }
+    }
+  }
+`
 
 export default FindPassword

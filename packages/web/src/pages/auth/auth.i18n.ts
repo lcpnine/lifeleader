@@ -29,11 +29,10 @@ const TRANSLATIONS = {
     nicknamePlaceholder: 'Nickname',
     newPasswordPlaceholder: 'New Password',
     confirmNewPasswordPlaceholder: 'Confirm New Password',
-    notifyResetPasswordMail:
+    SendResetPasswordMail:
       'Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.',
-    UserNotFound: 'Check your email and password',
     ExistingEmail: 'Email already exists',
-    noUser: 'User not found',
+    UserNotFound: 'User not found',
     SendVerificationEmail: 'Verification email sent. Please check your email.',
     EmailVerified: 'Email verified successfully!',
     EmailVerificationFailed:
@@ -71,11 +70,10 @@ const TRANSLATIONS = {
     nicknamePlaceholder: '닉네임',
     newPasswordPlaceholder: '새 비밀번호',
     confirmNewPasswordPlaceholder: '새 비밀번호 확인',
-    notifyResetPasswordMail:
+    SendResetPasswordMail:
       '비밀번호 재설정을 위한 링크가 이메일로 발송되었습니다. 몇 분 안에 도착하지 않으면 스팸 메일함을 확인해주세요.',
-    UserNotFound: '이메일과 비밀번호를 확인해주세요',
     ExistingEmail: '이미 존재하는 이메일입니다',
-    noUser: '존재하지 않는 이메일입니다',
+    UserNotFound: '존재하지 않는 이메일입니다',
     SendVerificationEmail: '인증 이메일을 발송했습니다. 이메일을 확인해주세요.',
     EmailVerified: '이메일 인증이 완료되었습니다!',
     EmailVerificationFailed:
@@ -113,11 +111,10 @@ const TRANSLATIONS = {
     nicknamePlaceholder: '暱稱',
     newPasswordPlaceholder: '新密碼',
     confirmNewPasswordPlaceholder: '確認新密碼',
-    notifyResetPasswordMail:
+    SendResetPasswordMail:
       '請檢查您的電子郵件以獲取重設密碼的連結。如果幾分鐘後仍未收到，請檢查您的垃圾郵件文件夾。',
-    UserNotFound: '請檢查您的電子郵件和密碼',
     ExistingEmail: '電子郵件已經存在',
-    noUser: '找不到使用者',
+    UserNotFound: '找不到使用者',
     SendVerificationEmail: '驗證電子郵件已發送。請檢查您的電子郵件。',
     EmailVerified: '電子郵件驗證成功！',
     EmailVerificationFailed: '驗證失敗。請再試一次或聯繫支援。',

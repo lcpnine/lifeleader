@@ -37,7 +37,7 @@ const ResetPassword = () => {
       }
       goTo('/auth/sign-in', { replace: true })
     } catch (error) {
-      openAlert({ text: commonTranslation('serverError') })
+      openAlert({ text: commonTranslation('ServerError') })
     }
   }
 
