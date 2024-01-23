@@ -4,13 +4,13 @@ import { Field, ID, ObjectType } from 'type-graphql'
 
 @ObjectType()
 export class TokenInfo {
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   token: string | null
 
-  @Field({ nullable: true })
+  @Field(() => Date, { nullable: true })
   expires: Date | null
 
-  @Field({ nullable: true })
+  @Field(() => Boolean, { nullable: true })
   isVerified?: boolean
 }
 
@@ -19,10 +19,10 @@ export class PurchasedInfo {
   @Field()
   isPurchased: boolean
 
-  @Field({ nullable: true })
+  @Field(() => Date, { nullable: true })
   purchasedAt: Date | null
 
-  @Field({ nullable: true })
+  @Field(() => Date, { nullable: true })
   expiresAt: Date | null
 }
 
@@ -37,12 +37,12 @@ export class User {
   @Field()
   nickname: string
 
+  @Field(() => Date) // Specify Date type for createdAt
+  createdAt: Date
+
   // Note: Typically, you wouldn't expose sensitive fields like password via GraphQL
   // @Field()
   // password: string;
-
-  @Field()
-  createdAt: Date
 
   @Field(() => TokenInfo)
   emailVerification: TokenInfo
