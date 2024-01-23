@@ -15,6 +15,8 @@ import { sendEmail } from '../utils/nodemailer'
 import {
   FindPasswordFailureType,
   FindPasswordResponse,
+  ResetPasswordFailureType,
+  ResetPasswordResponse,
   SignInFailureType,
   SignInResponse,
   SignUpFailureType,
@@ -164,18 +166,18 @@ export class UserResolver {
     }
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => ResetPasswordResponse)
   async resetPassword(
     @Arg('token') token: string,
     @Arg('newPassword') newPassword: string,
     @Arg('newPasswordConfirm') newPasswordConfirm: string
-  ): Promise<boolean> {
+  ): Promise<typeof ResetPasswordResponse> {
     if (newPassword !== newPasswordConfirm) {
-      throw new Error('Passwords do not match')
+      return { errorType: ResetPasswordFailureType.INVALID_PASSWORD }
     }
 
     if (!isPasswordValid(newPassword)) {
-      throw new Error('Invalid password')
+      return { errorType: ResetPasswordFailureType.INVALID_PASSWORD }
     }
 
     const user = await UserModel.findOne({
@@ -183,7 +185,7 @@ export class UserResolver {
       'resetPassword.expiresAt': { $gt: new Date() },
     })
 
-    if (!user) throw new Error('Invalid or expired token')
+    if (!user) return { errorType: ResetPasswordFailureType.INVALID_TOKEN }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10)
     user.password = hashedPassword
@@ -191,6 +193,6 @@ export class UserResolver {
     user.resetPassword.expiresAt = null
     await user.save()
 
-    return true
+    return { success: true }
   }
 }

@@ -137,3 +137,35 @@ export const FindPasswordResponse = createUnionType({
     return FindPasswordFailure.name
   },
 })
+
+@ObjectType()
+export class ResetPasswordSuccess {
+  @Field()
+  success: boolean
+}
+
+export enum ResetPasswordFailureType {
+  INVALID_PASSWORD = 'INVALID_PASSWORD',
+  INVALID_TOKEN = 'INVALID_TOKEN',
+}
+
+registerEnumType(ResetPasswordFailureType, {
+  name: 'ResetPasswordFailureType',
+})
+
+@ObjectType()
+export class ResetPasswordFailure implements BaseError {
+  @Field(type => ResetPasswordFailureType)
+  errorType: ResetPasswordFailureType
+}
+
+export const ResetPasswordResponse = createUnionType({
+  name: 'ResetPasswordResponse',
+  types: () => [ResetPasswordSuccess, ResetPasswordFailure] as const,
+  resolveType: (value: any) => {
+    if ('success' in value) {
+      return ResetPasswordSuccess.name
+    }
+    return ResetPasswordFailure.name
+  },
+})

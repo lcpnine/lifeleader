@@ -31,6 +31,14 @@ export type RecommendationKeySpecifier = ('text' | RecommendationKeySpecifier)[]
 export type RecommendationFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ResetPasswordFailureKeySpecifier = ('errorType' | ResetPasswordFailureKeySpecifier)[];
+export type ResetPasswordFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ResetPasswordSuccessKeySpecifier = ('success' | ResetPasswordSuccessKeySpecifier)[];
+export type ResetPasswordSuccessFieldPolicy = {
+	success?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SignInFailureKeySpecifier = ('errorType' | SignInFailureKeySpecifier)[];
 export type SignInFailureFieldPolicy = {
 	errorType?: FieldPolicy<any> | FieldReadFunction<any>
@@ -96,6 +104,14 @@ export type StrictTypedTypePolicies = {
 	Recommendation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RecommendationKeySpecifier | (() => undefined | RecommendationKeySpecifier),
 		fields?: RecommendationFieldPolicy,
+	},
+	ResetPasswordFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ResetPasswordFailureKeySpecifier | (() => undefined | ResetPasswordFailureKeySpecifier),
+		fields?: ResetPasswordFailureFieldPolicy,
+	},
+	ResetPasswordSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ResetPasswordSuccessKeySpecifier | (() => undefined | ResetPasswordSuccessKeySpecifier),
+		fields?: ResetPasswordSuccessFieldPolicy,
 	},
 	SignInFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SignInFailureKeySpecifier | (() => undefined | SignInFailureKeySpecifier),

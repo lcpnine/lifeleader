@@ -25,7 +25,7 @@ type FindPasswordSuccess {
 
 type Mutation {
   findPassword(email: String!): FindPasswordResponse!
-  resetPassword(newPassword: String!, newPasswordConfirm: String!, token: String!): Boolean!
+  resetPassword(newPassword: String!, newPasswordConfirm: String!, token: String!): ResetPasswordResponse!
   signIn(email: String!, keepSignedIn: Boolean!, password: String!): SignInResponse!
   signOut: Boolean!
   signUp(email: String!, nickname: String!, password: String!, passwordConfirm: String!): SignUpResponse!
@@ -45,6 +45,21 @@ type Query {
 
 type Recommendation {
   text: String!
+}
+
+type ResetPasswordFailure {
+  errorType: ResetPasswordFailureType!
+}
+
+enum ResetPasswordFailureType {
+  INVALID_PASSWORD
+  INVALID_TOKEN
+}
+
+union ResetPasswordResponse = ResetPasswordFailure | ResetPasswordSuccess
+
+type ResetPasswordSuccess {
+  success: Boolean!
 }
 
 type SignInFailure {

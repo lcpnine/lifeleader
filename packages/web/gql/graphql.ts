@@ -38,7 +38,7 @@ export type FindPasswordSuccess = {
 export type Mutation = {
   __typename?: 'Mutation';
   findPassword: FindPasswordResponse;
-  resetPassword: Scalars['Boolean']['output'];
+  resetPassword: ResetPasswordResponse;
   signIn: SignInResponse;
   signOut: Scalars['Boolean']['output'];
   signUp: SignUpResponse;
@@ -105,6 +105,23 @@ export type QuerySubGoalsArgs = {
 export type Recommendation = {
   __typename?: 'Recommendation';
   text: Scalars['String']['output'];
+};
+
+export type ResetPasswordFailure = {
+  __typename?: 'ResetPasswordFailure';
+  errorType: ResetPasswordFailureType;
+};
+
+export enum ResetPasswordFailureType {
+  InvalidPassword = 'INVALID_PASSWORD',
+  InvalidToken = 'INVALID_TOKEN'
+}
+
+export type ResetPasswordResponse = ResetPasswordFailure | ResetPasswordSuccess;
+
+export type ResetPasswordSuccess = {
+  __typename?: 'ResetPasswordSuccess';
+  success: Scalars['Boolean']['output'];
 };
 
 export type SignInFailure = {
