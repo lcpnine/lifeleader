@@ -7,7 +7,7 @@
     "build": "next build && next-sitemap",
     "start": "next start",
     "lint": "next lint",
-    "gen": "graphql-codegen --config generated.ts"
+    "gen": "graphql-codegen --config codegen.config.ts"
   },
   "dependencies": {
     "@tailwindcss/line-clamp": "^0.4.4",
