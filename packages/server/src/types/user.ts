@@ -28,7 +28,7 @@ export class PurchasedInfo {
 @ObjectType()
 export class User {
   @Field(() => ID)
-  id: string
+  _id: string
 
   @Field()
   email: string

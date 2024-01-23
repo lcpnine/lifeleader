@@ -15,8 +15,8 @@ import { SignInFailResponse, SignInSuccessResponse } from './dto/user'
 @Resolver()
 export class UserResolver {
   @Query(() => User, { nullable: true })
-  async getUser(@Arg('id') id: string): Promise<IUser | null> {
-    return await UserModel.findById(id)
+  async getUser(@Arg('_id') _id: string): Promise<IUser | null> {
+    return await UserModel.findById(_id)
   }
 
   @Mutation(() => SignInSuccessResponse || SignInFailResponse)
@@ -31,7 +31,7 @@ export class UserResolver {
     if (!isValid) throw new Error('Invalid password')
 
     const token = jwt.sign(
-      { userId: user.id },
+      { userId: user._id },
       process.env.JWT_SECRET as string,
       {
         expiresIn: '1h',
