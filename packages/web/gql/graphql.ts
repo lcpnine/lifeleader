@@ -18,9 +18,26 @@ export type Scalars = {
   DateTime: { input: string; output: string; }
 };
 
+export type FindPasswordFailure = {
+  __typename?: 'FindPasswordFailure';
+  errorType: FindPasswordFailureType;
+};
+
+export enum FindPasswordFailureType {
+  ServerError = 'SERVER_ERROR',
+  UserNotFound = 'USER_NOT_FOUND'
+}
+
+export type FindPasswordResponse = FindPasswordFailure | FindPasswordSuccess;
+
+export type FindPasswordSuccess = {
+  __typename?: 'FindPasswordSuccess';
+  success: Scalars['Boolean']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  findPassword: Scalars['Boolean']['output'];
+  findPassword: FindPasswordResponse;
   resetPassword: Scalars['Boolean']['output'];
   signIn: SignInResponse;
   signOut: Scalars['Boolean']['output'];

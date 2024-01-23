@@ -1,4 +1,12 @@
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
+export type FindPasswordFailureKeySpecifier = ('errorType' | FindPasswordFailureKeySpecifier)[];
+export type FindPasswordFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type FindPasswordSuccessKeySpecifier = ('success' | FindPasswordSuccessKeySpecifier)[];
+export type FindPasswordSuccessFieldPolicy = {
+	success?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type MutationKeySpecifier = ('findPassword' | 'resetPassword' | 'signIn' | 'signOut' | 'signUp' | 'verifyEmail' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	findPassword?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -65,6 +73,14 @@ export type VerifyEmailSuccessFieldPolicy = {
 	success?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
+	FindPasswordFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FindPasswordFailureKeySpecifier | (() => undefined | FindPasswordFailureKeySpecifier),
+		fields?: FindPasswordFailureFieldPolicy,
+	},
+	FindPasswordSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FindPasswordSuccessKeySpecifier | (() => undefined | FindPasswordSuccessKeySpecifier),
+		fields?: FindPasswordSuccessFieldPolicy,
+	},
 	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
 		fields?: MutationFieldPolicy,

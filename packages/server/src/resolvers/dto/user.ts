@@ -105,3 +105,35 @@ export const VerifyEmailResponse = createUnionType({
     return VerifyEmailFailure.name
   },
 })
+
+@ObjectType()
+export class FindPasswordSuccess {
+  @Field()
+  success: boolean
+}
+
+export enum FindPasswordFailureType {
+  USER_NOT_FOUND = 'USER_NOT_FOUND',
+  SERVER_ERROR = 'SERVER_ERROR',
+}
+
+registerEnumType(FindPasswordFailureType, {
+  name: 'FindPasswordFailureType',
+})
+
+@ObjectType()
+export class FindPasswordFailure implements BaseError {
+  @Field(type => FindPasswordFailureType)
+  errorType: FindPasswordFailureType
+}
+
+export const FindPasswordResponse = createUnionType({
+  name: 'FindPasswordResponse',
+  types: () => [FindPasswordSuccess, FindPasswordFailure] as const,
+  resolveType: (value: any) => {
+    if ('success' in value) {
+      return FindPasswordSuccess.name
+    }
+    return FindPasswordFailure.name
+  },
+})

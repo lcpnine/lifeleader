@@ -6,6 +6,10 @@
       }
       const result: PossibleTypesResultData = {
   "possibleTypes": {
+    "FindPasswordResponse": [
+      "FindPasswordFailure",
+      "FindPasswordSuccess"
+    ],
     "SignInResponse": [
       "SignInFailure",
       "SignInSuccess"

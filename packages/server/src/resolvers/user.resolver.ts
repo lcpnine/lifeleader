@@ -13,6 +13,8 @@ import { User } from '../types/user'
 import { isPasswordValid } from '../utils/common'
 import { sendEmail } from '../utils/nodemailer'
 import {
+  FindPasswordFailureType,
+  FindPasswordResponse,
   SignInFailureType,
   SignInResponse,
   SignUpFailureType,
@@ -136,23 +138,30 @@ export class UserResolver {
     return { success: true }
   }
 
-  @Mutation(() => Boolean)
-  async findPassword(@Arg('email') email: string): Promise<boolean> {
+  @Mutation(() => FindPasswordResponse)
+  async findPassword(
+    @Arg('email') email: string
+  ): Promise<typeof FindPasswordResponse> {
     const user = await UserModel.findOne({ email })
-    if (!user) return false
+    if (!user) return { errorType: FindPasswordFailureType.USER_NOT_FOUND }
 
-    const token = crypto.randomBytes(20).toString('hex')
-    user.resetPassword.token = token
-    user.resetPassword.expiresAt = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
-    await user.save()
+    try {
+      const token = crypto.randomBytes(20).toString('hex')
+      user.resetPassword.token = token
+      user.resetPassword.expiresAt = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+      await user.save()
 
-    await sendEmail(
-      email,
-      'Password Reset',
-      createResetPasswordTemplate(user.nickname, token)
-    )
+      await sendEmail(
+        email,
+        'Password Reset',
+        createResetPasswordTemplate(user.nickname, token)
+      )
 
-    return true
+      return { success: true }
+    } catch (e) {
+      console.error(e)
+      return { errorType: FindPasswordFailureType.SERVER_ERROR }
+    }
   }
 
   @Mutation(() => Boolean)
