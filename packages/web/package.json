@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently \"next dev\" \"yarn gen --watch\"",
     "build": "next build && next-sitemap",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen": "graphql-codegen --config generated.ts"
   },
   "dependencies": {
     "@tailwindcss/line-clamp": "^0.4.4",
@@ -21,7 +22,7 @@
     "react-icons": "^5.0.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/cli": "5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^4.1.0",
@@ -36,7 +37,8 @@
     "eslint-config-next": "13.5.4",
     "postcss": "^8",
     "tailwindcss": "^3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@graphql-codegen/client-preset": "4.1.0"
   },
   "browserslist": [
     "chrome 64",
