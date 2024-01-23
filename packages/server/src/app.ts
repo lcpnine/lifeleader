@@ -44,25 +44,6 @@ const startApp = async () => {
   const yoga = createYoga(apolloConfig)
   app.use('/graphql', yoga)
 
-  // app.use('/auth', authRoutes)
-  // app.use(
-  //   '/recommendation',
-  //   passport.authenticate(
-  //     'session',
-  //     (req: Request, res: Response, next: NextFunction) => {
-  //       const user = req.user as IUser | undefined
-  //       if (user?.purchasedInfo.isPurchased) {
-  //         next()
-  //       } else {
-  //         res.status(403).json({ message: 'Not purchased' })
-  //       }
-  //     }
-  //   ),
-  //   recommendationRoutes
-  // )
-  // app.use('/test', passport.authenticate('session'), testRoutes)
-  // app.get('/health-check', healthCheckController.get)
-
   const PORT = process.env.PORT || 4003
 
   app.listen(PORT, () => {
