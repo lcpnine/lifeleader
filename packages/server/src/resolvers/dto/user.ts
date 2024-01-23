@@ -73,3 +73,35 @@ export const SignUpResponse = createUnionType({
     return SignUpFailure.name
   },
 })
+
+@ObjectType()
+export class VerifyEmailSuccess {
+  @Field()
+  success: boolean
+}
+
+export enum VerifyEmailFailureType {
+  INVALID_TOKEN = 'INVALID_TOKEN',
+  VERIFIED_EMAIL = 'VERIFIED_EMAIL',
+}
+
+registerEnumType(VerifyEmailFailureType, {
+  name: 'VerifyEmailFailureType',
+})
+
+@ObjectType()
+export class VerifyEmailFailure implements BaseError {
+  @Field(type => VerifyEmailFailureType)
+  errorType: VerifyEmailFailureType
+}
+
+export const VerifyEmailResponse = createUnionType({
+  name: 'VerifyEmailResponse',
+  types: () => [VerifyEmailSuccess, VerifyEmailFailure] as const,
+  resolveType: (value: any) => {
+    if ('isMailSent' in value) {
+      return VerifyEmailSuccess.name
+    }
+    return VerifyEmailFailure.name
+  },
+})

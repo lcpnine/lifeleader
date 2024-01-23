@@ -12,7 +12,7 @@ const TRANSLATIONS = {
     InvalidForm: 'Fill out the form correctly',
     WrongPassword: 'Wrong password',
     InvalidPassword: 'Invalid password',
-    invalidToken: 'Invalid token',
+    InvalidToken: 'Invalid token',
     passwordMismatch: 'The passwords do not match',
     resetPassword: 'Reset Password',
     passwordGuide:
@@ -36,9 +36,10 @@ const TRANSLATIONS = {
     noUser: 'User not found',
     SendVerificationEmail: 'Verification email sent. Please check your email.',
     emailVerified: 'Email verified successfully!',
-    emailVerificationFailed:
+    EmailVerificationFailed:
       'Verification failed. Please try again or contact support.',
     onEmailVerification: 'Email verification is in progress...',
+    VerifiedEmail: 'Already verified email',
   },
   ko: {
     signIn: '로그인',
@@ -53,7 +54,7 @@ const TRANSLATIONS = {
     InvalidForm: '양식을 올바르게 작성해주세요',
     WrongPassword: '잘못된 비밀번호입니다',
     InvalidPassword: '설정 가능한 비밀번호가 아닙니다',
-    invalidToken: '유효하지 않은 토큰입니다',
+    InvalidToken: '유효하지 않은 토큰입니다',
     passwordMismatch: '비밀번호 확인이 일치하지 않습니다',
     resetPassword: '비밀번호 재설정',
     passwordGuide:
@@ -77,9 +78,10 @@ const TRANSLATIONS = {
     noUser: '존재하지 않는 이메일입니다',
     SendVerificationEmail: '인증 이메일을 발송했습니다. 이메일을 확인해주세요.',
     emailVerified: '이메일 인증이 완료되었습니다!',
-    emailVerificationFailed:
+    EmailVerificationFailed:
       '인증에 실패했습니다. 다시 시도하거나 고객센터에 문의해주세요.',
     onEmailVerification: '이메일 인증 중...',
+    VerifiedEmail: '이미 인증된 이메일입니다',
   },
   'zh-Hant': {
     signIn: '登入',
@@ -94,7 +96,7 @@ const TRANSLATIONS = {
     InvalidForm: '請正確填寫表單',
     WrongPassword: '錯誤的密碼',
     InvalidPassword: '無效的密碼',
-    invalidToken: '無效的令牌',
+    InvalidToken: '無效的令牌',
     passwordMismatch: '密碼不一致',
     resetPassword: '重設密碼',
     passwordGuide:
@@ -118,8 +120,9 @@ const TRANSLATIONS = {
     noUser: '找不到使用者',
     SendVerificationEmail: '驗證電子郵件已發送。請檢查您的電子郵件。',
     emailVerified: '電子郵件驗證成功！',
-    emailVerificationFailed: '驗證失敗。請再試一次或聯繫支援。',
+    EmailVerificationFailed: '驗證失敗。請再試一次或聯繫支援。',
     onEmailVerification: '正在驗證電子郵件...',
+    VerifiedEmail: '電子郵件已驗證',
   },
 }
 

@@ -13,6 +13,10 @@
     "SignUpResponse": [
       "SignUpFailure",
       "SignUpSuccess"
+    ],
+    "VerifyEmailResponse": [
+      "VerifyEmailFailure",
+      "VerifyEmailSuccess"
     ]
   }
 };

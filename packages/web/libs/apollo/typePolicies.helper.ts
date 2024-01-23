@@ -56,6 +56,14 @@ export type UserFieldPolicy = {
 	purchasedInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	resetPassword?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type VerifyEmailFailureKeySpecifier = ('errorType' | VerifyEmailFailureKeySpecifier)[];
+export type VerifyEmailFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type VerifyEmailSuccessKeySpecifier = ('success' | VerifyEmailSuccessKeySpecifier)[];
+export type VerifyEmailSuccessFieldPolicy = {
+	success?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type StrictTypedTypePolicies = {
 	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
@@ -96,6 +104,14 @@ export type StrictTypedTypePolicies = {
 	User?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserKeySpecifier | (() => undefined | UserKeySpecifier),
 		fields?: UserFieldPolicy,
+	},
+	VerifyEmailFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | VerifyEmailFailureKeySpecifier | (() => undefined | VerifyEmailFailureKeySpecifier),
+		fields?: VerifyEmailFailureFieldPolicy,
+	},
+	VerifyEmailSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | VerifyEmailSuccessKeySpecifier | (() => undefined | VerifyEmailSuccessKeySpecifier),
+		fields?: VerifyEmailSuccessFieldPolicy,
 	}
 };
 export type TypedTypePolicies = StrictTypedTypePolicies & TypePolicies;

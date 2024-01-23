@@ -14,7 +14,7 @@ type Mutation {
   signIn(email: String!, keepSignedIn: Boolean!, password: String!): SignInResponse!
   signOut: Boolean!
   signUp(email: String!, nickname: String!, password: String!, passwordConfirm: String!): SignUpResponse!
-  verifyEmail(token: String!): Boolean!
+  verifyEmail(token: String!): VerifyEmailResponse!
 }
 
 type PurchasedInfo {
@@ -77,4 +77,19 @@ type User {
   nickname: String!
   purchasedInfo: PurchasedInfo!
   resetPassword: TokenInfo!
+}
+
+type VerifyEmailFailure {
+  errorType: VerifyEmailFailureType!
+}
+
+enum VerifyEmailFailureType {
+  INVALID_TOKEN
+  VERIFIED_EMAIL
+}
+
+union VerifyEmailResponse = VerifyEmailFailure | VerifyEmailSuccess
+
+type VerifyEmailSuccess {
+  success: Boolean!
 }

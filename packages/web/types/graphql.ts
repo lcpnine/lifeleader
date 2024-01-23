@@ -23,7 +23,7 @@ export type Mutation = {
   signIn: SignInResponse;
   signOut: Scalars['Boolean']['output'];
   signUp: SignUpResponse;
-  verifyEmail: Scalars['Boolean']['output'];
+  verifyEmail: VerifyEmailResponse;
 };
 
 
@@ -139,4 +139,21 @@ export type User = {
   nickname: Scalars['String']['output'];
   purchasedInfo: PurchasedInfo;
   resetPassword: TokenInfo;
+};
+
+export type VerifyEmailFailure = {
+  __typename?: 'VerifyEmailFailure';
+  errorType: VerifyEmailFailureType;
+};
+
+export enum VerifyEmailFailureType {
+  InvalidToken = 'INVALID_TOKEN',
+  VerifiedEmail = 'VERIFIED_EMAIL'
+}
+
+export type VerifyEmailResponse = VerifyEmailFailure | VerifyEmailSuccess;
+
+export type VerifyEmailSuccess = {
+  __typename?: 'VerifyEmailSuccess';
+  success: Scalars['Boolean']['output'];
 };

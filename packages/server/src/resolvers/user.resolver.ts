@@ -17,6 +17,8 @@ import {
   SignInResponse,
   SignUpFailureType,
   SignUpResponse,
+  VerifyEmailFailureType,
+  VerifyEmailResponse,
 } from './dto/user'
 
 @Resolver()
@@ -113,21 +115,25 @@ export class UserResolver {
     return { isMailSent: true }
   }
 
-  @Mutation(() => Boolean)
-  async verifyEmail(@Arg('token') token: string): Promise<boolean> {
+  @Mutation(() => VerifyEmailResponse)
+  async verifyEmail(
+    @Arg('token') token: string
+  ): Promise<typeof VerifyEmailResponse> {
     const user = await UserModel.findOne({
       'emailVerification.token': token,
       'emailVerification.expiresAt': { $gt: new Date() },
     })
 
-    if (!user) throw new Error('Invalid or expired token')
+    if (!user) return { errorType: VerifyEmailFailureType.INVALID_TOKEN }
+    if (user.emailVerification.isVerified)
+      return {
+        errorType: VerifyEmailFailureType.VERIFIED_EMAIL,
+      }
 
-    user.emailVerification.token = null
-    user.emailVerification.expiresAt = null
     user.emailVerification.isVerified = true
     await user.save()
 
-    return true
+    return { success: true }
   }
 
   @Mutation(() => Boolean)
