@@ -40,11 +40,26 @@ type PurchasedInfo {
 
 type Query {
   getUser(_id: String!): User
-  subGoals(currentLanguage: String = "en", mainGoal: String!, selectedSubGoals: [String!]): [Recommendation!]!
+  recommendationForSubGoals(currentLanguage: String = "en", mainGoal: String!, selectedSubGoals: [String!]): RecommendationResponse!
 }
 
 type Recommendation {
   text: String!
+}
+
+type RecommendationFailure {
+  errorType: RecommendationFailureType!
+}
+
+enum RecommendationFailureType {
+  INVALID_REQUEST
+  OPENAI_ERROR
+}
+
+union RecommendationResponse = RecommendationFailure | RecommendationSuccess
+
+type RecommendationSuccess {
+  recommendations: [Recommendation!]!
 }
 
 type ResetPasswordFailure {

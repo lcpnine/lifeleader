@@ -22,14 +22,22 @@ export type PurchasedInfoFieldPolicy = {
 	isPurchased?: FieldPolicy<any> | FieldReadFunction<any>,
 	purchasedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('getUser' | 'subGoals' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('getUser' | 'recommendationForSubGoals' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	getUser?: FieldPolicy<any> | FieldReadFunction<any>,
-	subGoals?: FieldPolicy<any> | FieldReadFunction<any>
+	recommendationForSubGoals?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type RecommendationKeySpecifier = ('text' | RecommendationKeySpecifier)[];
 export type RecommendationFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RecommendationFailureKeySpecifier = ('errorType' | RecommendationFailureKeySpecifier)[];
+export type RecommendationFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RecommendationSuccessKeySpecifier = ('recommendations' | RecommendationSuccessKeySpecifier)[];
+export type RecommendationSuccessFieldPolicy = {
+	recommendations?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ResetPasswordFailureKeySpecifier = ('errorType' | ResetPasswordFailureKeySpecifier)[];
 export type ResetPasswordFailureFieldPolicy = {
@@ -104,6 +112,14 @@ export type StrictTypedTypePolicies = {
 	Recommendation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RecommendationKeySpecifier | (() => undefined | RecommendationKeySpecifier),
 		fields?: RecommendationFieldPolicy,
+	},
+	RecommendationFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RecommendationFailureKeySpecifier | (() => undefined | RecommendationFailureKeySpecifier),
+		fields?: RecommendationFailureFieldPolicy,
+	},
+	RecommendationSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RecommendationSuccessKeySpecifier | (() => undefined | RecommendationSuccessKeySpecifier),
+		fields?: RecommendationSuccessFieldPolicy,
 	},
 	ResetPasswordFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ResetPasswordFailureKeySpecifier | (() => undefined | ResetPasswordFailureKeySpecifier),

@@ -87,7 +87,7 @@ export type PurchasedInfo = {
 export type Query = {
   __typename?: 'Query';
   getUser: Maybe<User>;
-  subGoals: Array<Recommendation>;
+  recommendationForSubGoals: RecommendationResponse;
 };
 
 
@@ -96,7 +96,7 @@ export type QueryGetUserArgs = {
 };
 
 
-export type QuerySubGoalsArgs = {
+export type QueryRecommendationForSubGoalsArgs = {
   currentLanguage?: InputMaybe<Scalars['String']['input']>;
   mainGoal: Scalars['String']['input'];
   selectedSubGoals?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -105,6 +105,23 @@ export type QuerySubGoalsArgs = {
 export type Recommendation = {
   __typename?: 'Recommendation';
   text: Scalars['String']['output'];
+};
+
+export type RecommendationFailure = {
+  __typename?: 'RecommendationFailure';
+  errorType: RecommendationFailureType;
+};
+
+export enum RecommendationFailureType {
+  InvalidRequest = 'INVALID_REQUEST',
+  OpenaiError = 'OPENAI_ERROR'
+}
+
+export type RecommendationResponse = RecommendationFailure | RecommendationSuccess;
+
+export type RecommendationSuccess = {
+  __typename?: 'RecommendationSuccess';
+  recommendations: Array<Recommendation>;
 };
 
 export type ResetPasswordFailure = {

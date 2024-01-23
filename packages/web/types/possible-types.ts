@@ -10,6 +10,10 @@
       "FindPasswordFailure",
       "FindPasswordSuccess"
     ],
+    "RecommendationResponse": [
+      "RecommendationFailure",
+      "RecommendationSuccess"
+    ],
     "ResetPasswordResponse": [
       "ResetPasswordFailure",
       "ResetPasswordSuccess"
