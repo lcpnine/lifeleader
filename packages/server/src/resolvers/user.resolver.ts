@@ -58,6 +58,17 @@ export class UserResolver {
     return { token, user: user.toJSON() }
   }
 
+  @Mutation(() => Boolean)
+  async signOut(@Ctx() ctx: MyContext): Promise<boolean> {
+    ctx.res.clearCookie('token', {
+      httpOnly: true,
+      sameSite: 'strict',
+      domain: COOKIE_DOMAIN,
+      secure: !IS_DEV,
+    })
+    return true
+  }
+
   @Mutation(() => User)
   async signUp(
     @Arg('email') email: string,

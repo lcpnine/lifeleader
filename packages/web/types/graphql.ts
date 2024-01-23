@@ -21,6 +21,7 @@ export type Mutation = {
   findPassword: Scalars['Boolean']['output'];
   resetPassword: Scalars['Boolean']['output'];
   signIn: SignInResponse;
+  signOut: Scalars['Boolean']['output'];
   signUp: User;
   verifyEmail: Scalars['Boolean']['output'];
 };
