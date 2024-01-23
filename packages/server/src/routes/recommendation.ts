@@ -1,8 +1,5 @@
 import express, { Request, Response } from 'express'
-import {
-  RecommendationInNeed,
-  getRecommendations,
-} from './../../helpers/openai'
+import { RecommendationInNeed, getRecommendations } from '../utils/openai'
 
 const router = express.Router()
 

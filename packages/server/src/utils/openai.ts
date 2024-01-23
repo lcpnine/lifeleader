@@ -2,7 +2,7 @@ import OpenAI from 'openai'
 import {
   ACTIONS_RECOMMENDATION_INSTRUCTION,
   SUB_GOALS_RECOMMENDATION_INSTRUCTION,
-} from './../src/constant/prompot'
+} from '../constant/prompot'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
