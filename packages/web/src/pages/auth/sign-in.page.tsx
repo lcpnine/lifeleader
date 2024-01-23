@@ -1,12 +1,12 @@
 import GeneralInput from '@/components/GeneralInput/GeneralInput'
-import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
+import { useUserContext } from '@/contexts/UserContext'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import { gql, useMutation } from '@apollo/client'
 import Head from 'next/head'
 import { FormEventHandler, useState } from 'react'
-import { SignInFailureType } from '../../../gql/graphql'
+import { SignInFailureType, User } from '../../../gql/graphql'
 import { extractByTypename } from '../../../utils/typeguard'
 import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
@@ -15,7 +15,7 @@ import { SignInDocument } from './sign-in.page.generated'
 const SignIn = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
-  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
+  const { setUser } = useUserContext()
   const { openAlert } = useAlert()
 
   const [email, setEmail] = useState('')
@@ -42,12 +42,6 @@ const SignIn = () => {
 
     const errorType = SignInFailure?.errorType
 
-    // const { token, user } = SignInSuccess
-    // setUser({
-    //   isSignedIn: true,
-    //   ...user,
-    // })
-
     if (errorType) {
       if (errorType === SignInFailureType.UserNotFound) {
         openAlert({ text: translation('UserNotFound') })
@@ -60,7 +54,10 @@ const SignIn = () => {
       }
     }
 
-    return goTo('/', { replace: true })
+    if (SignInSuccess?.user) {
+      setUser(SignInSuccess.user as User)
+      return goTo('/', { replace: true })
+    }
   }
 
   return (
