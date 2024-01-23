@@ -6,6 +6,7 @@ import { UserResolver } from '../resolvers/user.resolver'
 const createSchema = async () =>
   await buildSchema({
     resolvers: [UserResolver, RecommendationResolver],
+    emitSchemaFile: 'src/schema.gql',
   })
 
 const createYogaConfig = async () => {
