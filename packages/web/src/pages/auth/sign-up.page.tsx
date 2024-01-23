@@ -1,21 +1,21 @@
 import GeneralInput from '@/components/GeneralInput/GeneralInput'
-import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
-import { gql } from '@apollo/client'
-import axios from 'axios'
+import { gql, useMutation } from '@apollo/client'
 import Head from 'next/head'
 import { FormEventHandler, useState } from 'react'
+import { SignUpDocument, SignUpFailureType } from '../../../gql/graphql'
 import { isPasswordValid } from '../../../utils/common'
+import { extractByTypename } from '../../../utils/typeguard'
 import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
 
 const SignUp = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
-  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const { openAlert } = useAlert()
+  const [useSignUpMutation] = useMutation(SignUpDocument)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -38,32 +38,23 @@ const SignUp = () => {
       return
     }
 
-    try {
-      const response = await axios.post(
-        '/auth/sign-up',
-        {
-          email,
-          password,
-          passwordConfirm,
-          nickname,
-        },
-        {
-          validateStatus: status =>
-            status === 200 || status === 400 || status === 409,
-        }
-      )
-      if (response.status === 409)
-        return openAlert({ text: translation('duplicatedUser') })
-      if (response.status === 400)
-        return openAlert({ text: translation('InvalidForm') })
-      if (response.status === 200) {
-        return openAlert({
-          text: translation('sendVerificationEmail'),
-          onClose: () => goTo('/'),
-        })
-      }
-    } catch (error) {
-      openAlert({ text: commonTranslation('serverError') })
+    const { data } = await useSignUpMutation({
+      variables: { email, password, passwordConfirm, nickname },
+    })
+    const { SignUpSuccess, SignUpFailure } = extractByTypename(data?.signUp)
+    if (SignUpFailure?.errorType) {
+      const errorType = SignUpFailure.errorType
+      if (errorType === SignUpFailureType.ExistingEmail)
+        return openAlert({ text: translation('ExistingEmail') })
+      if (errorType === SignUpFailureType.InvalidPassword)
+        return openAlert({ text: translation('InvalidPassword') })
+    }
+    const isMailSent = !!SignUpSuccess?.isMailSent
+    if (isMailSent) {
+      return openAlert({
+        text: translation('SendVerificationEmail'),
+        onClose: () => goTo('/'),
+      })
     }
   }
 
@@ -88,7 +79,7 @@ const SignUp = () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
             invalidCondition={password.length > 0 && !isPasswordValid(password)}
-            invalidAlert={translation('invalidPassword')}
+            invalidAlert={translation('InvalidPassword')}
             guide={translation('passwordGuide')}
           />
           <GeneralInput
@@ -140,6 +131,12 @@ const SIGN_UP_MUTATION = gql`
       passwordConfirm: $passwordConfirm
       nickname: $nickname
     ) {
+      ... on SignUpSuccess {
+        isMailSent
+      }
+      ... on SignUpFailure {
+        errorType
+      }
     }
   }
 `
