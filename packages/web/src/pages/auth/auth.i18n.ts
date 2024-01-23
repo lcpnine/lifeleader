@@ -35,7 +35,7 @@ const TRANSLATIONS = {
     ExistingEmail: 'Email already exists',
     noUser: 'User not found',
     SendVerificationEmail: 'Verification email sent. Please check your email.',
-    emailVerified: 'Email verified successfully!',
+    EmailVerified: 'Email verified successfully!',
     EmailVerificationFailed:
       'Verification failed. Please try again or contact support.',
     onEmailVerification: 'Email verification is in progress...',
@@ -77,7 +77,7 @@ const TRANSLATIONS = {
     ExistingEmail: '이미 존재하는 이메일입니다',
     noUser: '존재하지 않는 이메일입니다',
     SendVerificationEmail: '인증 이메일을 발송했습니다. 이메일을 확인해주세요.',
-    emailVerified: '이메일 인증이 완료되었습니다!',
+    EmailVerified: '이메일 인증이 완료되었습니다!',
     EmailVerificationFailed:
       '인증에 실패했습니다. 다시 시도하거나 고객센터에 문의해주세요.',
     onEmailVerification: '이메일 인증 중...',
@@ -119,7 +119,7 @@ const TRANSLATIONS = {
     ExistingEmail: '電子郵件已經存在',
     noUser: '找不到使用者',
     SendVerificationEmail: '驗證電子郵件已發送。請檢查您的電子郵件。',
-    emailVerified: '電子郵件驗證成功！',
+    EmailVerified: '電子郵件驗證成功！',
     EmailVerificationFailed: '驗證失敗。請再試一次或聯繫支援。',
     onEmailVerification: '正在驗證電子郵件...',
     VerifiedEmail: '電子郵件已驗證',

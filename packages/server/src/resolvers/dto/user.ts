@@ -99,7 +99,7 @@ export const VerifyEmailResponse = createUnionType({
   name: 'VerifyEmailResponse',
   types: () => [VerifyEmailSuccess, VerifyEmailFailure] as const,
   resolveType: (value: any) => {
-    if ('isMailSent' in value) {
+    if ('success' in value) {
       return VerifyEmailSuccess.name
     }
     return VerifyEmailFailure.name

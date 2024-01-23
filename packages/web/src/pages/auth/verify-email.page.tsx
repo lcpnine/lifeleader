@@ -30,7 +30,7 @@ const VerifyEmailPage = () => {
           )
           if (VerifyEmailSuccess) {
             openAlert({
-              text: translation('emailVerified'),
+              text: translation('EmailVerified'),
               onClose: () => router.push('/auth/sign-in'),
             })
           } else {
