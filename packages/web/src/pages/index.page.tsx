@@ -39,6 +39,11 @@ const Home = () => {
   const { data, loading, refetch } = useQuery(
     GetRecommendationForSubGoalsDocument,
     {
+      variables: {
+        mainGoal,
+        selectedSubGoals: subGoals,
+        currentLanguage,
+      },
       skip: !(isAIModeOn && mainGoal),
       onCompleted(data) {
         if (data) {
