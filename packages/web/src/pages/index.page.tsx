@@ -1,16 +1,21 @@
 import DisplayingFullViewMandalaChart from '@/components/MandalaChart/DisplayingFullViewMandalaChart'
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
-import { RecommendationItemProps } from '@/components/Recommend/RecommendationItem'
 import Recommendations from '@/components/Recommend/Recommendations'
 import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
 import { useUserContext } from '@/contexts/UserContext'
-import useAxiosQuery from '@/hooks/useAxiosQuery'
 import useI18n from '@/hooks/useI18n'
+import { recommendationCardVar } from '@/hooks/useRecommendationCard'
 import useScreenShot from '@/hooks/useScreenshot'
 import useSwitch from '@/hooks/useSwitch'
+import { gql, useQuery, useReactiveVar } from '@apollo/client'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import {
+  GetRecommendationForSubGoalsDocument,
+  Recommendation,
+} from '../../gql/graphql'
+import { extractByTypename } from '../../utils/typeguard'
 import TRANSLATIONS from './index.i18n'
 
 const Home = () => {
@@ -31,38 +36,39 @@ const Home = () => {
   const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch({
     initialIsSwitchOn: false,
   })
-
-  //AI recommendation
-  const { data, loading, refetch } = useAxiosQuery<{
-    recommendations: string[]
-  }>({
-    url: '/recommendation/sub-goals',
-    method: 'POST',
-    body: {
-      mainGoal,
-      subGoals,
-      language: currentLanguage,
-    },
-    skip: !(isAIModeOn && mainGoal),
-  })
-  const { recommendations } = data || { recommendations: [] }
-  const [recommendationItems, setRecommendationItems] = useState<
-    RecommendationItemProps[]
-  >([])
-  useEffect(() => {
-    if (!loading && recommendations) {
-      const items = recommendations.map((item: string, index: number) => ({
-        id: index,
-        text: item,
-        isClicked: false,
-      }))
-      setRecommendationItems(items)
+  const { data, loading, refetch } = useQuery(
+    GetRecommendationForSubGoalsDocument,
+    {
+      skip: !(isAIModeOn && mainGoal),
+      onCompleted(data) {
+        if (data) {
+          const { RecommendationSuccess, RecommendationFailure } =
+            extractByTypename(data.recommendationForSubGoals)
+          if (RecommendationSuccess?.recommendations) {
+            recommendationCardVar(
+              RecommendationSuccess.recommendations.map(
+                (item: Recommendation, index: number) => ({
+                  id: index,
+                  text: item.text,
+                  isClicked: false,
+                })
+              )
+            )
+          }
+        }
+      },
     }
-  }, [recommendations])
+  )
+  const { RecommendationFailure } = extractByTypename(
+    data?.recommendationForSubGoals
+  )
+
+  const errorType = RecommendationFailure?.errorType
+  const recommendationItems = useReactiveVar(recommendationCardVar)
 
   const onRecommendItemAccepted = () => {
     const updatedItems = recommendationItems.filter(item => !item.isClicked)
-    setRecommendationItems(updatedItems)
+    recommendationCardVar(updatedItems)
   }
 
   const handleRecommendationItemClick = (id: number) => () => {
@@ -74,7 +80,7 @@ const Home = () => {
     if (previousClickedItem?.isClicked) {
       updatedItems[previousClickedItem.id].isClicked = false
     }
-    setRecommendationItems(updatedItems)
+    recommendationCardVar(updatedItems)
   }
 
   const isShowingAIRecommendation =
@@ -128,5 +134,28 @@ const Home = () => {
     </>
   )
 }
+
+const RECOMMENDATION_FOR_SUB_GOALS_QUERY = gql`
+  query GetRecommendationForSubGoals(
+    $mainGoal: String!
+    $selectedSubGoals: [String!]
+    $currentLanguage: String!
+  ) {
+    recommendationForSubGoals(
+      mainGoal: $mainGoal
+      selectedSubGoals: $selectedSubGoals
+      currentLanguage: $currentLanguage
+    ) {
+      ... on RecommendationSuccess {
+        recommendations {
+          text
+        }
+      }
+      ... on RecommendationFailure {
+        errorType
+      }
+    }
+  }
+`
 
 export default Home
