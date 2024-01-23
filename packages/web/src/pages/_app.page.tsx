@@ -22,9 +22,7 @@ const WebApp = ({ Component, pageProps }: AppProps) => {
   setupAxios()
 
   const client = new ApolloClient({
-    uri: IS_DEV
-      ? 'http://localhost:4000/graphql'
-      : 'https://api.lifeleader.me/graphql',
+    uri: BASE_URL + '/graphql',
     credentials: 'include',
     cache: new InMemoryCache(),
   })
