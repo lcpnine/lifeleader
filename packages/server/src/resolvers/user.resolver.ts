@@ -85,21 +85,17 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
-  async resetPassword(
-    @Arg('token') token: string,
-    @Arg('newPassword') newPassword: string
-  ): Promise<boolean> {
+  async verifyEmail(@Arg('token') token: string): Promise<boolean> {
     const user = await UserModel.findOne({
-      'resetPassword.token': token,
-      'resetPassword.expires': { $gt: new Date() },
+      'emailVerification.token': token,
+      'emailVerification.expires': { $gt: new Date() },
     })
 
     if (!user) throw new Error('Invalid or expired token')
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10)
-    user.password = hashedPassword
-    user.resetPassword.token = null
-    user.resetPassword.expires = null
+    user.emailVerification.token = null
+    user.emailVerification.expires = null
+    user.emailVerification.isVerified = true
     await user.save()
 
     return true
@@ -125,17 +121,30 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
-  async verifyEmail(@Arg('token') token: string): Promise<boolean> {
+  async resetPassword(
+    @Arg('token') token: string,
+    @Arg('newPassword') newPassword: string,
+    @Arg('newPasswordConfirm') newPasswordConfirm: string
+  ): Promise<boolean> {
+    if (newPassword !== newPasswordConfirm) {
+      throw new Error('Passwords do not match')
+    }
+
+    if (!isPasswordValid(newPassword)) {
+      throw new Error('Invalid password')
+    }
+
     const user = await UserModel.findOne({
-      'emailVerification.token': token,
-      'emailVerification.expires': { $gt: new Date() },
+      'resetPassword.token': token,
+      'resetPassword.expires': { $gt: new Date() },
     })
 
     if (!user) throw new Error('Invalid or expired token')
 
-    user.emailVerification.token = null
-    user.emailVerification.expires = null
-    user.emailVerification.isVerified = true
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
+    user.password = hashedPassword
+    user.resetPassword.token = null
+    user.resetPassword.expires = null
     await user.save()
 
     return true
