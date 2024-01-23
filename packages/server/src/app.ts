@@ -6,11 +6,11 @@ configDotenv({
       : '.env.production',
 })
 
-import { ApolloServer } from 'apollo-server-express'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
+import { createYoga } from 'graphql-yoga'
 import mongoose from 'mongoose'
 import createApolloConfig from './config/apollo'
 import { IS_DEV, PHASE } from './constant/common'
@@ -41,9 +41,8 @@ const startApp = async () => {
   mongoose.connect(process.env.MONGO_URI as string)
 
   const apolloConfig = await createApolloConfig()
-  const apolloServer = new ApolloServer(apolloConfig)
-  await apolloServer.start()
-  apolloServer.applyMiddleware({ app })
+  const yoga = createYoga(apolloConfig)
+  app.use('/graphql', yoga)
 
   // app.use('/auth', authRoutes)
   // app.use(

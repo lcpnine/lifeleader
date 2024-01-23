@@ -1,4 +1,3 @@
-import { ApolloServerExpressConfig } from 'apollo-server-express'
 import { buildSchema } from 'type-graphql'
 import { UserResolver } from '../resolvers/user.resolver'
 
@@ -10,9 +9,8 @@ const createSchema = async () =>
 const createApolloConfig = async () => {
   const schema = await createSchema()
 
-  const apolloConfig: ApolloServerExpressConfig = {
+  const apolloConfig = {
     schema,
-    context: ({ req, res }) => ({ req, res }),
   }
 
   return apolloConfig
