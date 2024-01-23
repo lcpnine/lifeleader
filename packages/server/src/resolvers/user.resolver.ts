@@ -10,7 +10,11 @@ import UserModel, { IUser } from '../models/User.model'
 import { User } from '../types/user'
 import { isPasswordValid } from '../utils/common'
 import { sendEmail } from '../utils/nodemailer'
-import { SignInFailResponse, SignInSuccessResponse } from './dto/user'
+import {
+  SignInFailResponse,
+  SignInSuccessResponse,
+  SignUpResponse,
+} from './dto/user'
 
 @Resolver()
 export class UserResolver {
@@ -47,7 +51,7 @@ export class UserResolver {
     @Arg('password') password: string,
     @Arg('passwordConfirm') passwordConfirm: string,
     @Arg('nickname') nickname: string
-  ): Promise<IUser> {
+  ): Promise<SignUpResponse> {
     const existingUser = await UserModel.findOne({ email })
     if (existingUser) throw new Error('User already exists')
 
@@ -77,7 +81,7 @@ export class UserResolver {
       createEmailVerificationTemplate(nickname, emailToken)
     )
 
-    return newUser
+    return { message: 'Verification email sent' }
   }
 
   @Mutation(() => Boolean)

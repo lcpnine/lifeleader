@@ -15,3 +15,9 @@ export class SignInFailResponse {
   @Field()
   message: string
 }
+
+@ObjectType()
+export class SignUpResponse {
+  @Field()
+  message: string
+}
