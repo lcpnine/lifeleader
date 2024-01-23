@@ -1,12 +1,14 @@
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
-import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { COOKIE_DOMAIN, IS_DEV } from '../constant/common'
 import {
   createEmailVerificationTemplate,
   createResetPasswordTemplate,
 } from '../constant/nodemailer'
 import UserModel, { IUser } from '../models/User.model'
+import { MyContext } from '../types/common'
 import { User } from '../types/user'
 import { isPasswordValid } from '../utils/common'
 import { sendEmail } from '../utils/nodemailer'
@@ -23,7 +25,8 @@ export class UserResolver {
   async signIn(
     @Arg('email') email: string,
     @Arg('password') password: string,
-    @Arg('keepSignedIn') keepSignedIn: boolean = false
+    @Arg('keepSignedIn') keepSignedIn: boolean = false,
+    @Ctx() ctx: MyContext
   ): Promise<typeof SignInResponse> {
     const user = await UserModel.findOne({ email })
     if (!user) return { displayMessage: 'User not found' }
@@ -38,6 +41,13 @@ export class UserResolver {
         expiresIn: keepSignedIn ? '10y' : '1h',
       }
     )
+    ctx.res.cookie('token', token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      domain: COOKIE_DOMAIN,
+      secure: !IS_DEV,
+      maxAge: keepSignedIn ? 10 * 365 * 24 * 60 * 60 * 1000 : 60 * 60 * 1000,
+    })
 
     return { token, user: user.toJSON() }
   }
