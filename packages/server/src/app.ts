@@ -12,7 +12,7 @@ import cors from 'cors'
 import express from 'express'
 import { createYoga } from 'graphql-yoga'
 import mongoose from 'mongoose'
-import createApolloConfig from './config/apollo'
+import createYogaConfig from './config/yoga'
 import { IS_DEV, PHASE } from './constant/common'
 
 const startApp = async () => {
@@ -40,8 +40,8 @@ const startApp = async () => {
 
   mongoose.connect(process.env.MONGO_URI as string)
 
-  const apolloConfig = await createApolloConfig()
-  const yoga = createYoga(apolloConfig)
+  const yogaConfig = await createYogaConfig()
+  const yoga = createYoga(yogaConfig)
   app.use('/graphql', yoga)
 
   const PORT = process.env.PORT || 4003

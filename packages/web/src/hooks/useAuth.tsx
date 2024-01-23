@@ -1,38 +1,66 @@
 import { DEFAULT_USER, useUserContext } from '@/contexts/UserContext'
+import { gql, useMutation } from '@apollo/client'
 import axios from 'axios'
+import { extractByTypename } from '../../utils/typeguard'
+import { SignInDocument } from './useAuth.generated'
+
+const SIGN_IN_MUTATION = gql`
+  mutation SignIn(
+    $email: String!
+    $password: String!
+    $keepSignedIn: Boolean!
+  ) {
+    signIn(email: $email, password: $password, keepSignedIn: $keepSignedIn) {
+      token
+      user {
+        _id
+        email
+        nickname
+        createdAt
+        emailVerification {
+          isVerified
+          token
+          expires
+        }
+        resetPassword {
+          token
+          expires
+          isVerified
+        }
+        purchasedInfo {
+          isPurchased
+          purchasedAt
+          expiresAt
+        }
+      }
+    }
+  }
+`
 
 const useAuth = () => {
   const { setUser } = useUserContext()
+  const [signInMutation] = useMutation(SignInDocument)
 
   const handleSignIn = async (
     email: string,
     password: string,
     keepSignedIn: boolean
   ) => {
-    const response = await axios.post(
-      '/auth/sign-in',
-      {
-        email,
-        password,
-        keepSignedIn,
-      },
-      {
-        validateStatus: status =>
-          status === 200 || status === 400 || status === 500,
-      }
-    )
-
-    if (response.status === 400 || response.status === 500)
-      return { success: false, status: response.status }
-
-    const { user } = response.data
-
-    setUser({
-      isSignedIn: true,
-      ...user,
+    const { data } = await signInMutation({
+      variables: { email, password, keepSignedIn },
     })
+    const { SignInSuccessResponse } = extractByTypename(data?.signIn)
 
-    return { success: true, status: response.status }
+    // TODO: Change how to deliver error message
+    if (!SignInSuccessResponse) return { success: false, status: 400 }
+
+    const { token, user } = SignInSuccessResponse
+    // setUser({
+    //   isSignedIn: true,
+    //   ...user,
+    // })
+
+    return { success: true, status: 200 }
   }
 
   const handleSignOut = async () => {

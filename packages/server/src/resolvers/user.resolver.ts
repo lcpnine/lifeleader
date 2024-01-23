@@ -26,7 +26,8 @@ export class UserResolver {
   @Mutation(() => SignInSuccessResponse || SignInFailResponse)
   async signIn(
     @Arg('email') email: string,
-    @Arg('password') password: string
+    @Arg('password') password: string,
+    @Arg('keepSignedIn') keepSignedIn: boolean = false
   ): Promise<SignInSuccessResponse | SignInFailResponse> {
     const user = await UserModel.findOne({ email })
     if (!user) throw new Error('User not found')
@@ -38,7 +39,7 @@ export class UserResolver {
       { userId: user._id },
       process.env.JWT_SECRET as string,
       {
-        expiresIn: '1h',
+        expiresIn: keepSignedIn ? '10y' : '1h',
       }
     )
 
