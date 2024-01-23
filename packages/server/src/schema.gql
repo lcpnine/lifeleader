@@ -3,6 +3,10 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type BaseError {
+  displayMessage: String!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -11,7 +15,7 @@ scalar DateTime
 type Mutation {
   findPassword(email: String!): Boolean!
   resetPassword(newPassword: String!, newPasswordConfirm: String!, token: String!): Boolean!
-  signIn(email: String!, keepSignedIn: Boolean!, password: String!): SignInSuccessResponse!
+  signIn(email: String!, keepSignedIn: Boolean!, password: String!): SignInResponse!
   signUp(email: String!, nickname: String!, password: String!, passwordConfirm: String!): User!
   verifyEmail(token: String!): Boolean!
 }
@@ -31,7 +35,9 @@ type Recommendation {
   text: String!
 }
 
-type SignInSuccessResponse {
+union SignInResponse = BaseError | SignInSuccess
+
+type SignInSuccess {
   token: String!
   user: User!
 }

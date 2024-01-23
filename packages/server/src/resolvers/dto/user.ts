@@ -1,8 +1,9 @@
-import { Field, ObjectType } from 'type-graphql'
+import { Field, ObjectType, createUnionType } from 'type-graphql'
 import { User } from '../../types/user'
+import { BaseError } from './common'
 
 @ObjectType()
-export class SignInSuccessResponse {
+export class SignInSuccess {
   @Field()
   token: string
 
@@ -10,11 +11,16 @@ export class SignInSuccessResponse {
   user: User
 }
 
-@ObjectType()
-export class SignInFailResponse {
-  @Field()
-  message: string
-}
+export const SignInResponse = createUnionType({
+  name: 'SignInResponse',
+  types: () => [SignInSuccess, BaseError] as const,
+  resolveType: (value: any) => {
+    if ('token' in value) {
+      return SignInSuccess.name
+    }
+    return BaseError.name
+  },
+})
 
 @ObjectType()
 export class SignUpResponse {

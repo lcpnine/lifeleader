@@ -10,11 +10,7 @@ import UserModel, { IUser } from '../models/User.model'
 import { User } from '../types/user'
 import { isPasswordValid } from '../utils/common'
 import { sendEmail } from '../utils/nodemailer'
-import {
-  SignInFailResponse,
-  SignInSuccessResponse,
-  SignUpResponse,
-} from './dto/user'
+import { SignInResponse, SignUpResponse } from './dto/user'
 
 @Resolver()
 export class UserResolver {
@@ -23,12 +19,12 @@ export class UserResolver {
     return await UserModel.findById(_id)
   }
 
-  @Mutation(() => SignInSuccessResponse || SignInFailResponse)
+  @Mutation(() => SignInResponse)
   async signIn(
     @Arg('email') email: string,
     @Arg('password') password: string,
     @Arg('keepSignedIn') keepSignedIn: boolean = false
-  ): Promise<SignInSuccessResponse | SignInFailResponse> {
+  ): Promise<typeof SignInResponse> {
     const user = await UserModel.findOne({ email })
     if (!user) throw new Error('User not found')
 
