@@ -1,25 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose'
-
-export interface TokenInfo {
-  token: string | null
-  expires: Date | null
-  isVerified?: boolean
-}
-
-export interface PurchasedInfo {
-  isPurchased: boolean
-  purchasedAt: Date | null
-  expiresAt: Date | null
-}
-
-export interface IUser extends Document {
-  email: string
-  password: string
-  nickname: string
-  emailVerification: TokenInfo
-  resetPassword: TokenInfo
-  purchasedInfo: PurchasedInfo
-}
+import 'reflect-metadata'
+import { PurchasedInfo, TokenInfo } from '../types/user'
 
 const tokenInfoSchema: Schema = new Schema({
   token: { type: String, default: null },
@@ -43,5 +24,14 @@ const UserSchema: Schema = new Schema({
     default: () => ({}),
   },
 })
+
+export interface IUser extends Document {
+  email: string
+  password: string
+  nickname: string
+  emailVerification: TokenInfo
+  resetPassword: TokenInfo
+  purchasedInfo: PurchasedInfo
+}
 
 export default mongoose.model<IUser>('User', UserSchema)
