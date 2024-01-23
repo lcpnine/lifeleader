@@ -26,10 +26,10 @@ export class UserResolver {
     @Arg('keepSignedIn') keepSignedIn: boolean = false
   ): Promise<typeof SignInResponse> {
     const user = await UserModel.findOne({ email })
-    if (!user) throw new Error('User not found')
+    if (!user) return { displayMessage: 'User not found' }
 
     const isValid = await bcrypt.compare(password, user.password)
-    if (!isValid) throw new Error('Invalid password')
+    if (!isValid) return { displayMessage: 'Invalid password' }
 
     const token = jwt.sign(
       { userId: user._id },
