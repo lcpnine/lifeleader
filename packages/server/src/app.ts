@@ -6,6 +6,7 @@ configDotenv({
       : '.env.production',
 })
 
+import { ApolloServer } from 'apollo-server-express'
 import bodyParser from 'body-parser'
 import RedisStore from 'connect-redis'
 import cookieParser from 'cookie-parser'
@@ -15,6 +16,7 @@ import expressSession from 'express-session'
 import mongoose from 'mongoose'
 import passport from 'passport'
 import { createClient } from 'redis'
+import apolloConfig from './config/apollo'
 import initializePassport from './config/passport'
 import { COOKIE_DOMAIN, IS_DEV, PHASE } from './constant/common'
 import healthCheckController from './controllers/healthCheck'
@@ -84,6 +86,9 @@ app.use(
 )
 
 mongoose.connect(process.env.MONGO_URI as string)
+
+const apolloServer = new ApolloServer(apolloConfig)
+apolloServer.applyMiddleware({ app })
 
 app.use('/auth', authRoutes)
 app.use(
