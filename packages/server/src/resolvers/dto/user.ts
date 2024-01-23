@@ -18,35 +18,27 @@ export class SignInSuccess {
 
 export enum SignInFailureType {
   USER_NOT_FOUND = 'USER_NOT_FOUND',
-  INVALID_PASSWORD = 'INVALID_PASSWORD',
+  WRONG_PASSWORD = 'WRONG_PASSWORD',
 }
 
 registerEnumType(SignInFailureType, {
   name: 'SignInFailureType',
-  valuesConfig: {
-    USER_NOT_FOUND: {
-      description: 'User not found',
-    },
-    INVALID_PASSWORD: {
-      description: 'Invalid password',
-    },
-  },
 })
 
 @ObjectType()
 export class SignInFailure implements BaseError {
-  @Field()
+  @Field(type => SignInFailureType)
   errorType: SignInFailureType
 }
 
 export const SignInResponse = createUnionType({
   name: 'SignInResponse',
-  types: () => [SignInSuccess, BaseError] as const,
+  types: () => [SignInSuccess, SignInFailure] as const,
   resolveType: (value: any) => {
     if ('token' in value) {
       return SignInSuccess.name
     }
-    return BaseError.name
+    return SignInFailure.name
   },
 })
 

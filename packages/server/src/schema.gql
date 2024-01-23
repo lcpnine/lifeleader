@@ -3,10 +3,6 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type BaseError {
-  errorType: String!
-}
-
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -35,7 +31,16 @@ type Recommendation {
   text: String!
 }
 
-union SignInResponse = BaseError | SignInSuccess
+type SignInFailure {
+  errorType: SignInFailureType!
+}
+
+enum SignInFailureType {
+  USER_NOT_FOUND
+  WRONG_PASSWORD
+}
+
+union SignInResponse = SignInFailure | SignInSuccess
 
 type SignInSuccess {
   token: String!

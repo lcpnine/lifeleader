@@ -5,7 +5,12 @@
         }
       }
       const result: PossibleTypesResultData = {
-  "possibleTypes": {}
+  "possibleTypes": {
+    "SignInResponse": [
+      "SignInFailure",
+      "SignInSuccess"
+    ]
+  }
 };
       export default result;
     

@@ -37,7 +37,7 @@ export class UserResolver {
     const isValid = await bcrypt.compare(password, user.password)
     if (!isValid)
       return {
-        errorType: SignInFailureType.INVALID_PASSWORD,
+        errorType: SignInFailureType.WRONG_PASSWORD,
       }
 
     const token = jwt.sign(

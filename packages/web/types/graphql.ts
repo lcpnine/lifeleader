@@ -20,7 +20,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   findPassword: Scalars['Boolean']['output'];
   resetPassword: Scalars['Boolean']['output'];
-  signIn: SignInSuccessResponse;
+  signIn: SignInResponse;
   signUp: User;
   verifyEmail: Scalars['Boolean']['output'];
 };
@@ -87,8 +87,20 @@ export type Recommendation = {
   text: Scalars['String']['output'];
 };
 
-export type SignInSuccessResponse = {
-  __typename?: 'SignInSuccessResponse';
+export type SignInFailure = {
+  __typename?: 'SignInFailure';
+  errorType: SignInFailureType;
+};
+
+export enum SignInFailureType {
+  UserNotFound = 'USER_NOT_FOUND',
+  WrongPassword = 'WRONG_PASSWORD'
+}
+
+export type SignInResponse = SignInFailure | SignInSuccess;
+
+export type SignInSuccess = {
+  __typename?: 'SignInSuccess';
   token: Scalars['String']['output'];
   user: User;
 };

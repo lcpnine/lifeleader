@@ -22,8 +22,12 @@ export type RecommendationKeySpecifier = ('text' | RecommendationKeySpecifier)[]
 export type RecommendationFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SignInSuccessResponseKeySpecifier = ('token' | 'user' | SignInSuccessResponseKeySpecifier)[];
-export type SignInSuccessResponseFieldPolicy = {
+export type SignInFailureKeySpecifier = ('errorType' | SignInFailureKeySpecifier)[];
+export type SignInFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SignInSuccessKeySpecifier = ('token' | 'user' | SignInSuccessKeySpecifier)[];
+export type SignInSuccessFieldPolicy = {
 	token?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -60,9 +64,13 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | RecommendationKeySpecifier | (() => undefined | RecommendationKeySpecifier),
 		fields?: RecommendationFieldPolicy,
 	},
-	SignInSuccessResponse?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | SignInSuccessResponseKeySpecifier | (() => undefined | SignInSuccessResponseKeySpecifier),
-		fields?: SignInSuccessResponseFieldPolicy,
+	SignInFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SignInFailureKeySpecifier | (() => undefined | SignInFailureKeySpecifier),
+		fields?: SignInFailureFieldPolicy,
+	},
+	SignInSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SignInSuccessKeySpecifier | (() => undefined | SignInSuccessKeySpecifier),
+		fields?: SignInSuccessFieldPolicy,
 	},
 	TokenInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TokenInfoKeySpecifier | (() => undefined | TokenInfoKeySpecifier),

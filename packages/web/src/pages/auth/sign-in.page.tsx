@@ -1,13 +1,16 @@
 import GeneralInput from '@/components/GeneralInput/GeneralInput'
 import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
-import useAuth from '@/hooks/useAuth'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
+import { gql, useMutation } from '@apollo/client'
 import Head from 'next/head'
 import { FormEventHandler, useState } from 'react'
+import { SignInFailureType } from '../../../gql/graphql'
+import { extractByTypename } from '../../../utils/typeguard'
 import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
+import { SignInDocument } from './sign-in.page.generated'
 
 const SignIn = () => {
   const { getTranslation } = useI18n()
@@ -18,9 +21,9 @@ const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [keepSignedIn, setKeepSignedIn] = useState(false)
+  const [signInMutation] = useMutation(SignInDocument)
 
   const { goTo } = useGoTo()
-  const { handleSignIn } = useAuth()
 
   const isFormValid = email && password
 
@@ -31,20 +34,28 @@ const SignIn = () => {
       return
     }
 
-    const { status, success } = await handleSignIn(
-      email,
-      password,
-      keepSignedIn
-    )
+    const { data } = await signInMutation({
+      variables: { email, password, keepSignedIn },
+    })
 
-    if (!success) {
-      if (status === 400) {
-        openAlert({ text: translation('invalidUser') })
+    const { SignInSuccess, SignInFailure } = extractByTypename(data?.signIn)
+
+    const errorType = SignInFailure?.errorType
+
+    // const { token, user } = SignInSuccess
+    // setUser({
+    //   isSignedIn: true,
+    //   ...user,
+    // })
+
+    if (errorType) {
+      if (errorType === SignInFailureType.UserNotFound) {
+        openAlert({ text: translation('UserNotFound') })
         return
       }
 
-      if (status === 500) {
-        openAlert({ text: commonTranslation('serverError') })
+      if (errorType === SignInFailureType.WrongPassword) {
+        openAlert({ text: translation('WrongPassword') })
         return
       }
     }
@@ -111,5 +122,43 @@ const SignIn = () => {
     </>
   )
 }
+
+const SIGN_IN_MUTATION = gql`
+  mutation SignIn(
+    $email: String!
+    $password: String!
+    $keepSignedIn: Boolean!
+  ) {
+    signIn(email: $email, password: $password, keepSignedIn: $keepSignedIn) {
+      ... on SignInSuccess {
+        token
+        user {
+          _id
+          email
+          nickname
+          createdAt
+          emailVerification {
+            isVerified
+            token
+            expires
+          }
+          resetPassword {
+            token
+            expires
+            isVerified
+          }
+          purchasedInfo {
+            isPurchased
+            purchasedAt
+            expiresAt
+          }
+        }
+      }
+      ... on SignInFailure {
+        errorType
+      }
+    }
+  }
+`
 
 export default SignIn
