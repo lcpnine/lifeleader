@@ -2,7 +2,7 @@ import 'reflect-metadata'
 import { Arg, Query, Resolver } from 'type-graphql'
 import Recommendation from '../types/recommendation'
 import { RecommendationInNeed, getRecommendations } from '../utils/openai'
-import { BASE_ERROR, BaseError } from './dto/common'
+import { BASE_ERROR, BaseError } from './dto/common.dto'
 
 @Resolver()
 export class RecommendationResolver {

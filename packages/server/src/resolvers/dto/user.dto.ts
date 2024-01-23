@@ -5,7 +5,7 @@ import {
   registerEnumType,
 } from 'type-graphql'
 import { User } from '../../types/user'
-import { BaseError } from './common'
+import { BaseError } from './common.dto'
 
 @ObjectType()
 export class SignInSuccess {

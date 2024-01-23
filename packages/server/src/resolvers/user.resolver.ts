@@ -23,7 +23,7 @@ import {
   SignUpResponse,
   VerifyEmailFailureType,
   VerifyEmailResponse,
-} from './dto/user'
+} from './dto/user.dto'
 
 @Resolver()
 export class UserResolver {
