@@ -19,7 +19,7 @@ const FindPassword = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
     if (!email) {
-      openAlert({ text: translation('invalidForm') })
+      openAlert({ text: translation('InvalidForm') })
       return
     }
 

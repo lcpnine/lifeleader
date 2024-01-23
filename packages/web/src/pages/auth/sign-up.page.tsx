@@ -28,7 +28,7 @@ const SignUp = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
     if (!isFormValid) {
-      openAlert({ text: translation('invalidForm') })
+      openAlert({ text: translation('InvalidForm') })
       return
     }
 
@@ -54,7 +54,7 @@ const SignUp = () => {
       if (response.status === 409)
         return openAlert({ text: translation('duplicatedUser') })
       if (response.status === 400)
-        return openAlert({ text: translation('invalidForm') })
+        return openAlert({ text: translation('InvalidForm') })
       if (response.status === 200) {
         return openAlert({
           text: translation('sendVerificationEmail'),
