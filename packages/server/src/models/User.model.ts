@@ -1,23 +1,56 @@
 import mongoose, { Document, Schema } from 'mongoose'
+import 'reflect-metadata'
+import { Field, ID, ObjectType } from 'type-graphql'
 
-export interface TokenInfo {
+@ObjectType()
+export class TokenInfo {
+  @Field({ nullable: true })
   token: string | null
+
+  @Field({ nullable: true })
   expires: Date | null
+
+  @Field({ nullable: true })
   isVerified?: boolean
 }
 
-export interface PurchasedInfo {
+@ObjectType()
+export class PurchasedInfo {
+  @Field()
   isPurchased: boolean
+
+  @Field({ nullable: true })
   purchasedAt: Date | null
+
+  @Field({ nullable: true })
   expiresAt: Date | null
 }
 
-export interface IUser extends Document {
+@ObjectType()
+export class User {
+  @Field(() => ID)
+  id: string
+
+  @Field()
   email: string
-  password: string
+
+  @Field()
   nickname: string
+
+  // Note: Typically, you wouldn't expose sensitive fields like password via GraphQL
+  // @Field()
+  // password: string;
+
+  @Field()
+  createdAt: Date
+
+  @Field(() => TokenInfo)
   emailVerification: TokenInfo
+
+  @Field(() => TokenInfo)
   resetPassword: TokenInfo
+
+  @Field(() => PurchasedInfo)
   purchasedInfo: PurchasedInfo
 }
 
@@ -43,5 +76,14 @@ const UserSchema: Schema = new Schema({
     default: () => ({}),
   },
 })
+
+export interface IUser extends Document {
+  email: string
+  password: string
+  nickname: string
+  emailVerification: TokenInfo
+  resetPassword: TokenInfo
+  purchasedInfo: PurchasedInfo
+}
 
 export default mongoose.model<IUser>('User', UserSchema)
