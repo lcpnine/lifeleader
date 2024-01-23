@@ -2,7 +2,7 @@ import 'reflect-metadata'
 import { Arg, Query, Resolver } from 'type-graphql'
 import Recommendation from '../types/recommendation'
 import { RecommendationInNeed, getRecommendations } from '../utils/openai'
-import { BaseError } from './dto/common'
+import { BASE_ERROR, BaseError } from './dto/common'
 
 @Resolver()
 export class RecommendationResolver {
@@ -15,7 +15,7 @@ export class RecommendationResolver {
   ): Promise<Recommendation[] | BaseError> {
     if (!mainGoal) {
       return {
-        displayMessage: 'Main goal is required',
+        errorType: BASE_ERROR.errorType,
       }
     }
 

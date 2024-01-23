@@ -12,7 +12,7 @@ import { MyContext } from '../types/common'
 import { User } from '../types/user'
 import { isPasswordValid } from '../utils/common'
 import { sendEmail } from '../utils/nodemailer'
-import { SignInResponse, SignUpResponse } from './dto/user'
+import { SignInFailureType, SignInResponse, SignUpResponse } from './dto/user'
 
 @Resolver()
 export class UserResolver {
@@ -29,10 +29,16 @@ export class UserResolver {
     @Ctx() ctx: MyContext
   ): Promise<typeof SignInResponse> {
     const user = await UserModel.findOne({ email })
-    if (!user) return { displayMessage: 'User not found' }
+    if (!user)
+      return {
+        errorType: SignInFailureType.USER_NOT_FOUND,
+      }
 
     const isValid = await bcrypt.compare(password, user.password)
-    if (!isValid) return { displayMessage: 'Invalid password' }
+    if (!isValid)
+      return {
+        errorType: SignInFailureType.INVALID_PASSWORD,
+      }
 
     const token = jwt.sign(
       { userId: user._id },

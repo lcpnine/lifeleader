@@ -4,7 +4,7 @@
 # -----------------------------------------------
 
 type BaseError {
-  displayMessage: String!
+  errorType: String!
 }
 
 """
