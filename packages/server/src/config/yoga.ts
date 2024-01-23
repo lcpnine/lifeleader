@@ -1,3 +1,4 @@
+import type { YogaServerOptions } from 'graphql-yoga'
 import { buildSchema } from 'type-graphql'
 import { RecommendationResolver } from '../resolvers/recommendation.resolver'
 import { UserResolver } from '../resolvers/user.resolver'
@@ -7,14 +8,14 @@ const createSchema = async () =>
     resolvers: [UserResolver, RecommendationResolver],
   })
 
-const createApolloConfig = async () => {
+const createYogaConfig = async () => {
   const schema = await createSchema()
 
-  const apolloConfig = {
+  const yogaConfig = {
     schema,
-  }
+  } as YogaServerOptions<{}, {}>
 
-  return apolloConfig
+  return yogaConfig
 }
 
-export default createApolloConfig
+export default createYogaConfig
