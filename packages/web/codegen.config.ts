@@ -1,5 +1,13 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
+const scalarMap: Record<string, string> = {
+  DateTime: 'string',
+  Date: 'string',
+  Time: 'string',
+  ObjectID: 'string',
+  URL: 'string',
+}
+
 const config: CodegenConfig = {
   overwrite: true,
   schema: '../server/src/schema.gql',
@@ -13,6 +21,7 @@ const config: CodegenConfig = {
       config: {
         avoidOptionals: { field: true, inputValue: false },
         strictScalars: true,
+        scalars: scalarMap,
       },
     },
     'libs/apollo/typePolicies.helper.ts': {
@@ -40,6 +49,7 @@ const config: CodegenConfig = {
       config: {
         avoidOptionals: { field: true, inputValue: false },
         strictScalars: true,
+        scalars: scalarMap,
       },
     },
   },
