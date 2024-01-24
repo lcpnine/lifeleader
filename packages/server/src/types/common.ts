@@ -1,7 +1,6 @@
-import { Field, ObjectType } from 'type-graphql'
+import { Request, Response } from 'express'
 
-@ObjectType()
-export class ErrorResponse {
-  @Field()
-  displayMessage: string
+export interface MyContext {
+  req: Request
+  res: Response
 }

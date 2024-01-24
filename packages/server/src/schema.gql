@@ -8,12 +8,28 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+type FindPasswordFailure {
+  errorType: FindPasswordFailureType!
+}
+
+enum FindPasswordFailureType {
+  SERVER_ERROR
+  USER_NOT_FOUND
+}
+
+union FindPasswordResponse = FindPasswordFailure | FindPasswordSuccess
+
+type FindPasswordSuccess {
+  success: Boolean!
+}
+
 type Mutation {
-  findPassword(email: String!): Boolean!
-  resetPassword(newPassword: String!, newPasswordConfirm: String!, token: String!): Boolean!
-  signIn(email: String!, keepSignedIn: Boolean!, password: String!): SignInSuccessResponse!
-  signUp(email: String!, nickname: String!, password: String!, passwordConfirm: String!): User!
-  verifyEmail(token: String!): Boolean!
+  findPassword(email: String!): FindPasswordResponse!
+  resetPassword(newPassword: String!, newPasswordConfirm: String!, token: String!): ResetPasswordResponse!
+  signIn(email: String!, keepSignedIn: Boolean!, password: String!): SignInResponse!
+  signOut: Boolean!
+  signUp(email: String!, nickname: String!, password: String!, passwordConfirm: String!): SignUpResponse!
+  verifyEmail(token: String!): VerifyEmailResponse!
 }
 
 type PurchasedInfo {
@@ -24,20 +40,76 @@ type PurchasedInfo {
 
 type Query {
   getUser(_id: String!): User
-  subGoals(currentLanguage: String = "en", mainGoal: String!, selectedSubGoals: [String!]): [Recommendation!]!
+  recommendationForSubGoals(currentLanguage: String = "en", mainGoal: String!, selectedSubGoals: [String!]): RecommendationResponse!
 }
 
 type Recommendation {
   text: String!
 }
 
-type SignInSuccessResponse {
+type RecommendationFailure {
+  errorType: RecommendationFailureType!
+}
+
+enum RecommendationFailureType {
+  INVALID_REQUEST
+  OPENAI_ERROR
+}
+
+union RecommendationResponse = RecommendationFailure | RecommendationSuccess
+
+type RecommendationSuccess {
+  recommendations: [Recommendation!]!
+}
+
+type ResetPasswordFailure {
+  errorType: ResetPasswordFailureType!
+}
+
+enum ResetPasswordFailureType {
+  INVALID_PASSWORD
+  INVALID_TOKEN
+}
+
+union ResetPasswordResponse = ResetPasswordFailure | ResetPasswordSuccess
+
+type ResetPasswordSuccess {
+  success: Boolean!
+}
+
+type SignInFailure {
+  errorType: SignInFailureType!
+}
+
+enum SignInFailureType {
+  USER_NOT_FOUND
+  WRONG_PASSWORD
+}
+
+union SignInResponse = SignInFailure | SignInSuccess
+
+type SignInSuccess {
   token: String!
   user: User!
 }
 
+type SignUpFailure {
+  errorType: SignUpFailureType!
+}
+
+enum SignUpFailureType {
+  EXISTING_EMAIL
+  INVALID_PASSWORD
+}
+
+union SignUpResponse = SignUpFailure | SignUpSuccess
+
+type SignUpSuccess {
+  isMailSent: Boolean!
+}
+
 type TokenInfo {
-  expires: DateTime
+  expiresAt: DateTime
   isVerified: Boolean
   token: String
 }
@@ -50,4 +122,19 @@ type User {
   nickname: String!
   purchasedInfo: PurchasedInfo!
   resetPassword: TokenInfo!
+}
+
+type VerifyEmailFailure {
+  errorType: VerifyEmailFailureType!
+}
+
+enum VerifyEmailFailureType {
+  INVALID_TOKEN
+  VERIFIED_EMAIL
+}
+
+union VerifyEmailResponse = VerifyEmailFailure | VerifyEmailSuccess
+
+type VerifyEmailSuccess {
+  success: Boolean!
 }

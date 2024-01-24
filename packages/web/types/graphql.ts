@@ -16,13 +16,31 @@ export type Scalars = {
   DateTime: { input: string; output: string; }
 };
 
+export type FindPasswordFailure = {
+  __typename?: 'FindPasswordFailure';
+  errorType: FindPasswordFailureType;
+};
+
+export enum FindPasswordFailureType {
+  ServerError = 'SERVER_ERROR',
+  UserNotFound = 'USER_NOT_FOUND'
+}
+
+export type FindPasswordResponse = FindPasswordFailure | FindPasswordSuccess;
+
+export type FindPasswordSuccess = {
+  __typename?: 'FindPasswordSuccess';
+  success: Scalars['Boolean']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  findPassword: Scalars['Boolean']['output'];
-  resetPassword: Scalars['Boolean']['output'];
-  signIn: SignInSuccessResponse;
-  signUp: User;
-  verifyEmail: Scalars['Boolean']['output'];
+  findPassword: FindPasswordResponse;
+  resetPassword: ResetPasswordResponse;
+  signIn: SignInResponse;
+  signOut: Scalars['Boolean']['output'];
+  signUp: SignUpResponse;
+  verifyEmail: VerifyEmailResponse;
 };
 
 
@@ -67,7 +85,7 @@ export type PurchasedInfo = {
 export type Query = {
   __typename?: 'Query';
   getUser: Maybe<User>;
-  subGoals: Array<Recommendation>;
+  recommendationForSubGoals: RecommendationResponse;
 };
 
 
@@ -76,7 +94,7 @@ export type QueryGetUserArgs = {
 };
 
 
-export type QuerySubGoalsArgs = {
+export type QueryRecommendationForSubGoalsArgs = {
   currentLanguage?: InputMaybe<Scalars['String']['input']>;
   mainGoal: Scalars['String']['input'];
   selectedSubGoals?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -87,15 +105,78 @@ export type Recommendation = {
   text: Scalars['String']['output'];
 };
 
-export type SignInSuccessResponse = {
-  __typename?: 'SignInSuccessResponse';
+export type RecommendationFailure = {
+  __typename?: 'RecommendationFailure';
+  errorType: RecommendationFailureType;
+};
+
+export enum RecommendationFailureType {
+  InvalidRequest = 'INVALID_REQUEST',
+  OpenaiError = 'OPENAI_ERROR'
+}
+
+export type RecommendationResponse = RecommendationFailure | RecommendationSuccess;
+
+export type RecommendationSuccess = {
+  __typename?: 'RecommendationSuccess';
+  recommendations: Array<Recommendation>;
+};
+
+export type ResetPasswordFailure = {
+  __typename?: 'ResetPasswordFailure';
+  errorType: ResetPasswordFailureType;
+};
+
+export enum ResetPasswordFailureType {
+  InvalidPassword = 'INVALID_PASSWORD',
+  InvalidToken = 'INVALID_TOKEN'
+}
+
+export type ResetPasswordResponse = ResetPasswordFailure | ResetPasswordSuccess;
+
+export type ResetPasswordSuccess = {
+  __typename?: 'ResetPasswordSuccess';
+  success: Scalars['Boolean']['output'];
+};
+
+export type SignInFailure = {
+  __typename?: 'SignInFailure';
+  errorType: SignInFailureType;
+};
+
+export enum SignInFailureType {
+  UserNotFound = 'USER_NOT_FOUND',
+  WrongPassword = 'WRONG_PASSWORD'
+}
+
+export type SignInResponse = SignInFailure | SignInSuccess;
+
+export type SignInSuccess = {
+  __typename?: 'SignInSuccess';
   token: Scalars['String']['output'];
   user: User;
 };
 
+export type SignUpFailure = {
+  __typename?: 'SignUpFailure';
+  errorType: SignUpFailureType;
+};
+
+export enum SignUpFailureType {
+  ExistingEmail = 'EXISTING_EMAIL',
+  InvalidPassword = 'INVALID_PASSWORD'
+}
+
+export type SignUpResponse = SignUpFailure | SignUpSuccess;
+
+export type SignUpSuccess = {
+  __typename?: 'SignUpSuccess';
+  isMailSent: Scalars['Boolean']['output'];
+};
+
 export type TokenInfo = {
   __typename?: 'TokenInfo';
-  expires: Maybe<Scalars['DateTime']['output']>;
+  expiresAt: Maybe<Scalars['DateTime']['output']>;
   isVerified: Maybe<Scalars['Boolean']['output']>;
   token: Maybe<Scalars['String']['output']>;
 };
@@ -109,4 +190,21 @@ export type User = {
   nickname: Scalars['String']['output'];
   purchasedInfo: PurchasedInfo;
   resetPassword: TokenInfo;
+};
+
+export type VerifyEmailFailure = {
+  __typename?: 'VerifyEmailFailure';
+  errorType: VerifyEmailFailureType;
+};
+
+export enum VerifyEmailFailureType {
+  InvalidToken = 'INVALID_TOKEN',
+  VerifiedEmail = 'VERIFIED_EMAIL'
+}
+
+export type VerifyEmailResponse = VerifyEmailFailure | VerifyEmailSuccess;
+
+export type VerifyEmailSuccess = {
+  __typename?: 'VerifyEmailSuccess';
+  success: Scalars['Boolean']['output'];
 };

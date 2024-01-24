@@ -1,35 +1,44 @@
 import 'reflect-metadata'
 import { Arg, Query, Resolver } from 'type-graphql'
-import { ErrorResponse } from '../types/common'
-import Recommendation from '../types/recommendation'
 import { RecommendationInNeed, getRecommendations } from '../utils/openai'
+import {
+  RecommendationFailureType,
+  RecommendationResponse,
+} from './dto/recommendation.dto'
 
 @Resolver()
 export class RecommendationResolver {
-  @Query(() => [Recommendation])
-  async subGoals(
+  @Query(() => RecommendationResponse)
+  async recommendationForSubGoals(
     @Arg('mainGoal') mainGoal: string,
     @Arg('selectedSubGoals', () => [String], { nullable: true })
     selectedSubGoals: string[] = [],
     @Arg('currentLanguage', { defaultValue: 'en' }) currentLanguage: string
-  ): Promise<Recommendation[] | ErrorResponse> {
+  ): Promise<typeof RecommendationResponse> {
     if (!mainGoal) {
       return {
-        displayMessage: 'Main goal is required',
+        errorType: RecommendationFailureType.INVALID_REQUEST,
       }
     }
 
-    const { recommendations } = await getRecommendations({
-      recommendationInNeed: RecommendationInNeed.SubGoals,
-      params: {
-        mainGoal,
-        selectedSubGoals,
-        currentLanguage,
-      },
-    })
-
-    return recommendations.map(recommendation => ({
-      text: recommendation,
-    }))
+    try {
+      const { recommendations } = await getRecommendations({
+        recommendationInNeed: RecommendationInNeed.SubGoals,
+        params: {
+          mainGoal,
+          selectedSubGoals,
+          currentLanguage,
+        },
+      })
+      return {
+        recommendations: recommendations.map(recommendation => ({
+          text: recommendation,
+        })),
+      }
+    } catch (e) {
+      return {
+        errorType: RecommendationFailureType.OPENAI_ERROR,
+      }
+    }
   }
 }

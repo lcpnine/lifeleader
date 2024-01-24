@@ -1,20 +1,29 @@
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
-import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { COOKIE_DOMAIN, IS_DEV, ONE_DAY, ONE_HOUR } from '../constant/common'
 import {
   createEmailVerificationTemplate,
   createResetPasswordTemplate,
 } from '../constant/nodemailer'
 import UserModel, { IUser } from '../models/User.model'
+import { MyContext } from '../types/common'
 import { User } from '../types/user'
 import { isPasswordValid } from '../utils/common'
 import { sendEmail } from '../utils/nodemailer'
 import {
-  SignInFailResponse,
-  SignInSuccessResponse,
+  FindPasswordFailureType,
+  FindPasswordResponse,
+  ResetPasswordFailureType,
+  ResetPasswordResponse,
+  SignInFailureType,
+  SignInResponse,
+  SignUpFailureType,
   SignUpResponse,
-} from './dto/user'
+  VerifyEmailFailureType,
+  VerifyEmailResponse,
+} from './dto/user.dto'
 
 @Resolver()
 export class UserResolver {
@@ -23,17 +32,24 @@ export class UserResolver {
     return await UserModel.findById(_id)
   }
 
-  @Mutation(() => SignInSuccessResponse || SignInFailResponse)
+  @Mutation(() => SignInResponse)
   async signIn(
     @Arg('email') email: string,
     @Arg('password') password: string,
-    @Arg('keepSignedIn') keepSignedIn: boolean = false
-  ): Promise<SignInSuccessResponse | SignInFailResponse> {
+    @Arg('keepSignedIn') keepSignedIn: boolean = false,
+    @Ctx() ctx: MyContext
+  ): Promise<typeof SignInResponse> {
     const user = await UserModel.findOne({ email })
-    if (!user) throw new Error('User not found')
+    if (!user)
+      return {
+        errorType: SignInFailureType.USER_NOT_FOUND,
+      }
 
     const isValid = await bcrypt.compare(password, user.password)
-    if (!isValid) throw new Error('Invalid password')
+    if (!isValid)
+      return {
+        errorType: SignInFailureType.WRONG_PASSWORD,
+      }
 
     const token = jwt.sign(
       { userId: user._id },
@@ -42,30 +58,48 @@ export class UserResolver {
         expiresIn: keepSignedIn ? '10y' : '1h',
       }
     )
+    ctx.res.cookie('token', token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      domain: COOKIE_DOMAIN,
+      secure: !IS_DEV,
+      maxAge: keepSignedIn ? 10 * 365 * ONE_DAY : ONE_HOUR,
+    })
 
     return { token, user: user.toJSON() }
   }
 
-  @Mutation(() => User)
+  @Mutation(() => Boolean)
+  async signOut(@Ctx() ctx: MyContext): Promise<boolean> {
+    ctx.res.clearCookie('token', {
+      httpOnly: true,
+      sameSite: 'strict',
+      domain: COOKIE_DOMAIN,
+      secure: !IS_DEV,
+    })
+    return true
+  }
+
+  @Mutation(() => SignUpResponse)
   async signUp(
     @Arg('email') email: string,
     @Arg('password') password: string,
     @Arg('passwordConfirm') passwordConfirm: string,
     @Arg('nickname') nickname: string
-  ): Promise<SignUpResponse> {
+  ): Promise<typeof SignUpResponse> {
     const existingUser = await UserModel.findOne({ email })
-    if (existingUser) throw new Error('User already exists')
+    if (existingUser) return { errorType: SignUpFailureType.EXISTING_EMAIL }
 
     const isValidPassword = isPasswordValid(password)
     if (!isValidPassword || password !== passwordConfirm) {
-      throw new Error('Invalid password')
+      return { errorType: SignUpFailureType.INVALID_PASSWORD }
     }
 
     const hashedPassword = await bcrypt.hash(password, 10)
     const emailToken = crypto.randomBytes(20).toString('hex')
     const emailVerification = {
       token: emailToken,
-      expires: new Date(Date.now() + 60 * 60 * 1000),
+      expiresAt: new Date(Date.now() + 60 * 60 * 1000),
       isVerified: false,
     }
 
@@ -82,72 +116,83 @@ export class UserResolver {
       createEmailVerificationTemplate(nickname, emailToken)
     )
 
-    return { message: 'Verification email sent' }
+    return { isMailSent: true }
   }
 
-  @Mutation(() => Boolean)
-  async verifyEmail(@Arg('token') token: string): Promise<boolean> {
+  @Mutation(() => VerifyEmailResponse)
+  async verifyEmail(
+    @Arg('token') token: string
+  ): Promise<typeof VerifyEmailResponse> {
     const user = await UserModel.findOne({
       'emailVerification.token': token,
-      'emailVerification.expires': { $gt: new Date() },
+      'emailVerification.expiresAt': { $gt: new Date() },
     })
 
-    if (!user) throw new Error('Invalid or expired token')
+    if (!user) return { errorType: VerifyEmailFailureType.INVALID_TOKEN }
+    if (user.emailVerification.isVerified)
+      return {
+        errorType: VerifyEmailFailureType.VERIFIED_EMAIL,
+      }
 
-    user.emailVerification.token = null
-    user.emailVerification.expires = null
     user.emailVerification.isVerified = true
     await user.save()
 
-    return true
+    return { success: true }
   }
 
-  @Mutation(() => Boolean)
-  async findPassword(@Arg('email') email: string): Promise<boolean> {
+  @Mutation(() => FindPasswordResponse)
+  async findPassword(
+    @Arg('email') email: string
+  ): Promise<typeof FindPasswordResponse> {
     const user = await UserModel.findOne({ email })
-    if (!user) return false
+    if (!user) return { errorType: FindPasswordFailureType.USER_NOT_FOUND }
 
-    const token = crypto.randomBytes(20).toString('hex')
-    user.resetPassword.token = token
-    user.resetPassword.expires = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
-    await user.save()
+    try {
+      const token = crypto.randomBytes(20).toString('hex')
+      user.resetPassword.token = token
+      user.resetPassword.expiresAt = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+      await user.save()
 
-    await sendEmail(
-      email,
-      'Password Reset',
-      createResetPasswordTemplate(user.nickname, token)
-    )
+      await sendEmail(
+        email,
+        'Password Reset',
+        createResetPasswordTemplate(user.nickname, token)
+      )
 
-    return true
+      return { success: true }
+    } catch (e) {
+      console.error(e)
+      return { errorType: FindPasswordFailureType.SERVER_ERROR }
+    }
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => ResetPasswordResponse)
   async resetPassword(
     @Arg('token') token: string,
     @Arg('newPassword') newPassword: string,
     @Arg('newPasswordConfirm') newPasswordConfirm: string
-  ): Promise<boolean> {
+  ): Promise<typeof ResetPasswordResponse> {
     if (newPassword !== newPasswordConfirm) {
-      throw new Error('Passwords do not match')
+      return { errorType: ResetPasswordFailureType.INVALID_PASSWORD }
     }
 
     if (!isPasswordValid(newPassword)) {
-      throw new Error('Invalid password')
+      return { errorType: ResetPasswordFailureType.INVALID_PASSWORD }
     }
 
     const user = await UserModel.findOne({
       'resetPassword.token': token,
-      'resetPassword.expires': { $gt: new Date() },
+      'resetPassword.expiresAt': { $gt: new Date() },
     })
 
-    if (!user) throw new Error('Invalid or expired token')
+    if (!user) return { errorType: ResetPasswordFailureType.INVALID_TOKEN }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10)
     user.password = hashedPassword
     user.resetPassword.token = null
-    user.resetPassword.expires = null
+    user.resetPassword.expiresAt = null
     await user.save()
 
-    return true
+    return { success: true }
   }
 }

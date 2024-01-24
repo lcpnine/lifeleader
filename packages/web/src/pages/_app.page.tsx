@@ -1,14 +1,17 @@
-import { BASE_URL } from '@/constants/common'
+import { BASE_URL, IS_DEV } from '@/constants/common'
 import { AlertProvider } from '@/contexts/AlertContext'
 import { EntryProvider } from '@/contexts/EntryContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
-import { User, UserProvider } from '@/contexts/UserContext'
+import { UserProvider } from '@/contexts/UserContext'
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev'
 import axios from 'axios'
 import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
 import Head from 'next/head'
 import Script from 'next/script'
 import Favicon from 'public/favicon.ico'
+import { User } from '../../gql/graphql'
 import { setupAxios } from '../../utils/axios'
 import './globals.css'
 import Layout from './layout'
@@ -17,6 +20,17 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_MEASUREMENT_ID
 
 const WebApp = ({ Component, pageProps }: AppProps) => {
   setupAxios()
+
+  const client = new ApolloClient({
+    uri: BASE_URL + '/graphql',
+    credentials: 'include',
+    cache: new InMemoryCache(),
+  })
+
+  if (IS_DEV) {
+    loadDevMessages()
+    loadErrorMessages()
+  }
 
   return (
     <>
@@ -44,17 +58,19 @@ const WebApp = ({ Component, pageProps }: AppProps) => {
         `,
         }}
       />
-      <EntryProvider serverProps={pageProps}>
-        <UserProvider initialUser={pageProps.user}>
-          <AlertProvider>
-            <ThemeProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </ThemeProvider>
-          </AlertProvider>
-        </UserProvider>
-      </EntryProvider>
+      <ApolloProvider client={client}>
+        <EntryProvider serverProps={pageProps}>
+          <UserProvider initialUser={pageProps.user}>
+            <AlertProvider>
+              <ThemeProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </ThemeProvider>
+            </AlertProvider>
+          </UserProvider>
+        </EntryProvider>
+      </ApolloProvider>
     </>
   )
 }
