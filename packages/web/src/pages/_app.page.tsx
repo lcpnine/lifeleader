@@ -86,6 +86,17 @@ WebApp.getInitialProps = async (context: AppContext) => {
   const cookies = context.ctx.req?.cookies || {}
   const token = cookies['token']
 
+  if (!token) {
+    return {
+      ...props,
+      pageProps: {
+        acceptLanguage,
+        userAgent,
+        referrer,
+        user: null,
+      },
+    }
+  }
   try {
     const res = await axios.post(
       BASE_URL + '/graphql',
