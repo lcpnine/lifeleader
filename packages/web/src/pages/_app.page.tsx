@@ -3,9 +3,13 @@ import { AlertProvider } from '@/contexts/AlertContext'
 import { EntryProvider } from '@/contexts/EntryContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { UserProvider } from '@/contexts/UserContext'
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  gql,
+} from '@apollo/client'
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev'
-import axios from 'axios'
 import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
 import Head from 'next/head'
@@ -80,17 +84,14 @@ WebApp.getInitialProps = async (context: AppContext) => {
 
   // @ts-ignore
   const cookies = (context.ctx.req?.cookies || {}) as Record<string, any>
-  const connectSid = cookies['connect.sid']
+  const token = cookies['token']
 
-  const checkUserResponse = connectSid
-    ? await axios.get('/auth/get-user', {
-        withCredentials: true,
-        headers: {
-          Cookie: `connect.sid=${connectSid}`,
-        },
-        baseURL: BASE_URL,
-      })
-    : { data: null }
+  // Send token to server to check if user is signed in
+  // Send graphql request to get user
+  // If user is signed in, return user
+  // Else return null
+  // Send query name 'checkUser` which accept token as argument
+
   const user: User | null = checkUserResponse.data?._id
     ? { isSignedIn: true, ...checkUserResponse.data }
     : null
@@ -109,5 +110,31 @@ WebApp.getInitialProps = async (context: AppContext) => {
     },
   }
 }
+
+const CHECK_USER_QUERY = gql`
+  query checkUser($token: String!) {
+    checkUser(token: $token) {
+      _id
+      nickname
+      email
+      createdAt
+      emailVerification {
+        isVerified
+        token
+        expiresAt
+      }
+      resetPassword {
+        token
+        expiresAt
+        isVerified
+      }
+      purchasedInfo {
+        isPurchased
+        purchasedAt
+        expiresAt
+      }
+    }
+  }
+`
 
 export default WebApp
