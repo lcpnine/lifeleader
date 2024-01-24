@@ -1,7 +1,7 @@
 import { DEFAULT_USER, useUserContext } from '@/contexts/UserContext'
 import { gql, useMutation } from '@apollo/client'
+import { SignOutDocument } from '../../../gql/graphql'
 import useGoTo from '../useGoTo'
-import { SignOutDocument } from './useSignOut.generated'
 
 const SIGN_OUT_MUTATION = gql`
   mutation SignOut {

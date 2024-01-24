@@ -1,22 +1,23 @@
 import GeneralInput from '@/components/GeneralInput/GeneralInput'
 import { useAlert } from '@/contexts/AlertContext'
+import { useLoading } from '@/contexts/LoadingContext'
 import { useUserContext } from '@/contexts/UserContext'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import { gql, useMutation } from '@apollo/client'
 import Head from 'next/head'
 import { FormEventHandler, useState } from 'react'
-import { SignInFailureType, User } from '../../../gql/graphql'
+import { SignInDocument, SignInFailureType, User } from '../../../gql/graphql'
 import { extractByTypename } from '../../../utils/typeguard'
 import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
-import { SignInDocument } from './sign-in.page.generated'
 
 const SignIn = () => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
   const { setUser } = useUserContext()
   const { openAlert } = useAlert()
+  const { showLoading } = useLoading()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -34,8 +35,10 @@ const SignIn = () => {
       return
     }
 
+    showLoading(true)
     const { data } = await signInMutation({
       variables: { email, password, keepSignedIn },
+      onCompleted: () => showLoading(false),
     })
 
     const { SignInSuccess, SignInFailure } = extractByTypename(data?.signIn)

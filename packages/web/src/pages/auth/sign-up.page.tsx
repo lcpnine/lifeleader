@@ -1,5 +1,6 @@
 import GeneralInput from '@/components/GeneralInput/GeneralInput'
 import { useAlert } from '@/contexts/AlertContext'
+import { useLoading } from '@/contexts/LoadingContext'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import { gql, useMutation } from '@apollo/client'
@@ -16,6 +17,7 @@ const SignUp = () => {
   const translation = getTranslation(TRANSLATIONS)
   const { openAlert } = useAlert()
   const [useSignUpMutation] = useMutation(SignUpDocument)
+  const { showLoading } = useLoading()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -38,8 +40,10 @@ const SignUp = () => {
       return
     }
 
+    showLoading(true)
     const { data } = await useSignUpMutation({
       variables: { email, password, passwordConfirm, nickname },
+      onCompleted: () => showLoading(false),
     })
     const { SignUpSuccess, SignUpFailure } = extractByTypename(data?.signUp)
     if (SignUpFailure?.errorType) {

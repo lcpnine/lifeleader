@@ -1,6 +1,7 @@
 import { BASE_URL, IS_DEV } from '@/constants/common'
 import { AlertProvider } from '@/contexts/AlertContext'
 import { EntryProvider } from '@/contexts/EntryContext'
+import { LoadingProvider } from '@/contexts/LoadingContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { UserProvider } from '@/contexts/UserContext'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
@@ -59,17 +60,19 @@ const WebApp = ({ Component, pageProps }: AppProps) => {
         }}
       />
       <ApolloProvider client={client}>
-        <EntryProvider serverProps={pageProps}>
-          <UserProvider initialUser={pageProps.user}>
-            <AlertProvider>
-              <ThemeProvider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </ThemeProvider>
-            </AlertProvider>
-          </UserProvider>
-        </EntryProvider>
+        <LoadingProvider>
+          <EntryProvider serverProps={pageProps}>
+            <UserProvider initialUser={pageProps.user}>
+              <AlertProvider>
+                <ThemeProvider>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </ThemeProvider>
+              </AlertProvider>
+            </UserProvider>
+          </EntryProvider>
+        </LoadingProvider>
       </ApolloProvider>
     </>
   )

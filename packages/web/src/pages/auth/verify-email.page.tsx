@@ -1,5 +1,5 @@
-import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
+import { useLoading } from '@/contexts/LoadingContext'
 import useI18n from '@/hooks/useI18n'
 import { gql, useMutation } from '@apollo/client'
 import { useRouter } from 'next/router'
@@ -16,9 +16,13 @@ const VerifyEmailPage = () => {
   const { token } = router.query
   const { openAlert } = useAlert()
   const { getTranslation } = useI18n()
-  const commonTranslations = getTranslation(COMMON_TRANSLATIONS)
   const translation = getTranslation(TRANSLATIONS)
   const [verifyEmailMutation, { loading }] = useMutation(VerifyEmailDocument)
+  const { showLoading } = useLoading()
+
+  useEffect(() => {
+    showLoading(loading)
+  }, [loading])
 
   useEffect(() => {
     if (token) {
@@ -56,16 +60,6 @@ const VerifyEmailPage = () => {
       })
     }
   }, [token])
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-lg font-semibold text-blue-600">
-          <p>{commonTranslations('loading')}</p>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="flex items-center justify-center h-screen">
