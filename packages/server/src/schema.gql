@@ -39,6 +39,7 @@ type PurchasedInfo {
 }
 
 type Query {
+  checkUser(token: String!): User
   getUser(_id: String!): User
   recommendationForSubGoals(currentLanguage: String = "en", mainGoal: String!, selectedSubGoals: [String!]): RecommendationResponse!
 }
