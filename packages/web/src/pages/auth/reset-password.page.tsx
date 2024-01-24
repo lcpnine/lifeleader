@@ -3,11 +3,16 @@ import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
-import axios from 'axios'
+import { gql, useMutation } from '@apollo/client'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { FormEventHandler, useState } from 'react'
+import {
+  ResetPasswordDocument,
+  ResetPasswordFailureType,
+} from '../../../gql/graphql'
 import { isPasswordValid } from '../../../utils/common'
+import { extractByTypename } from '../../../utils/typeguard'
 import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
 
@@ -22,22 +27,48 @@ const ResetPassword = () => {
   const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const translation = getTranslation(TRANSLATIONS)
   const isPasswordMatch = password === passwordConfirm
+  const [handleResetPassword] = useMutation(ResetPasswordDocument)
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
+    if (!isPasswordValid(password)) {
+      openAlert({ text: translation('InvalidPassword') })
+      return
+    }
+
+    if (!isPasswordMatch) {
+      openAlert({ text: translation('passwordMismatch') })
+      return
+    }
+
     try {
-      const res = await axios.post(
-        '/auth/reset-password',
-        { token, password },
-        { validateStatus: status => status === 200 || status === 400 }
+      const { data } = await handleResetPassword({
+        variables: {
+          token: token as string,
+          newPassword: password,
+          newPasswordConfirm: passwordConfirm,
+        },
+      })
+      const { ResetPasswordSuccess, ResetPasswordFailure } = extractByTypename(
+        data?.resetPassword
       )
-      if (res.status === 400) {
-        openAlert({ text: translation('invalidToken') })
+      if (ResetPasswordSuccess) {
+        goTo('/auth/sign-in', { replace: true })
         return
       }
-      goTo('/auth/sign-in', { replace: true })
+      const errorType = ResetPasswordFailure?.errorType
+      if (errorType) {
+        if (errorType === ResetPasswordFailureType.InvalidToken) {
+          openAlert({ text: translation('InvalidToken') })
+          return
+        }
+        if (errorType === ResetPasswordFailureType.InvalidPassword) {
+          openAlert({ text: translation('InvalidPassword') })
+          return
+        }
+      }
     } catch (error) {
-      openAlert({ text: commonTranslation('serverError') })
+      openAlert({ text: commonTranslation('ServerError') })
     }
   }
 
@@ -60,7 +91,7 @@ const ResetPassword = () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
             invalidCondition={password.length > 0 && !isPasswordValid(password)}
-            invalidAlert={translation('invalidPassword')}
+            invalidAlert={translation('InvalidPassword')}
             guide={translation('passwordGuide')}
           />
           <GeneralInput
@@ -91,5 +122,26 @@ const ResetPassword = () => {
     </>
   )
 }
+
+const RESET_PASSWORD_MUTATOIN = gql`
+  mutation ResetPassword(
+    $newPassword: String!
+    $newPasswordConfirm: String!
+    $token: String!
+  ) {
+    resetPassword(
+      token: $token
+      newPassword: $newPassword
+      newPasswordConfirm: $newPasswordConfirm
+    ) {
+      ... on ResetPasswordSuccess {
+        success
+      }
+      ... on ResetPasswordFailure {
+        errorType
+      }
+    }
+  }
+`
 
 export default ResetPassword

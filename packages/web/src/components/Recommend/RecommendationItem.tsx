@@ -1,11 +1,7 @@
-export interface RecommendationItemProps {
-  id: number
-  text: string
-  isClicked: boolean
-}
+import { RecommendationCard } from '@/hooks/useRecommendationCard'
 
 interface Props {
-  item: RecommendationItemProps
+  item: RecommendationCard
   onClickItem: () => void
 }
 

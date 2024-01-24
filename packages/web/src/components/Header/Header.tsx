@@ -1,22 +1,35 @@
 import { LANGUAGE_NAMES_SHORT, SUPPORTING_LANGUAGES } from '@/constants/i18n'
-import { useUserContext } from '@/contexts/UserContext'
+import { DEFAULT_USER, useUserContext } from '@/contexts/UserContext'
 
-import useAuth from '@/hooks/useAuth'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import TRANSLATIONS from '@/pages/auth/auth.i18n'
+import { gql, useMutation } from '@apollo/client'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import LifeLeaderIcon from 'public/logo/image-only.png'
+import { SignOutDocument } from './Header.generated'
+
+const SIGN_OUT_MUTATION = gql`
+  mutation SignOut {
+    signOut
+  }
+`
 
 const Header = () => {
   const { locale, locales } = useRouter()
   const { changeLanguage, getTranslation } = useI18n()
+  const [signOutMutation] = useMutation(SignOutDocument)
   const translation = getTranslation(TRANSLATIONS)
+  const { setUser } = useUserContext()
   const {
-    user: { isSignedIn, nickname },
+    user: { nickname },
+    isSignedIn,
   } = useUserContext()
-  const { handleSignOut } = useAuth()
+  const handleSignOut = async () => {
+    await signOutMutation()
+    setUser(DEFAULT_USER)
+  }
   const { goTo } = useGoTo()
 
   return (

@@ -9,9 +9,10 @@ const TRANSLATIONS = {
     findPasswordDescription: 'Forgot password?',
     signOut: 'Sign Out',
     keepSignedIn: 'Keep me signed in',
-    invalidForm: 'Fill out the form correctly',
-    invalidPassword: 'Invalid password',
-    invalidToken: 'Invalid token',
+    InvalidForm: 'Fill out the form correctly',
+    WrongPassword: 'Wrong password',
+    InvalidPassword: 'Invalid password',
+    InvalidToken: 'Invalid token',
     passwordMismatch: 'The passwords do not match',
     resetPassword: 'Reset Password',
     passwordGuide:
@@ -28,16 +29,16 @@ const TRANSLATIONS = {
     nicknamePlaceholder: 'Nickname',
     newPasswordPlaceholder: 'New Password',
     confirmNewPasswordPlaceholder: 'Confirm New Password',
-    notifyResetPasswordMail:
+    SendResetPasswordMail:
       'Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.',
-    invalidUser: 'Check your email and password',
-    duplicatedUser: 'Email already exists',
-    noUser: 'User not found',
-    sendVerificationEmail: 'Verification email sent. Please check your email.',
-    emailVerified: 'Email verified successfully!',
-    emailVerificationFailed:
+    ExistingEmail: 'Email already exists',
+    UserNotFound: 'User not found',
+    SendVerificationEmail: 'Verification email sent. Please check your email.',
+    EmailVerified: 'Email verified successfully!',
+    EmailVerificationFailed:
       'Verification failed. Please try again or contact support.',
     onEmailVerification: 'Email verification is in progress...',
+    VerifiedEmail: 'Already verified email',
   },
   ko: {
     signIn: '로그인',
@@ -49,9 +50,10 @@ const TRANSLATIONS = {
     findPasswordDescription: '비밀번호를 잊으셨나요?',
     signOut: '로그아웃',
     keepSignedIn: '자동 로그인',
-    invalidForm: '양식을 올바르게 작성해주세요',
-    invalidPassword: '설정 가능한 비밀번호가 아닙니다',
-    invalidToken: '유효하지 않은 토큰입니다',
+    InvalidForm: '양식을 올바르게 작성해주세요',
+    WrongPassword: '잘못된 비밀번호입니다',
+    InvalidPassword: '설정 가능한 비밀번호가 아닙니다',
+    InvalidToken: '유효하지 않은 토큰입니다',
     passwordMismatch: '비밀번호 확인이 일치하지 않습니다',
     resetPassword: '비밀번호 재설정',
     passwordGuide:
@@ -68,16 +70,16 @@ const TRANSLATIONS = {
     nicknamePlaceholder: '닉네임',
     newPasswordPlaceholder: '새 비밀번호',
     confirmNewPasswordPlaceholder: '새 비밀번호 확인',
-    notifyResetPasswordMail:
+    SendResetPasswordMail:
       '비밀번호 재설정을 위한 링크가 이메일로 발송되었습니다. 몇 분 안에 도착하지 않으면 스팸 메일함을 확인해주세요.',
-    invalidUser: '이메일과 비밀번호를 확인해주세요',
-    duplicatedUser: '이미 존재하는 이메일입니다',
-    noUser: '존재하지 않는 이메일입니다',
-    sendVerificationEmail: '인증 이메일을 발송했습니다. 이메일을 확인해주세요.',
-    emailVerified: '이메일 인증이 완료되었습니다!',
-    emailVerificationFailed:
+    ExistingEmail: '이미 존재하는 이메일입니다',
+    UserNotFound: '존재하지 않는 이메일입니다',
+    SendVerificationEmail: '인증 이메일을 발송했습니다. 이메일을 확인해주세요.',
+    EmailVerified: '이메일 인증이 완료되었습니다!',
+    EmailVerificationFailed:
       '인증에 실패했습니다. 다시 시도하거나 고객센터에 문의해주세요.',
     onEmailVerification: '이메일 인증 중...',
+    VerifiedEmail: '이미 인증된 이메일입니다',
   },
   'zh-Hant': {
     signIn: '登入',
@@ -89,9 +91,10 @@ const TRANSLATIONS = {
     findPasswordDescription: '忘記密碼了嗎？',
     signOut: '登出',
     keepSignedIn: '保持登入',
-    invalidForm: '請正確填寫表單',
-    invalidPassword: '無效的密碼',
-    invalidToken: '無效的令牌',
+    InvalidForm: '請正確填寫表單',
+    WrongPassword: '錯誤的密碼',
+    InvalidPassword: '無效的密碼',
+    InvalidToken: '無效的令牌',
     passwordMismatch: '密碼不一致',
     resetPassword: '重設密碼',
     passwordGuide:
@@ -108,15 +111,15 @@ const TRANSLATIONS = {
     nicknamePlaceholder: '暱稱',
     newPasswordPlaceholder: '新密碼',
     confirmNewPasswordPlaceholder: '確認新密碼',
-    notifyResetPasswordMail:
+    SendResetPasswordMail:
       '請檢查您的電子郵件以獲取重設密碼的連結。如果幾分鐘後仍未收到，請檢查您的垃圾郵件文件夾。',
-    invalidUser: '請檢查您的電子郵件和密碼',
-    duplicatedUser: '電子郵件已經存在',
-    noUser: '找不到使用者',
-    sendVerificationEmail: '驗證電子郵件已發送。請檢查您的電子郵件。',
-    emailVerified: '電子郵件驗證成功！',
-    emailVerificationFailed: '驗證失敗。請再試一次或聯繫支援。',
+    ExistingEmail: '電子郵件已經存在',
+    UserNotFound: '找不到使用者',
+    SendVerificationEmail: '驗證電子郵件已發送。請檢查您的電子郵件。',
+    EmailVerified: '電子郵件驗證成功！',
+    EmailVerificationFailed: '驗證失敗。請再試一次或聯繫支援。',
     onEmailVerification: '正在驗證電子郵件...',
+    VerifiedEmail: '電子郵件已驗證',
   },
 }
 

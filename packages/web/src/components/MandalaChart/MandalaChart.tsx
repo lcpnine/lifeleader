@@ -1,9 +1,9 @@
 import { useAlert } from '@/contexts/AlertContext'
 import { useEntryContext } from '@/contexts/EntryContext'
 import useI18n from '@/hooks/useI18n'
+import { RecommendationCard } from '@/hooks/useRecommendationCard'
 import { Dispatch, useEffect, useRef } from 'react'
 import { deepCopy } from '../../../utils/common'
-import { RecommendationItemProps } from '../Recommend/RecommendationItem'
 import Grid from './Grid'
 import TRANSLATIONS from './MandalaChart.i18n'
 
@@ -11,7 +11,7 @@ interface Props {
   wholeGridValues: string[][]
   setWholeGridValues: Dispatch<React.SetStateAction<string[][]>>
   isAIModeOn: boolean
-  recommendationItems: RecommendationItemProps[]
+  recommendationItems: RecommendationCard[]
   onRecommendItemAccepted: () => void
 }
 

@@ -1,10 +1,9 @@
+import { RecommendationCard } from '@/hooks/useRecommendationCard'
 import { FaRedo } from 'react-icons/fa'
-import RecommendationItem, {
-  RecommendationItemProps,
-} from './RecommendationItem'
+import RecommendationItem from './RecommendationItem'
 
 interface Props {
-  recommendationItems: RecommendationItemProps[]
+  recommendationItems: RecommendationCard[]
   handleRecommendationItemClick: (id: number) => () => void
   handleRefresh: () => void
 }
