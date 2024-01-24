@@ -1,6 +1,5 @@
 import type { YogaServerOptions } from 'graphql-yoga'
 import { buildSchema } from 'type-graphql'
-import addUserOnReq from '../middlewares/addUserOnReq.middleware'
 import renewJwt from '../middlewares/renewJwt.middleware'
 import { RecommendationResolver } from '../resolvers/recommendation.resolver'
 import { UserResolver } from '../resolvers/user.resolver'
@@ -18,7 +17,6 @@ const createYogaConfig = async () => {
   const yogaConfig = {
     schema,
     context: async ({ req, res }: MyContext) => {
-      await addUserOnReq(req, res)
       await renewJwt(req, res)
       return { req, res }
     },
