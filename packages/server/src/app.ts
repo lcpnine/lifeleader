@@ -14,8 +14,6 @@ import { createYoga } from 'graphql-yoga'
 import mongoose from 'mongoose'
 import createYogaConfig from './config/yoga'
 import { IS_DEV, PHASE } from './constant/common'
-import addUserOnReqMiddleware from './middlewares/addUserOnReq.middleware'
-import renewJwtMiddleware from './middlewares/renewJwt.middleware'
 
 const startApp = async () => {
   console.log('PHASE: ', PHASE)
@@ -42,8 +40,6 @@ const startApp = async () => {
 
   mongoose.connect(process.env.MONGO_URI as string)
 
-  app.use(addUserOnReqMiddleware)
-  app.use(renewJwtMiddleware)
   const yogaConfig = await createYogaConfig()
   const yoga = createYoga(yogaConfig)
   app.use('/graphql', yoga)
