@@ -27,21 +27,21 @@ const config: CodegenConfig = {
     'libs/apollo/typePolicies.helper.ts': {
       plugins: ['typescript-apollo-client-helpers'],
     },
-    './': {
-      documents: [
-        './graphql/**/*.graphql',
-        './pages/**/*.{ts,tsx,graphql}',
-        './components/**/*.{ts,tsx}',
-        './hooks/**/*.{ts,tsx,graphql}',
-        './contexts/**/*.{ts,tsx,graphql}',
-      ],
-      preset: 'near-operation-file',
-      presetConfig: {
-        extension: '.generated.ts',
-        baseTypesPath: 'types/graphql.ts',
-      },
-      plugins: ['typescript-operations', 'typed-document-node'],
-    },
+    // './': {
+    //   documents: [
+    //     './graphql/**/*.graphql',
+    //     './pages/**/*.{ts,tsx,graphql}',
+    //     './components/**/*.{ts,tsx}',
+    //     './hooks/**/*.{ts,tsx,graphql}',
+    //     './contexts/**/*.{ts,tsx,graphql}',
+    //   ],
+    //   preset: 'near-operation-file',
+    //   presetConfig: {
+    //     extension: '.generated.ts',
+    //     baseTypesPath: 'types/graphql.ts',
+    //   },
+    //   plugins: ['typescript-operations', 'typed-document-node'],
+    // },
     './gql/': {
       documents: ['./pages/setting/tags/**/*.tsx'],
       preset: 'client',
