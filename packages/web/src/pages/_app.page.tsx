@@ -78,40 +78,53 @@ const WebApp = ({ Component, pageProps }: AppProps) => {
 WebApp.getInitialProps = async (context: AppContext) => {
   const props = await App.getInitialProps(context)
 
-  // @ts-ignore
-  const cookies = (context.ctx.req?.cookies || {}) as Record<string, any>
-  const token = cookies['token']
-
-  const res = await axios.post(
-    BASE_URL + '/graphql',
-    {
-      query: CHECK_USER_QUERY,
-      variables: { token },
-    },
-    {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-        Cookie: `token=${token}`,
-      },
-    }
-  )
-  const user: User | null = res.data?.data?.checkUser
-    ? { isSignedIn: true, ...res.data.data.checkUser }
-    : null
-
   const acceptLanguage = context.ctx.req?.headers['accept-language']
   const userAgent = context.ctx.req?.headers['user-agent']
   const referrer = context.ctx.req?.headers['referrer']
 
-  return {
-    ...props,
-    pageProps: {
-      acceptLanguage,
-      userAgent,
-      referrer,
-      user,
-    },
+  // @ts-ignore
+  const cookies = context.ctx.req?.cookies || {}
+  const token = cookies['token']
+
+  try {
+    const res = await axios.post(
+      BASE_URL + '/graphql',
+      {
+        query: CHECK_USER_QUERY,
+        variables: { token },
+      },
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `token=${token}`,
+        },
+      }
+    )
+    const user: User | null = res.data?.data?.checkUser
+      ? { isSignedIn: true, ...res.data.data.checkUser }
+      : null
+
+    return {
+      ...props,
+      pageProps: {
+        acceptLanguage,
+        userAgent,
+        referrer,
+        user,
+      },
+    }
+  } catch (error) {
+    console.log('getInitialProps error:\n', error)
+    return {
+      ...props,
+      pageProps: {
+        acceptLanguage,
+        userAgent,
+        referrer,
+        user: null,
+      },
+    }
   }
 }
 
