@@ -90,11 +90,6 @@ export type Query = {
 };
 
 
-export type QueryCheckUserArgs = {
-  token: Scalars['String']['input'];
-};
-
-
 export type QueryGetUserArgs = {
   _id: Scalars['String']['input'];
 };

@@ -3,13 +3,9 @@ import { AlertProvider } from '@/contexts/AlertContext'
 import { EntryProvider } from '@/contexts/EntryContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { UserProvider } from '@/contexts/UserContext'
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  gql,
-} from '@apollo/client'
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev'
+import axios from 'axios'
 import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
 import Head from 'next/head'
@@ -86,14 +82,22 @@ WebApp.getInitialProps = async (context: AppContext) => {
   const cookies = (context.ctx.req?.cookies || {}) as Record<string, any>
   const token = cookies['token']
 
-  // Send token to server to check if user is signed in
-  // Send graphql request to get user
-  // If user is signed in, return user
-  // Else return null
-  // Send query name 'checkUser` which accept token as argument
-
-  const user: User | null = checkUserResponse.data?._id
-    ? { isSignedIn: true, ...checkUserResponse.data }
+  const res = await axios.post(
+    BASE_URL + '/graphql',
+    {
+      query: CHECK_USER_QUERY,
+      variables: { token },
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: `token=${token}`,
+      },
+    }
+  )
+  const user: User | null = res.data?.data?.checkUser
+    ? { isSignedIn: true, ...res.data.data.checkUser }
     : null
 
   const acceptLanguage = context.ctx.req?.headers['accept-language']
@@ -111,9 +115,9 @@ WebApp.getInitialProps = async (context: AppContext) => {
   }
 }
 
-const CHECK_USER_QUERY = gql`
-  query checkUser($token: String!) {
-    checkUser(token: $token) {
+const CHECK_USER_QUERY = `
+query checkUser {
+    checkUser {
       _id
       nickname
       email
