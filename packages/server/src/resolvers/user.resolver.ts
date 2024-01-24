@@ -102,7 +102,8 @@ export class UserResolver {
     @Arg('nickname') nickname: string
   ): Promise<typeof SignUpResponse> {
     const existingUser = await UserModel.findOne({ email })
-    if (existingUser) return { errorType: SignUpFailureType.EXISTING_EMAIL }
+    if (existingUser && existingUser.emailVerification.isVerified)
+      return { errorType: SignUpFailureType.EXISTING_EMAIL }
 
     const isValidPassword = isPasswordValid(password)
     if (!isValidPassword || password !== passwordConfirm) {
