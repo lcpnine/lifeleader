@@ -169,3 +169,35 @@ export const ResetPasswordResponse = createUnionType({
     return ResetPasswordFailure.name
   },
 })
+
+@ObjectType()
+export class DeleteAccountSuccess {
+  @Field()
+  success: boolean
+}
+
+export enum DeleteAccountFailureType {
+  INVALID_REQUEST = 'INVALID_REQUEST',
+  USER_NOT_FOUND = 'USER_NOT_FOUND',
+}
+
+registerEnumType(DeleteAccountFailureType, {
+  name: 'DeleteAccountFailureType',
+})
+
+@ObjectType()
+export class DeleteAccountFailure implements BaseError {
+  @Field(type => DeleteAccountFailureType)
+  errorType: DeleteAccountFailureType
+}
+
+export const DeleteAccountResponse = createUnionType({
+  name: 'DeleteAccountResponse',
+  types: () => [DeleteAccountSuccess, DeleteAccountFailure] as const,
+  resolveType: (value: any) => {
+    if ('success' in value) {
+      return DeleteAccountSuccess.name
+    }
+    return DeleteAccountFailure.name
+  },
+})
