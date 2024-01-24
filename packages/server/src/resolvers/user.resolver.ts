@@ -32,6 +32,18 @@ export class UserResolver {
     return await UserModel.findById(_id)
   }
 
+  @Query(() => User, { nullable: true })
+  async checkUser(@Ctx() ctx: MyContext): Promise<IUser | null> {
+    const token = ctx.req.cookies.token
+    if (!token) return null
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string)
+    const { userId: _id } = decoded as { userId: string }
+
+    const user = await UserModel.findById(_id)
+    return user ? user.toJSON() : null
+  }
+
   @Mutation(() => SignInResponse)
   async signIn(
     @Arg('email') email: string,

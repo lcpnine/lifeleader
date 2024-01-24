@@ -22,8 +22,9 @@ export type PurchasedInfoFieldPolicy = {
 	isPurchased?: FieldPolicy<any> | FieldReadFunction<any>,
 	purchasedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('getUser' | 'recommendationForSubGoals' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('checkUser' | 'getUser' | 'recommendationForSubGoals' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
+	checkUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	getUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	recommendationForSubGoals?: FieldPolicy<any> | FieldReadFunction<any>
 };

@@ -84,6 +84,7 @@ export type PurchasedInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  checkUser: Maybe<User>;
   getUser: Maybe<User>;
   recommendationForSubGoals: RecommendationResponse;
 };

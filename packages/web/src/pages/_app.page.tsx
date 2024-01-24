@@ -80,19 +80,24 @@ WebApp.getInitialProps = async (context: AppContext) => {
 
   // @ts-ignore
   const cookies = (context.ctx.req?.cookies || {}) as Record<string, any>
-  const connectSid = cookies['connect.sid']
+  const token = cookies['token']
 
-  const checkUserResponse = connectSid
-    ? await axios.get('/auth/get-user', {
-        withCredentials: true,
-        headers: {
-          Cookie: `connect.sid=${connectSid}`,
-        },
-        baseURL: BASE_URL,
-      })
-    : { data: null }
-  const user: User | null = checkUserResponse.data?._id
-    ? { isSignedIn: true, ...checkUserResponse.data }
+  const res = await axios.post(
+    BASE_URL + '/graphql',
+    {
+      query: CHECK_USER_QUERY,
+      variables: { token },
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: `token=${token}`,
+      },
+    }
+  )
+  const user: User | null = res.data?.data?.checkUser
+    ? { isSignedIn: true, ...res.data.data.checkUser }
     : null
 
   const acceptLanguage = context.ctx.req?.headers['accept-language']
@@ -109,5 +114,31 @@ WebApp.getInitialProps = async (context: AppContext) => {
     },
   }
 }
+
+const CHECK_USER_QUERY = `
+query checkUser {
+    checkUser {
+      _id
+      nickname
+      email
+      createdAt
+      emailVerification {
+        isVerified
+        token
+        expiresAt
+      }
+      resetPassword {
+        token
+        expiresAt
+        isVerified
+      }
+      purchasedInfo {
+        isPurchased
+        purchasedAt
+        expiresAt
+      }
+    }
+  }
+`
 
 export default WebApp
