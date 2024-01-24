@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
-import { COOKIE_DOMAIN, IS_DEV } from '../constant/common'
+import { COOKIE_DOMAIN, IS_DEV, ONE_DAY, ONE_HOUR } from '../constant/common'
 import {
   createEmailVerificationTemplate,
   createResetPasswordTemplate,
@@ -63,7 +63,7 @@ export class UserResolver {
       sameSite: 'strict',
       domain: COOKIE_DOMAIN,
       secure: !IS_DEV,
-      maxAge: keepSignedIn ? 10 * 365 * 24 * 60 * 60 * 1000 : 60 * 60 * 1000,
+      maxAge: keepSignedIn ? 10 * 365 * ONE_DAY : ONE_HOUR,
     })
 
     return { token, user: user.toJSON() }
