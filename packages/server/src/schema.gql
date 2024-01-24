@@ -8,6 +8,21 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+type DeleteAccountFailure {
+  errorType: DeleteAccountFailureType!
+}
+
+enum DeleteAccountFailureType {
+  INVALID_REQUEST
+  USER_NOT_FOUND
+}
+
+union DeleteAccountResponse = DeleteAccountFailure | DeleteAccountSuccess
+
+type DeleteAccountSuccess {
+  success: Boolean!
+}
+
 type FindPasswordFailure {
   errorType: FindPasswordFailureType!
 }
@@ -24,6 +39,7 @@ type FindPasswordSuccess {
 }
 
 type Mutation {
+  deleteAccount(email: String!): DeleteAccountResponse!
   findPassword(email: String!): FindPasswordResponse!
   resetPassword(newPassword: String!, newPasswordConfirm: String!, token: String!): ResetPasswordResponse!
   signIn(email: String!, keepSignedIn: Boolean!, password: String!): SignInResponse!

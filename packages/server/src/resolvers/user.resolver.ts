@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { COOKIE_DOMAIN, IS_DEV, ONE_DAY, ONE_HOUR } from '../constant/common'
 import {
@@ -13,6 +13,8 @@ import { User } from '../types/user'
 import { isPasswordValid } from '../utils/common'
 import { sendEmail } from '../utils/nodemailer'
 import {
+  DeleteAccountFailureType,
+  DeleteAccountResponse,
   FindPasswordFailureType,
   FindPasswordResponse,
   ResetPasswordFailureType,
@@ -205,6 +207,28 @@ export class UserResolver {
     user.resetPassword.expiresAt = null
     await user.save()
 
+    return { success: true }
+  }
+
+  @Mutation(() => DeleteAccountResponse)
+  async deleteAccount(
+    @Ctx() ctx: MyContext,
+    @Arg('email') email: string
+  ): Promise<typeof DeleteAccountResponse> {
+    const token = ctx.req.cookies.token
+    if (!token) return { errorType: DeleteAccountFailureType.INVALID_REQUEST }
+
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as JwtPayload
+    const user = await UserModel.findById(decoded.userId as string)
+    if (!user) return { errorType: DeleteAccountFailureType.USER_NOT_FOUND }
+
+    if (!decoded || decoded.email !== email)
+      return { errorType: DeleteAccountFailureType.INVALID_REQUEST }
+
+    await user.deleteOne()
     return { success: true }
   }
 }

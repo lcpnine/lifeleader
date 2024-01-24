@@ -1,4 +1,12 @@
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
+export type DeleteAccountFailureKeySpecifier = ('errorType' | DeleteAccountFailureKeySpecifier)[];
+export type DeleteAccountFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type DeleteAccountSuccessKeySpecifier = ('success' | DeleteAccountSuccessKeySpecifier)[];
+export type DeleteAccountSuccessFieldPolicy = {
+	success?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type FindPasswordFailureKeySpecifier = ('errorType' | FindPasswordFailureKeySpecifier)[];
 export type FindPasswordFailureFieldPolicy = {
 	errorType?: FieldPolicy<any> | FieldReadFunction<any>
@@ -7,8 +15,9 @@ export type FindPasswordSuccessKeySpecifier = ('success' | FindPasswordSuccessKe
 export type FindPasswordSuccessFieldPolicy = {
 	success?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('findPassword' | 'resetPassword' | 'signIn' | 'signOut' | 'signUp' | 'verifyEmail' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('deleteAccount' | 'findPassword' | 'resetPassword' | 'signIn' | 'signOut' | 'signUp' | 'verifyEmail' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
+	deleteAccount?: FieldPolicy<any> | FieldReadFunction<any>,
 	findPassword?: FieldPolicy<any> | FieldReadFunction<any>,
 	resetPassword?: FieldPolicy<any> | FieldReadFunction<any>,
 	signIn?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -90,6 +99,14 @@ export type VerifyEmailSuccessFieldPolicy = {
 	success?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
+	DeleteAccountFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeleteAccountFailureKeySpecifier | (() => undefined | DeleteAccountFailureKeySpecifier),
+		fields?: DeleteAccountFailureFieldPolicy,
+	},
+	DeleteAccountSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeleteAccountSuccessKeySpecifier | (() => undefined | DeleteAccountSuccessKeySpecifier),
+		fields?: DeleteAccountSuccessFieldPolicy,
+	},
 	FindPasswordFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FindPasswordFailureKeySpecifier | (() => undefined | FindPasswordFailureKeySpecifier),
 		fields?: FindPasswordFailureFieldPolicy,

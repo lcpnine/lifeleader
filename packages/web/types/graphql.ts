@@ -16,6 +16,23 @@ export type Scalars = {
   DateTime: { input: string; output: string; }
 };
 
+export type DeleteAccountFailure = {
+  __typename?: 'DeleteAccountFailure';
+  errorType: DeleteAccountFailureType;
+};
+
+export enum DeleteAccountFailureType {
+  InvalidRequest = 'INVALID_REQUEST',
+  UserNotFound = 'USER_NOT_FOUND'
+}
+
+export type DeleteAccountResponse = DeleteAccountFailure | DeleteAccountSuccess;
+
+export type DeleteAccountSuccess = {
+  __typename?: 'DeleteAccountSuccess';
+  success: Scalars['Boolean']['output'];
+};
+
 export type FindPasswordFailure = {
   __typename?: 'FindPasswordFailure';
   errorType: FindPasswordFailureType;
@@ -35,12 +52,18 @@ export type FindPasswordSuccess = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  deleteAccount: DeleteAccountResponse;
   findPassword: FindPasswordResponse;
   resetPassword: ResetPasswordResponse;
   signIn: SignInResponse;
   signOut: Scalars['Boolean']['output'];
   signUp: SignUpResponse;
   verifyEmail: VerifyEmailResponse;
+};
+
+
+export type MutationDeleteAccountArgs = {
+  email: Scalars['String']['input'];
 };
 
 

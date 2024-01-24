@@ -39,6 +39,12 @@ const TRANSLATIONS = {
       'Verification failed. Please try again or contact support.',
     onEmailVerification: 'Email verification is in progress...',
     VerifiedEmail: 'Already verified email',
+    AccountDeleted: 'Account deleted successfully',
+    DeleteAccount: 'Delete Account',
+    DeleteAccountWarning:
+      'Are you sure you want to delete your account? Type your email to confirm.',
+    Deleting: 'Deleting...',
+    TypeYourEmailCorrectly: 'Type your email correctly',
   },
   ko: {
     signIn: '로그인',
@@ -80,6 +86,12 @@ const TRANSLATIONS = {
       '인증에 실패했습니다. 다시 시도하거나 고객센터에 문의해주세요.',
     onEmailVerification: '이메일 인증 중...',
     VerifiedEmail: '이미 인증된 이메일입니다',
+    AccountDeleted: '계정이 삭제되었습니다',
+    DeleteAccount: '계정 삭제',
+    DeleteAccountWarning:
+      '정말 계정을 삭제하시겠습니까? 정말 삭제를 진행하시려면 이메일을 입력해주세요.',
+    Deleting: '삭제 중...',
+    TypeYourEmailCorrectly: '이메일을 정확히 입력해주세요',
   },
   'zh-Hant': {
     signIn: '登入',
@@ -120,6 +132,12 @@ const TRANSLATIONS = {
     EmailVerificationFailed: '驗證失敗。請再試一次或聯繫支援。',
     onEmailVerification: '正在驗證電子郵件...',
     VerifiedEmail: '電子郵件已驗證',
+    AccountDeleted: '帳號已刪除',
+    DeleteAccount: '刪除帳號',
+    DeleteAccountWarning:
+      '您確定要刪除您的帳號嗎？ n請輸入您的電子郵件以確認。',
+    Deleting: '正在刪除...',
+    TypeYourEmailCorrectly: '請正確輸入您的電子郵件',
   },
 }
 
