@@ -11,6 +11,9 @@ const createSchema = async () =>
   await buildSchema({
     resolvers: [UserResolver, MandalaChartResolver, RecommendationResolver],
     emitSchemaFile: 'src/schema.gql',
+    validate: {
+      forbidUnknownValues: false,
+    },
   })
 
 const createYogaConfig = async () => {
