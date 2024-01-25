@@ -70,3 +70,57 @@ export const CreateMandalaChartResponse = createUnionType({
     return CreateMandalaChartFailure.name
   },
 })
+
+@InputType()
+export class UpdateMandalaChartInput {
+  @Field(() => ID)
+  mandalaChartId: string
+
+  @Field({ nullable: true })
+  title?: string
+
+  @Field({ nullable: true })
+  description?: string
+
+  @Field(() => MandalaCellInput, { nullable: true })
+  centerCell?: MandalaCellInput
+
+  @Field(() => [MandalaCellInput], { nullable: 'itemsAndList' })
+  surroundingCells?: MandalaCellInput[]
+}
+
+@ObjectType()
+export class UpdateMandalaChartSuccess {
+  @Field(() => ID)
+  _id: string
+
+  @Field()
+  message: string
+}
+
+export enum UpdateMandalaChartFailureType {
+  CHART_NOT_FOUND = 'CHART_NOT_FOUND',
+  INVALID_INPUT = 'INVALID_INPUT',
+  SERVER_ERROR = 'SERVER_ERROR',
+}
+
+registerEnumType(UpdateMandalaChartFailureType, {
+  name: 'UpdateMandalaChartFailureType',
+})
+
+@ObjectType()
+export class UpdateMandalaChartFailure implements BaseError {
+  @Field(() => UpdateMandalaChartFailureType)
+  errorType: UpdateMandalaChartFailureType
+}
+
+export const UpdateMandalaChartResponse = createUnionType({
+  name: 'UpdateMandalaChartResponse',
+  types: () => [UpdateMandalaChartSuccess, UpdateMandalaChartFailure] as const,
+  resolveType: (value: any) => {
+    if ('_id' in value) {
+      return UpdateMandalaChartSuccess.name
+    }
+    return UpdateMandalaChartFailure.name
+  },
+})
