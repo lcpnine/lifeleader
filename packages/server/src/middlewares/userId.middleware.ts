@@ -1,16 +1,12 @@
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import * as jwt from 'jsonwebtoken'
 
-export const extractUserId = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const extractUserId = (req: Request, res: Response) => {
   const token = req.cookies?.token
 
   if (!token) {
     req.userId = null
-    return next()
+    return
   }
 
   try {
@@ -22,8 +18,6 @@ export const extractUserId = (
   } catch (error) {
     req.userId = null
   }
-
-  next()
 }
 
 declare global {
