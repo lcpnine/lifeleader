@@ -23,6 +23,7 @@ const UserSchema: Schema = new Schema({
     },
     default: () => ({}),
   },
+  mandalaCharts: [{ type: Schema.Types.ObjectId, ref: 'MandalaChart' }],
 })
 
 export interface IUser extends Document {
@@ -32,6 +33,7 @@ export interface IUser extends Document {
   emailVerification: TokenInfo
   resetPassword: TokenInfo
   purchasedInfo: PurchasedInfo
+  mandalaCharts: mongoose.Types.ObjectId[]
 }
 
 export default mongoose.model<IUser>('User', UserSchema)
