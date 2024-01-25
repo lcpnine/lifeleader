@@ -7,7 +7,7 @@ import {
   createEmailVerificationTemplate,
   createResetPasswordTemplate,
 } from '../constant/nodemailer'
-import UserModel, { IUser } from '../models/User.model'
+import { IUser, UserModel } from '../models/User.model'
 import { MyContext } from '../types/common'
 import { User } from '../types/user'
 import { isPasswordValid } from '../utils/common'

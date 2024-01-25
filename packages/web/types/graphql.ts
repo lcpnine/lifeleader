@@ -50,6 +50,23 @@ export type FindPasswordSuccess = {
   success: Scalars['Boolean']['output'];
 };
 
+export type MandalaCell = {
+  __typename?: 'MandalaCell';
+  _id: Scalars['ID']['output'];
+  description: Maybe<Scalars['String']['output']>;
+  goals: Array<Scalars['String']['output']>;
+  tasks: Array<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
+};
+
+export type MandalaChart = {
+  __typename?: 'MandalaChart';
+  _id: Scalars['ID']['output'];
+  centerCell: MandalaCell;
+  surroundingCells: Array<MandalaCell>;
+  userId: Scalars['ID']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   deleteAccount: DeleteAccountResponse;
@@ -108,8 +125,14 @@ export type PurchasedInfo = {
 export type Query = {
   __typename?: 'Query';
   checkUser: Maybe<User>;
+  getMandalaChart: Maybe<MandalaChart>;
   getUser: Maybe<User>;
   recommendationForSubGoals: RecommendationResponse;
+};
+
+
+export type QueryGetMandalaChartArgs = {
+  _id: Scalars['String']['input'];
 };
 
 

@@ -1,0 +1,38 @@
+import 'reflect-metadata'
+import { Field, ID, ObjectType } from 'type-graphql'
+
+@ObjectType()
+export class MandalaCell {
+  @Field(() => ID)
+  _id: string
+
+  @Field(() => String)
+  goal: string
+
+  @Field(() => [String])
+  tasks: string[]
+}
+
+@ObjectType()
+export class MandalaChart {
+  @Field(() => ID)
+  _id: string
+
+  @Field(() => String)
+  title: string
+
+  @Field(() => String)
+  description: string
+
+  @Field(() => ID)
+  userId: string
+
+  @Field(() => Boolean)
+  private: boolean
+
+  @Field(() => MandalaCell)
+  centerCell: MandalaCell
+
+  @Field(() => [MandalaCell])
+  surroundingCells: MandalaCell[]
+}
