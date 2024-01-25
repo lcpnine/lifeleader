@@ -6,6 +6,7 @@ import {
   createUnionType,
   registerEnumType,
 } from 'type-graphql'
+import { MandalaChart } from '../../types/mandalaChart'
 import { BaseError } from './common.dto'
 
 @InputType()
@@ -16,6 +17,45 @@ export class MandalaCellInput {
   @Field(() => [String], { nullable: true })
   tasks?: string[]
 }
+
+@InputType()
+export class GetMandalaChartInput {
+  @Field(() => ID)
+  mandalaChartId: string
+}
+
+@ObjectType()
+export class GetMandalaChartSuccess {
+  @Field(() => MandalaChart)
+  mandalaChart: MandalaChart
+}
+
+export enum GetMandalaChartFailureType {
+  CHART_NOT_FOUND = 'CHART_NOT_FOUND',
+  UNAUTHORIZED_ACCESS = 'UNAUTHORIZED_ACCESS',
+  SERVER_ERROR = 'SERVER_ERROR',
+}
+
+registerEnumType(GetMandalaChartFailureType, {
+  name: 'GetMandalaChartFailureType',
+})
+
+@ObjectType()
+export class GetMandalaChartFailure implements BaseError {
+  @Field(() => GetMandalaChartFailureType)
+  errorType: GetMandalaChartFailureType
+}
+
+export const GetMandalaChartResponse = createUnionType({
+  name: 'GetMandalaChartResponse',
+  types: () => [GetMandalaChartSuccess, GetMandalaChartFailure] as const,
+  resolveType: (value: any) => {
+    if ('mandalaChart' in value) {
+      return GetMandalaChartSuccess.name
+    }
+    return GetMandalaChartFailure.name
+  },
+})
 
 @InputType()
 export class CreateMandalaChartInput {
