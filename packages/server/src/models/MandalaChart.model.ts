@@ -38,9 +38,7 @@ export interface IMandalaChart extends Document {
   surroundingCells: mongoose.Types.ObjectId[]
 }
 
-const MandalaChart = mongoose.model<IMandalaChart>(
+export const MandalaChartModel = mongoose.model<IMandalaChart>(
   'MandalaChart',
   MandalaChartSchema
 )
-
-export default MandalaChart

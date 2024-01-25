@@ -36,4 +36,4 @@ export interface IUser extends Document {
   mandalaCharts: mongoose.Types.ObjectId[]
 }
 
-export default mongoose.model<IUser>('User', UserSchema)
+export const UserModel = mongoose.model<IUser>('User', UserSchema)
