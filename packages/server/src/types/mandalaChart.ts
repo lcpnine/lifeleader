@@ -6,14 +6,8 @@ export class MandalaCell {
   @Field(() => ID)
   _id: string
 
-  @Field()
-  title: string
-
-  @Field({ nullable: true })
-  description?: string
-
-  @Field(() => [String])
-  goals: string[]
+  @Field(() => String)
+  goal: string
 
   @Field(() => [String])
   tasks: string[]
@@ -24,8 +18,17 @@ export class MandalaChart {
   @Field(() => ID)
   _id: string
 
+  @Field(() => String)
+  title: string
+
+  @Field(() => String)
+  description: string
+
   @Field(() => ID)
   userId: string
+
+  @Field(() => Boolean)
+  private: boolean
 
   @Field(() => MandalaCell)
   centerCell: MandalaCell

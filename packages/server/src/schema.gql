@@ -103,10 +103,8 @@ type GetMandalaChartSuccess {
 
 type MandalaCell {
   _id: ID!
-  description: String
-  goals: [String!]!
+  goal: String!
   tasks: [String!]!
-  title: String!
 }
 
 input MandalaCellInput {
@@ -117,7 +115,10 @@ input MandalaCellInput {
 type MandalaChart {
   _id: ID!
   centerCell: MandalaCell!
+  description: String!
+  private: Boolean!
   surroundingCells: [MandalaCell!]!
+  title: String!
   userId: ID!
 }
 
