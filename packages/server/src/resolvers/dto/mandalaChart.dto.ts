@@ -39,9 +39,6 @@ export class CreateMandalaChartInput {
 export class CreateMandalaChartSuccess {
   @Field(() => ID)
   _id: string
-
-  @Field()
-  message: string
 }
 
 export enum CreateMandalaChartFailureType {
@@ -93,9 +90,6 @@ export class UpdateMandalaChartInput {
 export class UpdateMandalaChartSuccess {
   @Field(() => ID)
   _id: string
-
-  @Field()
-  message: string
 }
 
 export enum UpdateMandalaChartFailureType {
@@ -135,9 +129,6 @@ export class DeleteMandalaChartInput {
 export class DeleteMandalaChartSuccess {
   @Field(() => ID)
   _id: string
-
-  @Field()
-  message: string
 }
 
 export enum DeleteMandalaChartFailureType {
