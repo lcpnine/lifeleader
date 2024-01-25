@@ -1,9 +1,10 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql'
-import UserId from '../decorators/userId'
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { MandalaChartModel } from '../models/MandalaChart.model'
+import { MyContext } from '../types/common'
 import { MandalaChart } from '../types/mandalaChart'
 import { isMandalaChartInputValid } from '../utils/mandalaChart'
 import {
+  CreateMandalaChartFailureType,
   CreateMandalaChartInput,
   CreateMandalaChartResponse,
   DeleteMandalaChartFailureType,
@@ -37,8 +38,12 @@ export class MandalaChartResolver {
   @Mutation(() => CreateMandalaChartResponse)
   async createMandalaChart(
     @Arg('input') input: CreateMandalaChartInput,
-    @UserId() userId: string
+    @Ctx() ctx: MyContext
   ): Promise<typeof CreateMandalaChartResponse> {
+    const userId = ctx.req.userId
+    if (!userId) {
+      return { errorType: CreateMandalaChartFailureType.INVALID_INPUT }
+    }
     const mandalaChart = await MandalaChartModel.create({ ...input, userId })
     return { _id: mandalaChart._id }
   }
@@ -46,8 +51,10 @@ export class MandalaChartResolver {
   @Mutation(() => UpdateMandalaChartResponse)
   async updateMandalaChart(
     @Arg('input') input: UpdateMandalaChartInput,
-    @UserId() userId: string
+    @Ctx() ctx: MyContext
   ): Promise<typeof UpdateMandalaChartResponse> {
+    const userId = ctx.req.userId
+
     if (!isMandalaChartInputValid(input.centerCell, input.surroundingCells)) {
       return { errorType: UpdateMandalaChartFailureType.INVALID_INPUT }
     }
@@ -73,8 +80,9 @@ export class MandalaChartResolver {
   @Mutation(() => DeleteMandalaChartResponse)
   async deleteMandalaChart(
     @Arg('input') input: DeleteMandalaChartInput,
-    @UserId() userId: string
+    @Ctx() ctx: MyContext
   ): Promise<typeof DeleteMandalaChartResponse> {
+    const userId = ctx.req.userId
     const candidateChart = await MandalaChartModel.findById(
       input.mandalaChartId
     )
