@@ -35,9 +35,10 @@ export class MandalaChartResolver {
 
   @Mutation(() => CreateMandalaChartResponse)
   async createMandalaChart(
-    @Arg('input') input: CreateMandalaChartInput
+    @Arg('input') input: CreateMandalaChartInput,
+    @UserId() userId: string
   ): Promise<typeof CreateMandalaChartResponse> {
-    const mandalaChart = await MandalaChartModel.create(input)
+    const mandalaChart = await MandalaChartModel.create({ ...input, userId })
     return { _id: mandalaChart._id }
   }
 

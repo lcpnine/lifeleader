@@ -65,9 +65,6 @@ export class CreateMandalaChartInput {
   @Field({ nullable: true })
   description?: string
 
-  @Field(() => ID)
-  userId: string
-
   @Field(() => MandalaCellInput)
   centerCell: MandalaCellInput
 

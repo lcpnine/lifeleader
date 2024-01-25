@@ -18,7 +18,6 @@ input CreateMandalaChartInput {
   description: String
   surroundingCells: [MandalaCellInput!]!
   title: String!
-  userId: ID!
 }
 
 union CreateMandalaChartResponse = CreateMandalaChartFailure | CreateMandalaChartSuccess
