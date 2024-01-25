@@ -15,6 +15,21 @@ export type FindPasswordSuccessKeySpecifier = ('success' | FindPasswordSuccessKe
 export type FindPasswordSuccessFieldPolicy = {
 	success?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type MandalaCellKeySpecifier = ('_id' | 'description' | 'goals' | 'tasks' | 'title' | MandalaCellKeySpecifier)[];
+export type MandalaCellFieldPolicy = {
+	_id?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	goals?: FieldPolicy<any> | FieldReadFunction<any>,
+	tasks?: FieldPolicy<any> | FieldReadFunction<any>,
+	title?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type MandalaChartKeySpecifier = ('_id' | 'centerCell' | 'surroundingCells' | 'userId' | MandalaChartKeySpecifier)[];
+export type MandalaChartFieldPolicy = {
+	_id?: FieldPolicy<any> | FieldReadFunction<any>,
+	centerCell?: FieldPolicy<any> | FieldReadFunction<any>,
+	surroundingCells?: FieldPolicy<any> | FieldReadFunction<any>,
+	userId?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type MutationKeySpecifier = ('deleteAccount' | 'findPassword' | 'resetPassword' | 'signIn' | 'signOut' | 'signUp' | 'verifyEmail' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	deleteAccount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -31,9 +46,10 @@ export type PurchasedInfoFieldPolicy = {
 	isPurchased?: FieldPolicy<any> | FieldReadFunction<any>,
 	purchasedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('checkUser' | 'getUser' | 'recommendationForSubGoals' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('checkUser' | 'getMandalaChart' | 'getUser' | 'recommendationForSubGoals' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	checkUser?: FieldPolicy<any> | FieldReadFunction<any>,
+	getMandalaChart?: FieldPolicy<any> | FieldReadFunction<any>,
 	getUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	recommendationForSubGoals?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -114,6 +130,14 @@ export type StrictTypedTypePolicies = {
 	FindPasswordSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FindPasswordSuccessKeySpecifier | (() => undefined | FindPasswordSuccessKeySpecifier),
 		fields?: FindPasswordSuccessFieldPolicy,
+	},
+	MandalaCell?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | MandalaCellKeySpecifier | (() => undefined | MandalaCellKeySpecifier),
+		fields?: MandalaCellFieldPolicy,
+	},
+	MandalaChart?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | MandalaChartKeySpecifier | (() => undefined | MandalaChartKeySpecifier),
+		fields?: MandalaChartFieldPolicy,
 	},
 	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),

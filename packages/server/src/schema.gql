@@ -38,6 +38,21 @@ type FindPasswordSuccess {
   success: Boolean!
 }
 
+type MandalaCell {
+  _id: ID!
+  description: String
+  goals: [String!]!
+  tasks: [String!]!
+  title: String!
+}
+
+type MandalaChart {
+  _id: ID!
+  centerCell: MandalaCell!
+  surroundingCells: [MandalaCell!]!
+  userId: ID!
+}
+
 type Mutation {
   deleteAccount(email: String!): DeleteAccountResponse!
   findPassword(email: String!): FindPasswordResponse!
@@ -56,6 +71,7 @@ type PurchasedInfo {
 
 type Query {
   checkUser: User
+  getMandalaChart(_id: String!): MandalaChart
   getUser(_id: String!): User
   recommendationForSubGoals(currentLanguage: String = "en", mainGoal: String!, selectedSubGoals: [String!]): RecommendationResponse!
 }
