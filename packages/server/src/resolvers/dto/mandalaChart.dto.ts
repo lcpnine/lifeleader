@@ -82,7 +82,7 @@ export class CreateMandalaChartSuccess {
 }
 
 export enum CreateMandalaChartFailureType {
-  INVALID_INPUT = 'INVALID_INPUT',
+  UNAUTHORIZED_ACCESS = 'UNAUTHORIZED_ACCESS',
   USER_NOT_FOUND = 'USER_NOT_FOUND',
   SERVER_ERROR = 'SERVER_ERROR',
 }

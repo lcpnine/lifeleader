@@ -43,7 +43,7 @@ export class MandalaChartResolver {
     // @ts-ignore
     const userId: string | null = ctx.req.userId
     if (!userId) {
-      return { errorType: CreateMandalaChartFailureType.INVALID_INPUT }
+      return { errorType: CreateMandalaChartFailureType.UNAUTHORIZED_ACCESS }
     }
     const mandalaChart = await MandalaChartModel.create({ ...input, userId })
     return { _id: mandalaChart._id }

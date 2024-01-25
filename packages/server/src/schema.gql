@@ -8,8 +8,8 @@ type CreateMandalaChartFailure {
 }
 
 enum CreateMandalaChartFailureType {
-  INVALID_INPUT
   SERVER_ERROR
+  UNAUTHORIZED_ACCESS
   USER_NOT_FOUND
 }
 
