@@ -40,7 +40,8 @@ export class MandalaChartResolver {
     @Arg('input') input: CreateMandalaChartInput,
     @Ctx() ctx: MyContext
   ): Promise<typeof CreateMandalaChartResponse> {
-    const userId = ctx.req.userId
+    // @ts-ignore
+    const userId: string | null = ctx.req.userId
     if (!userId) {
       return { errorType: CreateMandalaChartFailureType.INVALID_INPUT }
     }
@@ -53,7 +54,8 @@ export class MandalaChartResolver {
     @Arg('input') input: UpdateMandalaChartInput,
     @Ctx() ctx: MyContext
   ): Promise<typeof UpdateMandalaChartResponse> {
-    const userId = ctx.req.userId
+    // @ts-ignore
+    const userId: string | null = ctx.req.userId
 
     if (!isMandalaChartInputValid(input.centerCell, input.surroundingCells)) {
       return { errorType: UpdateMandalaChartFailureType.INVALID_INPUT }
@@ -82,7 +84,8 @@ export class MandalaChartResolver {
     @Arg('input') input: DeleteMandalaChartInput,
     @Ctx() ctx: MyContext
   ): Promise<typeof DeleteMandalaChartResponse> {
-    const userId = ctx.req.userId
+    // @ts-ignore
+    const userId: string | null = ctx.req.userId
     const candidateChart = await MandalaChartModel.findById(
       input.mandalaChartId
     )
