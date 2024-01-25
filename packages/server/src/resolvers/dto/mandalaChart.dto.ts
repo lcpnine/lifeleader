@@ -82,8 +82,9 @@ export class CreateMandalaChartSuccess {
 }
 
 export enum CreateMandalaChartFailureType {
+  NO_TITLE = 'NO_TITLE',
   UNAUTHORIZED_ACCESS = 'UNAUTHORIZED_ACCESS',
-  USER_NOT_FOUND = 'USER_NOT_FOUND',
+  INVALID_INPUT = 'INVALID_INPUT',
   SERVER_ERROR = 'SERVER_ERROR',
 }
 
@@ -137,8 +138,9 @@ export class UpdateMandalaChartSuccess {
 
 export enum UpdateMandalaChartFailureType {
   CHART_NOT_FOUND = 'CHART_NOT_FOUND',
-  INVALID_INPUT = 'INVALID_INPUT',
+  NO_TITLE = 'NO_TITLE',
   UNAUTHORIZED_ACCESS = 'UNAUTHORIZED_ACCESS',
+  INVALID_INPUT = 'INVALID_INPUT',
   SERVER_ERROR = 'SERVER_ERROR',
 }
 

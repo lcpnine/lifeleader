@@ -8,9 +8,10 @@ type CreateMandalaChartFailure {
 }
 
 enum CreateMandalaChartFailureType {
+  INVALID_INPUT
+  NO_TITLE
   SERVER_ERROR
   UNAUTHORIZED_ACCESS
-  USER_NOT_FOUND
 }
 
 input CreateMandalaChartInput {
@@ -227,6 +228,7 @@ type UpdateMandalaChartFailure {
 enum UpdateMandalaChartFailureType {
   CHART_NOT_FOUND
   INVALID_INPUT
+  NO_TITLE
   SERVER_ERROR
   UNAUTHORIZED_ACCESS
 }

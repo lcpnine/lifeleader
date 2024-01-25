@@ -45,6 +45,12 @@ export class MandalaChartResolver {
     if (!userId) {
       return { errorType: CreateMandalaChartFailureType.UNAUTHORIZED_ACCESS }
     }
+    if (!input.title) {
+      return { errorType: CreateMandalaChartFailureType.NO_TITLE }
+    }
+    if (!isMandalaChartInputValid(input.centerCell, input.surroundingCells)) {
+      return { errorType: CreateMandalaChartFailureType.INVALID_INPUT }
+    }
     const mandalaChart = await MandalaChartModel.create({ ...input, userId })
     return { _id: mandalaChart._id }
   }
@@ -57,6 +63,9 @@ export class MandalaChartResolver {
     // @ts-ignore
     const userId: string | null = ctx.req.userId
 
+    if (!input.title) {
+      return { errorType: UpdateMandalaChartFailureType.NO_TITLE }
+    }
     if (!isMandalaChartInputValid(input.centerCell, input.surroundingCells)) {
       return { errorType: UpdateMandalaChartFailureType.INVALID_INPUT }
     }
