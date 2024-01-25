@@ -3,6 +3,30 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type CreateMandalaChartFailure {
+  errorType: CreateMandalaChartFailureType!
+}
+
+enum CreateMandalaChartFailureType {
+  INVALID_INPUT
+  SERVER_ERROR
+  USER_NOT_FOUND
+}
+
+input CreateMandalaChartInput {
+  centerCell: MandalaCellInput!
+  description: String
+  surroundingCells: [MandalaCellInput!]!
+  title: String!
+  userId: ID!
+}
+
+union CreateMandalaChartResponse = CreateMandalaChartFailure | CreateMandalaChartSuccess
+
+type CreateMandalaChartSuccess {
+  _id: ID!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -23,6 +47,25 @@ type DeleteAccountSuccess {
   success: Boolean!
 }
 
+type DeleteMandalaChartFailure {
+  errorType: DeleteMandalaChartFailureType!
+}
+
+enum DeleteMandalaChartFailureType {
+  CHART_NOT_FOUND
+  SERVER_ERROR
+}
+
+input DeleteMandalaChartInput {
+  mandalaChartId: ID!
+}
+
+union DeleteMandalaChartResponse = DeleteMandalaChartFailure | DeleteMandalaChartSuccess
+
+type DeleteMandalaChartSuccess {
+  _id: ID!
+}
+
 type FindPasswordFailure {
   errorType: FindPasswordFailureType!
 }
@@ -38,12 +81,37 @@ type FindPasswordSuccess {
   success: Boolean!
 }
 
+type GetMandalaChartFailure {
+  errorType: GetMandalaChartFailureType!
+}
+
+enum GetMandalaChartFailureType {
+  CHART_NOT_FOUND
+  SERVER_ERROR
+  UNAUTHORIZED_ACCESS
+}
+
+input GetMandalaChartInput {
+  mandalaChartId: ID!
+}
+
+union GetMandalaChartResponse = GetMandalaChartFailure | GetMandalaChartSuccess
+
+type GetMandalaChartSuccess {
+  mandalaChart: MandalaChart!
+}
+
 type MandalaCell {
   _id: ID!
   description: String
   goals: [String!]!
   tasks: [String!]!
   title: String!
+}
+
+input MandalaCellInput {
+  goals: [String!]
+  tasks: [String!]
 }
 
 type MandalaChart {
@@ -54,12 +122,15 @@ type MandalaChart {
 }
 
 type Mutation {
+  createMandalaChart(input: CreateMandalaChartInput!): CreateMandalaChartResponse!
   deleteAccount(email: String!): DeleteAccountResponse!
+  deleteMandalaChart(input: DeleteMandalaChartInput!): DeleteMandalaChartResponse!
   findPassword(email: String!): FindPasswordResponse!
   resetPassword(newPassword: String!, newPasswordConfirm: String!, token: String!): ResetPasswordResponse!
   signIn(email: String!, keepSignedIn: Boolean!, password: String!): SignInResponse!
   signOut: Boolean!
   signUp(email: String!, nickname: String!, password: String!, passwordConfirm: String!): SignUpResponse!
+  updateMandalaChart(input: UpdateMandalaChartInput!): UpdateMandalaChartResponse!
   verifyEmail(token: String!): VerifyEmailResponse!
 }
 
@@ -71,7 +142,7 @@ type PurchasedInfo {
 
 type Query {
   checkUser: User
-  getMandalaChart(_id: String!): MandalaChart
+  getMandalaChart(input: GetMandalaChartInput!): GetMandalaChartResponse!
   getUser(_id: String!): User
   recommendationForSubGoals(currentLanguage: String = "en", mainGoal: String!, selectedSubGoals: [String!]): RecommendationResponse!
 }
@@ -145,6 +216,30 @@ type TokenInfo {
   expiresAt: DateTime
   isVerified: Boolean
   token: String
+}
+
+type UpdateMandalaChartFailure {
+  errorType: UpdateMandalaChartFailureType!
+}
+
+enum UpdateMandalaChartFailureType {
+  CHART_NOT_FOUND
+  INVALID_INPUT
+  SERVER_ERROR
+}
+
+input UpdateMandalaChartInput {
+  centerCell: MandalaCellInput
+  description: String
+  mandalaChartId: ID!
+  surroundingCells: [MandalaCellInput]
+  title: String
+}
+
+union UpdateMandalaChartResponse = UpdateMandalaChartFailure | UpdateMandalaChartSuccess
+
+type UpdateMandalaChartSuccess {
+  _id: ID!
 }
 
 type User {

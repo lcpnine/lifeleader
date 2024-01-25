@@ -1,6 +1,7 @@
 // server/src/resolvers/mandalaChart.resolver.ts
 import { Arg, Mutation, Query, Resolver } from 'type-graphql'
 import { MandalaChartModel } from '../models/MandalaChart.model'
+import { MandalaChart } from '../types/mandalaChart'
 import {
   CreateMandalaChartInput,
   CreateMandalaChartResponse,
@@ -24,10 +25,12 @@ export class MandalaChartResolver {
     const mandalaChart = await MandalaChartModel.findById(input.mandalaChartId)
       .populate('centerCell')
       .populate('surroundingCells')
+
     if (!mandalaChart) {
       return { errorType: GetMandalaChartFailureType.CHART_NOT_FOUND }
     }
-    return { mandalaChart }
+
+    return { mandalaChart: mandalaChart.toJSON() as MandalaChart }
   }
 
   @Mutation(() => CreateMandalaChartResponse)
