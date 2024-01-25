@@ -2,6 +2,7 @@ import { Arg, Mutation, Query, Resolver } from 'type-graphql'
 import UserId from '../decorators/userId'
 import { MandalaChartModel } from '../models/MandalaChart.model'
 import { MandalaChart } from '../types/mandalaChart'
+import { isMandalaChartInputValid } from '../utils/mandalaChart'
 import {
   CreateMandalaChartInput,
   CreateMandalaChartResponse,
@@ -47,6 +48,9 @@ export class MandalaChartResolver {
     @Arg('input') input: UpdateMandalaChartInput,
     @UserId() userId: string
   ): Promise<typeof UpdateMandalaChartResponse> {
+    if (!isMandalaChartInputValid(input.centerCell, input.surroundingCells)) {
+      return { errorType: UpdateMandalaChartFailureType.INVALID_INPUT }
+    }
     const candidateChart = await MandalaChartModel.findById(
       input.mandalaChartId
     )

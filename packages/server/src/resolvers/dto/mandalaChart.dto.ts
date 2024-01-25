@@ -114,19 +114,19 @@ export class UpdateMandalaChartInput {
   mandalaChartId: string
 
   @Field({ nullable: true })
-  title?: string
-
-  @Field({ nullable: true })
-  private?: boolean
+  title: string
 
   @Field({ nullable: true })
   description?: string
 
+  @Field({ nullable: true })
+  private: boolean
+
   @Field(() => MandalaCellInput, { nullable: true })
-  centerCell?: MandalaCellInput
+  centerCell: MandalaCellInput
 
   @Field(() => [MandalaCellInput], { nullable: 'itemsAndList' })
-  surroundingCells?: MandalaCellInput[]
+  surroundingCells: MandalaCellInput[]
 }
 
 @ObjectType()
