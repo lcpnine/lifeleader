@@ -23,7 +23,10 @@ const UserSchema: Schema = new Schema({
     },
     default: () => ({}),
   },
-  mandalaCharts: [{ type: Schema.Types.ObjectId, ref: 'MandalaChart' }],
+  mandalaCharts: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'MandalaChart' }],
+    default: [],
+  },
 })
 
 export interface IUser extends Document {
