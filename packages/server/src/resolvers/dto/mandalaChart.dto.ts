@@ -124,3 +124,44 @@ export const UpdateMandalaChartResponse = createUnionType({
     return UpdateMandalaChartFailure.name
   },
 })
+
+@InputType()
+export class DeleteMandalaChartInput {
+  @Field(() => ID)
+  mandalaChartId: string
+}
+
+@ObjectType()
+export class DeleteMandalaChartSuccess {
+  @Field(() => ID)
+  _id: string
+
+  @Field()
+  message: string
+}
+
+export enum DeleteMandalaChartFailureType {
+  CHART_NOT_FOUND = 'CHART_NOT_FOUND',
+  SERVER_ERROR = 'SERVER_ERROR',
+}
+
+registerEnumType(DeleteMandalaChartFailureType, {
+  name: 'DeleteMandalaChartFailureType',
+})
+
+@ObjectType()
+export class DeleteMandalaChartFailure implements BaseError {
+  @Field(() => DeleteMandalaChartFailureType)
+  errorType: DeleteMandalaChartFailureType
+}
+
+export const DeleteMandalaChartResponse = createUnionType({
+  name: 'DeleteMandalaChartResponse',
+  types: () => [DeleteMandalaChartSuccess, DeleteMandalaChartFailure] as const,
+  resolveType: (value: any) => {
+    if ('_id' in value) {
+      return DeleteMandalaChartSuccess.name
+    }
+    return DeleteMandalaChartFailure.name
+  },
+})
