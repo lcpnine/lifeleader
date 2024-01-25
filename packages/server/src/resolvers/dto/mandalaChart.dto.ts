@@ -135,6 +135,7 @@ export class UpdateMandalaChartSuccess {
 export enum UpdateMandalaChartFailureType {
   CHART_NOT_FOUND = 'CHART_NOT_FOUND',
   INVALID_INPUT = 'INVALID_INPUT',
+  UNAUTHORIZED_ACCESS = 'UNAUTHORIZED_ACCESS',
   SERVER_ERROR = 'SERVER_ERROR',
 }
 
@@ -173,6 +174,7 @@ export class DeleteMandalaChartSuccess {
 
 export enum DeleteMandalaChartFailureType {
   CHART_NOT_FOUND = 'CHART_NOT_FOUND',
+  UNAUTHORIZED_ACCESS = 'UNAUTHORIZED_ACCESS',
   SERVER_ERROR = 'SERVER_ERROR',
 }
 

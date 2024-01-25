@@ -54,6 +54,7 @@ type DeleteMandalaChartFailure {
 enum DeleteMandalaChartFailureType {
   CHART_NOT_FOUND
   SERVER_ERROR
+  UNAUTHORIZED_ACCESS
 }
 
 input DeleteMandalaChartInput {
@@ -226,6 +227,7 @@ enum UpdateMandalaChartFailureType {
   CHART_NOT_FOUND
   INVALID_INPUT
   SERVER_ERROR
+  UNAUTHORIZED_ACCESS
 }
 
 input UpdateMandalaChartInput {

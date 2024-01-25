@@ -1,4 +1,5 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+import UserId from '../decorators/userId'
 import { MandalaChartModel } from '../models/MandalaChart.model'
 import { MandalaChart } from '../types/mandalaChart'
 import {
@@ -42,29 +43,46 @@ export class MandalaChartResolver {
 
   @Mutation(() => UpdateMandalaChartResponse)
   async updateMandalaChart(
-    @Arg('input') input: UpdateMandalaChartInput
+    @Arg('input') input: UpdateMandalaChartInput,
+    @UserId() userId: string
   ): Promise<typeof UpdateMandalaChartResponse> {
-    const updatedChart = await MandalaChartModel.findByIdAndUpdate(
+    const candidateChart = await MandalaChartModel.findById(
+      input.mandalaChartId
+    )
+    if (!candidateChart) {
+      return { errorType: UpdateMandalaChartFailureType.CHART_NOT_FOUND }
+    }
+    if (candidateChart.userId.toString() !== userId) {
+      return { errorType: UpdateMandalaChartFailureType.UNAUTHORIZED_ACCESS }
+    }
+
+    const updatedChart = (await MandalaChartModel.findByIdAndUpdate(
       input.mandalaChartId,
       input,
       { new: true }
-    )
-    if (!updatedChart) {
-      return { errorType: UpdateMandalaChartFailureType.CHART_NOT_FOUND }
-    }
+    )) as MandalaChart
+
     return { _id: updatedChart._id }
   }
 
   @Mutation(() => DeleteMandalaChartResponse)
   async deleteMandalaChart(
-    @Arg('input') input: DeleteMandalaChartInput
+    @Arg('input') input: DeleteMandalaChartInput,
+    @UserId() userId: string
   ): Promise<typeof DeleteMandalaChartResponse> {
-    const deletedChart = await MandalaChartModel.findByIdAndDelete(
+    const candidateChart = await MandalaChartModel.findById(
       input.mandalaChartId
     )
-    if (!deletedChart) {
+    if (!candidateChart) {
       return { errorType: DeleteMandalaChartFailureType.CHART_NOT_FOUND }
     }
+    if (candidateChart.userId.toString() !== userId) {
+      return { errorType: DeleteMandalaChartFailureType.UNAUTHORIZED_ACCESS }
+    }
+
+    const deletedChart = (await MandalaChartModel.findByIdAndDelete(
+      input.mandalaChartId
+    )) as MandalaChart
     return { _id: deletedChart._id }
   }
 }
