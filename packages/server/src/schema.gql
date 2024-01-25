@@ -110,8 +110,8 @@ type MandalaCell {
 }
 
 input MandalaCellInput {
-  goals: [String!]
-  tasks: [String!]
+  goal: String!
+  tasks: [String!]!
 }
 
 type MandalaChart {

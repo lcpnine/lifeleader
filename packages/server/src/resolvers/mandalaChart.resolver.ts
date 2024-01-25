@@ -1,4 +1,3 @@
-// server/src/resolvers/mandalaChart.resolver.ts
 import { Arg, Mutation, Query, Resolver } from 'type-graphql'
 import { MandalaChartModel } from '../models/MandalaChart.model'
 import { MandalaChart } from '../types/mandalaChart'

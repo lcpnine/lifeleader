@@ -1,15 +1,12 @@
 import mongoose, { Document, Schema } from 'mongoose'
 
-// MandalaCell Schema
 const MandalaCellSchema: Schema = new Schema({
-  title: { type: String, required: true },
-  description: { type: String, required: false },
-  goals: [{ type: String }],
+  goal: { type: String },
   tasks: [{ type: String }],
 })
 
 export interface IMandalaCell extends Document {
-  goals: string[]
+  goal: string
   tasks: string[]
 }
 

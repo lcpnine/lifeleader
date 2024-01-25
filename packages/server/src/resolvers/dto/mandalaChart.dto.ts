@@ -11,11 +11,11 @@ import { BaseError } from './common.dto'
 
 @InputType()
 export class MandalaCellInput {
-  @Field(() => [String], { nullable: true })
-  goals?: string[]
+  @Field()
+  goal: string
 
-  @Field(() => [String], { nullable: true })
-  tasks?: string[]
+  @Field(() => [String])
+  tasks: string[]
 }
 
 @InputType()
