@@ -65,6 +65,9 @@ export class CreateMandalaChartInput {
   @Field({ nullable: true })
   description?: string
 
+  @Field()
+  private: boolean
+
   @Field(() => MandalaCellInput)
   centerCell: MandalaCellInput
 
@@ -112,6 +115,9 @@ export class UpdateMandalaChartInput {
 
   @Field({ nullable: true })
   title?: string
+
+  @Field({ nullable: true })
+  private?: boolean
 
   @Field({ nullable: true })
   description?: string

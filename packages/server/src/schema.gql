@@ -16,6 +16,7 @@ enum CreateMandalaChartFailureType {
 input CreateMandalaChartInput {
   centerCell: MandalaCellInput!
   description: String
+  private: Boolean!
   surroundingCells: [MandalaCellInput!]!
   title: String!
 }
@@ -234,6 +235,7 @@ input UpdateMandalaChartInput {
   centerCell: MandalaCellInput
   description: String
   mandalaChartId: ID!
+  private: Boolean
   surroundingCells: [MandalaCellInput]
   title: String
 }
