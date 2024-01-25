@@ -9,8 +9,6 @@ const MandalaCellSchema: Schema = new Schema({
 })
 
 export interface IMandalaCell extends Document {
-  title: string
-  description?: string
   goals: string[]
   tasks: string[]
 }
@@ -33,6 +31,8 @@ const MandalaChartSchema: Schema = new Schema({
 })
 
 export interface IMandalaChart extends Document {
+  title: string
+  description?: string
   userId: mongoose.Types.ObjectId
   centerCell: mongoose.Types.ObjectId
   surroundingCells: mongoose.Types.ObjectId[]
