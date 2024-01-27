@@ -3,6 +3,7 @@ import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
 import Recommendations from '@/components/Recommend/Recommendations'
 import Switch from '@/components/Switch/Switch'
+import { IS_DEV } from '@/constants/common'
 import { useAlert } from '@/contexts/AlertContext'
 import { useLoading } from '@/contexts/LoadingContext'
 import useI18n from '@/hooks/useI18n'
@@ -11,17 +12,33 @@ import useScreenShot from '@/hooks/useScreenshot'
 import { useReactiveVar } from '@apollo/client'
 import { CloudIcon, PhotoIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
+import { CreateMandalaChartInput } from '../../../gql/graphql'
 import useAIRecommendation from '../useAIRecommendation'
 import TRANSLATIONS from './useMandalaChart.i18n'
 
-const DEFAULT_WHOLE_GRID_VALUES = new Array(9).fill(new Array(9).fill(''))
+const DEFAULT_WHOLE_GRID_VALUES: CreateMandalaChartInput = {
+  title: IS_DEV ? 'Test Title' : '',
+  description: IS_DEV ? 'Test Description' : '',
+  private: false,
+  centerCell: {
+    goal: IS_DEV ? 'Test Goal' : '',
+    tasks: IS_DEV
+      ? new Array(8).map((_, idx) => 'Sub Goal ' + idx)
+      : new Array(8).fill(''),
+  },
+  surroundingCells: new Array(8).fill({
+    goal: IS_DEV
+      ? new Array(8).map((_, idx) => 'Sub Goal ' + idx)
+      : new Array(8).fill(''),
+    tasks: new Array(8).fill(''),
+  }),
+}
 
 const useMandalaChart = () => {
   const { openAlert } = useAlert()
-  const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
-    DEFAULT_WHOLE_GRID_VALUES
-  )
-  const mainGoal = wholeGridValues[4][4]
+  const [wholeGridValues, setWholeGridValues] =
+    useState<CreateMandalaChartInput>(DEFAULT_WHOLE_GRID_VALUES)
+  const mainGoal = wholeGridValues.centerCell.goal
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
 
