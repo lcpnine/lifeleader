@@ -8,6 +8,7 @@ import { recommendationCardVar } from '@/hooks/useRecommendationCard'
 import useScreenShot from '@/hooks/useScreenshot'
 import useSwitch from '@/hooks/useSwitch'
 import { gql, useQuery, useReactiveVar } from '@apollo/client'
+import { CloudIcon, PhotoIcon } from '@heroicons/react/24/outline'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -143,18 +144,19 @@ const Home = () => {
           />
         </div>
         <div className="pt-4 flex gap-2">
-          {/* Save chart button */}
+          {/* Save Chart Button */}
           <button
-            className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-opacity-50"
+            className="flex items-center px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
             onClick={handleSaveChartClick}
           >
+            <CloudIcon className="h-5 w-5 mr-2" />
             Save chart
           </button>
-          {/* Existing Screenshot button */}
           <button
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+            className="flex items-center px-4 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
             onClick={takeScreenShot}
           >
+            <PhotoIcon className="h-5 w-5 mr-2" />
             {translation('downloadImage')}
           </button>
         </div>
