@@ -1,3 +1,4 @@
+import { useTheme } from '@/contexts/ThemeContext'
 import Square, { SquareType } from './Square'
 
 interface Props {
@@ -5,11 +6,18 @@ interface Props {
 }
 
 const DisplayingFullViewMandalaChart = ({ wholeGridValues }: Props) => {
+  const { themeStyle } = useTheme()
+
   return (
-    <div className="grid grid-cols-3 gap-3 w-max">
+    <div
+      className={`grid grid-cols-3 w-max border-2 ${themeStyle.borderColor}`}
+    >
       {wholeGridValues.map((values, gridIndex) => {
         return (
-          <div key={gridIndex} className="grid grid-cols-3 gap-1 w-max">
+          <div
+            key={gridIndex}
+            className={`grid grid-cols-3 w-max border ${themeStyle.borderColor}`}
+          >
             {values.map((value, suqareIndex) => {
               return (
                 <Square
