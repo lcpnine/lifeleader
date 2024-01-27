@@ -47,7 +47,6 @@ export class MandalaChartResolver {
     const requestUserId: string | null = ctx.req.userId
 
     const mandalaCharts = await MandalaChartModel.find({ userId })
-    console.log('mandalaCharts: ', mandalaCharts)
     const filteredManadalaCharts = mandalaCharts.filter(mandalaChart =>
       mandalaChart.userId.toString() === requestUserId
         ? true
