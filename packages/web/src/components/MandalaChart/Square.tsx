@@ -1,7 +1,9 @@
 import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
+import useI18n from '@/hooks/useI18n'
 import useModal from '@/hooks/useModal'
 import TextInputModal from '../Modal/TextInput'
+import TRANSLATIONS from './MandalaChart.i18n'
 
 export enum SquareType {
   DISPLAY = 'DISPLAY',
@@ -45,6 +47,8 @@ export type SquareProps = DisplaySquareProps | ManualSquareProps | AISquareProps
 
 const Square = (props: SquareProps) => {
   const { type, value, gridIndex, squareIndex, isGridValid } = props
+  const { getTranslation } = useI18n()
+  const translation = getTranslation(TRANSLATIONS)
 
   // ManualSquareProps
   const setSquareValue = (newValue: string) => {
@@ -84,10 +88,21 @@ const Square = (props: SquareProps) => {
       ? themeStyle.centerGridCenterSquareTextColor
       : themeStyle.edgeGridCenterSquareTextColor
 
-  const placeHolder =
-    type === SquareType.MANUAL || type === SquareType.AI
-      ? props.placeHolder
-      : ''
+  const getSquarePlaceHolder = () => {
+    if (type === SquareType.DISPLAY) return ''
+    if (isCenterGrid && isCenterSquare) return translation('mainGoal')
+    if (isCenterGrid && !isCenterSquare)
+      return `${translation('subGoal')} ${
+        squareIndex < 4 ? squareIndex + 1 : squareIndex
+      }`
+    if (!isCenterGrid && isCenterSquare)
+      return `${translation('subGoal')} ${
+        gridIndex < 4 ? gridIndex + 1 : gridIndex
+      }`
+    return ''
+  }
+
+  const placeHolder = getSquarePlaceHolder()
 
   return (
     <div
