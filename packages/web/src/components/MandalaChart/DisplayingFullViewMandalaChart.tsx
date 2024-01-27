@@ -1,8 +1,13 @@
 import { useTheme } from '@/contexts/ThemeContext'
+import {
+  getGridByIndexFromCreateMandalaChartInput,
+  getSquareByIndexFromMandalaCellInput,
+} from '@/hooks/useMandalaChart.tsx/useMandalaChart.helper'
+import { CreateMandalaChartInput } from '../../../gql/graphql'
 import Square, { SquareType } from './Square'
 
 interface Props {
-  wholeGridValues: string[][]
+  wholeGridValues: CreateMandalaChartInput
 }
 
 const DisplayingFullViewMandalaChart = ({ wholeGridValues }: Props) => {
@@ -12,13 +17,22 @@ const DisplayingFullViewMandalaChart = ({ wholeGridValues }: Props) => {
     <div
       className={`grid grid-cols-3 w-max border-2 ${themeStyle.borderColor}`}
     >
-      {wholeGridValues.map((values, gridIndex) => {
+      {new Array(9).map((values, gridIndex) => {
+        const grid = getGridByIndexFromCreateMandalaChartInput(
+          wholeGridValues,
+          gridIndex
+        )
         return (
           <div
             key={gridIndex}
             className={`grid grid-cols-3 w-max border ${themeStyle.borderColor}`}
           >
-            {values.map((value, suqareIndex) => {
+            {new Array(9).map((_, suqareIndex) => {
+              const value = getSquareByIndexFromMandalaCellInput(
+                grid,
+                suqareIndex
+              )
+
               return (
                 <Square
                   key={suqareIndex}
