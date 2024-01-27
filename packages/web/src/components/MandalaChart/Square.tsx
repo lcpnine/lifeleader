@@ -101,7 +101,14 @@ const Square = (props: SquareProps) => {
     return ''
   }
 
+  const getTextOpacity = () => {
+    if (isCenterSquare) return 'text-opacity-50'
+    if (isCenterGrid) return 'text-opacity-25'
+    return ''
+  }
+
   const placeHolder = getSquarePlaceHolder()
+  const opacity = getTextOpacity()
 
   return (
     <div
@@ -116,13 +123,7 @@ const Square = (props: SquareProps) => {
         className={`w-full max-h-${
           isMobile ? '20' : '24'
         } text-center ${textColor} ${textStyle} p-0 inline-block focus:outline-none
-        ${
-          !value && placeHolder !== ''
-            ? squareIndex === 4
-              ? 'text-opacity-75'
-              : 'text-opacity-25'
-            : ''
-        }
+        ${opacity}
           ${isCenterGrid && isCenterSquare && 'main-goal'}
         `}
         style={{ whiteSpace: 'pre-wrap' }}
