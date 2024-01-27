@@ -1,5 +1,6 @@
 import { useAlert } from '@/contexts/AlertContext'
 import { useEntryContext } from '@/contexts/EntryContext'
+import { useTheme } from '@/contexts/ThemeContext'
 import useI18n from '@/hooks/useI18n'
 import { RecommendationCard } from '@/hooks/useRecommendationCard'
 import { Dispatch, useEffect, useRef } from 'react'
@@ -27,6 +28,7 @@ const MandalaChart = ({
   const { openAlert } = useAlert()
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
+  const { themeStyle } = useTheme()
 
   const handleGridValue = (
     gridIndex: number,
@@ -99,12 +101,17 @@ const MandalaChart = ({
       } overflow-auto`}
       ref={focusRef}
     >
-      <div className="grid grid-cols-3 gap-3 w-max">
+      <div
+        className={`grid grid-cols-3 w-max border-2 ${themeStyle.borderColor}`}
+      >
         {wholeGridValues.map((values, gridIndex) => {
           const isGridValid =
             gridIndex === 4 ? true : wholeGridValues[4][gridIndex] !== ''
           return (
-            <div key={gridIndex} className="grid grid-cols-3 gap-1 w-max">
+            <div
+              key={gridIndex}
+              className={`grid grid-cols-3 w-max border ${themeStyle.borderColor}`}
+            >
               {values.map((value, suqareIndex) => {
                 return (
                   <Square
