@@ -1,12 +1,29 @@
+import { useLoading } from '@/contexts/LoadingContext'
 import { gql, useQuery } from '@apollo/client'
+import { useEffect } from 'react'
+import { GetUserMandalaChartsDocument } from '../../../gql/graphql'
+import { extractByTypename } from '../../../utils/typeguard'
 
 const MandalaChartsPage = () => {
   const { loading, error, data } = useQuery(GetUserMandalaChartsDocument)
+  const { showLoading } = useLoading()
 
   if (loading) return <p>Loading...</p> // Or a spinner component
   if (error) return <p>Error: {error.message}</p>
 
-  const mandalaCharts = data?.getUserMandalaCharts?.mandalaCharts || []
+  const { GetUserMandalaChartsSuccess } = extractByTypename(
+    data?.getUserMandalaCharts
+  )
+
+  const mandalaCharts = GetUserMandalaChartsSuccess?.mandalaCharts || []
+
+  useEffect(() => {
+    if (loading) {
+      showLoading(true)
+    } else {
+      showLoading(false)
+    }
+  }, [loading])
 
   return (
     <div>
