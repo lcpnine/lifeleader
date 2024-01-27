@@ -1,32 +1,37 @@
 import { gql, useQuery } from '@apollo/client'
 import {
+  CreateMandalaChartInput,
   GetRecommendationForSubGoalsDocument,
   Recommendation,
 } from '../../../gql/graphql'
 import { extractByTypename } from '../../../utils/typeguard'
 import useI18n from '../useI18n'
+import {
+  getMainGoalFromMandalaChartInput,
+  getSubGoalsFromMandalaChartInput,
+} from '../useMandalaChart.tsx/useMandalaChart.helper'
 import { recommendationCardVar } from '../useRecommendationCard'
 
 interface Props {
-  wholeGridValues: { text: string }[][]
+  wholeGridValues: CreateMandalaChartInput
   isAIModeOn: boolean
 }
 
 const useAIRecommendation = ({ wholeGridValues, isAIModeOn }: Props) => {
   const { currentLanguage } = useI18n()
-  const mainGoal = wholeGridValues[4][4]
-  const subGoals = wholeGridValues[4].filter((_, index) => index !== 4)
-  const selectedSubGoals = subGoals.filter(item => item.text !== '')
+  const mainGoal = getMainGoalFromMandalaChartInput(wholeGridValues)
+  const subGoals = getSubGoalsFromMandalaChartInput(wholeGridValues)
+  const selectedSubGoals = subGoals.filter(subGoal => subGoal !== '')
 
   const { data, loading, refetch } = useQuery(
     GetRecommendationForSubGoalsDocument,
     {
       variables: {
-        mainGoal: mainGoal.text,
-        selectedSubGoals: selectedSubGoals.map(item => item.text),
+        mainGoal: mainGoal,
+        selectedSubGoals: selectedSubGoals,
         currentLanguage,
       },
-      skip: !(isAIModeOn && mainGoal.text),
+      skip: !(isAIModeOn && mainGoal),
       onCompleted(data) {
         if (data) {
           const { RecommendationSuccess, RecommendationFailure } =

@@ -25,3 +25,15 @@ export const getSquareByIndexFromMandalaCellInput = (
   }
   return mandalaCellInput.tasks[squareIndex - 1]
 }
+
+export const getMainGoalFromMandalaChartInput = (
+  wholeGridValues: CreateMandalaChartInput
+) => {
+  return wholeGridValues.centerCell.goal
+}
+
+export const getSubGoalsFromMandalaChartInput = (
+  wholeGridValues: CreateMandalaChartInput
+) => {
+  return wholeGridValues.centerCell.tasks
+}

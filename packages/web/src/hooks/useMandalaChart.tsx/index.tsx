@@ -49,9 +49,7 @@ const useMandalaChart = () => {
   })
   const [isAIModeOn, setIsAIModeOn] = useState(false)
   const { loading, refetch, errorType } = useAIRecommendation({
-    wholeGridValues: wholeGridValues.map(values =>
-      values.map(value => ({ text: value }))
-    ),
+    wholeGridValues,
     isAIModeOn,
   })
   const recommendationItems = useReactiveVar(recommendationCardVar)
