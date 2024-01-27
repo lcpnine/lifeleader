@@ -77,15 +77,12 @@ const useMandalaChart = () => {
   }
 
   const handleAIMode = () => {
-    if (!isAIModeOn) {
-      if (!mainGoal) {
-        openAlert({ text: translation('mainGoalIsRequired') })
-        return
-      }
-      setIsAIModeOn(true)
+    if (!mainGoal) {
+      openAlert({ text: translation('mainGoalIsRequired') })
+      return
     }
 
-    setIsAIModeOn(false)
+    setIsAIModeOn(prev => !prev)
   }
 
   const isShowingAIRecommendation = isAIModeOn && !loading
