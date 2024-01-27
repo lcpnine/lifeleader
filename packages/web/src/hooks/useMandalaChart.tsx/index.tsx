@@ -106,38 +106,30 @@ const useMandalaChart = () => {
     setWholeGridValues(prevGridValue => {
       const newGridValues: CreateMandalaChartInput = deepCopy(prevGridValue)
 
-      const adjustedGridIndex = gridIndex >= 4 ? gridIndex - 1 : gridIndex
-      const adjustedSquareIndex =
-        squareIndex >= 4 ? squareIndex - 1 : squareIndex
-
-      if (gridIndex === 4 || squareIndex === 4) {
-        newGridValues.centerCell.goal =
-          gridIndex === 4 && squareIndex === 4
-            ? newValue
-            : newGridValues.centerCell.goal
-        newGridValues.centerCell.tasks[adjustedSquareIndex] =
-          gridIndex === 4
-            ? newValue
-            : newGridValues.centerCell.tasks[adjustedSquareIndex]
-        newGridValues.centerCell.tasks[adjustedGridIndex] =
-          squareIndex === 4
-            ? newValue
-            : newGridValues.centerCell.tasks[adjustedGridIndex]
-      }
-
-      if (gridIndex !== 4) {
-        newGridValues.surroundingCells[adjustedGridIndex].goal =
-          squareIndex === 4
-            ? newValue
-            : newGridValues.surroundingCells[adjustedGridIndex].goal
-        newGridValues.surroundingCells[adjustedGridIndex].tasks[
-          adjustedSquareIndex
-        ] =
-          squareIndex !== 4
-            ? newValue
-            : newGridValues.surroundingCells[adjustedGridIndex].tasks[
-                adjustedSquareIndex
-              ]
+      if (gridIndex === 4) {
+        if (squareIndex === 4) {
+          newGridValues.centerCell.goal = newValue
+        } else {
+          newGridValues.centerCell.tasks[
+            squareIndex < 4 ? squareIndex : squareIndex - 1
+          ] = newValue
+          newGridValues.surroundingCells[
+            squareIndex < 4 ? squareIndex : squareIndex - 1
+          ].goal = newValue
+        }
+      } else {
+        if (squareIndex === 4) {
+          newGridValues.surroundingCells[
+            gridIndex < 4 ? gridIndex : gridIndex - 1
+          ].goal = newValue
+          newGridValues.centerCell.tasks[
+            gridIndex < 4 ? gridIndex : gridIndex - 1
+          ] = newValue
+        } else {
+          newGridValues.surroundingCells[
+            gridIndex < 4 ? gridIndex : gridIndex - 1
+          ].tasks[squareIndex < 4 ? squareIndex : squareIndex - 1] = newValue
+        }
       }
 
       return newGridValues
