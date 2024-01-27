@@ -26,7 +26,7 @@ export interface ManualSquareProps {
   squareIndex: number
   isGridValid: boolean
   placeHolder?: string
-  handleGridValue: (
+  handleSquareValueManually: (
     gridIndex: number,
     squareIndex: number,
     newValue: string
@@ -40,7 +40,7 @@ export interface AISquareProps {
   squareIndex: number
   isGridValid: boolean
   placeHolder?: string
-  handleGridValueOnAIMode: (gridIndex: number, squareIndex: number) => void
+  handleSquareValueOnAIMode: (gridIndex: number, squareIndex: number) => void
 }
 
 export type SquareProps = DisplaySquareProps | ManualSquareProps | AISquareProps
@@ -50,10 +50,9 @@ const Square = (props: SquareProps) => {
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
 
-  // ManualSquareProps
   const setSquareValue = (newValue: string) => {
     if (type === SquareType.MANUAL)
-      props.handleGridValue(gridIndex, squareIndex, newValue)
+      props.handleSquareValueManually(gridIndex, squareIndex, newValue)
   }
   const {
     openModal: openTextInputModal,
@@ -68,7 +67,7 @@ const Square = (props: SquareProps) => {
 
   const onClickSquare = () => {
     if (type === SquareType.AI) {
-      props.handleGridValueOnAIMode(gridIndex, squareIndex)
+      props.handleSquareValueOnAIMode(gridIndex, squareIndex)
     } else {
       // TODO: useModal에 들어가는 modalProps가 변경이 되지 않아 open시에 넣어주는 방식으로 우선 적용
       openTextInputModal({ state: value })

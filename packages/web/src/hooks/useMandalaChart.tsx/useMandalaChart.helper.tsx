@@ -37,3 +37,25 @@ export const getSubGoalsFromMandalaChartInput = (
 ) => {
   return wholeGridValues.centerCell.tasks
 }
+
+export const getGridByIndexFromMandalaChartInput = (
+  wholeGridValues: CreateMandalaChartInput,
+  gridIndex: number
+) => {
+  if (gridIndex === 4) {
+    return wholeGridValues.centerCell
+  }
+  if (gridIndex < 4) {
+    return wholeGridValues.surroundingCells[gridIndex]
+  }
+  return wholeGridValues.surroundingCells[gridIndex - 1]
+}
+
+export const getValueByGridIndexAndSquareIndexFromMandalaChartInput = (
+  wholeGridValues: CreateMandalaChartInput,
+  gridIndex: number,
+  squareIndex: number
+) => {
+  const grid = getGridByIndexFromMandalaChartInput(wholeGridValues, gridIndex)
+  return getSquareByIndexFromMandalaCellInput(grid, squareIndex)
+}

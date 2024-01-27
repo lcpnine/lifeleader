@@ -13,6 +13,7 @@ import { useReactiveVar } from '@apollo/client'
 import { CloudIcon, PhotoIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
 import { CreateMandalaChartInput } from '../../../gql/graphql'
+import { deepCopy } from '../../../utils/common'
 import useAIRecommendation from '../useAIRecommendation'
 import TRANSLATIONS from './useMandalaChart.i18n'
 
@@ -97,6 +98,101 @@ const useMandalaChart = () => {
     }
   }, [loading])
 
+  const handleSquareValueManually = (
+    gridIndex: number,
+    squareIndex: number,
+    newValue: string
+  ) => {
+    setWholeGridValues(prevGridValue => {
+      const newGridValues: CreateMandalaChartInput = deepCopy(prevGridValue)
+
+      const adjustedGridIndex = gridIndex >= 4 ? gridIndex - 1 : gridIndex
+      const adjustedSquareIndex =
+        squareIndex >= 4 ? squareIndex - 1 : squareIndex
+
+      if (gridIndex === 4 || squareIndex === 4) {
+        newGridValues.centerCell.goal =
+          gridIndex === 4 && squareIndex === 4
+            ? newValue
+            : newGridValues.centerCell.goal
+        newGridValues.centerCell.tasks[adjustedSquareIndex] =
+          gridIndex === 4
+            ? newValue
+            : newGridValues.centerCell.tasks[adjustedSquareIndex]
+        newGridValues.centerCell.tasks[adjustedGridIndex] =
+          squareIndex === 4
+            ? newValue
+            : newGridValues.centerCell.tasks[adjustedGridIndex]
+      }
+
+      if (gridIndex !== 4) {
+        newGridValues.surroundingCells[adjustedGridIndex].goal =
+          squareIndex === 4
+            ? newValue
+            : newGridValues.surroundingCells[adjustedGridIndex].goal
+        newGridValues.surroundingCells[adjustedGridIndex].tasks[
+          adjustedSquareIndex
+        ] =
+          squareIndex !== 4
+            ? newValue
+            : newGridValues.surroundingCells[adjustedGridIndex].tasks[
+                adjustedSquareIndex
+              ]
+      }
+
+      return newGridValues
+    })
+  }
+
+  const handleSquareValueOnAIMode = (
+    gridIndex: number,
+    squareIndex: number
+  ) => {
+    const selectedAIRecommendationItem = recommendationItems.find(
+      item => item.isClicked
+    )
+
+    setWholeGridValues(prevGridValue => {
+      const newGridValues = deepCopy(prevGridValue)
+
+      const adjustedGridIndex = gridIndex >= 4 ? gridIndex - 1 : gridIndex
+      const adjustedSquareIndex =
+        squareIndex >= 4 ? squareIndex - 1 : squareIndex
+
+      if (gridIndex === 4 || squareIndex === 4) {
+        newGridValues.centerCell.goal =
+          gridIndex === 4 && squareIndex === 4
+            ? selectedAIRecommendationItem?.text
+            : newGridValues.centerCell.goal
+        newGridValues.centerCell.tasks[adjustedSquareIndex] =
+          gridIndex === 4
+            ? selectedAIRecommendationItem?.text
+            : newGridValues.centerCell.tasks[adjustedSquareIndex]
+        newGridValues.centerCell.tasks[adjustedGridIndex] =
+          squareIndex === 4
+            ? selectedAIRecommendationItem?.text
+            : newGridValues.centerCell.tasks[adjustedGridIndex]
+      }
+
+      if (gridIndex !== 4) {
+        newGridValues.surroundingCells[adjustedGridIndex].goal =
+          squareIndex === 4
+            ? selectedAIRecommendationItem?.text
+            : newGridValues.surroundingCells[adjustedGridIndex].goal
+        newGridValues.surroundingCells[adjustedGridIndex].tasks[
+          adjustedSquareIndex
+        ] =
+          squareIndex !== 4
+            ? selectedAIRecommendationItem?.text
+            : newGridValues.surroundingCells[adjustedGridIndex].tasks[
+                adjustedSquareIndex
+              ]
+      }
+
+      return newGridValues
+    })
+  }
+
   return {
     ThemeSelector: <MandalaThemeSelector />,
     AIModeSwitch: (
@@ -109,7 +205,8 @@ const useMandalaChart = () => {
     MandalaChart: (
       <MandalaChart
         wholeGridValues={wholeGridValues}
-        setWholeGridValues={setWholeGridValues}
+        handleSquareValueManually={handleSquareValueManually}
+        handleSquareValueOnAIMode={handleSquareValueOnAIMode}
         isAIModeOn={isAIModeOn}
         recommendationItems={recommendationItems}
         onRecommendItemAccepted={onRecommendItemAccepted}

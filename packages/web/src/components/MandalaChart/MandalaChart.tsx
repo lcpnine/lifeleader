@@ -1,16 +1,22 @@
-import { useAlert } from '@/contexts/AlertContext'
 import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
-import useI18n from '@/hooks/useI18n'
+import {
+  getGridByIndexFromMandalaChartInput,
+  getValueByGridIndexAndSquareIndexFromMandalaChartInput,
+} from '@/hooks/useMandalaChart.tsx/useMandalaChart.helper'
 import { RecommendationCard } from '@/hooks/useRecommendationCard'
-import { Dispatch, useEffect, useRef } from 'react'
-import { deepCopy } from '../../../utils/common'
-import TRANSLATIONS from './MandalaChart.i18n'
+import { useEffect, useRef } from 'react'
+import { CreateMandalaChartInput } from '../../../gql/graphql'
 import Square, { SquareType } from './Square'
 
 interface Props {
-  wholeGridValues: string[][]
-  setWholeGridValues: Dispatch<React.SetStateAction<string[][]>>
+  wholeGridValues: CreateMandalaChartInput
+  handleSquareValueManually: (
+    gridIndex: number,
+    squareIndex: number,
+    newValue: string
+  ) => void
+  handleSquareValueOnAIMode: (gridIndex: number, squareIndex: number) => void
   isAIModeOn: boolean
   recommendationItems: RecommendationCard[]
   onRecommendItemAccepted: () => void
@@ -18,54 +24,13 @@ interface Props {
 
 const MandalaChart = ({
   wholeGridValues,
-  setWholeGridValues,
+  handleSquareValueManually,
+  handleSquareValueOnAIMode,
   isAIModeOn,
-  recommendationItems,
-  onRecommendItemAccepted,
 }: Props) => {
   const { isMobile } = useEntryContext()
   const focusRef = useRef<HTMLDivElement>(null)
-  const { openAlert } = useAlert()
-  const { getTranslation } = useI18n()
-  const translation = getTranslation(TRANSLATIONS)
   const { themeStyle } = useTheme()
-
-  const handleGridValue = (
-    gridIndex: number,
-    squareIndex: number,
-    newValue: string
-  ) => {
-    setWholeGridValues(prevGridValue => {
-      const newGridValues = deepCopy(prevGridValue)
-      newGridValues[gridIndex][squareIndex] = newValue
-      if (gridIndex === 4 && squareIndex !== 4) {
-        newGridValues[squareIndex][gridIndex] = newValue
-      }
-      return newGridValues
-    })
-  }
-
-  const handleGridValueOnAIMode = (gridIndex: number, squareIndex: number) => {
-    const selectedAIRecommendationItem = recommendationItems.find(
-      item => item.isClicked
-    )
-
-    setWholeGridValues(prevGridValue => {
-      const newGridValues = deepCopy(prevGridValue)
-      if (gridIndex === 4 && squareIndex === 4) {
-        openAlert({ text: translation('cannotRecommendMainGoal') })
-      } else {
-        newGridValues[gridIndex][squareIndex] =
-          selectedAIRecommendationItem?.text
-        if (gridIndex === 4 && squareIndex !== 4) {
-          newGridValues[squareIndex][gridIndex] =
-            selectedAIRecommendationItem?.text
-        }
-        onRecommendItemAccepted()
-      }
-      return newGridValues
-    })
-  }
 
   const scrollMainGoalSquareToCenter = () => {
     const container = focusRef.current
@@ -104,23 +69,34 @@ const MandalaChart = ({
       <div
         className={`grid grid-cols-3 w-max border-2 ${themeStyle.borderColor}`}
       >
-        {wholeGridValues.map((values, gridIndex) => {
-          const isGridValid =
-            gridIndex === 4 ? true : wholeGridValues[4][gridIndex] !== ''
+        {new Array(9).fill('').map((values, gridIndex) => {
+          const grid = getGridByIndexFromMandalaChartInput(
+            wholeGridValues,
+            gridIndex
+          )
+          const isGridValid = gridIndex === 4 ? true : grid.goal !== ''
+
           return (
             <div
               key={gridIndex}
               className={`grid grid-cols-3 w-max border ${themeStyle.borderColor}`}
             >
-              {values.map((value, suqareIndex) => {
+              {new Array(9).fill('').map((_, suqareIndex) => {
+                const value =
+                  getValueByGridIndexAndSquareIndexFromMandalaChartInput(
+                    wholeGridValues,
+                    gridIndex,
+                    suqareIndex
+                  )
+
                 return (
                   <Square
                     key={suqareIndex}
                     type={isAIModeOn ? SquareType.AI : SquareType.MANUAL}
                     isGridValid={isGridValid}
                     value={value}
-                    handleGridValue={handleGridValue}
-                    handleGridValueOnAIMode={handleGridValueOnAIMode}
+                    handleSquareValueManually={handleSquareValueManually}
+                    handleSquareValueOnAIMode={handleSquareValueOnAIMode}
                     gridIndex={gridIndex}
                     squareIndex={suqareIndex}
                   />
