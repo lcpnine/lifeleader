@@ -80,7 +80,7 @@ const Square = (props: SquareProps) => {
   const { themeStyle } = useTheme()
   const { isMobile } = useEntryContext()
 
-  const textBold = isCenterSquare ? 'font-bold' : ''
+  const textStyle = isCenterSquare ? 'font-bold text-lg' : ''
 
   const textColor = !isCenterSquare
     ? themeStyle.defualtTextColor
@@ -116,7 +116,7 @@ const Square = (props: SquareProps) => {
       <span
         className={`w-full max-h-${
           isMobile ? '20' : '24'
-        } text-center ${textColor} ${textBold} p-0 inline-block focus:outline-none
+        } text-center ${textColor} ${textStyle} p-0 inline-block focus:outline-none
         ${
           !value && placeHolder !== ''
             ? squareIndex === 4
