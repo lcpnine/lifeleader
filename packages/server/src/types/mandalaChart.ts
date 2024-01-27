@@ -21,14 +21,20 @@ export class MandalaChart {
   @Field(() => String)
   title: string
 
-  @Field(() => String)
-  description: string
+  @Field(() => String, { nullable: true })
+  description?: string
 
   @Field(() => ID)
   userId: string
 
   @Field(() => Boolean)
   private: boolean
+
+  @Field(() => Date)
+  createdAt: Date
+
+  @Field(() => Date, { nullable: true })
+  lastModifiedAt?: Date
 
   @Field(() => MandalaCell)
   centerCell: MandalaCell

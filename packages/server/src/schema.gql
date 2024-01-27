@@ -103,6 +103,24 @@ type GetMandalaChartSuccess {
   mandalaChart: MandalaChart!
 }
 
+type GetUserMandalaChartsFailure {
+  errorType: GetUserMandalaChartsFailureType!
+}
+
+enum GetUserMandalaChartsFailureType {
+  SERVER_ERROR
+}
+
+input GetUserMandalaChartsInput {
+  userId: ID!
+}
+
+union GetUserMandalaChartsResponse = GetUserMandalaChartsFailure | GetUserMandalaChartsSuccess
+
+type GetUserMandalaChartsSuccess {
+  mandalaCharts: [MandalaChart!]!
+}
+
 type MandalaCell {
   _id: ID!
   goal: String!
@@ -117,7 +135,9 @@ input MandalaCellInput {
 type MandalaChart {
   _id: ID!
   centerCell: MandalaCell!
-  description: String!
+  createdAt: DateTime!
+  description: String
+  lastModifiedAt: DateTime
   private: Boolean!
   surroundingCells: [MandalaCell!]!
   title: String!
@@ -147,6 +167,7 @@ type Query {
   checkUser: User
   getMandalaChart(input: GetMandalaChartInput!): GetMandalaChartResponse!
   getUser(_id: String!): User
+  getUserMandalaCharts(input: GetUserMandalaChartsInput!): GetUserMandalaChartsResponse!
   recommendationForSubGoals(currentLanguage: String = "en", mainGoal: String!, selectedSubGoals: [String!]): RecommendationResponse!
 }
 

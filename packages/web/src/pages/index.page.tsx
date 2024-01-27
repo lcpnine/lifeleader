@@ -1,17 +1,28 @@
+import { COMMON_TRANSLATIONS } from '@/constants/i18n'
+import { useAlert } from '@/contexts/AlertContext'
 import { useUserContext } from '@/contexts/UserContext'
+import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import useMandalaChart from '@/hooks/useMandalaChart.tsx'
 import Head from 'next/head'
-import Link from 'next/link'
 import TRANSLATIONS from './index.i18n'
 
 const Home = () => {
   const { getTranslation } = useI18n()
-  const { user } = useUserContext()
+  const { user, isSignedIn } = useUserContext()
+  const { goTo } = useGoTo()
   const translation = getTranslation(TRANSLATIONS)
+  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
+  const { openAlert } = useAlert()
 
   const handleLoadSavedChartClick = () => {
-    alert('Load saved chart clicked')
+    if (!isSignedIn) {
+      openAlert({
+        text: commonTranslation('NeedToSignIn'),
+      })
+      return goTo('/auth/sign-in')
+    }
+    goTo('/mandala/my-list')
   }
 
   const {
@@ -38,13 +49,13 @@ const Home = () => {
           <p className="break-words">{translation('description')}</p>
         </div>
         <div className="pt-4">
-          <Link
-            href="/mandala/list"
-            className="inline-block px-4 py-2 text-gray-500 hover:text-gray-900 italic underline transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 mb-4"
+          <p
+            className="inline-block px-4 py-2 text-gray-500 hover:text-gray-900 italic underline transition duration-300
+            focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 mb-4 hover:cursor-pointer"
             onClick={handleLoadSavedChartClick}
           >
             {translation('loadSavedChart')}
-          </Link>
+          </p>
         </div>
 
         <div className="pb-4">{ThemeSelector}</div>

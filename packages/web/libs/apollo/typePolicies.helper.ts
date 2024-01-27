@@ -39,17 +39,27 @@ export type GetMandalaChartSuccessKeySpecifier = ('mandalaChart' | GetMandalaCha
 export type GetMandalaChartSuccessFieldPolicy = {
 	mandalaChart?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type GetUserMandalaChartsFailureKeySpecifier = ('errorType' | GetUserMandalaChartsFailureKeySpecifier)[];
+export type GetUserMandalaChartsFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type GetUserMandalaChartsSuccessKeySpecifier = ('mandalaCharts' | GetUserMandalaChartsSuccessKeySpecifier)[];
+export type GetUserMandalaChartsSuccessFieldPolicy = {
+	mandalaCharts?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type MandalaCellKeySpecifier = ('_id' | 'goal' | 'tasks' | MandalaCellKeySpecifier)[];
 export type MandalaCellFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	goal?: FieldPolicy<any> | FieldReadFunction<any>,
 	tasks?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MandalaChartKeySpecifier = ('_id' | 'centerCell' | 'description' | 'private' | 'surroundingCells' | 'title' | 'userId' | MandalaChartKeySpecifier)[];
+export type MandalaChartKeySpecifier = ('_id' | 'centerCell' | 'createdAt' | 'description' | 'lastModifiedAt' | 'private' | 'surroundingCells' | 'title' | 'userId' | MandalaChartKeySpecifier)[];
 export type MandalaChartFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	centerCell?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastModifiedAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	private?: FieldPolicy<any> | FieldReadFunction<any>,
 	surroundingCells?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -74,11 +84,12 @@ export type PurchasedInfoFieldPolicy = {
 	isPurchased?: FieldPolicy<any> | FieldReadFunction<any>,
 	purchasedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('checkUser' | 'getMandalaChart' | 'getUser' | 'recommendationForSubGoals' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('checkUser' | 'getMandalaChart' | 'getUser' | 'getUserMandalaCharts' | 'recommendationForSubGoals' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	checkUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	getMandalaChart?: FieldPolicy<any> | FieldReadFunction<any>,
 	getUser?: FieldPolicy<any> | FieldReadFunction<any>,
+	getUserMandalaCharts?: FieldPolicy<any> | FieldReadFunction<any>,
 	recommendationForSubGoals?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type RecommendationKeySpecifier = ('text' | RecommendationKeySpecifier)[];
@@ -190,6 +201,14 @@ export type StrictTypedTypePolicies = {
 	GetMandalaChartSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | GetMandalaChartSuccessKeySpecifier | (() => undefined | GetMandalaChartSuccessKeySpecifier),
 		fields?: GetMandalaChartSuccessFieldPolicy,
+	},
+	GetUserMandalaChartsFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | GetUserMandalaChartsFailureKeySpecifier | (() => undefined | GetUserMandalaChartsFailureKeySpecifier),
+		fields?: GetUserMandalaChartsFailureFieldPolicy,
+	},
+	GetUserMandalaChartsSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | GetUserMandalaChartsSuccessKeySpecifier | (() => undefined | GetUserMandalaChartsSuccessKeySpecifier),
+		fields?: GetUserMandalaChartsSuccessFieldPolicy,
 	},
 	MandalaCell?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MandalaCellKeySpecifier | (() => undefined | MandalaCellKeySpecifier),
