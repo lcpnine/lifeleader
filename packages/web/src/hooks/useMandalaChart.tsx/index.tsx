@@ -22,7 +22,7 @@ const DEFAULT_WHOLE_GRID_VALUES: CreateMandalaChartInput = {
   description: IS_DEV ? 'Test Description' : '',
   private: false,
   centerCell: {
-    goal: 'Test Goal',
+    goal: '',
     tasks: new Array(8).fill(''),
   },
   surroundingCells: new Array(8).fill('').map((_, idx) => ({
