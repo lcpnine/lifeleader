@@ -53,11 +53,13 @@ export type MandalaCellFieldPolicy = {
 	goal?: FieldPolicy<any> | FieldReadFunction<any>,
 	tasks?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MandalaChartKeySpecifier = ('_id' | 'centerCell' | 'description' | 'private' | 'surroundingCells' | 'title' | 'userId' | MandalaChartKeySpecifier)[];
+export type MandalaChartKeySpecifier = ('_id' | 'centerCell' | 'createdAt' | 'description' | 'lastModifiedAt' | 'private' | 'surroundingCells' | 'title' | 'userId' | MandalaChartKeySpecifier)[];
 export type MandalaChartFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	centerCell?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastModifiedAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	private?: FieldPolicy<any> | FieldReadFunction<any>,
 	surroundingCells?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>,

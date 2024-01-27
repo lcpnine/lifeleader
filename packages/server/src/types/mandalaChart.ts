@@ -30,6 +30,12 @@ export class MandalaChart {
   @Field(() => Boolean)
   private: boolean
 
+  @Field(() => Date)
+  createdAt: Date
+
+  @Field(() => Date)
+  lastModifiedAt: Date
+
   @Field(() => MandalaCell)
   centerCell: MandalaCell
 

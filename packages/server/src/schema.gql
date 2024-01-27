@@ -135,7 +135,9 @@ input MandalaCellInput {
 type MandalaChart {
   _id: ID!
   centerCell: MandalaCell!
+  createdAt: DateTime!
   description: String
+  lastModifiedAt: DateTime!
   private: Boolean!
   surroundingCells: [MandalaCell!]!
   title: String!

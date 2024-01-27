@@ -3,7 +3,6 @@ import { useUserContext } from '@/contexts/UserContext'
 import useGoTo from '@/hooks/useGoTo'
 import { gql, useQuery } from '@apollo/client'
 import {
-  DocumentTextIcon,
   LockClosedIcon,
   LockOpenIcon,
   PlusCircleIcon,
@@ -34,7 +33,7 @@ const MyMandalaChartsPage = () => {
   const mandalaCharts = GetUserMandalaChartsSuccess?.mandalaCharts || []
 
   const handleViewChart = (mandalaChartId: string) => {
-    goTo(`/mandala-chart/${mandalaChartId}`)
+    goTo(`/chart/${mandalaChartId}`)
   }
 
   const handleDeleteChart = (mandalaChartId: string) => {
@@ -68,41 +67,41 @@ const MyMandalaChartsPage = () => {
           {mandalaCharts.map(chart => (
             <div
               key={chart._id}
-              className="bg-white rounded-lg shadow-lg p-4 flex justify-between items-center hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
+              className="bg-white rounded-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+              onClick={() => handleViewChart(chart._id)}
             >
-              <div className="flex-grow">
-                <div className="flex items-center mb-2">
-                  {chart.private ? (
-                    <LockClosedIcon className="h-5 w-5 text-gray-700 mr-2" />
-                  ) : (
-                    <LockOpenIcon className="h-5 w-5 text-gray-700 mr-2" />
+              <div className="p-4 flex justify-between items-center">
+                <div className="flex-grow">
+                  <div className="flex items-center mb-2">
+                    {chart.private ? (
+                      <LockClosedIcon className="h-5 w-5 text-gray-700 mr-2" />
+                    ) : (
+                      <LockOpenIcon className="h-5 w-5 text-gray-700 mr-2" />
+                    )}
+                    <h2 className="text-xl font-semibold">{chart.title}</h2>
+                  </div>
+                  {chart.description && (
+                    <p className="italic whitespace-normal break-all w-11/12 mb-2">
+                      {chart.description}
+                    </p>
                   )}
-                  <h2 className="text-xl font-semibold">{chart.title}</h2>
-                </div>
-                {chart.description && (
-                  <p className="italic whitespace-normal break-all w-11/12 mb-2">
-                    {chart.description}
+                  <p className="text-sm">
+                    {chart.private ? 'Private' : 'Public'}
                   </p>
-                )}
-                <p className="text-sm">
-                  {chart.private ? 'Private' : 'Public'}
-                </p>
-              </div>
-              <div className="flex">
-                <button
-                  className="flex items-center text-gray-900 hover:text-gray-700 font-bold py-1 px-2 mr-2 text-sm"
-                  onClick={() => handleViewChart(chart._id)}
-                >
-                  <DocumentTextIcon className="h-5 w-5 mr-1" />
-                  View
-                </button>
-                <button
-                  className="flex items-center text-gray-900 hover:text-red-500 font-bold py-1 px-2 text-sm"
-                  onClick={() => handleDeleteChart(chart._id)}
-                >
-                  <TrashIcon className="h-5 w-5 mr-1" />
-                  Delete
-                </button>
+                </div>
+                <div className="flex">
+                  {/* View button is now optional, since the entire card is clickable */}
+                  <button
+                    className="flex items-center text-gray-900 hover:text-red-500 font-bold py-1 px-2 text-sm"
+                    onClick={e => {
+                      e.stopPropagation() // Prevent card click event
+                      handleDeleteChart(chart._id)
+                    }}
+                  >
+                    <TrashIcon className="h-5 w-5 mr-1" />
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -121,6 +120,7 @@ const GET_USER_MANDALA_CHARTS_QUERY = gql`
           title
           description
           private
+          createdAt
         }
       }
       ... on GetUserMandalaChartsFailure {

@@ -106,7 +106,7 @@ export class MandalaChartResolver {
 
     const updatedChart = (await MandalaChartModel.findByIdAndUpdate(
       input.mandalaChartId,
-      input,
+      { ...input, updatedAt: Date.now() },
       { new: true }
     )) as MandalaChart
 
