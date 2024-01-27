@@ -2,19 +2,22 @@ import DisplayingFullViewMandalaChart from '@/components/MandalaChart/Displaying
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
 import Recommendations from '@/components/Recommend/Recommendations'
+import Switch from '@/components/Switch/Switch'
+import { useAlert } from '@/contexts/AlertContext'
+import { useLoading } from '@/contexts/LoadingContext'
 import useI18n from '@/hooks/useI18n'
 import { recommendationCardVar } from '@/hooks/useRecommendationCard'
 import useScreenShot from '@/hooks/useScreenshot'
-import useSwitch from '@/hooks/useSwitch'
 import { useReactiveVar } from '@apollo/client'
 import { CloudIcon, PhotoIcon } from '@heroicons/react/24/outline'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useAIRecommendation from '../useAIRecommendation'
 import TRANSLATIONS from './useMandalaChart.i18n'
 
 const DEFAULT_WHOLE_GRID_VALUES = new Array(9).fill(new Array(9).fill(''))
 
 const useMandalaChart = () => {
+  const { openAlert } = useAlert()
   const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
     DEFAULT_WHOLE_GRID_VALUES
   )
@@ -26,9 +29,7 @@ const useMandalaChart = () => {
       <DisplayingFullViewMandalaChart wholeGridValues={wholeGridValues} />
     ),
   })
-  const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch({
-    initialIsSwitchOn: false,
-  })
+  const [isAIModeOn, setIsAIModeOn] = useState(false)
   const { loading, refetch, errorType } = useAIRecommendation({
     wholeGridValues: wholeGridValues.map(values =>
       values.map(value => ({ text: value }))
@@ -58,15 +59,35 @@ const useMandalaChart = () => {
     alert('Save chart clicked')
   }
 
-  const isShowingAIRecommendation =
-    isAIModeOn && !loading && recommendationItems.length > 0
+  const handleAIMode = () => {
+    if (!isAIModeOn) {
+      const mainGoal = wholeGridValues[4][4]
+      if (!wholeGridValues[4][4]) {
+        openAlert({ text: translation('mainGoalIsRequired') })
+        return
+      }
+      setIsAIModeOn(true)
+    }
+
+    setIsAIModeOn(false)
+  }
+
+  const isShowingAIRecommendation = isAIModeOn && !loading
+  const { showLoading } = useLoading()
+  useEffect(() => {
+    if (loading) {
+      showLoading(true)
+    } else {
+      showLoading(false)
+    }
+  }, [loading])
 
   return {
     ThemeSelector: <MandalaThemeSelector />,
     AIModeSwitch: (
       <>
         <div className="font-bold pb-2">AI Mode</div>
-        <AIModeSwitch />
+        <Switch isSwitchOn={isAIModeOn} handleSwitch={handleAIMode} />
         <p className="text-xs pt-2">{translation('aiModeDescription')}</p>
       </>
     ),

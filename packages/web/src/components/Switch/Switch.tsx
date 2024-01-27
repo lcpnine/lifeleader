@@ -1,16 +1,10 @@
-import { useState } from 'react'
-
 type Props = {
-  initialIsSwitchOn?: boolean
+  isSwitchOn: boolean
+  handleSwitch: () => void
 }
 
-const useSwitch = ({ initialIsSwitchOn }: Props) => {
-  const [isSwitchOn, setIsSwitchOn] = useState(!!initialIsSwitchOn)
-  const toggleSwitch = () => {
-    setIsSwitchOn(!isSwitchOn)
-  }
-
-  const Component = () => (
+const Switch = ({ isSwitchOn, handleSwitch }: Props) => {
+  return (
     <label className="flex items-center cursor-pointer">
       <p className="text-xs font-semibold pr-2">OFF</p>
       <div className="relative">
@@ -19,7 +13,7 @@ const useSwitch = ({ initialIsSwitchOn }: Props) => {
           id="toggle"
           className="sr-only"
           checked={isSwitchOn}
-          onChange={toggleSwitch}
+          onChange={handleSwitch}
         />
         <div
           className={`block ${
@@ -35,8 +29,6 @@ const useSwitch = ({ initialIsSwitchOn }: Props) => {
       <p className="text-xs font-semibold pl-2">ON</p>
     </label>
   )
-
-  return { Component, isSwitchOn }
 }
 
-export default useSwitch
+export default Switch
