@@ -337,12 +337,12 @@ export enum UpdateMandalaChartFailureType {
 }
 
 export type UpdateMandalaChartInput = {
-  centerCell?: InputMaybe<MandalaCellInput>;
+  centerCell: MandalaCellInput;
   description?: InputMaybe<Scalars['String']['input']>;
   mandalaChartId: Scalars['ID']['input'];
-  private?: InputMaybe<Scalars['Boolean']['input']>;
+  private: Scalars['Boolean']['input'];
   surroundingCells?: InputMaybe<Array<InputMaybe<MandalaCellInput>>>;
-  title?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
 };
 
 export type UpdateMandalaChartResponse = UpdateMandalaChartFailure | UpdateMandalaChartSuccess;

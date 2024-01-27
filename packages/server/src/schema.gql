@@ -234,12 +234,12 @@ enum UpdateMandalaChartFailureType {
 }
 
 input UpdateMandalaChartInput {
-  centerCell: MandalaCellInput
+  centerCell: MandalaCellInput!
   description: String
   mandalaChartId: ID!
-  private: Boolean
+  private: Boolean!
   surroundingCells: [MandalaCellInput]
-  title: String
+  title: String!
 }
 
 union UpdateMandalaChartResponse = UpdateMandalaChartFailure | UpdateMandalaChartSuccess
