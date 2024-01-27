@@ -1,6 +1,7 @@
 import { useLoading } from '@/contexts/LoadingContext'
 import { useUserContext } from '@/contexts/UserContext'
 import useGoTo from '@/hooks/useGoTo'
+import useMandalaChartDelete from '@/hooks/useMandalaChartDelete'
 import { gql, useQuery } from '@apollo/client'
 import {
   LockClosedIcon,
@@ -17,13 +18,17 @@ import { extractByTypename } from '../../../utils/typeguard'
 const MyMandalaChartsPage = () => {
   const { user } = useUserContext()
   const { goTo } = useGoTo()
-  const { loading, error, data } = useQuery(GetUserMandalaChartsDocument, {
-    variables: {
-      input: {
-        userId: user._id,
+  const { loading, error, data, refetch } = useQuery(
+    GetUserMandalaChartsDocument,
+    {
+      variables: {
+        input: {
+          userId: user._id,
+        },
       },
-    },
-  })
+    }
+  )
+  const { handleDeleteChart, deleteLoading } = useMandalaChartDelete()
   const { showLoading } = useLoading()
 
   if (error) return <p>Error: {error.message}</p>
@@ -38,17 +43,13 @@ const MyMandalaChartsPage = () => {
     goTo(`/chart/${mandalaChartId}`)
   }
 
-  const handleDeleteChart = (mandalaChartId: string) => {
-    console.log('Delete chart:', mandalaChartId)
-  }
-
   useEffect(() => {
-    if (loading) {
+    if (loading || deleteLoading) {
       showLoading(true)
     } else {
       showLoading(false)
     }
-  }, [loading])
+  }, [loading, deleteLoading])
 
   return (
     <div className="container mx-auto p-4 min-h-screen">
@@ -101,8 +102,8 @@ const MyMandalaChartsPage = () => {
                   <button
                     className="flex items-center text-gray-900 hover:text-red-500 font-bold py-1 px-2 text-sm"
                     onClick={e => {
-                      e.stopPropagation() // Prevent card click event
-                      handleDeleteChart(chart._id)
+                      e.stopPropagation()
+                      handleDeleteChart(chart._id, refetch)
                     }}
                   >
                     <TrashIcon className="h-5 w-5 mr-1" />

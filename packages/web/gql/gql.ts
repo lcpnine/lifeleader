@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query GetRecommendationForSubGoals(\n    $mainGoal: String!\n    $selectedSubGoals: [String!]\n    $currentLanguage: String!\n  ) {\n    recommendationForSubGoals(\n      mainGoal: $mainGoal\n      selectedSubGoals: $selectedSubGoals\n      currentLanguage: $currentLanguage\n    ) {\n      ... on RecommendationSuccess {\n        recommendations {\n          text\n        }\n      }\n      ... on RecommendationFailure {\n        errorType\n      }\n    }\n  }\n": types.GetRecommendationForSubGoalsDocument,
+    "\n  mutation DeleteMandalaChart($input: DeleteMandalaChartInput!) {\n    deleteMandalaChart(input: $input) {\n      ... on DeleteMandalaChartSuccess {\n        _id\n      }\n      ... on DeleteMandalaChartFailure {\n        errorType\n      }\n    }\n  }\n": types.DeleteMandalaChartDocument,
     "\n  mutation SignOut {\n    signOut\n  }\n": types.SignOutDocument,
     "\n  mutation DeleteAccount($email: String!) {\n    deleteAccount(email: $email) {\n      ... on DeleteAccountSuccess {\n        success\n      }\n      ... on DeleteAccountFailure {\n        errorType\n      }\n    }\n  }\n": types.DeleteAccountDocument,
     "\n  mutation FindPassword($email: String!) {\n    findPassword(email: $email) {\n      ... on FindPasswordSuccess {\n        success\n      }\n      ... on FindPasswordFailure {\n        errorType\n      }\n    }\n  }\n": types.FindPasswordDocument,
@@ -42,6 +43,10 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetRecommendationForSubGoals(\n    $mainGoal: String!\n    $selectedSubGoals: [String!]\n    $currentLanguage: String!\n  ) {\n    recommendationForSubGoals(\n      mainGoal: $mainGoal\n      selectedSubGoals: $selectedSubGoals\n      currentLanguage: $currentLanguage\n    ) {\n      ... on RecommendationSuccess {\n        recommendations {\n          text\n        }\n      }\n      ... on RecommendationFailure {\n        errorType\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetRecommendationForSubGoals(\n    $mainGoal: String!\n    $selectedSubGoals: [String!]\n    $currentLanguage: String!\n  ) {\n    recommendationForSubGoals(\n      mainGoal: $mainGoal\n      selectedSubGoals: $selectedSubGoals\n      currentLanguage: $currentLanguage\n    ) {\n      ... on RecommendationSuccess {\n        recommendations {\n          text\n        }\n      }\n      ... on RecommendationFailure {\n        errorType\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation DeleteMandalaChart($input: DeleteMandalaChartInput!) {\n    deleteMandalaChart(input: $input) {\n      ... on DeleteMandalaChartSuccess {\n        _id\n      }\n      ... on DeleteMandalaChartFailure {\n        errorType\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation DeleteMandalaChart($input: DeleteMandalaChartInput!) {\n    deleteMandalaChart(input: $input) {\n      ... on DeleteMandalaChartSuccess {\n        _id\n      }\n      ... on DeleteMandalaChartFailure {\n        errorType\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
