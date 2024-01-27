@@ -17,3 +17,7 @@ export const isPasswordValid = (password: string) => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
   return regex.test(password)
 }
+
+export const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString()
+}

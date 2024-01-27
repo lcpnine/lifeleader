@@ -9,7 +9,9 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline'
 import { useEffect } from 'react'
+import { isMobile } from 'react-device-detect'
 import { GetUserMandalaChartsDocument } from '../../../gql/graphql'
+import { formatDate } from '../../../utils/common'
 import { extractByTypename } from '../../../utils/typeguard'
 
 const MyMandalaChartsPage = () => {
@@ -67,7 +69,9 @@ const MyMandalaChartsPage = () => {
           {mandalaCharts.map(chart => (
             <div
               key={chart._id}
-              className="bg-white rounded-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+              className={`bg-white rounded-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer ${
+                isMobile ? 'w-96' : 'w-[720px]'
+              }`}
               onClick={() => handleViewChart(chart._id)}
             >
               <div className="p-4 flex justify-between items-center">
@@ -85,12 +89,15 @@ const MyMandalaChartsPage = () => {
                       {chart.description}
                     </p>
                   )}
-                  <p className="text-sm">
-                    {chart.private ? 'Private' : 'Public'}
-                  </p>
+                  <div className="text-sm">
+                    <p>{chart.private ? 'Private' : 'Public'}</p>
+                    <p>Created: {formatDate(chart.createdAt)}</p>
+                    {chart.lastModifiedAt && (
+                      <p>Updated: {formatDate(chart.lastModifiedAt)}</p>
+                    )}
+                  </div>
                 </div>
                 <div className="flex">
-                  {/* View button is now optional, since the entire card is clickable */}
                   <button
                     className="flex items-center text-gray-900 hover:text-red-500 font-bold py-1 px-2 text-sm"
                     onClick={e => {
