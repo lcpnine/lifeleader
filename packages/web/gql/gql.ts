@@ -21,6 +21,7 @@ const documents = {
     "\n  mutation SignIn(\n    $email: String!\n    $password: String!\n    $keepSignedIn: Boolean!\n  ) {\n    signIn(email: $email, password: $password, keepSignedIn: $keepSignedIn) {\n      ... on SignInSuccess {\n        token\n        user {\n          _id\n          email\n          nickname\n          createdAt\n          emailVerification {\n            isVerified\n            token\n            expiresAt\n          }\n          resetPassword {\n            token\n            expiresAt\n            isVerified\n          }\n          purchasedInfo {\n            isPurchased\n            purchasedAt\n            expiresAt\n          }\n        }\n      }\n      ... on SignInFailure {\n        errorType\n      }\n    }\n  }\n": types.SignInDocument,
     "\n  mutation SignUp(\n    $email: String!\n    $password: String!\n    $passwordConfirm: String!\n    $nickname: String!\n  ) {\n    signUp(\n      email: $email\n      password: $password\n      passwordConfirm: $passwordConfirm\n      nickname: $nickname\n    ) {\n      ... on SignUpSuccess {\n        isMailSent\n      }\n      ... on SignUpFailure {\n        errorType\n      }\n    }\n  }\n": types.SignUpDocument,
     "\n  mutation VerifyEmail($token: String!) {\n    verifyEmail(token: $token) {\n      ... on VerifyEmailSuccess {\n        success\n      }\n      ... on VerifyEmailFailure {\n        errorType\n      }\n    }\n  }\n": types.VerifyEmailDocument,
+    "\n  query GetUserMandalaCharts($input: GetUserMandalaChartsInput!) {\n    getUserMandalaCharts(input: $input) {\n      ... on GetUserMandalaChartsSuccess {\n        mandalaCharts {\n          _id\n          title\n          description\n          private\n        }\n      }\n      ... on GetUserMandalaChartsFailure {\n        errorType\n      }\n    }\n  }\n": types.GetUserMandalaChartsDocument,
 };
 
 /**
@@ -69,6 +70,10 @@ export function graphql(source: "\n  mutation SignUp(\n    $email: String!\n    
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation VerifyEmail($token: String!) {\n    verifyEmail(token: $token) {\n      ... on VerifyEmailSuccess {\n        success\n      }\n      ... on VerifyEmailFailure {\n        errorType\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation VerifyEmail($token: String!) {\n    verifyEmail(token: $token) {\n      ... on VerifyEmailSuccess {\n        success\n      }\n      ... on VerifyEmailFailure {\n        errorType\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetUserMandalaCharts($input: GetUserMandalaChartsInput!) {\n    getUserMandalaCharts(input: $input) {\n      ... on GetUserMandalaChartsSuccess {\n        mandalaCharts {\n          _id\n          title\n          description\n          private\n        }\n      }\n      ... on GetUserMandalaChartsFailure {\n        errorType\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetUserMandalaCharts($input: GetUserMandalaChartsInput!) {\n    getUserMandalaCharts(input: $input) {\n      ... on GetUserMandalaChartsSuccess {\n        mandalaCharts {\n          _id\n          title\n          description\n          private\n        }\n      }\n      ... on GetUserMandalaChartsFailure {\n        errorType\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

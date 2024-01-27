@@ -121,6 +121,26 @@ export type GetMandalaChartSuccess = {
   mandalaChart: MandalaChart;
 };
 
+export type GetUserMandalaChartsFailure = {
+  __typename?: 'GetUserMandalaChartsFailure';
+  errorType: GetUserMandalaChartsFailureType;
+};
+
+export enum GetUserMandalaChartsFailureType {
+  ServerError = 'SERVER_ERROR'
+}
+
+export type GetUserMandalaChartsInput = {
+  userId: Scalars['ID']['input'];
+};
+
+export type GetUserMandalaChartsResponse = GetUserMandalaChartsFailure | GetUserMandalaChartsSuccess;
+
+export type GetUserMandalaChartsSuccess = {
+  __typename?: 'GetUserMandalaChartsSuccess';
+  mandalaCharts: Array<MandalaChart>;
+};
+
 export type MandalaCell = {
   __typename?: 'MandalaCell';
   _id: Scalars['ID']['output'];
@@ -222,6 +242,7 @@ export type Query = {
   checkUser: Maybe<User>;
   getMandalaChart: GetMandalaChartResponse;
   getUser: Maybe<User>;
+  getUserMandalaCharts: GetUserMandalaChartsResponse;
   recommendationForSubGoals: RecommendationResponse;
 };
 
@@ -233,6 +254,11 @@ export type QueryGetMandalaChartArgs = {
 
 export type QueryGetUserArgs = {
   _id: Scalars['String']['input'];
+};
+
+
+export type QueryGetUserMandalaChartsArgs = {
+  input: GetUserMandalaChartsInput;
 };
 
 

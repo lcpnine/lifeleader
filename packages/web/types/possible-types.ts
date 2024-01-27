@@ -26,6 +26,10 @@
       "GetMandalaChartFailure",
       "GetMandalaChartSuccess"
     ],
+    "GetUserMandalaChartsResponse": [
+      "GetUserMandalaChartsFailure",
+      "GetUserMandalaChartsSuccess"
+    ],
     "RecommendationResponse": [
       "RecommendationFailure",
       "RecommendationSuccess"

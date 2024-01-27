@@ -13,6 +13,8 @@ import {
   GetMandalaChartFailureType,
   GetMandalaChartInput,
   GetMandalaChartResponse,
+  GetUserMandalaChartsInput,
+  GetUserMandalaChartsResponse,
   UpdateMandalaChartFailureType,
   UpdateMandalaChartInput,
   UpdateMandalaChartResponse,
@@ -33,6 +35,25 @@ export class MandalaChartResolver {
     }
 
     return { mandalaChart: mandalaChart.toJSON() as MandalaChart }
+  }
+
+  @Query(() => GetUserMandalaChartsResponse)
+  async getUserMandalaCharts(
+    @Arg('input') input: GetUserMandalaChartsInput,
+    @Ctx() ctx: MyContext
+  ): Promise<typeof GetUserMandalaChartsResponse> {
+    const { userId } = input
+    // @ts-ignore
+    const requestUserId: string | null = ctx.req.userId
+    if (!requestUserId) return { mandalaCharts: [] }
+
+    const mandalaCharts = await MandalaChartModel.find({ userId })
+
+    return {
+      mandalaCharts: mandalaCharts.map(
+        mandalaChart => mandalaChart.toJSON() as MandalaChart
+      ),
+    }
   }
 
   @Mutation(() => CreateMandalaChartResponse)

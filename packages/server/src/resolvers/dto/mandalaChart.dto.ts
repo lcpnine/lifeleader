@@ -58,6 +58,44 @@ export const GetMandalaChartResponse = createUnionType({
 })
 
 @InputType()
+export class GetUserMandalaChartsInput {
+  @Field(() => ID)
+  userId: string
+}
+
+@ObjectType()
+export class GetUserMandalaChartsSuccess {
+  @Field(() => [MandalaChart])
+  mandalaCharts: MandalaChart[]
+}
+
+export enum GetUserMandalaChartsFailureType {
+  SERVER_ERROR = 'SERVER_ERROR',
+}
+
+registerEnumType(GetUserMandalaChartsFailureType, {
+  name: 'GetUserMandalaChartsFailureType',
+})
+
+@ObjectType()
+export class GetUserMandalaChartsFailure implements BaseError {
+  @Field(() => GetUserMandalaChartsFailureType)
+  errorType: GetUserMandalaChartsFailureType
+}
+
+export const GetUserMandalaChartsResponse = createUnionType({
+  name: 'GetUserMandalaChartsResponse',
+  types: () =>
+    [GetUserMandalaChartsSuccess, GetUserMandalaChartsFailure] as const,
+  resolveType: (value: any) => {
+    if ('errorType' in value) {
+      return GetUserMandalaChartsFailure.name
+    }
+    return GetUserMandalaChartsSuccess.name
+  },
+})
+
+@InputType()
 export class CreateMandalaChartInput {
   @Field()
   title: string
