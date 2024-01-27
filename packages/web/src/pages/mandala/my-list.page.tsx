@@ -1,3 +1,4 @@
+import NoMandalaCharts from '@/components/NoContent/NoMandalaCharts'
 import { useLoading } from '@/contexts/LoadingContext'
 import { useUserContext } from '@/contexts/UserContext'
 import useGoTo from '@/hooks/useGoTo'
@@ -53,18 +54,20 @@ const MyMandalaChartsPage = () => {
 
   return (
     <div className="container mx-auto p-4 min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">Your Mandala Charts</h1>
-      <div className="flex justify-end mb-4">
-        <button
-          className="flex items-center text-gray-900 hover:text-gray-700 font-bold py-1 px-2 text-sm"
-          onClick={() => goTo('/create-mandala-chart')}
-        >
-          <PlusCircleIcon className="h-5 w-5 mr-1" />
-          Create Mandala Chart
-        </button>
-      </div>
+      <h1 className="text-2xl font-bold text-center">Your Mandala Charts</h1>
+      {mandalaCharts.length !== 0 && (
+        <div className="flex justify-end mb-4">
+          <button
+            className="flex items-center text-gray-900 hover:text-gray-700 font-bold py-1 px-2 text-sm"
+            onClick={() => goTo('/create-mandala-chart')}
+          >
+            <PlusCircleIcon className="h-5 w-5 mr-1" />
+            Create Mandala Chart
+          </button>
+        </div>
+      )}
       {mandalaCharts.length === 0 ? (
-        <p>You have no Mandala charts.</p>
+        <NoMandalaCharts />
       ) : (
         <div className="flex flex-col gap-4">
           {mandalaCharts.map(chart => (
