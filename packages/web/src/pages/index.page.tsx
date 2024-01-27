@@ -119,7 +119,7 @@ const Home = () => {
             className="inline-block px-4 py-2 text-gray-500 hover:text-gray-900 italic underline transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 mb-4"
             onClick={handleLoadSavedChartClick}
           >
-            If you've saved your chart, click here to load and continue editing
+            {translation('loadSavedChart')}
           </Link>
         </div>
 
@@ -144,13 +144,12 @@ const Home = () => {
           />
         </div>
         <div className="pt-4 flex gap-2">
-          {/* Save Chart Button */}
           <button
             className="flex items-center px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
             onClick={handleSaveChartClick}
           >
             <CloudIcon className="h-5 w-5 mr-2" />
-            Save chart
+            {translation('saveChart')}
           </button>
           <button
             className="flex items-center px-4 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
