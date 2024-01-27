@@ -4,6 +4,8 @@ import useGoTo from '@/hooks/useGoTo'
 import { gql, useQuery } from '@apollo/client'
 import {
   DocumentTextIcon,
+  LockClosedIcon,
+  LockOpenIcon,
   PlusCircleIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline'
@@ -69,7 +71,14 @@ const MyMandalaChartsPage = () => {
               className="bg-white rounded-lg shadow-lg p-4 flex justify-between items-center hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
             >
               <div className="flex-grow">
-                <h2 className="text-xl font-semibold mb-2">{chart.title}</h2>
+                <div className="flex items-center mb-2">
+                  {chart.private ? (
+                    <LockClosedIcon className="h-5 w-5 text-gray-700 mr-2" />
+                  ) : (
+                    <LockOpenIcon className="h-5 w-5 text-gray-700 mr-2" />
+                  )}
+                  <h2 className="text-xl font-semibold">{chart.title}</h2>
+                </div>
                 {chart.description && (
                   <p className="italic whitespace-normal break-all w-11/12 mb-2">
                     {chart.description}
