@@ -102,8 +102,10 @@ const Square = (props: SquareProps) => {
   }
 
   const getTextOpacity = () => {
-    if (isCenterSquare) return 'text-opacity-50'
-    if (isCenterGrid) return 'text-opacity-25'
+    if (!value) {
+      if (isCenterSquare) return 'text-opacity-50'
+      if (isCenterGrid) return 'text-opacity-25'
+    }
     return ''
   }
 
