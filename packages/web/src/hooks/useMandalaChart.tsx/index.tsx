@@ -6,14 +6,10 @@ import useI18n from '@/hooks/useI18n'
 import { recommendationCardVar } from '@/hooks/useRecommendationCard'
 import useScreenShot from '@/hooks/useScreenshot'
 import useSwitch from '@/hooks/useSwitch'
-import { gql, useQuery, useReactiveVar } from '@apollo/client'
+import { useReactiveVar } from '@apollo/client'
 import { CloudIcon, PhotoIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
-import {
-  GetRecommendationForSubGoalsDocument,
-  Recommendation,
-} from '../../../gql/graphql'
-import { extractByTypename } from '../../../utils/typeguard'
+import useAIRecommendation from '../useAIRecommendation'
 import TRANSLATIONS from './useMandalaChart.i18n'
 
 const DEFAULT_WHOLE_GRID_VALUES = new Array(9).fill(new Array(9).fill(''))
@@ -22,10 +18,8 @@ const useMandalaChart = () => {
   const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
     DEFAULT_WHOLE_GRID_VALUES
   )
-  const { currentLanguage, getTranslation } = useI18n()
+  const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
-  const mainGoal = wholeGridValues[4][4]
-  const subGoals = wholeGridValues[4].filter((_, index) => index !== 4)
 
   const { takeScreenShot, ScreenShotComponent } = useScreenShot({
     component: (
@@ -35,39 +29,12 @@ const useMandalaChart = () => {
   const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch({
     initialIsSwitchOn: false,
   })
-  const { data, loading, refetch } = useQuery(
-    GetRecommendationForSubGoalsDocument,
-    {
-      variables: {
-        mainGoal,
-        selectedSubGoals: subGoals,
-        currentLanguage,
-      },
-      skip: !(isAIModeOn && mainGoal),
-      onCompleted(data) {
-        if (data) {
-          const { RecommendationSuccess, RecommendationFailure } =
-            extractByTypename(data.recommendationForSubGoals)
-          if (RecommendationSuccess?.recommendations) {
-            recommendationCardVar(
-              RecommendationSuccess.recommendations.map(
-                (item: Recommendation, index: number) => ({
-                  id: index,
-                  text: item.text,
-                  isClicked: false,
-                })
-              )
-            )
-          }
-        }
-      },
-    }
-  )
-  const { RecommendationFailure } = extractByTypename(
-    data?.recommendationForSubGoals
-  )
-
-  const errorType = RecommendationFailure?.errorType
+  const { loading, refetch, errorType } = useAIRecommendation({
+    wholeGridValues: wholeGridValues.map(values =>
+      values.map(value => ({ text: value }))
+    ),
+    isAIModeOn,
+  })
   const recommendationItems = useReactiveVar(recommendationCardVar)
 
   const onRecommendItemAccepted = () => {
@@ -140,28 +107,5 @@ const useMandalaChart = () => {
     ),
   }
 }
-
-const RECOMMENDATION_FOR_SUB_GOALS_QUERY = gql`
-  query GetRecommendationForSubGoals(
-    $mainGoal: String!
-    $selectedSubGoals: [String!]
-    $currentLanguage: String!
-  ) {
-    recommendationForSubGoals(
-      mainGoal: $mainGoal
-      selectedSubGoals: $selectedSubGoals
-      currentLanguage: $currentLanguage
-    ) {
-      ... on RecommendationSuccess {
-        recommendations {
-          text
-        }
-      }
-      ... on RecommendationFailure {
-        errorType
-      }
-    }
-  }
-`
 
 export default useMandalaChart
