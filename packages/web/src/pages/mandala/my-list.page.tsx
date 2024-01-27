@@ -41,7 +41,7 @@ const MyMandalaChartsPage = () => {
   const mandalaCharts = GetUserMandalaChartsSuccess?.mandalaCharts || []
 
   const handleViewChart = (mandalaChartId: string) => {
-    goTo(`/chart/${mandalaChartId}`)
+    goTo(`/mandala/chart?id=${mandalaChartId}`)
   }
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const MyMandalaChartsPage = () => {
         <div className="flex justify-end mb-4">
           <button
             className="flex items-center text-gray-900 hover:text-blue-700 font-bold py-1 px-2 text-sm"
-            onClick={() => goTo('/create-mandala-chart')}
+            onClick={() => goTo('/mandala/chart')}
           >
             <PlusCircleIcon className="h-5 w-5 mr-1" />
             Create Mandala Chart
