@@ -58,7 +58,7 @@ const MyMandalaChartsPage = () => {
       {mandalaCharts.length !== 0 && (
         <div className="flex justify-end mb-4">
           <button
-            className="flex items-center text-gray-900 hover:text-gray-700 font-bold py-1 px-2 text-sm"
+            className="flex items-center text-gray-900 hover:text-blue-700 font-bold py-1 px-2 text-sm"
             onClick={() => goTo('/create-mandala-chart')}
           >
             <PlusCircleIcon className="h-5 w-5 mr-1" />
