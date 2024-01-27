@@ -2,7 +2,6 @@ import DisplayingFullViewMandalaChart from '@/components/MandalaChart/Displaying
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
 import Recommendations from '@/components/Recommend/Recommendations'
-import { useUserContext } from '@/contexts/UserContext'
 import useI18n from '@/hooks/useI18n'
 import { recommendationCardVar } from '@/hooks/useRecommendationCard'
 import useScreenShot from '@/hooks/useScreenshot'
@@ -17,13 +16,14 @@ import {
 import { extractByTypename } from '../../../utils/typeguard'
 import TRANSLATIONS from './useMandalaChart.i18n'
 
+const DEFAULT_WHOLE_GRID_VALUES = new Array(9).fill(new Array(9).fill(''))
+
 const useMandalaChart = () => {
-  const { currentLanguage, getTranslation } = useI18n()
-  const { user } = useUserContext()
-  const translation = getTranslation(TRANSLATIONS)
   const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
-    new Array(9).fill(new Array(9).fill(''))
+    DEFAULT_WHOLE_GRID_VALUES
   )
+  const { currentLanguage, getTranslation } = useI18n()
+  const translation = getTranslation(TRANSLATIONS)
   const mainGoal = wholeGridValues[4][4]
   const subGoals = wholeGridValues[4].filter((_, index) => index !== 4)
 
