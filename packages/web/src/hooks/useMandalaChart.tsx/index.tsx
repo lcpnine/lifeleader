@@ -21,6 +21,7 @@ const useMandalaChart = () => {
   const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
     DEFAULT_WHOLE_GRID_VALUES
   )
+  const mainGoal = wholeGridValues[4][4]
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
 
@@ -61,8 +62,7 @@ const useMandalaChart = () => {
 
   const handleAIMode = () => {
     if (!isAIModeOn) {
-      const mainGoal = wholeGridValues[4][4]
-      if (!wholeGridValues[4][4]) {
+      if (!mainGoal) {
         openAlert({ text: translation('mainGoalIsRequired') })
         return
       }
