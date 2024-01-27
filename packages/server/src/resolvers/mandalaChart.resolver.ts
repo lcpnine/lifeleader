@@ -45,12 +45,16 @@ export class MandalaChartResolver {
     const { userId } = input
     // @ts-ignore
     const requestUserId: string | null = ctx.req.userId
-    if (!requestUserId) return { mandalaCharts: [] }
 
     const mandalaCharts = await MandalaChartModel.find({ userId })
+    const filteredManadalaCharts = mandalaCharts.filter(mandalaChart =>
+      mandalaChart.userId.toString() === requestUserId
+        ? true
+        : !mandalaChart.private
+    )
 
     return {
-      mandalaCharts: mandalaCharts.map(
+      mandalaCharts: filteredManadalaCharts.map(
         mandalaChart => mandalaChart.toJSON() as MandalaChart
       ),
     }
