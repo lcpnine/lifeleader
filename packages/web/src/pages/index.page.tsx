@@ -9,6 +9,7 @@ import useScreenShot from '@/hooks/useScreenshot'
 import useSwitch from '@/hooks/useSwitch'
 import { gql, useQuery, useReactiveVar } from '@apollo/client'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useState } from 'react'
 import {
   GetRecommendationForSubGoalsDocument,
@@ -87,6 +88,14 @@ const Home = () => {
     recommendationCardVar(updatedItems)
   }
 
+  const handleLoadSavedChartClick = () => {
+    alert('Load saved chart clicked')
+  }
+
+  const handleSaveChartClick = () => {
+    alert('Save chart clicked')
+  }
+
   const isShowingAIRecommendation =
     isAIModeOn && !loading && recommendationItems.length > 0
 
@@ -104,6 +113,16 @@ const Home = () => {
           <p className="break-words">{translation('description')}</p>
         </div>
         <div className="pt-4">
+          <Link
+            href="/mandala/list"
+            className="inline-block px-4 py-2 text-gray-500 hover:text-gray-900 italic underline transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 mb-4"
+            onClick={handleLoadSavedChartClick}
+          >
+            If you've saved your chart, click here to load and continue editing
+          </Link>
+        </div>
+
+        <div className="pb-4">
           <MandalaThemeSelector />
         </div>
         {/* <div className="pt-4">{ToggleOptions}</div> */}
@@ -123,7 +142,15 @@ const Home = () => {
             onRecommendItemAccepted={onRecommendItemAccepted}
           />
         </div>
-        <div className="pt-4">
+        <div className="pt-4 flex gap-2">
+          {/* Save chart button */}
+          <button
+            className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-opacity-50"
+            onClick={handleSaveChartClick}
+          >
+            Save chart
+          </button>
+          {/* Existing Screenshot button */}
           <button
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
             onClick={takeScreenShot}
