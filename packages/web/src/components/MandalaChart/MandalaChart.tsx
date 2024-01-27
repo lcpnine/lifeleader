@@ -4,8 +4,8 @@ import useI18n from '@/hooks/useI18n'
 import { RecommendationCard } from '@/hooks/useRecommendationCard'
 import { Dispatch, useEffect, useRef } from 'react'
 import { deepCopy } from '../../../utils/common'
-import Grid from './Grid'
 import TRANSLATIONS from './MandalaChart.i18n'
+import Square, { SquareType } from './Square'
 
 interface Props {
   wholeGridValues: string[][]
@@ -72,7 +72,6 @@ const MandalaChart = ({
       const containerRect = container.getBoundingClientRect()
       const elementRect = mainGoalElement.getBoundingClientRect()
 
-      // Calculating the position to scroll to
       const scrollLeft =
         elementRect.left +
         window.scrollX -
@@ -84,7 +83,6 @@ const MandalaChart = ({
         containerRect.top -
         (containerRect.height / 2 - elementRect.height / 2)
 
-      // Scrolling the container to center the element
       container.scrollLeft = scrollLeft
       container.scrollTop = scrollTop
     }
@@ -101,17 +99,27 @@ const MandalaChart = ({
       } overflow-auto`}
       ref={focusRef}
     >
-      <div className={`grid grid-cols-3 gap-3 w-max`}>
-        {wholeGridValues.map((_, index) => (
-          <Grid
-            key={index}
-            wholeGridValues={wholeGridValues}
-            handleGridValue={handleGridValue}
-            handleGridValueOnAIMode={handleGridValueOnAIMode}
-            gridIndex={index}
-            isAIModeOn={isAIModeOn}
-          />
-        ))}
+      <div className="grid grid-cols-3 gap-3 w-max">
+        {wholeGridValues.map((values, gridIndex) => {
+          return (
+            <div key={gridIndex} className="grid grid-cols-3 gap-1 w-max">
+              {values.map((value, suqareIndex) => {
+                return (
+                  <Square
+                    key={suqareIndex}
+                    type={isAIModeOn ? SquareType.AI : SquareType.MANUAL}
+                    value={value}
+                    handleGridValue={handleGridValue}
+                    handleGridValueOnAIMode={handleGridValueOnAIMode}
+                    isGridValid={true}
+                    gridIndex={gridIndex}
+                    squareIndex={suqareIndex}
+                  />
+                )
+              })}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
