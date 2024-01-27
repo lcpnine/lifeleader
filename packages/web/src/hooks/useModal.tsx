@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom'
 
 export interface DefaultModalProps {
   openModal: () => void
-  closeModal: (e: React.MouseEvent | Event | KeyboardEvent) => void
+  closeModal: (e: React.MouseEvent | Event | React.KeyboardEvent) => void
 }
 let i = 0
 interface Props<K> {

@@ -13,7 +13,7 @@ const TextInputModal = ({
 }: TextInputModalProps) => {
   const [inputValue, setInputValue] = useState(state)
 
-  const handleSave = (e: React.MouseEvent) => {
+  const handleSave = (e: React.MouseEvent | React.KeyboardEvent) => {
     setState(inputValue)
     closeModal(e)
   }
@@ -24,6 +24,7 @@ const TextInputModal = ({
         type="text"
         value={inputValue}
         onChange={e => setInputValue(e.target.value)}
+        onKeyDown={e => e.key === 'Enter' && handleSave(e)}
         className="w-full p-2 border border-gray-300 rounded"
       />
       <div className="flex justify-end mt-4 space-x-2">
