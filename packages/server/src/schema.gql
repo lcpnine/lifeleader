@@ -135,7 +135,7 @@ input MandalaCellInput {
 type MandalaChart {
   _id: ID!
   centerCell: MandalaCell!
-  description: String!
+  description: String
   private: Boolean!
   surroundingCells: [MandalaCell!]!
   title: String!

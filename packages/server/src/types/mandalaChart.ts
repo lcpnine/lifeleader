@@ -21,8 +21,8 @@ export class MandalaChart {
   @Field(() => String)
   title: string
 
-  @Field(() => String)
-  description: string
+  @Field(() => String, { nullable: true })
+  description?: string
 
   @Field(() => ID)
   userId: string

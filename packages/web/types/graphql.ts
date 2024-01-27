@@ -157,7 +157,7 @@ export type MandalaChart = {
   __typename?: 'MandalaChart';
   _id: Scalars['ID']['output'];
   centerCell: MandalaCell;
-  description: Scalars['String']['output'];
+  description: Maybe<Scalars['String']['output']>;
   private: Scalars['Boolean']['output'];
   surroundingCells: Array<MandalaCell>;
   title: Scalars['String']['output'];

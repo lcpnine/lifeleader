@@ -39,14 +39,15 @@ export class MandalaChartResolver {
 
   @Query(() => GetUserMandalaChartsResponse)
   async getUserMandalaCharts(
-    @Arg('input') input: GetUserMandalaChartsInput,
-    @Ctx() ctx: MyContext
+    @Ctx() ctx: MyContext,
+    @Arg('input') input: GetUserMandalaChartsInput
   ): Promise<typeof GetUserMandalaChartsResponse> {
     const { userId } = input
     // @ts-ignore
     const requestUserId: string | null = ctx.req.userId
 
     const mandalaCharts = await MandalaChartModel.find({ userId })
+    console.log('mandalaCharts: ', mandalaCharts)
     const filteredManadalaCharts = mandalaCharts.filter(mandalaChart =>
       mandalaChart.userId.toString() === requestUserId
         ? true
