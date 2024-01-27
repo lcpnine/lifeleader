@@ -18,7 +18,7 @@ const MandalaChartSchema: Schema = new Schema({
   private: { type: Boolean, default: false },
   centerCell: MandalaCellSchema,
   createdAt: { type: Date, default: Date.now },
-  lastModifiedAt: { type: Date, default: Date.now },
+  lastModifiedAt: { type: Date },
   surroundingCells: [MandalaCellSchema],
 })
 
@@ -29,7 +29,7 @@ export interface IMandalaChart extends Document {
   private: boolean
   centerCell: IMandalaCell
   createdAt: Date
-  lastModifiedAt: Date
+  lastModifiedAt?: Date
   surroundingCells: IMandalaCell[]
 }
 

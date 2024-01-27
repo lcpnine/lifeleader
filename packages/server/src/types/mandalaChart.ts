@@ -33,8 +33,8 @@ export class MandalaChart {
   @Field(() => Date)
   createdAt: Date
 
-  @Field(() => Date)
-  lastModifiedAt: Date
+  @Field(() => Date, { nullable: true })
+  lastModifiedAt?: Date
 
   @Field(() => MandalaCell)
   centerCell: MandalaCell

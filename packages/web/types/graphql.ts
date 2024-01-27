@@ -159,7 +159,7 @@ export type MandalaChart = {
   centerCell: MandalaCell;
   createdAt: Scalars['DateTime']['output'];
   description: Maybe<Scalars['String']['output']>;
-  lastModifiedAt: Scalars['DateTime']['output'];
+  lastModifiedAt: Maybe<Scalars['DateTime']['output']>;
   private: Scalars['Boolean']['output'];
   surroundingCells: Array<MandalaCell>;
   title: Scalars['String']['output'];

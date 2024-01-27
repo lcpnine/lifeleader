@@ -137,7 +137,7 @@ type MandalaChart {
   centerCell: MandalaCell!
   createdAt: DateTime!
   description: String
-  lastModifiedAt: DateTime!
+  lastModifiedAt: DateTime
   private: Boolean!
   surroundingCells: [MandalaCell!]!
   title: String!

@@ -121,6 +121,7 @@ const GET_USER_MANDALA_CHARTS_QUERY = gql`
           description
           private
           createdAt
+          lastModifiedAt
         }
       }
       ... on GetUserMandalaChartsFailure {
