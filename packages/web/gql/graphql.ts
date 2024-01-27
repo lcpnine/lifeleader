@@ -18,6 +18,33 @@ export type Scalars = {
   DateTime: { input: string; output: string; }
 };
 
+export type CreateMandalaChartFailure = {
+  __typename?: 'CreateMandalaChartFailure';
+  errorType: CreateMandalaChartFailureType;
+};
+
+export enum CreateMandalaChartFailureType {
+  InvalidInput = 'INVALID_INPUT',
+  NoTitle = 'NO_TITLE',
+  ServerError = 'SERVER_ERROR',
+  UnauthorizedAccess = 'UNAUTHORIZED_ACCESS'
+}
+
+export type CreateMandalaChartInput = {
+  centerCell: MandalaCellInput;
+  description?: InputMaybe<Scalars['String']['input']>;
+  private: Scalars['Boolean']['input'];
+  surroundingCells: Array<MandalaCellInput>;
+  title: Scalars['String']['input'];
+};
+
+export type CreateMandalaChartResponse = CreateMandalaChartFailure | CreateMandalaChartSuccess;
+
+export type CreateMandalaChartSuccess = {
+  __typename?: 'CreateMandalaChartSuccess';
+  _id: Scalars['ID']['output'];
+};
+
 export type DeleteAccountFailure = {
   __typename?: 'DeleteAccountFailure';
   errorType: DeleteAccountFailureType;
@@ -33,6 +60,28 @@ export type DeleteAccountResponse = DeleteAccountFailure | DeleteAccountSuccess;
 export type DeleteAccountSuccess = {
   __typename?: 'DeleteAccountSuccess';
   success: Scalars['Boolean']['output'];
+};
+
+export type DeleteMandalaChartFailure = {
+  __typename?: 'DeleteMandalaChartFailure';
+  errorType: DeleteMandalaChartFailureType;
+};
+
+export enum DeleteMandalaChartFailureType {
+  ChartNotFound = 'CHART_NOT_FOUND',
+  ServerError = 'SERVER_ERROR',
+  UnauthorizedAccess = 'UNAUTHORIZED_ACCESS'
+}
+
+export type DeleteMandalaChartInput = {
+  mandalaChartId: Scalars['ID']['input'];
+};
+
+export type DeleteMandalaChartResponse = DeleteMandalaChartFailure | DeleteMandalaChartSuccess;
+
+export type DeleteMandalaChartSuccess = {
+  __typename?: 'DeleteMandalaChartSuccess';
+  _id: Scalars['ID']['output'];
 };
 
 export type FindPasswordFailure = {
@@ -52,37 +101,78 @@ export type FindPasswordSuccess = {
   success: Scalars['Boolean']['output'];
 };
 
+export type GetMandalaChartFailure = {
+  __typename?: 'GetMandalaChartFailure';
+  errorType: GetMandalaChartFailureType;
+};
+
+export enum GetMandalaChartFailureType {
+  ChartNotFound = 'CHART_NOT_FOUND',
+  ServerError = 'SERVER_ERROR',
+  UnauthorizedAccess = 'UNAUTHORIZED_ACCESS'
+}
+
+export type GetMandalaChartInput = {
+  mandalaChartId: Scalars['ID']['input'];
+};
+
+export type GetMandalaChartResponse = GetMandalaChartFailure | GetMandalaChartSuccess;
+
+export type GetMandalaChartSuccess = {
+  __typename?: 'GetMandalaChartSuccess';
+  mandalaChart: MandalaChart;
+};
+
 export type MandalaCell = {
   __typename?: 'MandalaCell';
   _id: Scalars['ID']['output'];
-  description: Maybe<Scalars['String']['output']>;
-  goals: Array<Scalars['String']['output']>;
+  goal: Scalars['String']['output'];
   tasks: Array<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
+};
+
+export type MandalaCellInput = {
+  goal: Scalars['String']['input'];
+  tasks: Array<Scalars['String']['input']>;
 };
 
 export type MandalaChart = {
   __typename?: 'MandalaChart';
   _id: Scalars['ID']['output'];
   centerCell: MandalaCell;
+  description: Scalars['String']['output'];
+  private: Scalars['Boolean']['output'];
   surroundingCells: Array<MandalaCell>;
+  title: Scalars['String']['output'];
   userId: Scalars['ID']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createMandalaChart: CreateMandalaChartResponse;
   deleteAccount: DeleteAccountResponse;
+  deleteMandalaChart: DeleteMandalaChartResponse;
   findPassword: FindPasswordResponse;
   resetPassword: ResetPasswordResponse;
   signIn: SignInResponse;
   signOut: Scalars['Boolean']['output'];
   signUp: SignUpResponse;
+  updateMandalaChart: UpdateMandalaChartResponse;
   verifyEmail: VerifyEmailResponse;
+};
+
+
+export type MutationCreateMandalaChartArgs = {
+  input: CreateMandalaChartInput;
 };
 
 
 export type MutationDeleteAccountArgs = {
   email: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteMandalaChartArgs = {
+  input: DeleteMandalaChartInput;
 };
 
 
@@ -113,6 +203,11 @@ export type MutationSignUpArgs = {
 };
 
 
+export type MutationUpdateMandalaChartArgs = {
+  input: UpdateMandalaChartInput;
+};
+
+
 export type MutationVerifyEmailArgs = {
   token: Scalars['String']['input'];
 };
@@ -127,14 +222,14 @@ export type PurchasedInfo = {
 export type Query = {
   __typename?: 'Query';
   checkUser: Maybe<User>;
-  getMandalaChart: Maybe<MandalaChart>;
+  getMandalaChart: GetMandalaChartResponse;
   getUser: Maybe<User>;
   recommendationForSubGoals: RecommendationResponse;
 };
 
 
 export type QueryGetMandalaChartArgs = {
-  _id: Scalars['String']['input'];
+  input: GetMandalaChartInput;
 };
 
 
@@ -230,6 +325,35 @@ export type TokenInfo = {
   token: Maybe<Scalars['String']['output']>;
 };
 
+export type UpdateMandalaChartFailure = {
+  __typename?: 'UpdateMandalaChartFailure';
+  errorType: UpdateMandalaChartFailureType;
+};
+
+export enum UpdateMandalaChartFailureType {
+  ChartNotFound = 'CHART_NOT_FOUND',
+  InvalidInput = 'INVALID_INPUT',
+  NoTitle = 'NO_TITLE',
+  ServerError = 'SERVER_ERROR',
+  UnauthorizedAccess = 'UNAUTHORIZED_ACCESS'
+}
+
+export type UpdateMandalaChartInput = {
+  centerCell: MandalaCellInput;
+  description?: InputMaybe<Scalars['String']['input']>;
+  mandalaChartId: Scalars['ID']['input'];
+  private: Scalars['Boolean']['input'];
+  surroundingCells?: InputMaybe<Array<InputMaybe<MandalaCellInput>>>;
+  title: Scalars['String']['input'];
+};
+
+export type UpdateMandalaChartResponse = UpdateMandalaChartFailure | UpdateMandalaChartSuccess;
+
+export type UpdateMandalaChartSuccess = {
+  __typename?: 'UpdateMandalaChartSuccess';
+  _id: Scalars['ID']['output'];
+};
+
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID']['output'];
@@ -257,6 +381,15 @@ export type VerifyEmailSuccess = {
   __typename?: 'VerifyEmailSuccess';
   success: Scalars['Boolean']['output'];
 };
+
+export type GetRecommendationForSubGoalsQueryVariables = Exact<{
+  mainGoal: Scalars['String']['input'];
+  selectedSubGoals?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  currentLanguage: Scalars['String']['input'];
+}>;
+
+
+export type GetRecommendationForSubGoalsQuery = { __typename?: 'Query', recommendationForSubGoals: { __typename?: 'RecommendationFailure', errorType: RecommendationFailureType } | { __typename?: 'RecommendationSuccess', recommendations: Array<{ __typename?: 'Recommendation', text: string }> } };
 
 export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -312,16 +445,8 @@ export type VerifyEmailMutationVariables = Exact<{
 
 export type VerifyEmailMutation = { __typename?: 'Mutation', verifyEmail: { __typename?: 'VerifyEmailFailure', errorType: VerifyEmailFailureType } | { __typename?: 'VerifyEmailSuccess', success: boolean } };
 
-export type GetRecommendationForSubGoalsQueryVariables = Exact<{
-  mainGoal: Scalars['String']['input'];
-  selectedSubGoals?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
-  currentLanguage: Scalars['String']['input'];
-}>;
 
-
-export type GetRecommendationForSubGoalsQuery = { __typename?: 'Query', recommendationForSubGoals: { __typename?: 'RecommendationFailure', errorType: RecommendationFailureType } | { __typename?: 'RecommendationSuccess', recommendations: Array<{ __typename?: 'Recommendation', text: string }> } };
-
-
+export const GetRecommendationForSubGoalsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetRecommendationForSubGoals"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mainGoal"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"selectedSubGoals"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"currentLanguage"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recommendationForSubGoals"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"mainGoal"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mainGoal"}}},{"kind":"Argument","name":{"kind":"Name","value":"selectedSubGoals"},"value":{"kind":"Variable","name":{"kind":"Name","value":"selectedSubGoals"}}},{"kind":"Argument","name":{"kind":"Name","value":"currentLanguage"},"value":{"kind":"Variable","name":{"kind":"Name","value":"currentLanguage"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"RecommendationSuccess"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recommendations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"RecommendationFailure"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"errorType"}}]}}]}}]}}]} as unknown as DocumentNode<GetRecommendationForSubGoalsQuery, GetRecommendationForSubGoalsQueryVariables>;
 export const SignOutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SignOut"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signOut"}}]}}]} as unknown as DocumentNode<SignOutMutation, SignOutMutationVariables>;
 export const DeleteAccountDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteAccount"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteAccount"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteAccountSuccess"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteAccountFailure"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"errorType"}}]}}]}}]}}]} as unknown as DocumentNode<DeleteAccountMutation, DeleteAccountMutationVariables>;
 export const FindPasswordDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"FindPassword"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findPassword"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"FindPasswordSuccess"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"FindPasswordFailure"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"errorType"}}]}}]}}]}}]} as unknown as DocumentNode<FindPasswordMutation, FindPasswordMutationVariables>;
@@ -329,4 +454,3 @@ export const ResetPasswordDocument = {"kind":"Document","definitions":[{"kind":"
 export const SignInDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SignIn"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"keepSignedIn"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signIn"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}},{"kind":"Argument","name":{"kind":"Name","value":"keepSignedIn"},"value":{"kind":"Variable","name":{"kind":"Name","value":"keepSignedIn"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SignInSuccess"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"nickname"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"emailVerification"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isVerified"}},{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"expiresAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"resetPassword"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"expiresAt"}},{"kind":"Field","name":{"kind":"Name","value":"isVerified"}}]}},{"kind":"Field","name":{"kind":"Name","value":"purchasedInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isPurchased"}},{"kind":"Field","name":{"kind":"Name","value":"purchasedAt"}},{"kind":"Field","name":{"kind":"Name","value":"expiresAt"}}]}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SignInFailure"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"errorType"}}]}}]}}]}}]} as unknown as DocumentNode<SignInMutation, SignInMutationVariables>;
 export const SignUpDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SignUp"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"passwordConfirm"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"nickname"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signUp"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}},{"kind":"Argument","name":{"kind":"Name","value":"passwordConfirm"},"value":{"kind":"Variable","name":{"kind":"Name","value":"passwordConfirm"}}},{"kind":"Argument","name":{"kind":"Name","value":"nickname"},"value":{"kind":"Variable","name":{"kind":"Name","value":"nickname"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SignUpSuccess"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isMailSent"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SignUpFailure"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"errorType"}}]}}]}}]}}]} as unknown as DocumentNode<SignUpMutation, SignUpMutationVariables>;
 export const VerifyEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"VerifyEmail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"token"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verifyEmail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"token"},"value":{"kind":"Variable","name":{"kind":"Name","value":"token"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"VerifyEmailSuccess"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"VerifyEmailFailure"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"errorType"}}]}}]}}]}}]} as unknown as DocumentNode<VerifyEmailMutation, VerifyEmailMutationVariables>;
-export const GetRecommendationForSubGoalsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetRecommendationForSubGoals"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mainGoal"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"selectedSubGoals"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"currentLanguage"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recommendationForSubGoals"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"mainGoal"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mainGoal"}}},{"kind":"Argument","name":{"kind":"Name","value":"selectedSubGoals"},"value":{"kind":"Variable","name":{"kind":"Name","value":"selectedSubGoals"}}},{"kind":"Argument","name":{"kind":"Name","value":"currentLanguage"},"value":{"kind":"Variable","name":{"kind":"Name","value":"currentLanguage"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"RecommendationSuccess"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recommendations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"RecommendationFailure"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"errorType"}}]}}]}}]}}]} as unknown as DocumentNode<GetRecommendationForSubGoalsQuery, GetRecommendationForSubGoalsQueryVariables>;

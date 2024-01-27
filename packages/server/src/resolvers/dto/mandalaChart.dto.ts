@@ -110,20 +110,20 @@ export const CreateMandalaChartResponse = createUnionType({
 })
 
 @InputType()
-export class UpdateMandalaChartInput {
+export class UpdateMandalaChartInput extends CreateMandalaChartInput {
   @Field(() => ID)
   mandalaChartId: string
 
-  @Field({ nullable: true })
+  @Field()
   title: string
 
   @Field({ nullable: true })
   description?: string
 
-  @Field({ nullable: true })
+  @Field()
   private: boolean
 
-  @Field(() => MandalaCellInput, { nullable: true })
+  @Field(() => MandalaCellInput)
   centerCell: MandalaCellInput
 
   @Field(() => [MandalaCellInput], { nullable: 'itemsAndList' })

@@ -1,7 +1,9 @@
 import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
+import useI18n from '@/hooks/useI18n'
 import useModal from '@/hooks/useModal'
 import TextInputModal from '../Modal/TextInput'
+import TRANSLATIONS from './MandalaChart.i18n'
 
 export enum SquareType {
   DISPLAY = 'DISPLAY',
@@ -24,7 +26,7 @@ export interface ManualSquareProps {
   squareIndex: number
   isGridValid: boolean
   placeHolder?: string
-  handleGridValue: (
+  handleSquareValueManually: (
     gridIndex: number,
     squareIndex: number,
     newValue: string
@@ -38,18 +40,19 @@ export interface AISquareProps {
   squareIndex: number
   isGridValid: boolean
   placeHolder?: string
-  handleGridValueOnAIMode: (gridIndex: number, squareIndex: number) => void
+  handleSquareValueOnAIMode: (gridIndex: number, squareIndex: number) => void
 }
 
 export type SquareProps = DisplaySquareProps | ManualSquareProps | AISquareProps
 
 const Square = (props: SquareProps) => {
   const { type, value, gridIndex, squareIndex, isGridValid } = props
+  const { getTranslation } = useI18n()
+  const translation = getTranslation(TRANSLATIONS)
 
-  // ManualSquareProps
   const setSquareValue = (newValue: string) => {
     if (type === SquareType.MANUAL)
-      props.handleGridValue(gridIndex, squareIndex, newValue)
+      props.handleSquareValueManually(gridIndex, squareIndex, newValue)
   }
   const {
     openModal: openTextInputModal,
@@ -64,7 +67,7 @@ const Square = (props: SquareProps) => {
 
   const onClickSquare = () => {
     if (type === SquareType.AI) {
-      props.handleGridValueOnAIMode(gridIndex, squareIndex)
+      props.handleSquareValueOnAIMode(gridIndex, squareIndex)
     } else {
       // TODO: useModal에 들어가는 modalProps가 변경이 되지 않아 open시에 넣어주는 방식으로 우선 적용
       openTextInputModal({ state: value })
@@ -76,7 +79,7 @@ const Square = (props: SquareProps) => {
   const { themeStyle } = useTheme()
   const { isMobile } = useEntryContext()
 
-  const textBold = isCenterSquare ? 'font-bold' : ''
+  const textStyle = isCenterSquare ? 'font-bold text-lg' : ''
 
   const textColor = !isCenterSquare
     ? themeStyle.defualtTextColor
@@ -84,10 +87,30 @@ const Square = (props: SquareProps) => {
       ? themeStyle.centerGridCenterSquareTextColor
       : themeStyle.edgeGridCenterSquareTextColor
 
-  const placeHolder =
-    type === SquareType.MANUAL || type === SquareType.AI
-      ? props.placeHolder
-      : ''
+  const getSquarePlaceHolder = () => {
+    if (type === SquareType.DISPLAY) return ''
+    if (isCenterGrid && isCenterSquare) return translation('mainGoal')
+    if (isCenterGrid && !isCenterSquare)
+      return `${translation('subGoal')} ${
+        squareIndex < 4 ? squareIndex + 1 : squareIndex
+      }`
+    if (!isCenterGrid && isCenterSquare)
+      return `${translation('subGoal')} ${
+        gridIndex < 4 ? gridIndex + 1 : gridIndex
+      }`
+    return ''
+  }
+
+  const getTextOpacity = () => {
+    if (!value) {
+      if (isCenterSquare) return 'text-opacity-50'
+      if (isCenterGrid) return 'text-opacity-25'
+    }
+    return ''
+  }
+
+  const placeHolder = getSquarePlaceHolder()
+  const opacity = getTextOpacity()
 
   return (
     <div
@@ -101,14 +124,8 @@ const Square = (props: SquareProps) => {
       <span
         className={`w-full max-h-${
           isMobile ? '20' : '24'
-        } text-center ${textColor} ${textBold} p-0 inline-block focus:outline-none
-        ${
-          !value && placeHolder !== ''
-            ? squareIndex === 4
-              ? 'text-opacity-75'
-              : 'text-opacity-25'
-            : ''
-        }
+        } text-center ${textColor} ${textStyle} p-0 inline-block focus:outline-none
+        ${opacity}
           ${isCenterGrid && isCenterSquare && 'main-goal'}
         `}
         style={{ whiteSpace: 'pre-wrap' }}
