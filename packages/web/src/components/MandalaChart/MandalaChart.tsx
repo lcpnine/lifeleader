@@ -101,6 +101,8 @@ const MandalaChart = ({
     >
       <div className="grid grid-cols-3 gap-3 w-max">
         {wholeGridValues.map((values, gridIndex) => {
+          const isGridValid =
+            gridIndex === 4 ? true : wholeGridValues[4][gridIndex] !== ''
           return (
             <div key={gridIndex} className="grid grid-cols-3 gap-1 w-max">
               {values.map((value, suqareIndex) => {
@@ -108,10 +110,10 @@ const MandalaChart = ({
                   <Square
                     key={suqareIndex}
                     type={isAIModeOn ? SquareType.AI : SquareType.MANUAL}
+                    isGridValid={isGridValid}
                     value={value}
                     handleGridValue={handleGridValue}
                     handleGridValueOnAIMode={handleGridValueOnAIMode}
-                    isGridValid={true}
                     gridIndex={gridIndex}
                     squareIndex={suqareIndex}
                   />
