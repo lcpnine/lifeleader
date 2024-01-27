@@ -2,7 +2,6 @@ import DisplayingFullViewMandalaChart from '@/components/MandalaChart/Displaying
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
 import Recommendations from '@/components/Recommend/Recommendations'
-import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
 import { useUserContext } from '@/contexts/UserContext'
 import useI18n from '@/hooks/useI18n'
 import { recommendationCardVar } from '@/hooks/useRecommendationCard'
@@ -125,7 +124,12 @@ const Home = () => {
           />
         </div>
         <div className="pt-4">
-          <ScreenshotButton takeScreenShot={takeScreenShot} />
+          <button
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+            onClick={takeScreenShot}
+          >
+            {translation('downloadImage')}
+          </button>
         </div>
       </div>
       {isShowingAIRecommendation && (
