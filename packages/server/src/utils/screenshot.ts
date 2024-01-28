@@ -1,11 +1,18 @@
 import puppeteer from 'puppeteer'
 
+interface Args {
+  styleSheet: string
+  width: number
+  height: number
+}
+
 export const captureScreenshot = async (
   htmlContent: string,
-  styleSheet: string
+  { styleSheet, width, height }: Args
 ) => {
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
+  await page.setViewport({ width, height, deviceScaleFactor: 2 })
 
   const htmlWithTailwind = `
     <html>

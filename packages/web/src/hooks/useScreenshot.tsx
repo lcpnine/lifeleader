@@ -47,11 +47,15 @@ const useScreenShot = ({ component }: Props) => {
 
     if (screenshotRoot) {
       screenshotRoot.classList.remove('hidden')
+      const width = screenshotRoot.offsetWidth
+      const height = screenshotRoot.offsetHeight
 
       const res = await axios.post(
         '/screenshot',
         {
           html: html,
+          width: width,
+          height: height,
         },
         {
           responseType: 'blob',

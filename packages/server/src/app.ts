@@ -54,7 +54,12 @@ const startApp = async () => {
   app.post('/screenshot', async (req, res) => {
     try {
       const htmlContent = req.body.html
-      const screenshotBuffer = await captureScreenshot(htmlContent, styleSheet)
+      const { width, height } = req.body
+      const screenshotBuffer = await captureScreenshot(htmlContent, {
+        styleSheet,
+        width,
+        height,
+      })
       res.writeHead(200, { 'Content-Type': 'image/png' })
       res.end(screenshotBuffer, 'binary')
     } catch (error) {
