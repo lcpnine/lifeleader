@@ -1,5 +1,6 @@
 const TRANSLATIONS = {
   en: {
+    Notice: 'AI recommendation feature will be available in early February.',
     WelcomeToLifeLeader: 'Welcome to Life Leader',
     WelcomingParagraph:
       "At Life Leader, we're dedicated to providing tools that not only help you visualize your goals but also support you in achieving your dreams. With our latest offerings, including the insightful Mandala Chart and an AI recommendation system powered by GPT-4, we aim to guide you on your journey to success.",
@@ -25,6 +26,7 @@ const TRANSLATIONS = {
     AlreadyRegisteredSignIn: 'Registered already? Sign in to your account.',
   },
   ko: {
+    Notice: 'AI 추천 기능은 2월 초에 제공될 예정입니다.',
     WelcomeToLifeLeader: 'Life Leader에 오신 것을 환영합니다',
     WelcomingParagraph:
       'Life Leader는 목표를 시각화하고 꿈을 실현하는 데 도움이 되는 도구를 제공하는 데 전념하고 있습니다. 현재는 만다라 차트 및 차트 작성에 도움을 주는 GPT-4 기반의 AI 추천 시스템을 제공하고 있습니다.',
@@ -50,6 +52,7 @@ const TRANSLATIONS = {
     AlreadyRegisteredSignIn: '이미 등록하셨나요? 계정에 로그인하세요.',
   },
   'zh-Hant': {
+    Notice: 'AI 推薦功能將在二月初提供。',
     WelcomeToLifeLeader: '歡迎來到 Life Leader',
     WelcomingParagraph:
       '在 Life Leader，我們致力於提供不僅幫助您實現目標可視化，而且支持您實現夢想的工具。通過我們的最新產品，包括富有洞察力的曼陀羅圖和由 GPT-4 驅動的 AI 推薦系統，我們旨在引導您走向成功之路。',
