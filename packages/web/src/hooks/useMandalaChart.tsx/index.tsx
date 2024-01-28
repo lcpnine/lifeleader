@@ -10,14 +10,19 @@ import { useLoading } from '@/contexts/LoadingContext'
 import useI18n from '@/hooks/useI18n'
 import { recommendationCardVar } from '@/hooks/useRecommendationCard'
 import useScreenShot from '@/hooks/useScreenshot'
-import { useReactiveVar } from '@apollo/client'
+import { gql, useMutation, useReactiveVar } from '@apollo/client'
 import {
   CloudIcon,
   PencilSquareIcon,
   PhotoIcon,
 } from '@heroicons/react/24/outline'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { CreateMandalaChartInput } from '../../../gql/graphql'
+import {
+  CreateMandalaChartDocument,
+  CreateMandalaChartInput,
+  UpdateMandalaChartDocument,
+} from '../../../gql/graphql'
 import { deepCopy } from '../../../utils/common'
 import useAIRecommendation from '../useAIRecommendation'
 import useModal from '../useModal'
@@ -38,12 +43,19 @@ const DEFAULT_WHOLE_GRID_VALUES: CreateMandalaChartInput = {
 }
 
 const useMandalaChart = () => {
+  const router = useRouter()
   const { openAlert } = useAlert()
   const [wholeGridValues, setWholeGridValues] =
     useState<CreateMandalaChartInput>(DEFAULT_WHOLE_GRID_VALUES)
   const mainGoal = wholeGridValues.centerCell.goal
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
+  const [createMandalaChart] = useMutation(CreateMandalaChartDocument, {
+    variables: {
+      input: wholeGridValues,
+    },
+  })
+  const [updateMandalaChart] = useMutation(UpdateMandalaChartDocument)
 
   const { takeScreenShot, ScreenShotComponent } = useScreenShot({
     component: (
@@ -75,7 +87,21 @@ const useMandalaChart = () => {
   }
 
   const handleSaveChartClick = () => {
-    alert('Save chart clicked')
+    const chartId = router.query.chartId as string | undefined
+    chartId
+      ? updateMandalaChart({
+          variables: {
+            input: {
+              mandalaChartId: chartId as string,
+              ...wholeGridValues,
+            },
+          },
+        })
+      : createMandalaChart({
+          variables: {
+            input: wholeGridValues,
+          },
+        })
   }
 
   const handleAIMode = () => {
@@ -291,5 +317,35 @@ const useMandalaChart = () => {
     setWholeGridValues,
   }
 }
+
+const CREATE_MANDALA_CHART_MUTATION = gql`
+  mutation CreateMandalaChart($input: CreateMandalaChartInput!) {
+    createMandalaChart(input: $input) {
+      ... on CreateMandalaChartSuccess {
+        mandalaChart {
+          _id
+        }
+      }
+      ... on CreateMandalaChartFailure {
+        errorType
+      }
+    }
+  }
+`
+
+const UPDATE_MANDALA_CHART_MUTATION = gql`
+  mutation UpdateMandalaChart($input: UpdateMandalaChartInput!) {
+    updateMandalaChart(input: $input) {
+      ... on UpdateMandalaChartSuccess {
+        mandalaChart {
+          _id
+        }
+      }
+      ... on UpdateMandalaChartFailure {
+        errorType
+      }
+    }
+  }
+`
 
 export default useMandalaChart

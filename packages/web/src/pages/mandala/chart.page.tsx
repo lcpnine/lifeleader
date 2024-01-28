@@ -134,34 +134,4 @@ const GET_MANDALA_CHART_QUERY = gql`
   }
 `
 
-const CREATE_MANDALA_CHART_MUTATION = gql`
-  mutation CreateMandalaChart($input: CreateMandalaChartInput!) {
-    createMandalaChart(input: $input) {
-      ... on CreateMandalaChartSuccess {
-        mandalaChart {
-          _id
-        }
-      }
-      ... on CreateMandalaChartFailure {
-        errorType
-      }
-    }
-  }
-`
-
-const UPDATE_MANDALA_CHART_MUTATION = gql`
-  mutation UpdateMandalaChart($input: UpdateMandalaChartInput!) {
-    updateMandalaChart(input: $input) {
-      ... on UpdateMandalaChartSuccess {
-        mandalaChart {
-          _id
-        }
-      }
-      ... on UpdateMandalaChartFailure {
-        errorType
-      }
-    }
-  }
-`
-
 export default MandalaChartPage
