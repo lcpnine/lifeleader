@@ -85,7 +85,7 @@ export class MandalaChartResolver {
       return { errorType: CreateMandalaChartFailureType.INVALID_INPUT }
     }
     const mandalaChart = await MandalaChartModel.create({ ...input, userId })
-    return { _id: mandalaChart._id }
+    return { mandalaChart: mandalaChart.toJSON() as MandalaChart }
   }
 
   @Mutation(() => UpdateMandalaChartResponse)
@@ -112,13 +112,13 @@ export class MandalaChartResolver {
       return { errorType: UpdateMandalaChartFailureType.UNAUTHORIZED_ACCESS }
     }
 
-    const updatedChart = (await MandalaChartModel.findByIdAndUpdate(
+    const updatedChart = await MandalaChartModel.findByIdAndUpdate(
       input.mandalaChartId,
       { ...input, updatedAt: Date.now() },
       { new: true }
-    )) as MandalaChart
+    )
 
-    return { _id: updatedChart._id }
+    return { mandalaChart: updatedChart?.toJSON() as MandalaChart }
   }
 
   @Mutation(() => DeleteMandalaChartResponse)

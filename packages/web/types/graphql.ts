@@ -40,7 +40,7 @@ export type CreateMandalaChartResponse = CreateMandalaChartFailure | CreateManda
 
 export type CreateMandalaChartSuccess = {
   __typename?: 'CreateMandalaChartSuccess';
-  _id: Scalars['ID']['output'];
+  mandalaChart: MandalaChart;
 };
 
 export type DeleteAccountFailure = {
@@ -377,7 +377,7 @@ export type UpdateMandalaChartResponse = UpdateMandalaChartFailure | UpdateManda
 
 export type UpdateMandalaChartSuccess = {
   __typename?: 'UpdateMandalaChartSuccess';
-  _id: Scalars['ID']['output'];
+  mandalaChart: MandalaChart;
 };
 
 export type User = {

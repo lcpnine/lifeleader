@@ -3,9 +3,9 @@ export type CreateMandalaChartFailureKeySpecifier = ('errorType' | CreateMandala
 export type CreateMandalaChartFailureFieldPolicy = {
 	errorType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CreateMandalaChartSuccessKeySpecifier = ('_id' | CreateMandalaChartSuccessKeySpecifier)[];
+export type CreateMandalaChartSuccessKeySpecifier = ('mandalaChart' | CreateMandalaChartSuccessKeySpecifier)[];
 export type CreateMandalaChartSuccessFieldPolicy = {
-	_id?: FieldPolicy<any> | FieldReadFunction<any>
+	mandalaChart?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type DeleteAccountFailureKeySpecifier = ('errorType' | DeleteAccountFailureKeySpecifier)[];
 export type DeleteAccountFailureFieldPolicy = {
@@ -139,9 +139,9 @@ export type UpdateMandalaChartFailureKeySpecifier = ('errorType' | UpdateMandala
 export type UpdateMandalaChartFailureFieldPolicy = {
 	errorType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UpdateMandalaChartSuccessKeySpecifier = ('_id' | UpdateMandalaChartSuccessKeySpecifier)[];
+export type UpdateMandalaChartSuccessKeySpecifier = ('mandalaChart' | UpdateMandalaChartSuccessKeySpecifier)[];
 export type UpdateMandalaChartSuccessFieldPolicy = {
-	_id?: FieldPolicy<any> | FieldReadFunction<any>
+	mandalaChart?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type UserKeySpecifier = ('_id' | 'createdAt' | 'email' | 'emailVerification' | 'nickname' | 'purchasedInfo' | 'resetPassword' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
