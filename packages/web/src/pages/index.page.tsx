@@ -1,4 +1,20 @@
+import { SUPPORTING_LANGUAGES } from '@/constants/common.i18n'
+import useI18n from '@/hooks/useI18n'
+import Image from 'next/image'
+import EnglishMandalaChartExample from 'public/images/example/en.png'
+import KoreanMandalaChartExample from 'public/images/example/ko.png'
+import ChineseTraditioanlMandalaChartExample from 'public/images/example/zh.png'
+
 const Home = () => {
+  const { currentLanguage } = useI18n()
+  const getExampleChart = () => {
+    if (currentLanguage === SUPPORTING_LANGUAGES.ko)
+      return KoreanMandalaChartExample
+    if (currentLanguage === SUPPORTING_LANGUAGES['zh-Hant'])
+      return ChineseTraditioanlMandalaChartExample
+    return EnglishMandalaChartExample
+  }
+
   const handleCreateChartClick = () => {
     alert('Time to create your own Mandala Chart!')
   }
@@ -34,7 +50,12 @@ const Home = () => {
           breaking down complex objectives into smaller, actionable components,
           aiding in comprehensive planning and execution.
         </p>
-        {/* Comment: Insert a diagram or illustration of a basic Mandala Chart here. */}
+        <Image
+          src={getExampleChart().src}
+          width={500}
+          height={500}
+          alt="example chart"
+        />
       </section>
 
       <section className="mb-8">
