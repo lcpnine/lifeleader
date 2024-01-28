@@ -88,7 +88,6 @@ const Square = (props: SquareProps) => {
       : themeStyle.edgeGridCenterSquareTextColor
 
   const getSquarePlaceHolder = () => {
-    if (type === SquareType.DISPLAY) return ''
     if (isCenterGrid && isCenterSquare) return translation('mainGoal')
     if (isCenterGrid && !isCenterSquare)
       return `${translation('subGoal')} ${
