@@ -79,7 +79,7 @@ const MandalaChart = ({
           return (
             <div
               key={gridIndex}
-              className={`grid grid-cols-3 w-max border border-4 ${themeStyle.borderColor}`}
+              className={`grid grid-cols-3 w-max border-4 ${themeStyle.borderColor}`}
             >
               {new Array(9).fill('').map((_, suqareIndex) => {
                 const value =
