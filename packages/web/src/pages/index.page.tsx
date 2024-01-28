@@ -59,7 +59,7 @@ const Home = () => {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
           {translation('StructureOfMandalaChart')}
         </h2>
         <p className="mb-4">{translation('StructureExplanation')}</p>
@@ -74,7 +74,7 @@ const Home = () => {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
           {translation('CreatingYourMandalaChart')}
         </h2>
         <p className="mb-4">{translation('CreatingChartExplanation')}</p>
