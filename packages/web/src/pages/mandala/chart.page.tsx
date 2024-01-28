@@ -106,11 +106,11 @@ const MandalaChartPage = () => {
           {Description}
         </div>
         <div className="pt-4">{MandalaChart}</div>
-        {user.purchasedInfo.isPurchased && (
+        {/* {user.purchasedInfo.isPurchased && (
           <div className="pt-4 flex flex-col items-center justify-center">
             {AIModeSwitch}
           </div>
-        )}
+        )} */}
         <div className="pt-4">{ThemeSelector}</div>
         <div className="pt-4">{PrivateCheck}</div>
         <div className="pt-4 flex gap-2">

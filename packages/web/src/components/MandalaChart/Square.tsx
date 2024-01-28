@@ -2,6 +2,7 @@ import { useEntryContext } from '@/contexts/EntryContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import useI18n from '@/hooks/useI18n'
 import useModal from '@/hooks/useModal'
+import { useRef } from 'react'
 import TextInputModal from '../Modal/TextInput'
 import TRANSLATIONS from './MandalaChart.i18n'
 
@@ -49,6 +50,7 @@ const Square = (props: SquareProps) => {
   const { type, value, gridIndex, squareIndex, isGridValid } = props
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
+  const outlineRef = useRef<HTMLDivElement>(null)
 
   const setSquareValue = (newValue: string) => {
     if (type === SquareType.MANUAL)
@@ -63,12 +65,19 @@ const Square = (props: SquareProps) => {
       state: value,
       setState: setSquareValue,
     },
+    onModalClose: () => {
+      outlineRef.current?.classList.remove('border-4')
+      outlineRef.current?.classList.remove(themeStyle.highlightBorder)
+    },
   })
 
   const onClickSquare = () => {
+    if (!isGridValid) return
     if (type === SquareType.AI) {
       props.handleSquareValueOnAIMode(gridIndex, squareIndex)
     } else {
+      outlineRef.current?.classList.add('border-4')
+      outlineRef.current?.classList.add(themeStyle.highlightBorder)
       // TODO: useModal에 들어가는 modalProps가 변경이 되지 않아 open시에 넣어주는 방식으로 우선 적용
       openTextInputModal({ state: value })
     }
@@ -119,6 +128,7 @@ const Square = (props: SquareProps) => {
         themeStyle.backgroundColor
       } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
       onClick={() => onClickSquare()}
+      ref={outlineRef}
     >
       <span
         className={`w-full max-h-${

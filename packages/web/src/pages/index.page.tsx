@@ -51,6 +51,10 @@ const Home = () => {
         {translation('WelcomeToLifeLeader')}
       </h1>
       <p className="mb-8 text-lg">{translation('WelcomingParagraph')}</p>
+      {/* notice */}
+      <div className="bg-blue-100 border-t-4 border-blue-500 rounded-b text-blue-900 px-4 py-3 shadow-md mb-8">
+        {translation('Notice')}
+      </div>
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4 text-center">
           {translation('WhatIsMandalaChart')}
