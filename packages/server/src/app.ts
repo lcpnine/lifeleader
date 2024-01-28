@@ -14,6 +14,7 @@ import { createYoga } from 'graphql-yoga'
 import mongoose from 'mongoose'
 import createYogaConfig from './config/yoga'
 import { IS_DEV, PHASE } from './constant/common'
+import { captureScreenshot } from './utils/screenshot'
 
 const startApp = async () => {
   console.log('PHASE: ', PHASE)
@@ -43,6 +44,19 @@ const startApp = async () => {
   const yogaConfig = await createYogaConfig()
   const yoga = createYoga(yogaConfig)
   app.use('/graphql', yoga)
+
+  // for screenshot
+  app.post('/screenshot', async (req, res) => {
+    try {
+      const htmlContent = req.body.html
+      const screenshotBuffer = await captureScreenshot(htmlContent)
+      res.writeHead(200, { 'Content-Type': 'image/png' })
+      res.end(screenshotBuffer, 'binary')
+    } catch (error) {
+      console.error('Error capturing screenshot:', error)
+      res.status(500).send('Internal Server Error')
+    }
+  })
 
   const PORT = process.env.PORT || 4003
 
