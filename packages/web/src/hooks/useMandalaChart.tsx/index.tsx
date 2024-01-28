@@ -216,6 +216,8 @@ const useMandalaChart = () => {
         {translation('downloadImage')}
       </button>
     ),
+    wholeGridValues,
+    setWholeGridValues,
   }
 }
 

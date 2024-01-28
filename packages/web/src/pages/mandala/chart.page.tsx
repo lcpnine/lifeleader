@@ -1,10 +1,19 @@
 import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
+import { useLoading } from '@/contexts/LoadingContext'
 import { useUserContext } from '@/contexts/UserContext'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import useMandalaChart from '@/hooks/useMandalaChart.tsx'
+import { gql, useQuery } from '@apollo/client'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import {
+  GetMandalaChartDocument,
+  GetMandalaChartFailureType,
+} from '../../../gql/graphql'
+import { extractByTypename } from '../../../utils/typeguard'
 import TRANSLATIONS from './chart.i18n'
 
 const MandalaChartPage = () => {
@@ -14,6 +23,49 @@ const MandalaChartPage = () => {
   const translation = getTranslation(TRANSLATIONS)
   const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const { openAlert } = useAlert()
+  const router = useRouter()
+  const chartId = router.query.chartId as string
+  const { showLoading } = useLoading()
+
+  const {
+    ThemeSelector,
+    AIModeSwitch,
+    MandalaChart,
+    Recommendations,
+    ScreenShotComponent,
+    SaveChartButton,
+    DownloadImageButton,
+    setWholeGridValues,
+  } = useMandalaChart()
+
+  const { data, loading } = useQuery(GetMandalaChartDocument, {
+    variables: {
+      input: { mandalaChartId: chartId },
+    },
+    onCompleted: data => {
+      const { GetMandalaChartSuccess, GetMandalaChartFailure } =
+        extractByTypename(data.getMandalaChart)
+
+      const errorType = GetMandalaChartFailure?.errorType
+      if (errorType) {
+        if (errorType === GetMandalaChartFailureType.ChartNotFound) {
+          openAlert({
+            text: commonTranslation('ChartNotFound'),
+          })
+          return goTo('/mandala/my-list')
+        }
+        if (errorType === GetMandalaChartFailureType.UnauthorizedAccess) {
+          openAlert({
+            text: commonTranslation('UnauthorizedAccess'),
+          })
+          return goTo('/mandala/my-list')
+        }
+      }
+
+      const mandalaChart = GetMandalaChartSuccess?.mandalaChart
+      if (mandalaChart) setWholeGridValues(mandalaChart)
+    },
+  })
 
   const handleLoadSavedChartClick = () => {
     if (!isSignedIn) {
@@ -25,15 +77,13 @@ const MandalaChartPage = () => {
     goTo('/mandala/my-list')
   }
 
-  const {
-    ThemeSelector,
-    AIModeSwitch,
-    MandalaChart,
-    Recommendations,
-    ScreenShotComponent,
-    SaveChartButton,
-    DownloadImageButton,
-  } = useMandalaChart()
+  useEffect(() => {
+    if (loading) {
+      showLoading(true)
+    } else {
+      showLoading(false)
+    }
+  }, [loading])
 
   return (
     <>
@@ -74,5 +124,33 @@ const MandalaChartPage = () => {
     </>
   )
 }
+
+const GET_MANDALA_CHART_QUERY = gql`
+  query GetMandalaChart($input: GetMandalaChartInput!) {
+    getMandalaChart(input: $input) {
+      ... on GetMandalaChartSuccess {
+        mandalaChart {
+          _id
+          title
+          description
+          private
+          createdAt
+          lastModifiedAt
+          centerCell {
+            goal
+            tasks
+          }
+          surroundingCells {
+            goal
+            tasks
+          }
+        }
+      }
+      ... on GetMandalaChartFailure {
+        errorType
+      }
+    }
+  }
+`
 
 export default MandalaChartPage
