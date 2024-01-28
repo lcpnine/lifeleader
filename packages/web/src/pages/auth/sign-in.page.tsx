@@ -6,6 +6,7 @@ import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import { gql, useMutation } from '@apollo/client'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { FormEventHandler, useState } from 'react'
 import { SignInDocument, SignInFailureType, User } from '../../../gql/graphql'
 import { extractByTypename } from '../../../utils/typeguard'
@@ -24,7 +25,10 @@ const SignIn = () => {
   const [keepSignedIn, setKeepSignedIn] = useState(false)
   const [signInMutation] = useMutation(SignInDocument)
 
+  const router = useRouter()
   const { goTo } = useGoTo()
+  const query = router.query
+  const nextPath = query.nextPath as string | undefined
 
   const isFormValid = email && password
 
@@ -59,6 +63,8 @@ const SignIn = () => {
 
     if (SignInSuccess?.user) {
       setUser(SignInSuccess.user as User)
+      // for the users who saved chart without login
+      if (nextPath) return goTo(nextPath, { keepParams: true, alias: nextPath })
       return goTo('/', { replace: true })
     }
   }

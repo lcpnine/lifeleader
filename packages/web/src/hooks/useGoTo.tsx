@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 interface GoToOptions {
   replace?: boolean
   params?: Record<string, string>
+  alias?: string
   keepParams?: boolean
 }
 
@@ -13,6 +14,7 @@ const useGoTo = () => {
   const goTo = (path: string, options?: GoToOptions) => {
     const params = options?.params || {}
     const keepParams = options?.keepParams || false
+    const alias = options?.alias
 
     const paramsString =
       params || (keepParams && currentParams)
@@ -21,11 +23,15 @@ const useGoTo = () => {
             .join('&')
         : ''
 
-    const newPath = path + paramsString
+    const newPath = path + (paramsString ? `?${paramsString}` : '')
 
     if (options?.replace)
-      return router.replace(newPath, undefined, { locale: router.locale })
-    router.push(newPath, undefined, { locale: router.locale })
+      return router.replace(newPath, alias, {
+        locale: router.locale,
+      })
+    router.push(newPath, alias, {
+      locale: router.locale,
+    })
   }
 
   return { goTo }

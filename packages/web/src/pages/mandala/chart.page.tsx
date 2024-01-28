@@ -1,3 +1,4 @@
+import { TEMPORARY_CHART_SESSION_KEY } from '@/constants/common'
 import { useAlert } from '@/contexts/AlertContext'
 import { useLoading } from '@/contexts/LoadingContext'
 import { useUserContext } from '@/contexts/UserContext'
@@ -23,6 +24,7 @@ const MandalaChartPage = () => {
   const { openAlert } = useAlert()
   const router = useRouter()
   const chartId = router.query.chartId as string | undefined
+  const temp = router.query.temp as string | undefined
   const { showLoading } = useLoading()
 
   const {
@@ -76,6 +78,21 @@ const MandalaChartPage = () => {
       showLoading(false)
     }
   }, [loading])
+
+  useEffect(() => {
+    const tempWholeGridValues = sessionStorage.getItem(
+      TEMPORARY_CHART_SESSION_KEY
+    )
+    if (temp === 'true' && tempWholeGridValues) {
+      openAlert({
+        text: translation('TemporarilySaved'),
+        onClose: () => {
+          setWholeGridValues(JSON.parse(tempWholeGridValues))
+        },
+      })
+      sessionStorage.removeItem(TEMPORARY_CHART_SESSION_KEY)
+    }
+  }, [])
 
   return (
     <>

@@ -4,9 +4,11 @@ import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaTheme
 import TextInputModal from '@/components/Modal/TextInput'
 import Recommendations from '@/components/Recommend/Recommendations'
 import Switch from '@/components/Switch/Switch'
+import { TEMPORARY_CHART_SESSION_KEY } from '@/constants/common'
 import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import { useLoading } from '@/contexts/LoadingContext'
+import { useUserContext } from '@/contexts/UserContext'
 import useI18n from '@/hooks/useI18n'
 import { recommendationCardVar } from '@/hooks/useRecommendationCard'
 import useScreenShot from '@/hooks/useScreenshot'
@@ -53,6 +55,7 @@ const useMandalaChart = () => {
   const mainGoal = wholeGridValues.centerCell.goal
   const { goTo } = useGoTo()
   const { getTranslation } = useI18n()
+  const { isSignedIn } = useUserContext()
   const translation = getTranslation(TRANSLATIONS)
   const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const [createMandalaChart] = useMutation(CreateMandalaChartDocument)
@@ -88,6 +91,24 @@ const useMandalaChart = () => {
   }
 
   const handleSaveChartClick = () => {
+    if (isSignedIn === false) {
+      sessionStorage.setItem(
+        TEMPORARY_CHART_SESSION_KEY,
+        JSON.stringify(wholeGridValues)
+      )
+      openAlert({
+        text: commonTranslation('NeedToSignIn'),
+        onClose: () => {
+          goTo('/auth/sign-in', {
+            params: {
+              nextPath: '/mandala/chart',
+              temp: 'true',
+            },
+          })
+        },
+      })
+      return
+    }
     if (wholeGridValues.title !== '')
       return openAlert({ text: translation('NoTitle') })
     const chartId = router.query.chartId as string | undefined
