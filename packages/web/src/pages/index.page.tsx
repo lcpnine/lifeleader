@@ -64,7 +64,7 @@ const Home = () => {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4 text-center">
+        <h2 className="text-2xl font-semibold mb-4">
           Structure of a Mandala Chart
         </h2>
         <p className="mb-4">
@@ -73,16 +73,18 @@ const Home = () => {
           goal or theme, while the eight surrounding squares represent related
           sub-goals or aspects, offering a holistic perspective.
         </p>
-        <Image
-          src={getExampleEmptyChart().src}
-          width={500}
-          height={500}
-          alt="empty chart"
-        />
+        <div className="flex justify-center">
+          <Image
+            src={getExampleEmptyChart().src}
+            width={500}
+            height={500}
+            alt="empty chart"
+          />
+        </div>
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4 text-center">
+        <h2 className="text-2xl font-semibold mb-4">
           Creating Your Mandala Chart
         </h2>
         <p className="mb-4">
@@ -91,12 +93,14 @@ const Home = () => {
           Elaborate each section with specific actions or thoughts, creating a
           detailed roadmap for your objective.
         </p>
-        <Image
-          src={getExampleChart().src}
-          width={500}
-          height={500}
-          alt="example chart"
-        />
+        <div className="flex justify-center">
+          <Image
+            src={getExampleChart().src}
+            width={500}
+            height={500}
+            alt="example chart"
+          />
+        </div>
       </section>
 
       <section className="mb-8">
