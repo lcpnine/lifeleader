@@ -5,8 +5,10 @@ import {
 import { useUserContext } from '@/contexts/UserContext'
 import useI18n from '@/hooks/useI18n'
 import useSignOut from '@/hooks/useSignOut/useSignOut'
+import { default as AUTH_TRANSLATIONS } from '@/pages/auth/auth.i18n'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import TRANSLATIONS from './layout.i18n'
 
 interface SidebarProps {
   isSidebarOpen: boolean
@@ -15,6 +17,10 @@ interface SidebarProps {
 
 const Sidebar = ({ isSidebarOpen, closeSidebar }: SidebarProps) => {
   const { currentLanguage, changeLanguage } = useI18n()
+  const { getTranslation } = useI18n()
+  const translation = getTranslation(TRANSLATIONS)
+  const authTranslation = getTranslation(AUTH_TRANSLATIONS)
+
   const { isSignedIn } = useUserContext()
   const signOut = useSignOut()
   const handleSignOut = async () => {
@@ -47,21 +53,21 @@ const Sidebar = ({ isSidebarOpen, closeSidebar }: SidebarProps) => {
             className="block px-3 py-2 rounded hover:bg-gray-100"
             onClick={closeSidebar}
           >
-            Your Charts
+            {translation('YourCharts')}
           </Link>
           <Link
             href="/mandala/chart"
             className="block px-3 py-2 rounded hover:bg-gray-100"
             onClick={closeSidebar}
           >
-            Create a New Chart
+            {translation('CreateChart')}
           </Link>
           {isSignedIn ? (
             <button
               onClick={handleSignOut}
               className="block w-full text-left px-3 py-2 rounded hover:bg-gray-100"
             >
-              Sign Out
+              {authTranslation('signOut')}
             </button>
           ) : (
             <Link
@@ -69,7 +75,7 @@ const Sidebar = ({ isSidebarOpen, closeSidebar }: SidebarProps) => {
               className="block px-3 py-2 rounded hover:bg-gray-100"
               onClick={closeSidebar}
             >
-              Sign In
+              {authTranslation('signIn')}
             </Link>
           )}
         </nav>
