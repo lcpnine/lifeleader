@@ -13,7 +13,7 @@ import express from 'express'
 import { createYoga } from 'graphql-yoga'
 import mongoose from 'mongoose'
 import createYogaConfig from './config/yoga'
-import { IS_DEV, PHASE } from './constant/common'
+import { CLIENT_URL, IS_DEV, PHASE } from './constant/common'
 import { captureScreenshot } from './utils/screenshot'
 
 const startApp = async () => {
@@ -39,6 +39,11 @@ const startApp = async () => {
     })
   )
 
+  const res = await fetch(`${CLIENT_URL}/styles.css`, {
+    method: 'GET',
+  })
+  const styleSheet = await res.text()
+
   mongoose.connect(process.env.MONGO_URI as string)
 
   const yogaConfig = await createYogaConfig()
@@ -49,7 +54,7 @@ const startApp = async () => {
   app.post('/screenshot', async (req, res) => {
     try {
       const htmlContent = req.body.html
-      const screenshotBuffer = await captureScreenshot(htmlContent)
+      const screenshotBuffer = await captureScreenshot(htmlContent, styleSheet)
       res.writeHead(200, { 'Content-Type': 'image/png' })
       res.end(screenshotBuffer, 'binary')
     } catch (error) {

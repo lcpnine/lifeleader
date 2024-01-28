@@ -1,17 +1,29 @@
 import puppeteer from 'puppeteer'
 
-export const captureScreenshot = async (htmlContent: string) => {
-  // Launch the browser
+export const captureScreenshot = async (
+  htmlContent: string,
+  styleSheet: string
+) => {
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
 
-  // Set the HTML content
-  await page.setContent(htmlContent, { waitUntil: 'networkidle0' })
+  const htmlWithTailwind = `
+    <html>
+      <head>
+        <style>
+          ${styleSheet}
+        </style>
+      </head>
+      <body>
+        ${htmlContent}
+      </body>
+    </html>
+  `
 
-  // Capture the screenshot
+  await page.setContent(htmlWithTailwind, { waitUntil: 'networkidle0' })
+
   const screenshotBuffer = await page.screenshot({ encoding: 'binary' })
 
-  // Close the browser
   await browser.close()
 
   return screenshotBuffer

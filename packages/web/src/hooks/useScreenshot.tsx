@@ -32,7 +32,18 @@ const useScreenShot = ({ component }: Props) => {
   }, [])
 
   const takeScreenShot = useCallback(async () => {
+    const head = document.head.style.cssText
     const screenshotRoot = document.getElementById(SCREENSHOT_ROOT_ID)
+    const html = `
+      <html>
+        <head>
+          ${head}
+        </head>
+        <body>
+          ${screenshotRoot?.innerHTML}
+        </body>
+      </html>
+    `
 
     if (screenshotRoot) {
       screenshotRoot.classList.remove('hidden')
@@ -40,7 +51,7 @@ const useScreenShot = ({ component }: Props) => {
       const res = await axios.post(
         '/screenshot',
         {
-          html: JSON.stringify(screenshotRoot?.innerHTML),
+          html: html,
         },
         {
           responseType: 'blob',
