@@ -11,7 +11,6 @@ import type { AppContext, AppProps } from 'next/app'
 import App from 'next/app'
 import Head from 'next/head'
 import Script from 'next/script'
-import Favicon from 'public/favicon.ico'
 import { User } from '../../gql/graphql'
 import { setupAxios } from '../../utils/axios'
 import './globals.css'
@@ -36,7 +35,7 @@ const WebApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <link rel="icon" href={Favicon.src} />
+        <link rel="icon" href="/favicon.ico" />
         <meta charSet="utf-8" />
         <meta
           name="viewport"
