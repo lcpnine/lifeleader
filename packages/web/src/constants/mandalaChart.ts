@@ -14,7 +14,7 @@ export enum MandalaTheme {
 export const MANDALA_THEMES = {
   [MandalaTheme.DEFAULT]: {
     borderColor: 'border-gray-200',
-    highlightBorder: 'border-blue-300',
+    highlightBorder: 'border-blue-700',
     backgroundColor: 'bg-white',
     defualtTextColor: 'text-black',
     centerGridCenterSquareTextColor: 'text-black',
