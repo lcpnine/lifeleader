@@ -1,5 +1,5 @@
 import { DefaultModalProps } from '@/hooks/useModal'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type TextInputModalProps = {
   state: string
@@ -12,15 +12,21 @@ const TextInputModal = ({
   closeModal,
 }: TextInputModalProps) => {
   const [inputValue, setInputValue] = useState(state)
+  const ref = useRef<HTMLInputElement>(null)
 
   const handleSave = (e: React.MouseEvent | React.KeyboardEvent) => {
     setState(inputValue)
     closeModal(e)
   }
 
+  useEffect(() => {
+    ref.current?.focus()
+  }, [])
+
   return (
     <div className="p-4 bg-white rounded-lg">
       <input
+        ref={ref}
         type="text"
         value={inputValue}
         onChange={e => setInputValue(e.target.value)}
