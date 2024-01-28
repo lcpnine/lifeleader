@@ -6,6 +6,7 @@ import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import useSignOut from '@/hooks/useSignOut/useSignOut'
 import TRANSLATIONS from '@/pages/auth/auth.i18n'
+import { Bars4Icon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import LifeLeaderIcon from 'public/logo/image-only.png'
@@ -108,7 +109,7 @@ const Header = () => {
             </>
           )}
           <button onClick={toggleSidebar} className="md:hidden">
-            Menu
+            <Bars4Icon width="32" height="32" />
           </button>
         </div>
       </header>

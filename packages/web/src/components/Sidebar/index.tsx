@@ -1,5 +1,6 @@
 import { LANGUAGE_NAMES_SHORT, SUPPORTING_LANGUAGES } from '@/constants/i18n'
 import useI18n from '@/hooks/useI18n'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
 interface SidebarProps {
@@ -23,7 +24,9 @@ const Sidebar = ({ isSidebarOpen, closeSidebar }: SidebarProps) => {
       >
         <div className="flex items-center justify-between mb-6">
           <span className="text-xl font-semibold">Navigation</span>
-          <button onClick={closeSidebar}>X</button>
+          <button onClick={closeSidebar}>
+            <XMarkIcon width="32" height="32" />
+          </button>
         </div>
 
         {/* Navigation Links */}
