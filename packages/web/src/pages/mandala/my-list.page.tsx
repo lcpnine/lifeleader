@@ -1,10 +1,10 @@
-import NoMandalaCharts from '@/components/NoContent/NoMandalaCharts'
 import { useLoading } from '@/contexts/LoadingContext'
 import { useUserContext } from '@/contexts/UserContext'
 import useGoTo from '@/hooks/useGoTo'
 import useMandalaChartDelete from '@/hooks/useMandalaChartDelete'
 import { gql, useQuery } from '@apollo/client'
 import {
+  InboxIcon,
   LockClosedIcon,
   LockOpenIcon,
   PlusCircleIcon,
@@ -40,8 +40,16 @@ const MyMandalaChartsPage = () => {
 
   const mandalaCharts = GetUserMandalaChartsSuccess?.mandalaCharts || []
 
+  const handleCreateChart = () => {
+    goTo('/mandala/chart')
+  }
+
   const handleViewChart = (mandalaChartId: string) => {
-    goTo(`/mandala/chart?id=${mandalaChartId}`)
+    goTo(`/mandala/chart`, {
+      params: {
+        _id: mandalaChartId,
+      },
+    })
   }
 
   useEffect(() => {
@@ -67,7 +75,22 @@ const MyMandalaChartsPage = () => {
         </div>
       )}
       {mandalaCharts.length === 0 ? (
-        <NoMandalaCharts />
+        <div className="text-center mt-10">
+          <InboxIcon className="mx-auto h-36 w-36 text-gray-400" />
+          <h3 className="mt-2 text-xl font-bold text-gray-900">
+            No Mandala Charts Found
+          </h3>
+          <p className="mt-1 text-sm text-gray-500">
+            Get started by creating your first Mandala chart.
+          </p>
+          <div
+            className="flex justify-center items-center text-gray-900 hover:text-blue-700 hover:cursor-pointer font-bold py-4 px-2 text-l"
+            onClick={() => goTo('/create-mandala-chart')}
+          >
+            <PlusCircleIcon className="h-5 w-5 mr-1" />
+            Create Mandala Chart
+          </div>
+        </div>
       ) : (
         <div className="flex flex-col gap-4">
           {mandalaCharts.map(chart => (
