@@ -1,4 +1,5 @@
 import {
+  COMMON_TRANSLATIONS,
   LANGUAGE_NAMES_SHORT,
   SUPPORTING_LANGUAGES,
 } from '@/constants/common.i18n'
@@ -15,14 +16,13 @@ import { useRouter } from 'next/router'
 import LifeLeaderIcon from 'public/logo/image-only.png'
 import { useState } from 'react'
 import Sidebar from './Sidebar'
-import TRANSLATIONS from './layout.i18n'
 
 const Header = () => {
   const { locale, locales } = useRouter()
   const { isMobile } = useEntryContext()
   const { changeLanguage, getTranslation } = useI18n()
   const signOut = useSignOut()
-  const translation = getTranslation(TRANSLATIONS)
+  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const authTranslation = getTranslation(AUTH_TRANSLATIONS)
   const {
     user: { nickname },
@@ -62,14 +62,14 @@ const Header = () => {
                     href="/mandala/my-list"
                     className="text-slate-100 px-3 py-1 font-bold transition duration-300 mr-2"
                   >
-                    {translation('YourCharts')}
+                    {commonTranslation('YourCharts')}
                   </Link>
                 )}
                 <Link
                   href="/mandala/chart"
                   className="text-slate-100 px-3 py-1 font-bold transition duration-300"
                 >
-                  {translation('CreateChart')}
+                  {commonTranslation('CreateChart')}
                 </Link>
               </div>
               {/* Authentication Section */}

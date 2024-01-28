@@ -1,4 +1,5 @@
 import {
+  COMMON_TRANSLATIONS,
   LANGUAGE_NAMES_SHORT,
   SUPPORTING_LANGUAGES,
 } from '@/constants/common.i18n'
@@ -8,7 +9,6 @@ import useSignOut from '@/hooks/useSignOut/useSignOut'
 import { default as AUTH_TRANSLATIONS } from '@/pages/auth/auth.i18n'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import TRANSLATIONS from './layout.i18n'
 
 interface SidebarProps {
   isSidebarOpen: boolean
@@ -18,7 +18,7 @@ interface SidebarProps {
 const Sidebar = ({ isSidebarOpen, closeSidebar }: SidebarProps) => {
   const { currentLanguage, changeLanguage } = useI18n()
   const { getTranslation } = useI18n()
-  const translation = getTranslation(TRANSLATIONS)
+  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const authTranslation = getTranslation(AUTH_TRANSLATIONS)
 
   const { isSignedIn } = useUserContext()
@@ -53,14 +53,14 @@ const Sidebar = ({ isSidebarOpen, closeSidebar }: SidebarProps) => {
             className="block px-3 py-2 rounded hover:bg-gray-100"
             onClick={closeSidebar}
           >
-            {translation('YourCharts')}
+            {commonTranslation('YourCharts')}
           </Link>
           <Link
             href="/mandala/chart"
             className="block px-3 py-2 rounded hover:bg-gray-100"
             onClick={closeSidebar}
           >
-            {translation('CreateChart')}
+            {commonTranslation('CreateChart')}
           </Link>
           {isSignedIn ? (
             <button

@@ -16,17 +16,23 @@ export const COMMON_TRANSLATIONS = {
     ServerError: 'A server error has occurred. Please try again later.',
     loading: 'Loading...',
     redirecting: 'Redirecting...',
+    YourCharts: 'Your Charts',
+    CreateChart: 'Create a new chart',
   },
   ko: {
     NeedToSignIn: '이 서비스는 로그인이 필요합니다.',
     ServerError: '서버 에러가 발생했습니다. 잠시 후 다시 시도해주세요.',
     loading: '로딩 중...',
     redirecting: '잠시 후 이동합니다...',
+    YourCharts: '내 차트',
+    CreateChart: '새 차트 만들기',
   },
   'zh-Hant': {
     NeedToSignIn: '此服務需要登入。',
     ServerError: '伺服器錯誤。請稍後再試。',
     loading: '載入中...',
     redirecting: '正在重定向...',
+    YourCharts: '您的圖表',
+    CreateChart: '創建新圖表',
   },
 }
