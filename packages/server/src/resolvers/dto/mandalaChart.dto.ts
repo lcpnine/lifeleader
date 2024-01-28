@@ -150,7 +150,7 @@ export const CreateMandalaChartResponse = createUnionType({
 @InputType()
 export class UpdateMandalaChartInput extends CreateMandalaChartInput {
   @Field(() => ID)
-  mandalaChartId: string
+  _id: string
 
   @Field()
   title: string

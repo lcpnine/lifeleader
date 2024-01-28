@@ -102,9 +102,7 @@ export class MandalaChartResolver {
     if (!isMandalaChartInputValid(input.centerCell, input.surroundingCells)) {
       return { errorType: UpdateMandalaChartFailureType.INVALID_INPUT }
     }
-    const candidateChart = await MandalaChartModel.findById(
-      input.mandalaChartId
-    )
+    const candidateChart = await MandalaChartModel.findById(input._id)
     if (!candidateChart) {
       return { errorType: UpdateMandalaChartFailureType.CHART_NOT_FOUND }
     }
@@ -113,7 +111,7 @@ export class MandalaChartResolver {
     }
 
     const updatedChart = await MandalaChartModel.findByIdAndUpdate(
-      input.mandalaChartId,
+      input._id,
       { ...input, updatedAt: Date.now() },
       { new: true }
     )

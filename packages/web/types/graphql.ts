@@ -365,9 +365,9 @@ export enum UpdateMandalaChartFailureType {
 }
 
 export type UpdateMandalaChartInput = {
+  _id: Scalars['ID']['input'];
   centerCell: MandalaCellInput;
   description?: InputMaybe<Scalars['String']['input']>;
-  mandalaChartId: Scalars['ID']['input'];
   private: Scalars['Boolean']['input'];
   surroundingCells?: InputMaybe<Array<InputMaybe<MandalaCellInput>>>;
   title: Scalars['String']['input'];
