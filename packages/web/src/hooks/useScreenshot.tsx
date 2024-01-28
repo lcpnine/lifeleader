@@ -1,5 +1,6 @@
 import { IS_SSR } from '@/constants/common'
-import html2canvas from 'html2canvas'
+import axios from 'axios'
+import fileSaver from 'file-saver'
 import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -30,26 +31,25 @@ const useScreenShot = ({ component }: Props) => {
     }
   }, [])
 
-  const takeScreenShot = useCallback(() => {
+  const takeScreenShot = useCallback(async () => {
     const screenshotRoot = document.getElementById(SCREENSHOT_ROOT_ID)
 
     if (screenshotRoot) {
       screenshotRoot.classList.remove('hidden')
-      html2canvas(screenshotRoot)
-        .then(canvas => {
-          const image = canvas.toDataURL('image/png')
 
-          const link = document.createElement('a')
-          link.download = 'mandala_chart.png'
-          link.href = image
-          link.click()
-        })
-        .catch(err => {
-          console.error('Error taking screenshot:', err)
-        })
-        .finally(() => {
-          screenshotRoot.classList.add('hidden')
-        })
+      const res = await axios.post(
+        '/screenshot',
+        {
+          html: JSON.stringify(screenshotRoot?.innerHTML),
+        },
+        {
+          responseType: 'blob',
+          responseEncoding: 'binary',
+        }
+      )
+
+      const blob = new Blob([res.data], { type: 'image/png' })
+      fileSaver.saveAs(blob, 'mandala_chart.png')
     }
   }, [])
 
