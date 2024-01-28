@@ -327,7 +327,7 @@ const useMandalaChart = () => {
       <>
         <div className="font-bold pb-2">AI Mode</div>
         <Switch isSwitchOn={isAIModeOn} handleSwitch={handleAIMode} />
-        <p className="text-xs pt-2">{translation('aiModeDescription')}</p>
+        <p className="text-xs pt-2">{translation('AiModeDescription')}</p>
       </>
     ),
     MandalaChart: (

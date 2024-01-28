@@ -19,7 +19,7 @@ const themeIcons = {
 const MandalaThemeSelector = () => {
   const { theme, setTheme } = useTheme()
   const { getTranslation } = useI18n()
-  const trasnlate = getTranslation(TRANSLATIONS)
+  const translate = getTranslation(TRANSLATIONS)
   const mandalaThemes = Object.values(MandalaTheme)
   const options = mandalaThemes.map(mandalaTheme => ({
     value: mandalaTheme,
@@ -28,8 +28,16 @@ const MandalaThemeSelector = () => {
 
   return (
     <div className="relative flex flex-col items-center justify-center h-max">
-      <label htmlFor="theme" className="mb-4 font-semibold text-gray-700">
-        {trasnlate('description')}
+      <label
+        htmlFor="theme"
+        className="flex flex-col items-center mb-4 text-gray-700"
+      >
+        <p className="font-semibold mb-1 text-center">
+          {translate('Description')}
+        </p>
+        <p className="text-xs italic text-center">
+          {translate('SmallDescription')}
+        </p>
       </label>
       <select
         name="theme"
