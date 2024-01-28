@@ -38,7 +38,7 @@ const MandalaChartPage = () => {
     setWholeGridValues,
   } = useMandalaChart()
 
-  const { data, loading } = useQuery(GetMandalaChartDocument, {
+  const { loading } = useQuery(GetMandalaChartDocument, {
     variables: {
       input: { mandalaChartId: chartId as string },
     },
