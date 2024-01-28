@@ -47,7 +47,7 @@ const MyMandalaChartsPage = () => {
   const handleViewChart = (mandalaChartId: string) => {
     goTo(`/mandala/chart`, {
       params: {
-        _id: mandalaChartId,
+        chartId: mandalaChartId,
       },
     })
   }
