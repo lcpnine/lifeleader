@@ -5,20 +5,20 @@ import { useEntryContext } from '@/contexts/EntryContext'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import useSignOut from '@/hooks/useSignOut/useSignOut'
-import TRANSLATIONS from '@/pages/auth/auth.i18n'
+import { default as AUTH_TRANSLATIONS } from '@/pages/auth/auth.i18n'
 import { Bars4Icon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import LifeLeaderIcon from 'public/logo/image-only.png'
 import { useState } from 'react'
-import Sidebar from '../Sidebar'
+import Sidebar from './Sidebar'
 
 const Header = () => {
   const { locale, locales } = useRouter()
   const { isMobile } = useEntryContext()
   const { changeLanguage, getTranslation } = useI18n()
   const signOut = useSignOut()
-  const translation = getTranslation(TRANSLATIONS)
+  const authTranslation = getTranslation(AUTH_TRANSLATIONS)
   const {
     user: { nickname },
     isSignedIn,
@@ -77,7 +77,7 @@ const Header = () => {
                     onClick={handleSignOut}
                     className="bg-blue-500 text-white px-3 py-1 text-sm rounded hover:bg-blue-600 transition duration-300"
                   >
-                    {translation('signOut')}
+                    {authTranslation('signOut')}
                   </button>
                 </div>
               ) : (
@@ -85,7 +85,7 @@ const Header = () => {
                   href="/auth/sign-in"
                   className="bg-blue-500 text-white px-3 py-1 text-sm rounded hover:bg-blue-600 transition duration-300 mr-4"
                 >
-                  {translation('signIn')}
+                  {authTranslation('signIn')}
                 </Link>
               )}
               {/* Language Selector */}

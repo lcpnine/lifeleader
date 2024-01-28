@@ -1,5 +1,5 @@
-import Footer from '@/components/Footer/Footer'
-import Header from '@/components/Header/Header'
+import Footer from '@/components/Layout/Footer'
+import Header from '@/components/Layout/Header'
 import { SCREENSHOT_ROOT_ID } from '@/hooks/useScreenshot'
 import { Analytics } from '@vercel/analytics/react'
 import { ReactNode } from 'react'
