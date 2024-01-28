@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"next dev\" \"yarn gen --watch\"",
-    "build": "build:tailwind && next build && next-sitemap",
+    "build": "yarn build:tailwind && next build && next-sitemap",
     "build:tailwind": "tailwindcss -o public/styles.css",
     "start": "next start",
     "lint": "next lint",
