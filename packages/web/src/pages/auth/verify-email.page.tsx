@@ -2,6 +2,7 @@ import { useAlert } from '@/contexts/AlertContext'
 import { useLoading } from '@/contexts/LoadingContext'
 import useI18n from '@/hooks/useI18n'
 import { gql, useMutation } from '@apollo/client'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import {
@@ -15,7 +16,7 @@ const VerifyEmailPage = () => {
   const router = useRouter()
   const { token } = router.query
   const { openAlert } = useAlert()
-  const { getTranslation } = useI18n()
+  const { getTranslation, metaTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
   const [verifyEmailMutation, { loading }] = useMutation(VerifyEmailDocument)
   const { showLoading } = useLoading()
@@ -62,11 +63,20 @@ const VerifyEmailPage = () => {
   }, [token])
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="text-lg font-semibold text-blue-600">
-        <p>{translation('onEmailVerification')}</p>
+    <>
+      <Head>
+        <title>{metaTranslation('VerifyEmailTitle')}</title>
+        <meta
+          name="description"
+          content={metaTranslation('VerifyEmailDescription')}
+        />
+      </Head>
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-lg font-semibold text-blue-600">
+          <p>{translation('onEmailVerification')}</p>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

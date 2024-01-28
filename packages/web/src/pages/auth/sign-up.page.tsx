@@ -13,7 +13,7 @@ import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
 
 const SignUp = () => {
-  const { getTranslation } = useI18n()
+  const { getTranslation, metaTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
   const { openAlert } = useAlert()
   const [useSignUpMutation] = useMutation(SignUpDocument)
@@ -65,7 +65,11 @@ const SignUp = () => {
   return (
     <>
       <Head>
-        <title>{translation('signUp')}</title>
+        <title>{metaTranslation('SignUpTitle')}</title>
+        <meta
+          name="description"
+          content={metaTranslation('SignUpDescription')}
+        />
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <form onSubmit={handleSubmit} className="w-full max-w-xs">

@@ -15,7 +15,7 @@ import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
 
 const FindPassword = () => {
-  const { getTranslation } = useI18n()
+  const { getTranslation, metaTranslation } = useI18n()
   const { showLoading } = useLoading()
   const translation = getTranslation(TRANSLATIONS)
   const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
@@ -59,7 +59,11 @@ const FindPassword = () => {
   return (
     <>
       <Head>
-        <title>{translation('findPassword')}</title>
+        <title>{metaTranslation('FindPasswordTitle')}</title>
+        <meta
+          name="description"
+          content={metaTranslation('FindPasswordDescription')}
+        />
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <form onSubmit={handleSubmit} className="w-full max-w-xs">

@@ -14,7 +14,7 @@ import TRANSLATIONS from './auth.i18n'
 import AuthLink, { AuthPage } from './authLink'
 
 const SignIn = () => {
-  const { getTranslation } = useI18n()
+  const { getTranslation, metaTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
   const { setUser } = useUserContext()
   const { openAlert } = useAlert()
@@ -72,7 +72,11 @@ const SignIn = () => {
   return (
     <>
       <Head>
-        <title>{translation('signIn')}</title>
+        <title>{metaTranslation('SignInTitle')}</title>
+        <meta
+          name="description"
+          content={metaTranslation('SignInDescription')}
+        />
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <form onSubmit={handleSubmit} className="w-full max-w-xs">
