@@ -4,7 +4,6 @@ import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaTheme
 import TextInputModal from '@/components/Modal/TextInput'
 import Recommendations from '@/components/Recommend/Recommendations'
 import Switch from '@/components/Switch/Switch'
-import { IS_DEV } from '@/constants/common'
 import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import { useLoading } from '@/contexts/LoadingContext'
@@ -33,8 +32,8 @@ import useModal from '../useModal'
 import TRANSLATIONS from './useMandalaChart.i18n'
 
 const DEFAULT_WHOLE_GRID_VALUES: CreateMandalaChartInput = {
-  title: IS_DEV ? 'Test Title' : '',
-  description: IS_DEV ? 'Test Description' : '',
+  title: '',
+  description: '',
   private: false,
   centerCell: {
     goal: '',
