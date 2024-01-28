@@ -93,10 +93,7 @@ const useMandalaChart = () => {
     chartId
       ? updateMandalaChart({
           variables: {
-            input: {
-              mandalaChartId: chartId as string,
-              ...wholeGridValues,
-            },
+            input: { ...wholeGridValues, _id: chartId },
           },
         })
       : createMandalaChart({
