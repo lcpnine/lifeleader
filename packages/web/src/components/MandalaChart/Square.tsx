@@ -66,6 +66,7 @@ const Square = (props: SquareProps) => {
   })
 
   const onClickSquare = () => {
+    if (!isGridValid) return
     if (type === SquareType.AI) {
       props.handleSquareValueOnAIMode(gridIndex, squareIndex)
     } else {
