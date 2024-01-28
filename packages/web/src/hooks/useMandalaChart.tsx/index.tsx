@@ -109,7 +109,7 @@ const useMandalaChart = () => {
       })
       return
     }
-    if (wholeGridValues.title !== '')
+    if (wholeGridValues.title === '')
       return openAlert({ text: translation('NoTitle') })
     const chartId = router.query.chartId as string | undefined
     chartId
