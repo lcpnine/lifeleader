@@ -35,7 +35,7 @@ const MandalaChartPage = () => {
     ScreenShotComponent,
     SaveChartButton,
     DownloadImageButton,
-    wholeGridValues,
+    PrivateCheck,
     setWholeGridValues,
   } = useMandalaChart()
 
@@ -95,6 +95,7 @@ const MandalaChartPage = () => {
           </div>
         )}
         <div className="pt-4">{ThemeSelector}</div>
+        <div className="pt-4">{PrivateCheck}</div>
         <div className="pt-4 flex gap-2">
           {SaveChartButton}
           {DownloadImageButton}

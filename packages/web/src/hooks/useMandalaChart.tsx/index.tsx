@@ -256,6 +256,13 @@ const useMandalaChart = () => {
     })
   }
 
+  const handlePrivateCheck = () => {
+    setWholeGridValues(prevGridValue => ({
+      ...prevGridValue,
+      private: !prevGridValue.private,
+    }))
+  }
+
   const {
     openModal: openTitleInputModal,
     ModalComponent: TitleInputModalComponent,
@@ -365,6 +372,16 @@ const useMandalaChart = () => {
         <PhotoIcon className="h-5 w-5 mr-2" />
         {translation('downloadImage')}
       </button>
+    ),
+    PrivateCheck: (
+      <div className="flex items-center">
+        <p className="text-xs pr-2">{translation('Private')}</p>
+        <input
+          type="checkbox"
+          checked={wholeGridValues.private}
+          onChange={handlePrivateCheck}
+        />
+      </div>
     ),
     wholeGridValues,
     setWholeGridValues,
