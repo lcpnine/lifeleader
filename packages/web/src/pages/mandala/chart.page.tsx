@@ -24,7 +24,7 @@ const MandalaChartPage = () => {
   const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const { openAlert } = useAlert()
   const router = useRouter()
-  const chartId = router.query.chartId as string
+  const chartId = router.query.chartId as string | undefined
   const { showLoading } = useLoading()
 
   const {
@@ -40,7 +40,7 @@ const MandalaChartPage = () => {
 
   const { data, loading } = useQuery(GetMandalaChartDocument, {
     variables: {
-      input: { mandalaChartId: chartId },
+      input: { mandalaChartId: chartId as string },
     },
     onCompleted: data => {
       const { GetMandalaChartSuccess, GetMandalaChartFailure } =
@@ -65,6 +65,7 @@ const MandalaChartPage = () => {
       const mandalaChart = GetMandalaChartSuccess?.mandalaChart
       if (mandalaChart) setWholeGridValues(mandalaChart)
     },
+    skip: chartId === undefined,
   })
 
   const handleLoadSavedChartClick = () => {
