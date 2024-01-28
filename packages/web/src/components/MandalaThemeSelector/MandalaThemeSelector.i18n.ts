@@ -1,15 +1,15 @@
 const TRANSLATIONS = {
   en: {
-    description: 'Select a theme to personalize your Mandala Chart',
+    Description: 'Select a theme to personalize your Mandala Chart',
+    SmallDescription: "Selected Theme won't be saved",
   },
   ko: {
-    description: '원하는 테마를 선택해보세요',
+    Description: '원하는 테마를 선택해보세요',
+    SmallDescription: '선택한 테마는 저장되지 않습니다',
   },
-  // zh: {
-  //   description: '为你的曼陀罗思考法九宫格选择个人风格',
-  // },
   'zh-Hant': {
-    description: '為你的曼陀羅思考法九宮格選擇個人風格',
+    Description: '為你的曼陀羅思考法九宮格選擇個人風格',
+    SmallDescription: '選擇的風格不會被保存',
   },
 }
 

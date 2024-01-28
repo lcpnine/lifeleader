@@ -1,25 +1,42 @@
 import DisplayingFullViewMandalaChart from '@/components/MandalaChart/DisplayingFullViewMandalaChart'
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
+import TextInputModal from '@/components/Modal/TextInput'
 import Recommendations from '@/components/Recommend/Recommendations'
 import Switch from '@/components/Switch/Switch'
-import { IS_DEV } from '@/constants/common'
+import { TEMPORARY_CHART_SESSION_KEY } from '@/constants/common'
+import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import { useLoading } from '@/contexts/LoadingContext'
+import { useUserContext } from '@/contexts/UserContext'
 import useI18n from '@/hooks/useI18n'
 import { recommendationCardVar } from '@/hooks/useRecommendationCard'
 import useScreenShot from '@/hooks/useScreenshot'
-import { useReactiveVar } from '@apollo/client'
-import { CloudIcon, PhotoIcon } from '@heroicons/react/24/outline'
+import { gql, useMutation, useReactiveVar } from '@apollo/client'
+import {
+  CloudIcon,
+  PencilSquareIcon,
+  PhotoIcon,
+} from '@heroicons/react/24/outline'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { CreateMandalaChartInput } from '../../../gql/graphql'
+import {
+  CreateMandalaChartDocument,
+  CreateMandalaChartFailureType,
+  CreateMandalaChartInput,
+  UpdateMandalaChartDocument,
+  UpdateMandalaChartFailureType,
+} from '../../../gql/graphql'
 import { deepCopy } from '../../../utils/common'
+import { extractByTypename } from '../../../utils/typeguard'
 import useAIRecommendation from '../useAIRecommendation'
+import useGoTo from '../useGoTo'
+import useModal from '../useModal'
 import TRANSLATIONS from './useMandalaChart.i18n'
 
 const DEFAULT_WHOLE_GRID_VALUES: CreateMandalaChartInput = {
-  title: IS_DEV ? 'Test Title' : '',
-  description: IS_DEV ? 'Test Description' : '',
+  title: '',
+  description: '',
   private: false,
   centerCell: {
     goal: '',
@@ -32,12 +49,18 @@ const DEFAULT_WHOLE_GRID_VALUES: CreateMandalaChartInput = {
 }
 
 const useMandalaChart = () => {
+  const router = useRouter()
   const { openAlert } = useAlert()
   const [wholeGridValues, setWholeGridValues] =
     useState<CreateMandalaChartInput>(DEFAULT_WHOLE_GRID_VALUES)
   const mainGoal = wholeGridValues.centerCell.goal
+  const { goTo } = useGoTo()
   const { getTranslation } = useI18n()
+  const { isSignedIn } = useUserContext()
   const translation = getTranslation(TRANSLATIONS)
+  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
+  const [createMandalaChart] = useMutation(CreateMandalaChartDocument)
+  const [updateMandalaChart] = useMutation(UpdateMandalaChartDocument)
 
   const { takeScreenShot, ScreenShotComponent } = useScreenShot({
     component: (
@@ -69,7 +92,131 @@ const useMandalaChart = () => {
   }
 
   const handleSaveChartClick = () => {
-    alert('Save chart clicked')
+    if (isSignedIn === false) {
+      sessionStorage.setItem(
+        TEMPORARY_CHART_SESSION_KEY,
+        JSON.stringify(wholeGridValues)
+      )
+      openAlert({
+        text: commonTranslation('NeedToSignIn'),
+        onClose: () => {
+          goTo('/auth/sign-in', {
+            params: {
+              nextPath: '/mandala/chart',
+              temp: 'true',
+            },
+          })
+        },
+      })
+      return
+    }
+    if (wholeGridValues.title === '')
+      return openAlert({ text: translation('NoTitle') })
+    const chartId = router.query.chartId as string | undefined
+    chartId
+      ? updateMandalaChart({
+          variables: {
+            input: {
+              _id: chartId,
+              title: wholeGridValues.title,
+              description: wholeGridValues.description,
+              private: wholeGridValues.private,
+              centerCell: {
+                goal: wholeGridValues.centerCell.goal,
+                tasks: wholeGridValues.centerCell.tasks,
+              },
+              surroundingCells: wholeGridValues.surroundingCells.map(
+                surroundingCell => ({
+                  goal: surroundingCell.goal,
+                  tasks: surroundingCell.tasks,
+                })
+              ),
+            },
+          },
+          onCompleted: data => {
+            const { UpdateMandalaChartSuccess, UpdateMandalaChartFailure } =
+              extractByTypename(data.updateMandalaChart)
+
+            const errorType = UpdateMandalaChartFailure?.errorType
+            if (errorType) {
+              if (errorType === UpdateMandalaChartFailureType.InvalidInput) {
+                openAlert({
+                  text: translation('InvalidInput'),
+                })
+              }
+              if (errorType === UpdateMandalaChartFailureType.NoTitle) {
+                openAlert({
+                  text: translation('NoTitle'),
+                })
+              }
+              if (
+                errorType === UpdateMandalaChartFailureType.UnauthorizedAccess
+              ) {
+                openAlert({
+                  text: commonTranslation('NeedToSignIn'),
+                })
+              }
+            }
+
+            const mandalaChart = UpdateMandalaChartSuccess?.mandalaChart
+            if (mandalaChart) {
+              openAlert({
+                text: translation('SaveChartSuccess'),
+                onClose: () => {
+                  goTo('/mandala/chart', {
+                    params: {
+                      chartId: mandalaChart._id,
+                    },
+                  })
+                },
+              })
+            }
+          },
+        })
+      : createMandalaChart({
+          variables: {
+            input: wholeGridValues,
+          },
+          onCompleted: data => {
+            const { CreateMandalaChartSuccess, CreateMandalaChartFailure } =
+              extractByTypename(data.createMandalaChart)
+
+            const errorType = CreateMandalaChartFailure?.errorType
+            if (errorType) {
+              if (errorType === CreateMandalaChartFailureType.InvalidInput) {
+                openAlert({
+                  text: translation('InvalidInput'),
+                })
+              }
+              if (errorType === CreateMandalaChartFailureType.NoTitle) {
+                openAlert({
+                  text: translation('NoTitle'),
+                })
+              }
+              if (
+                errorType === CreateMandalaChartFailureType.UnauthorizedAccess
+              ) {
+                openAlert({
+                  text: commonTranslation('NeedToSignIn'),
+                })
+              }
+            }
+
+            const mandalaChart = CreateMandalaChartSuccess?.mandalaChart
+            if (mandalaChart) {
+              openAlert({
+                text: translation('SaveChartSuccess'),
+                onClose: () => {
+                  goTo('/mandala/chart', {
+                    params: {
+                      chartId: mandalaChart._id,
+                    },
+                  })
+                },
+              })
+            }
+          },
+        })
   }
 
   const handleAIMode = () => {
@@ -171,13 +318,85 @@ const useMandalaChart = () => {
     })
   }
 
+  const handlePrivateCheck = () => {
+    setWholeGridValues(prevGridValue => ({
+      ...prevGridValue,
+      private: !prevGridValue.private,
+    }))
+  }
+
+  const {
+    openModal: openTitleInputModal,
+    ModalComponent: TitleInputModalComponent,
+  } = useModal({
+    Modal: TextInputModal,
+    modalProps: {
+      state: wholeGridValues.title,
+      setState: (newValue: string) => {
+        setWholeGridValues(prevGridValue => ({
+          ...prevGridValue,
+          title: newValue,
+        }))
+      },
+    },
+  })
+
+  const {
+    openModal: openDescriptionInputModal,
+    ModalComponent: DescriptionInputModalComponent,
+  } = useModal({
+    Modal: TextInputModal,
+    modalProps: {
+      state: wholeGridValues.description || '',
+      setState: (newValue: string) => {
+        setWholeGridValues(prevGridValue => ({
+          ...prevGridValue,
+          description: newValue,
+        }))
+      },
+    },
+  })
+
   return {
+    Title: (
+      <>
+        <h2
+          className="flex items-baseline text-3xl font-semibold text-center text-gray-700 hover:text-blue-600 hover:cursor-pointer my-4 shadow-sm"
+          onClick={() =>
+            openTitleInputModal({
+              state: wholeGridValues.title,
+            })
+          }
+        >
+          {wholeGridValues.title || translation('TitlePlaceholder')}
+          <PencilSquareIcon className="h-4 w-4 text-gray-700 hover:text-blue-600 ml-2" />
+        </h2>
+        {TitleInputModalComponent && <TitleInputModalComponent />}
+      </>
+    ),
+    Description: (
+      <>
+        <p
+          className="flex items-baseline break-words text-center text-sm text-gray-700 hover:text-blue-600 hover:cursor-pointer my-2"
+          onClick={() =>
+            openDescriptionInputModal({
+              state: wholeGridValues.description || '',
+            })
+          }
+        >
+          {wholeGridValues?.description ||
+            translation('DescriptionPlaceholder')}
+          <PencilSquareIcon className="mx-auto h-2 w-2 text-gray-700 hover:text-blue-600 ml-1" />
+        </p>
+        {DescriptionInputModalComponent && <DescriptionInputModalComponent />}
+      </>
+    ),
     ThemeSelector: <MandalaThemeSelector />,
     AIModeSwitch: (
       <>
         <div className="font-bold pb-2">AI Mode</div>
         <Switch isSwitchOn={isAIModeOn} handleSwitch={handleAIMode} />
-        <p className="text-xs pt-2">{translation('aiModeDescription')}</p>
+        <p className="text-xs pt-2">{translation('AiModeDescription')}</p>
       </>
     ),
     MandalaChart: (
@@ -216,7 +435,49 @@ const useMandalaChart = () => {
         {translation('downloadImage')}
       </button>
     ),
+    PrivateCheck: (
+      <div className="flex items-center">
+        <p className="text-xs pr-2">{translation('Private')}</p>
+        <input
+          type="checkbox"
+          checked={wholeGridValues.private}
+          onChange={handlePrivateCheck}
+        />
+      </div>
+    ),
+    wholeGridValues,
+    setWholeGridValues,
   }
 }
+
+const CREATE_MANDALA_CHART_MUTATION = gql`
+  mutation CreateMandalaChart($input: CreateMandalaChartInput!) {
+    createMandalaChart(input: $input) {
+      ... on CreateMandalaChartSuccess {
+        mandalaChart {
+          _id
+        }
+      }
+      ... on CreateMandalaChartFailure {
+        errorType
+      }
+    }
+  }
+`
+
+const UPDATE_MANDALA_CHART_MUTATION = gql`
+  mutation UpdateMandalaChart($input: UpdateMandalaChartInput!) {
+    updateMandalaChart(input: $input) {
+      ... on UpdateMandalaChartSuccess {
+        mandalaChart {
+          _id
+        }
+      }
+      ... on UpdateMandalaChartFailure {
+        errorType
+      }
+    }
+  }
+`
 
 export default useMandalaChart

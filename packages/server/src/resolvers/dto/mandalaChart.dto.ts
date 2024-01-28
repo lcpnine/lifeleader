@@ -32,7 +32,7 @@ export class GetMandalaChartSuccess {
 
 export enum GetMandalaChartFailureType {
   CHART_NOT_FOUND = 'CHART_NOT_FOUND',
-  UNAUTHORIZED_ACCESS = 'UNAUTHORIZED_ACCESS',
+  PRIVATE_CHART = 'PRIVATE_CHART',
   SERVER_ERROR = 'SERVER_ERROR',
 }
 
@@ -115,8 +115,8 @@ export class CreateMandalaChartInput {
 
 @ObjectType()
 export class CreateMandalaChartSuccess {
-  @Field(() => ID)
-  _id: string
+  @Field(() => MandalaChart)
+  mandalaChart: MandalaChart
 }
 
 export enum CreateMandalaChartFailureType {
@@ -140,17 +140,17 @@ export const CreateMandalaChartResponse = createUnionType({
   name: 'CreateMandalaChartResponse',
   types: () => [CreateMandalaChartSuccess, CreateMandalaChartFailure] as const,
   resolveType: (value: any) => {
-    if ('_id' in value) {
-      return CreateMandalaChartSuccess.name
+    if ('errorType' in value) {
+      return CreateMandalaChartFailure.name
     }
-    return CreateMandalaChartFailure.name
+    return CreateMandalaChartSuccess.name
   },
 })
 
 @InputType()
 export class UpdateMandalaChartInput extends CreateMandalaChartInput {
   @Field(() => ID)
-  mandalaChartId: string
+  _id: string
 
   @Field()
   title: string
@@ -170,8 +170,8 @@ export class UpdateMandalaChartInput extends CreateMandalaChartInput {
 
 @ObjectType()
 export class UpdateMandalaChartSuccess {
-  @Field(() => ID)
-  _id: string
+  @Field(() => MandalaChart)
+  mandalaChart: MandalaChart
 }
 
 export enum UpdateMandalaChartFailureType {
@@ -196,10 +196,10 @@ export const UpdateMandalaChartResponse = createUnionType({
   name: 'UpdateMandalaChartResponse',
   types: () => [UpdateMandalaChartSuccess, UpdateMandalaChartFailure] as const,
   resolveType: (value: any) => {
-    if ('_id' in value) {
-      return UpdateMandalaChartSuccess.name
+    if ('errorType' in value) {
+      return UpdateMandalaChartFailure.name
     }
-    return UpdateMandalaChartFailure.name
+    return UpdateMandalaChartSuccess.name
   },
 })
 

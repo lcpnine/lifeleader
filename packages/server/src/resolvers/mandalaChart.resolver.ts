@@ -24,14 +24,22 @@ import {
 export class MandalaChartResolver {
   @Query(() => GetMandalaChartResponse)
   async getMandalaChart(
-    @Arg('input') input: GetMandalaChartInput
+    @Arg('input') input: GetMandalaChartInput,
+    @Ctx() ctx: MyContext
   ): Promise<typeof GetMandalaChartResponse> {
+    // @ts-ignore
+    const userId: string | null = ctx.req.userId
+
     const mandalaChart = await MandalaChartModel.findById(input.mandalaChartId)
       .populate('centerCell')
       .populate('surroundingCells')
 
     if (!mandalaChart) {
       return { errorType: GetMandalaChartFailureType.CHART_NOT_FOUND }
+    }
+
+    if (mandalaChart.userId.toString() !== userId && mandalaChart.private) {
+      return { errorType: GetMandalaChartFailureType.PRIVATE_CHART }
     }
 
     return { mandalaChart: mandalaChart.toJSON() as MandalaChart }
@@ -77,7 +85,7 @@ export class MandalaChartResolver {
       return { errorType: CreateMandalaChartFailureType.INVALID_INPUT }
     }
     const mandalaChart = await MandalaChartModel.create({ ...input, userId })
-    return { _id: mandalaChart._id }
+    return { mandalaChart: mandalaChart.toJSON() as MandalaChart }
   }
 
   @Mutation(() => UpdateMandalaChartResponse)
@@ -94,9 +102,7 @@ export class MandalaChartResolver {
     if (!isMandalaChartInputValid(input.centerCell, input.surroundingCells)) {
       return { errorType: UpdateMandalaChartFailureType.INVALID_INPUT }
     }
-    const candidateChart = await MandalaChartModel.findById(
-      input.mandalaChartId
-    )
+    const candidateChart = await MandalaChartModel.findById(input._id)
     if (!candidateChart) {
       return { errorType: UpdateMandalaChartFailureType.CHART_NOT_FOUND }
     }
@@ -104,13 +110,13 @@ export class MandalaChartResolver {
       return { errorType: UpdateMandalaChartFailureType.UNAUTHORIZED_ACCESS }
     }
 
-    const updatedChart = (await MandalaChartModel.findByIdAndUpdate(
-      input.mandalaChartId,
+    const updatedChart = await MandalaChartModel.findByIdAndUpdate(
+      input._id,
       { ...input, updatedAt: Date.now() },
       { new: true }
-    )) as MandalaChart
+    )
 
-    return { _id: updatedChart._id }
+    return { mandalaChart: updatedChart?.toJSON() as MandalaChart }
   }
 
   @Mutation(() => DeleteMandalaChartResponse)

@@ -40,7 +40,7 @@ export type CreateMandalaChartResponse = CreateMandalaChartFailure | CreateManda
 
 export type CreateMandalaChartSuccess = {
   __typename?: 'CreateMandalaChartSuccess';
-  _id: Scalars['ID']['output'];
+  mandalaChart: MandalaChart;
 };
 
 export type DeleteAccountFailure = {
@@ -106,8 +106,8 @@ export type GetMandalaChartFailure = {
 
 export enum GetMandalaChartFailureType {
   ChartNotFound = 'CHART_NOT_FOUND',
-  ServerError = 'SERVER_ERROR',
-  UnauthorizedAccess = 'UNAUTHORIZED_ACCESS'
+  PrivateChart = 'PRIVATE_CHART',
+  ServerError = 'SERVER_ERROR'
 }
 
 export type GetMandalaChartInput = {
@@ -365,9 +365,9 @@ export enum UpdateMandalaChartFailureType {
 }
 
 export type UpdateMandalaChartInput = {
+  _id: Scalars['ID']['input'];
   centerCell: MandalaCellInput;
   description?: InputMaybe<Scalars['String']['input']>;
-  mandalaChartId: Scalars['ID']['input'];
   private: Scalars['Boolean']['input'];
   surroundingCells?: InputMaybe<Array<InputMaybe<MandalaCellInput>>>;
   title: Scalars['String']['input'];
@@ -377,7 +377,7 @@ export type UpdateMandalaChartResponse = UpdateMandalaChartFailure | UpdateManda
 
 export type UpdateMandalaChartSuccess = {
   __typename?: 'UpdateMandalaChartSuccess';
-  _id: Scalars['ID']['output'];
+  mandalaChart: MandalaChart;
 };
 
 export type User = {

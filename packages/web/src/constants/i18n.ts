@@ -12,8 +12,8 @@ export enum LANGUAGE_NAMES_SHORT {
 
 export const COMMON_TRANSLATIONS = {
   en: {
-    NeedToSignIn: 'This service requires sign in.',
-    ServerError: 'Server error occurred. Please try again later.',
+    NeedToSignIn: 'You need to sign in to access this service.',
+    ServerError: 'A server error has occurred. Please try again later.',
     loading: 'Loading...',
     redirecting: 'Redirecting...',
   },

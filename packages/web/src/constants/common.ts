@@ -6,3 +6,5 @@ export const BASE_URL =
   PHASE === 'development'
     ? 'http://localhost:4003'
     : 'https://api.lifeleader.me'
+
+export const TEMPORARY_CHART_SESSION_KEY = 'tempWholeGridValues'
