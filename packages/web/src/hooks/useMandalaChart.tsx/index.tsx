@@ -25,6 +25,7 @@ import {
   CreateMandalaChartFailureType,
   CreateMandalaChartInput,
   UpdateMandalaChartDocument,
+  UpdateMandalaChartFailureType,
 } from '../../../gql/graphql'
 import { deepCopy } from '../../../utils/common'
 import { extractByTypename } from '../../../utils/typeguard'
@@ -131,6 +132,45 @@ const useMandalaChart = () => {
                 })
               ),
             },
+          },
+          onCompleted: data => {
+            const { UpdateMandalaChartSuccess, UpdateMandalaChartFailure } =
+              extractByTypename(data.updateMandalaChart)
+
+            const errorType = UpdateMandalaChartFailure?.errorType
+            if (errorType) {
+              if (errorType === UpdateMandalaChartFailureType.InvalidInput) {
+                openAlert({
+                  text: translation('InvalidInput'),
+                })
+              }
+              if (errorType === UpdateMandalaChartFailureType.NoTitle) {
+                openAlert({
+                  text: translation('NoTitle'),
+                })
+              }
+              if (
+                errorType === UpdateMandalaChartFailureType.UnauthorizedAccess
+              ) {
+                openAlert({
+                  text: commonTranslation('NeedToSignIn'),
+                })
+              }
+            }
+
+            const mandalaChart = UpdateMandalaChartSuccess?.mandalaChart
+            if (mandalaChart) {
+              openAlert({
+                text: translation('SaveChartSuccess'),
+                onClose: () => {
+                  goTo('/mandala/chart', {
+                    params: {
+                      chartId: mandalaChart._id,
+                    },
+                  })
+                },
+              })
+            }
           },
         })
       : createMandalaChart({
