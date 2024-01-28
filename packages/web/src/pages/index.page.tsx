@@ -1,4 +1,5 @@
 import { SUPPORTING_LANGUAGES } from '@/constants/common.i18n'
+import { useUserContext } from '@/contexts/UserContext'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import Image from 'next/image'
@@ -11,6 +12,7 @@ import ChineseTraditioanlMandalaEmptyChartExample from 'public/images/example/zh
 
 const Home = () => {
   const { currentLanguage } = useI18n()
+  const { isSignedIn } = useUserContext()
   const { goTo } = useGoTo()
 
   const getExampleChart = () => {
@@ -147,22 +149,26 @@ const Home = () => {
         >
           Start Creating Your Mandala Chart
         </button>
-        <button
-          className="sm:text-xs md:text-base bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          onClick={handleSignUpClick}
-        >
-          Sign Up
-        </button>
+        {!isSignedIn && (
+          <button
+            className="sm:text-xs md:text-base bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleSignUpClick}
+          >
+            Sign Up
+          </button>
+        )}
       </div>
-      <div className="text-center">
-        <a
-          href="#"
-          className="text-blue-600 hover:text-blue-800 visited:text-purple-800"
-          onClick={handleSignInClick}
-        >
-          Registered already? Sign in to your account.
-        </a>
-      </div>
+      {!isSignedIn && (
+        <div className="text-center">
+          <a
+            href="#"
+            className="text-blue-600 hover:text-blue-800 visited:text-purple-800"
+            onClick={handleSignInClick}
+          >
+            Registered already? Sign in to your account.
+          </a>
+        </div>
+      )}
     </div>
   )
 }
