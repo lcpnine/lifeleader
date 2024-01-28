@@ -79,7 +79,7 @@ const Square = (props: SquareProps) => {
   const { themeStyle } = useTheme()
   const { isMobile } = useEntryContext()
 
-  const textStyle = isCenterSquare ? 'font-bold text-lg' : ''
+  const textStyle = isCenterSquare ? 'font-bold' : ''
 
   const textColor = !isCenterSquare
     ? themeStyle.defualtTextColor

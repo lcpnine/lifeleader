@@ -67,7 +67,7 @@ const MandalaChart = ({
       ref={focusRef}
     >
       <div
-        className={`grid grid-cols-3 w-max border-2 ${themeStyle.borderColor}`}
+        className={`grid grid-cols-3 w-max border-4 ${themeStyle.borderColor}`}
       >
         {new Array(9).fill('').map((values, gridIndex) => {
           const grid = getGridByIndexFromMandalaChartInput(
@@ -79,7 +79,7 @@ const MandalaChart = ({
           return (
             <div
               key={gridIndex}
-              className={`grid grid-cols-3 w-max border ${themeStyle.borderColor}`}
+              className={`grid grid-cols-3 w-max border border-4 ${themeStyle.borderColor}`}
             >
               {new Array(9).fill('').map((_, suqareIndex) => {
                 const value =
