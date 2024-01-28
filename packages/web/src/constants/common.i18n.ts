@@ -18,6 +18,9 @@ export const COMMON_TRANSLATIONS = {
     redirecting: 'Redirecting...',
     YourCharts: 'Your Charts',
     CreateChart: 'Create a new chart',
+    Created: 'Created',
+    Updated: 'Updated',
+    Delete: 'Delete',
   },
   ko: {
     NeedToSignIn: '이 서비스는 로그인이 필요합니다.',
@@ -26,6 +29,9 @@ export const COMMON_TRANSLATIONS = {
     redirecting: '잠시 후 이동합니다...',
     YourCharts: '내 차트',
     CreateChart: '새 차트 만들기',
+    Created: '만든 날짜',
+    Updated: '업데이트 날짜',
+    Delete: '삭제',
   },
   'zh-Hant': {
     NeedToSignIn: '此服務需要登入。',
@@ -34,5 +40,8 @@ export const COMMON_TRANSLATIONS = {
     redirecting: '正在重定向...',
     YourCharts: '您的圖表',
     CreateChart: '創建新圖表',
+    Created: '創建日期',
+    Updated: '更新日期',
+    Delete: '刪除',
   },
 }
