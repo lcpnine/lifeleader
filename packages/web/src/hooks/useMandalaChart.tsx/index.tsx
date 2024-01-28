@@ -10,7 +10,11 @@ import useI18n from '@/hooks/useI18n'
 import { recommendationCardVar } from '@/hooks/useRecommendationCard'
 import useScreenShot from '@/hooks/useScreenshot'
 import { useReactiveVar } from '@apollo/client'
-import { CloudIcon, PhotoIcon } from '@heroicons/react/24/outline'
+import {
+  CloudIcon,
+  PencilSquareIcon,
+  PhotoIcon,
+} from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
 import { CreateMandalaChartInput } from '../../../gql/graphql'
 import { deepCopy } from '../../../utils/common'
@@ -172,6 +176,18 @@ const useMandalaChart = () => {
   }
 
   return {
+    Title: (
+      <h2 className="flex items-baseline text-3xl font-semibold text-center text-gray-700 hover:text-blue-600 hover:cursor-pointer my-4 shadow-sm">
+        {wholeGridValues.title}
+        <PencilSquareIcon className="h-4 w-4 text-gray-700 hover:text-blue-600 ml-2" />
+      </h2>
+    ),
+    Description: (
+      <p className="flex items-baseline break-words text-center text-sm text-gray-700 hover:text-blue-600 hover:cursor-pointer my-2">
+        {wholeGridValues.description}
+        <PencilSquareIcon className="mx-auto h-2 w-2 text-gray-700 hover:text-blue-600 ml-1" />
+      </p>
+    ),
     ThemeSelector: <MandalaThemeSelector />,
     AIModeSwitch: (
       <>
