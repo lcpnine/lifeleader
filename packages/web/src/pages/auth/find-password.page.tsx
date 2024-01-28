@@ -1,5 +1,5 @@
 import GeneralInput from '@/components/GeneralInput/GeneralInput'
-import { COMMON_TRANSLATIONS } from '@/constants/i18n'
+import { COMMON_TRANSLATIONS } from '@/constants/common.i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import { useLoading } from '@/contexts/LoadingContext'
 import useI18n from '@/hooks/useI18n'

@@ -1,4 +1,7 @@
-import { LANGUAGE_NAMES_SHORT, SUPPORTING_LANGUAGES } from '@/constants/i18n'
+import {
+  LANGUAGE_NAMES_SHORT,
+  SUPPORTING_LANGUAGES,
+} from '@/constants/common.i18n'
 import { useUserContext } from '@/contexts/UserContext'
 import useI18n from '@/hooks/useI18n'
 import useSignOut from '@/hooks/useSignOut/useSignOut'

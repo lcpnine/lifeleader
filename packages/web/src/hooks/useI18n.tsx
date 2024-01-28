@@ -1,4 +1,4 @@
-import { SUPPORTING_LANGUAGES } from '@/constants/i18n'
+import { SUPPORTING_LANGUAGES } from '@/constants/common.i18n'
 import { useRouter } from 'next/router'
 
 type TranslationFile = {

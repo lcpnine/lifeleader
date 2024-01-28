@@ -1,4 +1,4 @@
-import { COMMON_TRANSLATIONS } from '@/constants/i18n'
+import { COMMON_TRANSLATIONS } from '@/constants/common.i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import { useUserContext } from '@/contexts/UserContext' // Adjust the import according to your project structure
 import useGoTo from '@/hooks/useGoTo'
