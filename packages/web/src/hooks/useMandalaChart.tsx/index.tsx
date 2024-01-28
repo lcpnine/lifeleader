@@ -93,7 +93,22 @@ const useMandalaChart = () => {
     chartId
       ? updateMandalaChart({
           variables: {
-            input: { ...wholeGridValues, _id: chartId },
+            input: {
+              _id: chartId,
+              title: wholeGridValues.title,
+              description: wholeGridValues.description,
+              private: wholeGridValues.private,
+              centerCell: {
+                goal: wholeGridValues.centerCell.goal,
+                tasks: wholeGridValues.centerCell.tasks,
+              },
+              surroundingCells: wholeGridValues.surroundingCells.map(
+                surroundingCell => ({
+                  goal: surroundingCell.goal,
+                  tasks: surroundingCell.tasks,
+                })
+              ),
+            },
           },
         })
       : createMandalaChart({
