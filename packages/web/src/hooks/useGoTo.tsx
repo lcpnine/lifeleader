@@ -18,7 +18,7 @@ const useGoTo = () => {
       )
     router.push(
       path + (params ? '?' + new URLSearchParams(params) : ''),
-      path,
+      undefined,
       { locale: router.locale }
     )
   }
