@@ -17,7 +17,7 @@ import { extractByTypename } from '../../../utils/typeguard'
 import TRANSLATIONS from './chart.i18n'
 
 const MandalaChartPage = () => {
-  const { getTranslation } = useI18n()
+  const { getTranslation, metaTranslation } = useI18n()
   const { user } = useUserContext()
   const { goTo } = useGoTo()
   const translation = getTranslation(TRANSLATIONS)
@@ -97,8 +97,11 @@ const MandalaChartPage = () => {
   return (
     <>
       <Head>
-        <title>{translation('tabTitle')}</title>
-        <meta name="description" content={translation('description')} />
+        <title>{metaTranslation('MandalaChartTitle')}</title>
+        <meta
+          name="description"
+          content={metaTranslation('MandalaChartDescription')}
+        />
       </Head>
       <div className="flex flex-col items-center justify-center p-4">
         {Title}

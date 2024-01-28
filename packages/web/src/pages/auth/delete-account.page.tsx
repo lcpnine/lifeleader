@@ -10,7 +10,7 @@ import { DeleteAccountDocument } from '../../../gql/graphql'
 import TRANSLATIONS from './auth.i18n'
 
 const DeleteAccount = () => {
-  const { getTranslation } = useI18n()
+  const { getTranslation, metaTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
   const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const { user, isSignedIn } = useUserContext() // Assuming useUserContext provides user info
@@ -47,7 +47,11 @@ const DeleteAccount = () => {
   return (
     <>
       <Head>
-        <title>{translation('DeleteAccount')}</title>
+        <title>{metaTranslation('DeleteAccountTitle')}</title>
+        <meta
+          name="description"
+          content={metaTranslation('DeleteAccountDescription')}
+        />
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <h1 className="text-xl font-bold mb-4">

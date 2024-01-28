@@ -25,7 +25,7 @@ const ResetPassword = () => {
   const { goTo } = useGoTo()
   const { showLoading } = useLoading()
   const { openAlert } = useAlert()
-  const { getTranslation } = useI18n()
+  const { getTranslation, metaTranslation } = useI18n()
   const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const translation = getTranslation(TRANSLATIONS)
   const isPasswordMatch = password === passwordConfirm
@@ -84,7 +84,11 @@ const ResetPassword = () => {
   return (
     <>
       <Head>
-        <title>{translation('resetPassword')}</title>
+        <title>{metaTranslation('ResetPasswordTitle')}</title>
+        <meta
+          name="description"
+          content={metaTranslation('ResetPasswordDescription')}
+        />
       </Head>
       <div className="flex flex-col items-center justify-center h-screen">
         <form onSubmit={handleSubmit} className="w-full max-w-xs">
