@@ -6,13 +6,29 @@
       }
       const result: PossibleTypesResultData = {
   "possibleTypes": {
+    "CreateMandalaChartResponse": [
+      "CreateMandalaChartFailure",
+      "CreateMandalaChartSuccess"
+    ],
     "DeleteAccountResponse": [
       "DeleteAccountFailure",
       "DeleteAccountSuccess"
     ],
+    "DeleteMandalaChartResponse": [
+      "DeleteMandalaChartFailure",
+      "DeleteMandalaChartSuccess"
+    ],
     "FindPasswordResponse": [
       "FindPasswordFailure",
       "FindPasswordSuccess"
+    ],
+    "GetMandalaChartResponse": [
+      "GetMandalaChartFailure",
+      "GetMandalaChartSuccess"
+    ],
+    "GetUserMandalaChartsResponse": [
+      "GetUserMandalaChartsFailure",
+      "GetUserMandalaChartsSuccess"
     ],
     "RecommendationResponse": [
       "RecommendationFailure",
@@ -29,6 +45,10 @@
     "SignUpResponse": [
       "SignUpFailure",
       "SignUpSuccess"
+    ],
+    "UpdateMandalaChartResponse": [
+      "UpdateMandalaChartFailure",
+      "UpdateMandalaChartSuccess"
     ],
     "VerifyEmailResponse": [
       "VerifyEmailFailure",

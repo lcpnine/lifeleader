@@ -1,6 +1,7 @@
 import GeneralInput from '@/components/GeneralInput/GeneralInput'
-import { COMMON_TRANSLATIONS } from '@/constants/i18n'
+import { COMMON_TRANSLATIONS } from '@/constants/common.i18n'
 import { useAlert } from '@/contexts/AlertContext'
+import { useLoading } from '@/contexts/LoadingContext'
 import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import { gql, useMutation } from '@apollo/client'
@@ -22,6 +23,7 @@ const ResetPassword = () => {
   const router = useRouter()
   const { token } = router.query
   const { goTo } = useGoTo()
+  const { showLoading } = useLoading()
   const { openAlert } = useAlert()
   const { getTranslation } = useI18n()
   const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
@@ -42,12 +44,14 @@ const ResetPassword = () => {
     }
 
     try {
+      showLoading(true)
       const { data } = await handleResetPassword({
         variables: {
           token: token as string,
           newPassword: password,
           newPasswordConfirm: passwordConfirm,
         },
+        onCompleted: () => showLoading(false),
       })
       const { ResetPasswordSuccess, ResetPasswordFailure } = extractByTypename(
         data?.resetPassword

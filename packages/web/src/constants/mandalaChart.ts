@@ -14,6 +14,7 @@ export enum MandalaTheme {
 export const MANDALA_THEMES = {
   [MandalaTheme.DEFAULT]: {
     borderColor: 'border-gray-200',
+    highlightBorder: 'border-blue-300',
     backgroundColor: 'bg-white',
     defualtTextColor: 'text-black',
     centerGridCenterSquareTextColor: 'text-black',
@@ -21,7 +22,8 @@ export const MANDALA_THEMES = {
     gridBorder: 'border border-gray-200',
   },
   [MandalaTheme.DARK]: {
-    borderColor: 'border-gray-700',
+    borderColor: 'border-slate-400',
+    highlightBorder: 'border-yellow-300',
     backgroundColor: 'bg-gray-800',
     defualtTextColor: 'text-white',
     centerGridCenterSquareTextColor: 'text-white',
@@ -30,6 +32,7 @@ export const MANDALA_THEMES = {
   },
   [MandalaTheme.LIGHT]: {
     borderColor: 'border-yellow-200',
+    highlightBorder: 'border-purple-500',
     backgroundColor: 'bg-yellow-100',
     defualtTextColor: 'text-gray-800',
     centerGridCenterSquareTextColor: 'text-gray-800',
@@ -38,6 +41,7 @@ export const MANDALA_THEMES = {
   },
   [MandalaTheme.NATURE]: {
     borderColor: 'border-green-200',
+    highlightBorder: 'border-red-500',
     backgroundColor: 'bg-green-100',
     defualtTextColor: 'text-green-800',
     centerGridCenterSquareTextColor: 'text-green-800',
@@ -46,6 +50,7 @@ export const MANDALA_THEMES = {
   },
   [MandalaTheme.FUTURISTIC]: {
     borderColor: 'border-blue-200',
+    highlightBorder: 'border-orange-500',
     backgroundColor: 'bg-blue-100',
     defualtTextColor: 'text-blue-800',
     centerGridCenterSquareTextColor: 'text-blue-800',
@@ -54,6 +59,7 @@ export const MANDALA_THEMES = {
   },
   [MandalaTheme.OCEAN]: {
     borderColor: 'border-cyan-200',
+    highlightBorder: 'border-pink-500',
     backgroundColor: 'bg-cyan-100',
     defualtTextColor: 'text-cyan-800',
     centerGridCenterSquareTextColor: 'text-cyan-900',
@@ -62,6 +68,7 @@ export const MANDALA_THEMES = {
   },
   [MandalaTheme.SUNSET]: {
     borderColor: 'border-red-200',
+    highlightBorder: 'border-teal-500',
     backgroundColor: 'bg-orange-100',
     defualtTextColor: 'text-red-800',
     centerGridCenterSquareTextColor: 'text-red-900',
@@ -70,6 +77,7 @@ export const MANDALA_THEMES = {
   },
   [MandalaTheme.SPACE]: {
     borderColor: 'border-indigo-700',
+    highlightBorder: 'border-yellow-300',
     backgroundColor: 'bg-black',
     defualtTextColor: 'text-indigo-200',
     centerGridCenterSquareTextColor: 'text-purple-300',
@@ -78,6 +86,7 @@ export const MANDALA_THEMES = {
   },
   [MandalaTheme.PASTEL]: {
     borderColor: 'border-pink-200',
+    highlightBorder: 'border-green-500',
     backgroundColor: 'bg-pastel-pink',
     defualtTextColor: 'text-pastel-green',
     centerGridCenterSquareTextColor: 'text-pastel-blue',
@@ -86,6 +95,7 @@ export const MANDALA_THEMES = {
   },
   [MandalaTheme.MONOCHROME]: {
     borderColor: 'border-black',
+    highlightBorder: 'border-white',
     backgroundColor: 'bg-gray-200',
     defualtTextColor: 'text-gray-600',
     centerGridCenterSquareTextColor: 'text-gray-900',

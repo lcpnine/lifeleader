@@ -1,6 +1,7 @@
 import GeneralInput from '@/components/GeneralInput/GeneralInput'
-import { COMMON_TRANSLATIONS } from '@/constants/i18n'
+import { COMMON_TRANSLATIONS } from '@/constants/common.i18n'
 import { useAlert } from '@/contexts/AlertContext'
+import { useLoading } from '@/contexts/LoadingContext'
 import useI18n from '@/hooks/useI18n'
 import { gql, useMutation } from '@apollo/client'
 import Head from 'next/head'
@@ -15,6 +16,7 @@ import AuthLink, { AuthPage } from './authLink'
 
 const FindPassword = () => {
   const { getTranslation } = useI18n()
+  const { showLoading } = useLoading()
   const translation = getTranslation(TRANSLATIONS)
   const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const [findPasswordMutation] = useMutation(FindPasswordDocument)
@@ -30,7 +32,11 @@ const FindPassword = () => {
     }
 
     try {
-      const { data } = await findPasswordMutation({ variables: { email } })
+      showLoading(true)
+      const { data } = await findPasswordMutation({
+        variables: { email },
+        onCompleted: () => showLoading(false),
+      })
       const { FindPasswordSuccess, FindPasswordFailure } = extractByTypename(
         data?.findPassword
       )

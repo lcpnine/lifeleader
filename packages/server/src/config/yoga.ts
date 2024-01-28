@@ -2,14 +2,19 @@ import type { YogaServerOptions } from 'graphql-yoga'
 import { buildSchema } from 'type-graphql'
 import { IS_DEV } from '../constant/common'
 import renewJwt from '../middlewares/renewJwt.middleware'
+import { extractUserId } from '../middlewares/userId.middleware'
+import { MandalaChartResolver } from '../resolvers/mandalaChart.resolver'
 import { RecommendationResolver } from '../resolvers/recommendation.resolver'
 import { UserResolver } from '../resolvers/user.resolver'
 import { MyContext } from '../types/common'
 
 const createSchema = async () =>
   await buildSchema({
-    resolvers: [UserResolver, RecommendationResolver],
+    resolvers: [UserResolver, MandalaChartResolver, RecommendationResolver],
     emitSchemaFile: 'src/schema.gql',
+    validate: {
+      forbidUnknownValues: false,
+    },
   })
 
 const createYogaConfig = async () => {
@@ -20,6 +25,7 @@ const createYogaConfig = async () => {
     graphiql: IS_DEV,
     context: async ({ req, res }: MyContext) => {
       await renewJwt(req, res)
+      extractUserId(req, res)
       return { req, res }
     },
   } as YogaServerOptions<{}, {}>

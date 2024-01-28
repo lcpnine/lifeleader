@@ -1,5 +1,6 @@
 import 'reflect-metadata'
 import { Arg, Query, Resolver } from 'type-graphql'
+import { IS_DEV } from '../constant/common'
 import { RecommendationInNeed, getRecommendations } from '../utils/openai'
 import {
   RecommendationFailureType,
@@ -22,6 +23,18 @@ export class RecommendationResolver {
     }
 
     try {
+      if (!IS_DEV) return { recommendations: [] }
+      if (IS_DEV) {
+        const make6RandomNumbersBetween0to100 = () =>
+          Array.from({ length: 6 }, () => Math.floor(Math.random() * 100))
+        const randomNumbers = make6RandomNumbersBetween0to100()
+
+        return {
+          recommendations: randomNumbers.map(number => ({
+            text: `Recommendation ${number}`,
+          })),
+        }
+      }
       const { recommendations } = await getRecommendations({
         recommendationInNeed: RecommendationInNeed.SubGoals,
         params: {

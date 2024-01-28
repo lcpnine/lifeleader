@@ -1,4 +1,12 @@
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
+export type CreateMandalaChartFailureKeySpecifier = ('errorType' | CreateMandalaChartFailureKeySpecifier)[];
+export type CreateMandalaChartFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type CreateMandalaChartSuccessKeySpecifier = ('mandalaChart' | CreateMandalaChartSuccessKeySpecifier)[];
+export type CreateMandalaChartSuccessFieldPolicy = {
+	mandalaChart?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DeleteAccountFailureKeySpecifier = ('errorType' | DeleteAccountFailureKeySpecifier)[];
 export type DeleteAccountFailureFieldPolicy = {
 	errorType?: FieldPolicy<any> | FieldReadFunction<any>
@@ -6,6 +14,14 @@ export type DeleteAccountFailureFieldPolicy = {
 export type DeleteAccountSuccessKeySpecifier = ('success' | DeleteAccountSuccessKeySpecifier)[];
 export type DeleteAccountSuccessFieldPolicy = {
 	success?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type DeleteMandalaChartFailureKeySpecifier = ('errorType' | DeleteMandalaChartFailureKeySpecifier)[];
+export type DeleteMandalaChartFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type DeleteMandalaChartSuccessKeySpecifier = ('_id' | DeleteMandalaChartSuccessKeySpecifier)[];
+export type DeleteMandalaChartSuccessFieldPolicy = {
+	_id?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type FindPasswordFailureKeySpecifier = ('errorType' | FindPasswordFailureKeySpecifier)[];
 export type FindPasswordFailureFieldPolicy = {
@@ -15,14 +31,51 @@ export type FindPasswordSuccessKeySpecifier = ('success' | FindPasswordSuccessKe
 export type FindPasswordSuccessFieldPolicy = {
 	success?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('deleteAccount' | 'findPassword' | 'resetPassword' | 'signIn' | 'signOut' | 'signUp' | 'verifyEmail' | MutationKeySpecifier)[];
+export type GetMandalaChartFailureKeySpecifier = ('errorType' | GetMandalaChartFailureKeySpecifier)[];
+export type GetMandalaChartFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type GetMandalaChartSuccessKeySpecifier = ('mandalaChart' | GetMandalaChartSuccessKeySpecifier)[];
+export type GetMandalaChartSuccessFieldPolicy = {
+	mandalaChart?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type GetUserMandalaChartsFailureKeySpecifier = ('errorType' | GetUserMandalaChartsFailureKeySpecifier)[];
+export type GetUserMandalaChartsFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type GetUserMandalaChartsSuccessKeySpecifier = ('mandalaCharts' | GetUserMandalaChartsSuccessKeySpecifier)[];
+export type GetUserMandalaChartsSuccessFieldPolicy = {
+	mandalaCharts?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type MandalaCellKeySpecifier = ('_id' | 'goal' | 'tasks' | MandalaCellKeySpecifier)[];
+export type MandalaCellFieldPolicy = {
+	_id?: FieldPolicy<any> | FieldReadFunction<any>,
+	goal?: FieldPolicy<any> | FieldReadFunction<any>,
+	tasks?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type MandalaChartKeySpecifier = ('_id' | 'centerCell' | 'createdAt' | 'description' | 'lastModifiedAt' | 'private' | 'surroundingCells' | 'title' | 'userId' | MandalaChartKeySpecifier)[];
+export type MandalaChartFieldPolicy = {
+	_id?: FieldPolicy<any> | FieldReadFunction<any>,
+	centerCell?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastModifiedAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	private?: FieldPolicy<any> | FieldReadFunction<any>,
+	surroundingCells?: FieldPolicy<any> | FieldReadFunction<any>,
+	title?: FieldPolicy<any> | FieldReadFunction<any>,
+	userId?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type MutationKeySpecifier = ('createMandalaChart' | 'deleteAccount' | 'deleteMandalaChart' | 'findPassword' | 'resetPassword' | 'signIn' | 'signOut' | 'signUp' | 'updateMandalaChart' | 'verifyEmail' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
+	createMandalaChart?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAccount?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteMandalaChart?: FieldPolicy<any> | FieldReadFunction<any>,
 	findPassword?: FieldPolicy<any> | FieldReadFunction<any>,
 	resetPassword?: FieldPolicy<any> | FieldReadFunction<any>,
 	signIn?: FieldPolicy<any> | FieldReadFunction<any>,
 	signOut?: FieldPolicy<any> | FieldReadFunction<any>,
 	signUp?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateMandalaChart?: FieldPolicy<any> | FieldReadFunction<any>,
 	verifyEmail?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type PurchasedInfoKeySpecifier = ('expiresAt' | 'isPurchased' | 'purchasedAt' | PurchasedInfoKeySpecifier)[];
@@ -31,10 +84,12 @@ export type PurchasedInfoFieldPolicy = {
 	isPurchased?: FieldPolicy<any> | FieldReadFunction<any>,
 	purchasedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('checkUser' | 'getUser' | 'recommendationForSubGoals' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('checkUser' | 'getMandalaChart' | 'getUser' | 'getUserMandalaCharts' | 'recommendationForSubGoals' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	checkUser?: FieldPolicy<any> | FieldReadFunction<any>,
+	getMandalaChart?: FieldPolicy<any> | FieldReadFunction<any>,
 	getUser?: FieldPolicy<any> | FieldReadFunction<any>,
+	getUserMandalaCharts?: FieldPolicy<any> | FieldReadFunction<any>,
 	recommendationForSubGoals?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type RecommendationKeySpecifier = ('text' | RecommendationKeySpecifier)[];
@@ -80,6 +135,14 @@ export type TokenInfoFieldPolicy = {
 	isVerified?: FieldPolicy<any> | FieldReadFunction<any>,
 	token?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type UpdateMandalaChartFailureKeySpecifier = ('errorType' | UpdateMandalaChartFailureKeySpecifier)[];
+export type UpdateMandalaChartFailureFieldPolicy = {
+	errorType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type UpdateMandalaChartSuccessKeySpecifier = ('mandalaChart' | UpdateMandalaChartSuccessKeySpecifier)[];
+export type UpdateMandalaChartSuccessFieldPolicy = {
+	mandalaChart?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type UserKeySpecifier = ('_id' | 'createdAt' | 'email' | 'emailVerification' | 'nickname' | 'purchasedInfo' | 'resetPassword' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -99,6 +162,14 @@ export type VerifyEmailSuccessFieldPolicy = {
 	success?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
+	CreateMandalaChartFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CreateMandalaChartFailureKeySpecifier | (() => undefined | CreateMandalaChartFailureKeySpecifier),
+		fields?: CreateMandalaChartFailureFieldPolicy,
+	},
+	CreateMandalaChartSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CreateMandalaChartSuccessKeySpecifier | (() => undefined | CreateMandalaChartSuccessKeySpecifier),
+		fields?: CreateMandalaChartSuccessFieldPolicy,
+	},
 	DeleteAccountFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DeleteAccountFailureKeySpecifier | (() => undefined | DeleteAccountFailureKeySpecifier),
 		fields?: DeleteAccountFailureFieldPolicy,
@@ -107,6 +178,14 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | DeleteAccountSuccessKeySpecifier | (() => undefined | DeleteAccountSuccessKeySpecifier),
 		fields?: DeleteAccountSuccessFieldPolicy,
 	},
+	DeleteMandalaChartFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeleteMandalaChartFailureKeySpecifier | (() => undefined | DeleteMandalaChartFailureKeySpecifier),
+		fields?: DeleteMandalaChartFailureFieldPolicy,
+	},
+	DeleteMandalaChartSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeleteMandalaChartSuccessKeySpecifier | (() => undefined | DeleteMandalaChartSuccessKeySpecifier),
+		fields?: DeleteMandalaChartSuccessFieldPolicy,
+	},
 	FindPasswordFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FindPasswordFailureKeySpecifier | (() => undefined | FindPasswordFailureKeySpecifier),
 		fields?: FindPasswordFailureFieldPolicy,
@@ -114,6 +193,30 @@ export type StrictTypedTypePolicies = {
 	FindPasswordSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FindPasswordSuccessKeySpecifier | (() => undefined | FindPasswordSuccessKeySpecifier),
 		fields?: FindPasswordSuccessFieldPolicy,
+	},
+	GetMandalaChartFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | GetMandalaChartFailureKeySpecifier | (() => undefined | GetMandalaChartFailureKeySpecifier),
+		fields?: GetMandalaChartFailureFieldPolicy,
+	},
+	GetMandalaChartSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | GetMandalaChartSuccessKeySpecifier | (() => undefined | GetMandalaChartSuccessKeySpecifier),
+		fields?: GetMandalaChartSuccessFieldPolicy,
+	},
+	GetUserMandalaChartsFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | GetUserMandalaChartsFailureKeySpecifier | (() => undefined | GetUserMandalaChartsFailureKeySpecifier),
+		fields?: GetUserMandalaChartsFailureFieldPolicy,
+	},
+	GetUserMandalaChartsSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | GetUserMandalaChartsSuccessKeySpecifier | (() => undefined | GetUserMandalaChartsSuccessKeySpecifier),
+		fields?: GetUserMandalaChartsSuccessFieldPolicy,
+	},
+	MandalaCell?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | MandalaCellKeySpecifier | (() => undefined | MandalaCellKeySpecifier),
+		fields?: MandalaCellFieldPolicy,
+	},
+	MandalaChart?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | MandalaChartKeySpecifier | (() => undefined | MandalaChartKeySpecifier),
+		fields?: MandalaChartFieldPolicy,
 	},
 	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
@@ -166,6 +269,14 @@ export type StrictTypedTypePolicies = {
 	TokenInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TokenInfoKeySpecifier | (() => undefined | TokenInfoKeySpecifier),
 		fields?: TokenInfoFieldPolicy,
+	},
+	UpdateMandalaChartFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | UpdateMandalaChartFailureKeySpecifier | (() => undefined | UpdateMandalaChartFailureKeySpecifier),
+		fields?: UpdateMandalaChartFailureFieldPolicy,
+	},
+	UpdateMandalaChartSuccess?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | UpdateMandalaChartSuccessKeySpecifier | (() => undefined | UpdateMandalaChartSuccessKeySpecifier),
+		fields?: UpdateMandalaChartSuccessFieldPolicy,
 	},
 	User?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserKeySpecifier | (() => undefined | UserKeySpecifier),

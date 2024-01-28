@@ -16,6 +16,33 @@ export type Scalars = {
   DateTime: { input: string; output: string; }
 };
 
+export type CreateMandalaChartFailure = {
+  __typename?: 'CreateMandalaChartFailure';
+  errorType: CreateMandalaChartFailureType;
+};
+
+export enum CreateMandalaChartFailureType {
+  InvalidInput = 'INVALID_INPUT',
+  NoTitle = 'NO_TITLE',
+  ServerError = 'SERVER_ERROR',
+  UnauthorizedAccess = 'UNAUTHORIZED_ACCESS'
+}
+
+export type CreateMandalaChartInput = {
+  centerCell: MandalaCellInput;
+  description?: InputMaybe<Scalars['String']['input']>;
+  private: Scalars['Boolean']['input'];
+  surroundingCells: Array<MandalaCellInput>;
+  title: Scalars['String']['input'];
+};
+
+export type CreateMandalaChartResponse = CreateMandalaChartFailure | CreateMandalaChartSuccess;
+
+export type CreateMandalaChartSuccess = {
+  __typename?: 'CreateMandalaChartSuccess';
+  mandalaChart: MandalaChart;
+};
+
 export type DeleteAccountFailure = {
   __typename?: 'DeleteAccountFailure';
   errorType: DeleteAccountFailureType;
@@ -31,6 +58,28 @@ export type DeleteAccountResponse = DeleteAccountFailure | DeleteAccountSuccess;
 export type DeleteAccountSuccess = {
   __typename?: 'DeleteAccountSuccess';
   success: Scalars['Boolean']['output'];
+};
+
+export type DeleteMandalaChartFailure = {
+  __typename?: 'DeleteMandalaChartFailure';
+  errorType: DeleteMandalaChartFailureType;
+};
+
+export enum DeleteMandalaChartFailureType {
+  ChartNotFound = 'CHART_NOT_FOUND',
+  ServerError = 'SERVER_ERROR',
+  UnauthorizedAccess = 'UNAUTHORIZED_ACCESS'
+}
+
+export type DeleteMandalaChartInput = {
+  mandalaChartId: Scalars['ID']['input'];
+};
+
+export type DeleteMandalaChartResponse = DeleteMandalaChartFailure | DeleteMandalaChartSuccess;
+
+export type DeleteMandalaChartSuccess = {
+  __typename?: 'DeleteMandalaChartSuccess';
+  _id: Scalars['ID']['output'];
 };
 
 export type FindPasswordFailure = {
@@ -50,20 +99,100 @@ export type FindPasswordSuccess = {
   success: Scalars['Boolean']['output'];
 };
 
+export type GetMandalaChartFailure = {
+  __typename?: 'GetMandalaChartFailure';
+  errorType: GetMandalaChartFailureType;
+};
+
+export enum GetMandalaChartFailureType {
+  ChartNotFound = 'CHART_NOT_FOUND',
+  PrivateChart = 'PRIVATE_CHART',
+  ServerError = 'SERVER_ERROR'
+}
+
+export type GetMandalaChartInput = {
+  mandalaChartId: Scalars['ID']['input'];
+};
+
+export type GetMandalaChartResponse = GetMandalaChartFailure | GetMandalaChartSuccess;
+
+export type GetMandalaChartSuccess = {
+  __typename?: 'GetMandalaChartSuccess';
+  mandalaChart: MandalaChart;
+};
+
+export type GetUserMandalaChartsFailure = {
+  __typename?: 'GetUserMandalaChartsFailure';
+  errorType: GetUserMandalaChartsFailureType;
+};
+
+export enum GetUserMandalaChartsFailureType {
+  ServerError = 'SERVER_ERROR'
+}
+
+export type GetUserMandalaChartsInput = {
+  userId: Scalars['ID']['input'];
+};
+
+export type GetUserMandalaChartsResponse = GetUserMandalaChartsFailure | GetUserMandalaChartsSuccess;
+
+export type GetUserMandalaChartsSuccess = {
+  __typename?: 'GetUserMandalaChartsSuccess';
+  mandalaCharts: Array<MandalaChart>;
+};
+
+export type MandalaCell = {
+  __typename?: 'MandalaCell';
+  _id: Scalars['ID']['output'];
+  goal: Scalars['String']['output'];
+  tasks: Array<Scalars['String']['output']>;
+};
+
+export type MandalaCellInput = {
+  goal: Scalars['String']['input'];
+  tasks: Array<Scalars['String']['input']>;
+};
+
+export type MandalaChart = {
+  __typename?: 'MandalaChart';
+  _id: Scalars['ID']['output'];
+  centerCell: MandalaCell;
+  createdAt: Scalars['DateTime']['output'];
+  description: Maybe<Scalars['String']['output']>;
+  lastModifiedAt: Maybe<Scalars['DateTime']['output']>;
+  private: Scalars['Boolean']['output'];
+  surroundingCells: Array<MandalaCell>;
+  title: Scalars['String']['output'];
+  userId: Scalars['ID']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createMandalaChart: CreateMandalaChartResponse;
   deleteAccount: DeleteAccountResponse;
+  deleteMandalaChart: DeleteMandalaChartResponse;
   findPassword: FindPasswordResponse;
   resetPassword: ResetPasswordResponse;
   signIn: SignInResponse;
   signOut: Scalars['Boolean']['output'];
   signUp: SignUpResponse;
+  updateMandalaChart: UpdateMandalaChartResponse;
   verifyEmail: VerifyEmailResponse;
+};
+
+
+export type MutationCreateMandalaChartArgs = {
+  input: CreateMandalaChartInput;
 };
 
 
 export type MutationDeleteAccountArgs = {
   email: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteMandalaChartArgs = {
+  input: DeleteMandalaChartInput;
 };
 
 
@@ -94,6 +223,11 @@ export type MutationSignUpArgs = {
 };
 
 
+export type MutationUpdateMandalaChartArgs = {
+  input: UpdateMandalaChartInput;
+};
+
+
 export type MutationVerifyEmailArgs = {
   token: Scalars['String']['input'];
 };
@@ -108,13 +242,25 @@ export type PurchasedInfo = {
 export type Query = {
   __typename?: 'Query';
   checkUser: Maybe<User>;
+  getMandalaChart: GetMandalaChartResponse;
   getUser: Maybe<User>;
+  getUserMandalaCharts: GetUserMandalaChartsResponse;
   recommendationForSubGoals: RecommendationResponse;
+};
+
+
+export type QueryGetMandalaChartArgs = {
+  input: GetMandalaChartInput;
 };
 
 
 export type QueryGetUserArgs = {
   _id: Scalars['String']['input'];
+};
+
+
+export type QueryGetUserMandalaChartsArgs = {
+  input: GetUserMandalaChartsInput;
 };
 
 
@@ -203,6 +349,35 @@ export type TokenInfo = {
   expiresAt: Maybe<Scalars['DateTime']['output']>;
   isVerified: Maybe<Scalars['Boolean']['output']>;
   token: Maybe<Scalars['String']['output']>;
+};
+
+export type UpdateMandalaChartFailure = {
+  __typename?: 'UpdateMandalaChartFailure';
+  errorType: UpdateMandalaChartFailureType;
+};
+
+export enum UpdateMandalaChartFailureType {
+  ChartNotFound = 'CHART_NOT_FOUND',
+  InvalidInput = 'INVALID_INPUT',
+  NoTitle = 'NO_TITLE',
+  ServerError = 'SERVER_ERROR',
+  UnauthorizedAccess = 'UNAUTHORIZED_ACCESS'
+}
+
+export type UpdateMandalaChartInput = {
+  _id: Scalars['ID']['input'];
+  centerCell: MandalaCellInput;
+  description?: InputMaybe<Scalars['String']['input']>;
+  private: Scalars['Boolean']['input'];
+  surroundingCells?: InputMaybe<Array<InputMaybe<MandalaCellInput>>>;
+  title: Scalars['String']['input'];
+};
+
+export type UpdateMandalaChartResponse = UpdateMandalaChartFailure | UpdateMandalaChartSuccess;
+
+export type UpdateMandalaChartSuccess = {
+  __typename?: 'UpdateMandalaChartSuccess';
+  mandalaChart: MandalaChart;
 };
 
 export type User = {

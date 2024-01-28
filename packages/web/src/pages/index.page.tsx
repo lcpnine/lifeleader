@@ -1,166 +1,147 @@
-import DisplayingFullViewMandalaChart from '@/components/MandalaChart/DisplayingFullViewMandalaChart'
-import MandalaChart from '@/components/MandalaChart/MandalaChart'
-import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
-import Recommendations from '@/components/Recommend/Recommendations'
-import ScreenshotButton from '@/components/ScreenshotButton/ScreenshotButton'
+import { SUPPORTING_LANGUAGES } from '@/constants/common.i18n'
 import { useUserContext } from '@/contexts/UserContext'
+import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
-import { recommendationCardVar } from '@/hooks/useRecommendationCard'
-import useScreenShot from '@/hooks/useScreenshot'
-import useSwitch from '@/hooks/useSwitch'
-import { gql, useQuery, useReactiveVar } from '@apollo/client'
-import Head from 'next/head'
-import { useState } from 'react'
-import {
-  GetRecommendationForSubGoalsDocument,
-  Recommendation,
-} from '../../gql/graphql'
-import { extractByTypename } from '../../utils/typeguard'
+import Image from 'next/image'
+import EnglishMandalaChartExample from 'public/images/example/en.png'
+import EnglishMandalaEmptyChartExample from 'public/images/example/en_empty.png'
+import KoreanMandalaChartExample from 'public/images/example/ko.png'
+import KoreanMandalaEmptyChartExample from 'public/images/example/ko_empty.png'
+import ChineseTraditioanlMandalaChartExample from 'public/images/example/zh.png'
+import ChineseTraditioanlMandalaEmptyChartExample from 'public/images/example/zh_empty.png'
 import TRANSLATIONS from './index.i18n'
 
 const Home = () => {
   const { currentLanguage, getTranslation } = useI18n()
-  const { user } = useUserContext()
+  const { isSignedIn } = useUserContext()
+  const { goTo } = useGoTo()
   const translation = getTranslation(TRANSLATIONS)
-  const [wholeGridValues, setWholeGridValues] = useState<string[][]>(
-    new Array(9).fill(new Array(9).fill(''))
-  )
-  const mainGoal = wholeGridValues[4][4]
-  const subGoals = wholeGridValues[4].filter((_, index) => index !== 4)
 
-  const { takeScreenShot, ScreenShotComponent } = useScreenShot({
-    component: (
-      <DisplayingFullViewMandalaChart wholeGridValues={wholeGridValues} />
-    ),
-  })
-  const { isSwitchOn: isAIModeOn, Component: AIModeSwitch } = useSwitch({
-    initialIsSwitchOn: false,
-  })
-  const { data, loading, refetch } = useQuery(
-    GetRecommendationForSubGoalsDocument,
-    {
-      variables: {
-        mainGoal,
-        selectedSubGoals: subGoals,
-        currentLanguage,
-      },
-      skip: !(isAIModeOn && mainGoal),
-      onCompleted(data) {
-        if (data) {
-          const { RecommendationSuccess, RecommendationFailure } =
-            extractByTypename(data.recommendationForSubGoals)
-          if (RecommendationSuccess?.recommendations) {
-            recommendationCardVar(
-              RecommendationSuccess.recommendations.map(
-                (item: Recommendation, index: number) => ({
-                  id: index,
-                  text: item.text,
-                  isClicked: false,
-                })
-              )
-            )
-          }
-        }
-      },
-    }
-  )
-  const { RecommendationFailure } = extractByTypename(
-    data?.recommendationForSubGoals
-  )
-
-  const errorType = RecommendationFailure?.errorType
-  const recommendationItems = useReactiveVar(recommendationCardVar)
-
-  const onRecommendItemAccepted = () => {
-    const updatedItems = recommendationItems.filter(item => !item.isClicked)
-    recommendationCardVar(updatedItems)
+  const getExampleChart = () => {
+    if (currentLanguage === SUPPORTING_LANGUAGES.ko)
+      return KoreanMandalaChartExample
+    if (currentLanguage === SUPPORTING_LANGUAGES['zh-Hant'])
+      return ChineseTraditioanlMandalaChartExample
+    return EnglishMandalaChartExample
   }
 
-  const handleRecommendationItemClick = (id: number) => () => {
-    const previousClickedItem = recommendationItems.find(item => item.isClicked)
-    const updatedItems = recommendationItems.map(item => ({
-      ...item,
-      isClicked: item.id === id ? !item.isClicked : false,
-    }))
-    if (previousClickedItem?.isClicked) {
-      updatedItems[previousClickedItem.id].isClicked = false
-    }
-    recommendationCardVar(updatedItems)
+  const getExampleEmptyChart = () => {
+    if (currentLanguage === SUPPORTING_LANGUAGES.ko)
+      return KoreanMandalaEmptyChartExample
+    if (currentLanguage === SUPPORTING_LANGUAGES['zh-Hant'])
+      return ChineseTraditioanlMandalaEmptyChartExample
+    return EnglishMandalaEmptyChartExample
   }
 
-  const isShowingAIRecommendation =
-    isAIModeOn && !loading && recommendationItems.length > 0
+  const handleCreateChartClick = () => {
+    goTo('/mandala/chart')
+  }
+
+  const handleSignUpClick = () => {
+    goTo('/auth/sign-up')
+  }
+
+  const handleSignInClick = () => {
+    goTo('/auth/sign-in')
+  }
 
   return (
-    <>
-      <Head>
-        <title>{translation('tabTitle')}</title>
-        <meta name="description" content={translation('description')} />
-      </Head>
-      <div className="flex flex-col items-center justify-center p-4">
-        <h1 className="text-5xl font-extrabold text-center text-blue-600 my-4 shadow-sm">
-          {translation('title')}
-        </h1>
-        <div className="flex items-center justify-center w-3/5">
-          <p className="break-words">{translation('description')}</p>
-        </div>
-        <div className="pt-4">
-          <MandalaThemeSelector />
-        </div>
-        {/* <div className="pt-4">{ToggleOptions}</div> */}
-        {user.purchasedInfo.isPurchased && (
-          <div className="pt-4 flex flex-col items-center justify-center">
-            <div className="font-bold pb-2">AI Mode</div>
-            <AIModeSwitch />
-            <p className="text-xs pt-2">{translation('aiModeDescription')}</p>
-          </div>
-        )}
-        <div className="pt-4">
-          <MandalaChart
-            wholeGridValues={wholeGridValues}
-            setWholeGridValues={setWholeGridValues}
-            isAIModeOn={isAIModeOn}
-            recommendationItems={recommendationItems}
-            onRecommendItemAccepted={onRecommendItemAccepted}
+    <div className="p-4 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        {translation('WelcomeToLifeLeader')}
+      </h1>
+      <p className="mb-8 text-lg">{translation('WelcomingParagraph')}</p>
+      {/* notice */}
+      <div className="bg-blue-100 border-t-4 border-blue-500 rounded-b text-blue-900 px-4 py-3 shadow-md mb-8">
+        {translation('Notice')}
+      </div>
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          {translation('WhatIsMandalaChart')}
+        </h2>
+        <p className="mb-4">{translation('MandalaChartExplanation')}</p>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          {translation('StructureOfMandalaChart')}
+        </h2>
+        <p className="mb-4">{translation('StructureExplanation')}</p>
+        <div className="flex justify-center">
+          <Image
+            src={getExampleEmptyChart().src}
+            width={500}
+            height={500}
+            alt="empty chart"
           />
         </div>
-        <div className="pt-4">
-          <ScreenshotButton takeScreenShot={takeScreenShot} />
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          {translation('CreatingYourMandalaChart')}
+        </h2>
+        <p className="mb-4">{translation('CreatingChartExplanation')}</p>
+        <div className="flex justify-center">
+          <Image
+            src={getExampleChart().src}
+            width={500}
+            height={500}
+            alt="example chart"
+          />
         </div>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          {translation('BenefitsOfUsingMandalaChart')}
+        </h2>
+        <p className="mb-4">{translation('BenefitsExplanation')}</p>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          {translation('AdaptingChartToYourNeeds')}
+        </h2>
+        <p className="mb-4">
+          {translation('AdaptingChartToYourNeedsExplanation')}
+        </p>
+      </section>
+
+      <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <section className="mb-8">
+        <p className="mb-4 text-lg">{translation('SignUpInvitation')}</p>
+      </section>
+
+      <div className="flex justify-center items-center gap-4 mb-4">
+        <button
+          className="sm:text-xs md:text-base bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={handleCreateChartClick}
+        >
+          {translation('StartCreatingYourMandalaChart')}
+        </button>
+        {!isSignedIn && (
+          <button
+            className="sm:text-xs md:text-base bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleSignUpClick}
+          >
+            {translation('SignUp')}
+          </button>
+        )}
       </div>
-      {isShowingAIRecommendation && (
-        <Recommendations
-          recommendationItems={recommendationItems}
-          handleRecommendationItemClick={handleRecommendationItemClick}
-          handleRefresh={() => refetch()}
-        />
+      {!isSignedIn && (
+        <div className="text-center">
+          <a
+            href="#"
+            className="text-blue-600 hover:text-blue-800 visited:text-purple-800"
+            onClick={handleSignInClick}
+          >
+            {translation('AlreadyRegisteredSignIn')}
+          </a>
+        </div>
       )}
-      {ScreenShotComponent && <ScreenShotComponent />}
-    </>
+    </div>
   )
 }
-
-const RECOMMENDATION_FOR_SUB_GOALS_QUERY = gql`
-  query GetRecommendationForSubGoals(
-    $mainGoal: String!
-    $selectedSubGoals: [String!]
-    $currentLanguage: String!
-  ) {
-    recommendationForSubGoals(
-      mainGoal: $mainGoal
-      selectedSubGoals: $selectedSubGoals
-      currentLanguage: $currentLanguage
-    ) {
-      ... on RecommendationSuccess {
-        recommendations {
-          text
-        }
-      }
-      ... on RecommendationFailure {
-        errorType
-      }
-    }
-  }
-`
 
 export default Home
