@@ -1,4 +1,5 @@
 import { SUPPORTING_LANGUAGES } from '@/constants/common.i18n'
+import useGoTo from '@/hooks/useGoTo'
 import useI18n from '@/hooks/useI18n'
 import Image from 'next/image'
 import EnglishMandalaChartExample from 'public/images/example/en.png'
@@ -10,6 +11,7 @@ import ChineseTraditioanlMandalaEmptyChartExample from 'public/images/example/zh
 
 const Home = () => {
   const { currentLanguage } = useI18n()
+  const { goTo } = useGoTo()
 
   const getExampleChart = () => {
     if (currentLanguage === SUPPORTING_LANGUAGES.ko)
@@ -28,15 +30,15 @@ const Home = () => {
   }
 
   const handleCreateChartClick = () => {
-    alert('Time to create your own Mandala Chart!')
+    goTo('/mandala/chart')
   }
 
   const handleSignUpClick = () => {
-    alert('Sign up to save and modify your charts!')
+    goTo('/auth/sign-up')
   }
 
   const handleSignInClick = () => {
-    alert("Welcome back! Let's sign in.")
+    goTo('/auth/sign-in')
   }
 
   return (
