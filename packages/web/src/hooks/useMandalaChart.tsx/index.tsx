@@ -5,6 +5,7 @@ import TextInputModal from '@/components/Modal/TextInput'
 import Recommendations from '@/components/Recommend/Recommendations'
 import Switch from '@/components/Switch/Switch'
 import { IS_DEV } from '@/constants/common'
+import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import { useLoading } from '@/contexts/LoadingContext'
 import useI18n from '@/hooks/useI18n'
@@ -20,11 +21,14 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import {
   CreateMandalaChartDocument,
+  CreateMandalaChartFailureType,
   CreateMandalaChartInput,
   UpdateMandalaChartDocument,
 } from '../../../gql/graphql'
 import { deepCopy } from '../../../utils/common'
+import { extractByTypename } from '../../../utils/typeguard'
 import useAIRecommendation from '../useAIRecommendation'
+import useGoTo from '../useGoTo'
 import useModal from '../useModal'
 import TRANSLATIONS from './useMandalaChart.i18n'
 
@@ -48,8 +52,10 @@ const useMandalaChart = () => {
   const [wholeGridValues, setWholeGridValues] =
     useState<CreateMandalaChartInput>(DEFAULT_WHOLE_GRID_VALUES)
   const mainGoal = wholeGridValues.centerCell.goal
+  const { goTo } = useGoTo()
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
+  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const [createMandalaChart] = useMutation(CreateMandalaChartDocument)
   const [updateMandalaChart] = useMutation(UpdateMandalaChartDocument)
 
@@ -96,6 +102,45 @@ const useMandalaChart = () => {
       : createMandalaChart({
           variables: {
             input: wholeGridValues,
+          },
+          onCompleted: data => {
+            const { CreateMandalaChartSuccess, CreateMandalaChartFailure } =
+              extractByTypename(data.createMandalaChart)
+
+            const errorType = CreateMandalaChartFailure?.errorType
+            if (errorType) {
+              if (errorType === CreateMandalaChartFailureType.InvalidInput) {
+                openAlert({
+                  text: translation('InvalidInput'),
+                })
+              }
+              if (errorType === CreateMandalaChartFailureType.NoTitle) {
+                openAlert({
+                  text: translation('NoTitle'),
+                })
+              }
+              if (
+                errorType === CreateMandalaChartFailureType.UnauthorizedAccess
+              ) {
+                openAlert({
+                  text: commonTranslation('NeedToSignIn'),
+                })
+              }
+            }
+
+            const mandalaChart = CreateMandalaChartSuccess?.mandalaChart
+            if (mandalaChart) {
+              openAlert({
+                text: translation('SaveChartSuccess'),
+                onClose: () => {
+                  goTo('/mandala/chart', {
+                    params: {
+                      chartId: mandalaChart._id,
+                    },
+                  })
+                },
+              })
+            }
           },
         })
   }
