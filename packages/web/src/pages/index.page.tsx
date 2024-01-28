@@ -2,17 +2,29 @@ import { SUPPORTING_LANGUAGES } from '@/constants/common.i18n'
 import useI18n from '@/hooks/useI18n'
 import Image from 'next/image'
 import EnglishMandalaChartExample from 'public/images/example/en.png'
+import EnglishMandalaEmptyChartExample from 'public/images/example/en_empty.png'
 import KoreanMandalaChartExample from 'public/images/example/ko.png'
+import KoreanMandalaEmptyChartExample from 'public/images/example/ko_empty.png'
 import ChineseTraditioanlMandalaChartExample from 'public/images/example/zh.png'
+import ChineseTraditioanlMandalaEmptyChartExample from 'public/images/example/zh_empty.png'
 
 const Home = () => {
   const { currentLanguage } = useI18n()
+
   const getExampleChart = () => {
     if (currentLanguage === SUPPORTING_LANGUAGES.ko)
       return KoreanMandalaChartExample
     if (currentLanguage === SUPPORTING_LANGUAGES['zh-Hant'])
       return ChineseTraditioanlMandalaChartExample
     return EnglishMandalaChartExample
+  }
+
+  const getExampleEmptyChart = () => {
+    if (currentLanguage === SUPPORTING_LANGUAGES.ko)
+      return KoreanMandalaEmptyChartExample
+    if (currentLanguage === SUPPORTING_LANGUAGES['zh-Hant'])
+      return ChineseTraditioanlMandalaEmptyChartExample
+    return EnglishMandalaEmptyChartExample
   }
 
   const handleCreateChartClick = () => {
@@ -39,7 +51,6 @@ const Home = () => {
         AI recommendation system powered by GPT-4, we aim to guide you on your
         journey to success.
       </p>
-
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4 text-center">
           What is a Mandala Chart?
@@ -50,12 +61,6 @@ const Home = () => {
           breaking down complex objectives into smaller, actionable components,
           aiding in comprehensive planning and execution.
         </p>
-        <Image
-          src={getExampleChart().src}
-          width={500}
-          height={500}
-          alt="example chart"
-        />
       </section>
 
       <section className="mb-8">
@@ -68,7 +73,12 @@ const Home = () => {
           goal or theme, while the eight surrounding squares represent related
           sub-goals or aspects, offering a holistic perspective.
         </p>
-        {/* Comment: An image of a Mandala Chart with labeled sections would be beneficial here. */}
+        <Image
+          src={getExampleEmptyChart().src}
+          width={500}
+          height={500}
+          alt="empty chart"
+        />
       </section>
 
       <section className="mb-8">
@@ -81,7 +91,12 @@ const Home = () => {
           Elaborate each section with specific actions or thoughts, creating a
           detailed roadmap for your objective.
         </p>
-        {/* Comment: Here, an example of a filled Mandala Chart can help readers visualize the process. */}
+        <Image
+          src={getExampleChart().src}
+          width={500}
+          height={500}
+          alt="example chart"
+        />
       </section>
 
       <section className="mb-8">
