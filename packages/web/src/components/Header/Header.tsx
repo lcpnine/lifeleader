@@ -38,9 +38,43 @@ const Header = () => {
           Life Leader
         </span>
       </div>
-
-      {/* Language Selector and Authentication */}
       <div className="flex items-center">
+        {/* Page Navigation */}
+        <div className="hidden md:flex items-center mr-4">
+          {isSignedIn && (
+            <Link
+              href="/mandala/my-list"
+              className="text-slate-100 px-3 py-1 font-bold transition duration-300 mr-2"
+            >
+              Your Charts
+            </Link>
+          )}
+          <Link
+            href="/mandala/chart"
+            className="text-slate-100 px-3 py-1 font-bold transition duration-300"
+          >
+            Create a New Chart
+          </Link>
+        </div>
+        {/* Authentication Section */}
+        {isSignedIn ? (
+          <div className="flex items-center mr-4">
+            <span className="text-white font-medium mr-4">{nickname}</span>
+            <button
+              onClick={handleSignOut}
+              className="bg-blue-500 text-white px-3 py-1 text-sm rounded hover:bg-blue-600 transition duration-300"
+            >
+              {translation('signOut')}
+            </button>
+          </div>
+        ) : (
+          <Link
+            href="/auth/sign-in"
+            className="bg-blue-500 text-white px-3 py-1 text-sm rounded hover:bg-blue-600 transition duration-300 mr-4"
+          >
+            {translation('signIn')}
+          </Link>
+        )}
         {/* Language Selector */}
         <select
           className="border rounded p-1 text-gray-700 focus:ring-blue-500 focus:border-blue-500 mr-4"
@@ -57,28 +91,6 @@ const Header = () => {
             </option>
           ))}
         </select>
-
-        {/* Authentication Section */}
-        {isSignedIn ? (
-          <div className="flex items-center">
-            <span className="text-white mr-4 text-lg font-medium">
-              {nickname}
-            </span>
-            <button
-              onClick={handleSignOut}
-              className="bg-blue-500 text-white px-3 py-1 text-sm rounded hover:bg-blue-600 transition duration-300"
-            >
-              {translation('signOut')}
-            </button>
-          </div>
-        ) : (
-          <Link
-            href="/auth/sign-in"
-            className="bg-blue-500 text-white px-3 py-1 text-sm rounded hover:bg-blue-600 transition duration-300"
-          >
-            {translation('signIn')}
-          </Link>
-        )}
       </div>
     </header>
   )
