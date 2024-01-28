@@ -1,8 +1,9 @@
 const TRANSLATIONS = {
   en: {
     AiModeDescription: `In AI mode, typing is disabled. Use the suggested words to add to your Mandala Chart.`,
-    downloadImage: 'Download Your Chart',
-    saveChart: 'Save Your Chart',
+    downloadImage: 'Download Chart',
+    UpdateChart: 'Update Chart',
+    saveChart: 'Save Chart',
     mainGoalIsRequired: 'A Main Goal is required',
     TitlePlaceholder: 'Enter a Title',
     DescriptionPlaceholder: 'Describe your chart here',
@@ -14,6 +15,7 @@ const TRANSLATIONS = {
   ko: {
     AiModeDescription: `AI 모드에서는 직접 입력할 수 없습니다. 추천 단어를 선택해 만다라트 계획표에 추가해주세요.`,
     downloadImage: '이미지 다운로드',
+    UpdateChart: '차트 업데이트',
     saveChart: '차트 저장',
     mainGoalIsRequired: '메인 목표를 입력해주세요',
     TitlePlaceholder: '제목을 입력해주세요',
@@ -26,6 +28,7 @@ const TRANSLATIONS = {
   'zh-Hant': {
     AiModeDescription: `AI 模式下無法直接輸入。請選擇推薦的文字，加入曼陀羅思考法九宮格。`,
     downloadImage: '下載圖表',
+    UpdateChart: '更新圖表',
     saveChart: '保存圖表',
     mainGoalIsRequired: '請輸入主要目標',
     TitlePlaceholder: '請輸入標題',

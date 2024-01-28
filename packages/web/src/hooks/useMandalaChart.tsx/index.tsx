@@ -50,6 +50,7 @@ const DEFAULT_WHOLE_GRID_VALUES: CreateMandalaChartInput = {
 
 const useMandalaChart = () => {
   const router = useRouter()
+  const chartId = router.query.chartId as string | undefined
   const { openAlert } = useAlert()
   const [wholeGridValues, setWholeGridValues] =
     useState<CreateMandalaChartInput>(DEFAULT_WHOLE_GRID_VALUES)
@@ -112,7 +113,6 @@ const useMandalaChart = () => {
     }
     if (wholeGridValues.title === '')
       return openAlert({ text: translation('NoTitle') })
-    const chartId = router.query.chartId as string | undefined
     chartId
       ? updateMandalaChart({
           variables: {
@@ -423,7 +423,7 @@ const useMandalaChart = () => {
         onClick={handleSaveChartClick}
       >
         <CloudIcon className="h-5 w-5 mr-2" />
-        {translation('saveChart')}
+        {chartId ? translation('UpdateChart') : translation('saveChart')}
       </button>
     ),
     DownloadImageButton: (
