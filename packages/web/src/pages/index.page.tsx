@@ -1,78 +1,127 @@
-import { COMMON_TRANSLATIONS } from '@/constants/i18n'
-import { useAlert } from '@/contexts/AlertContext'
-import { useUserContext } from '@/contexts/UserContext'
-import useGoTo from '@/hooks/useGoTo'
-import useI18n from '@/hooks/useI18n'
-import useMandalaChart from '@/hooks/useMandalaChart.tsx'
-import Head from 'next/head'
-import TRANSLATIONS from './index.i18n'
-
 const Home = () => {
-  const { getTranslation } = useI18n()
-  const { user, isSignedIn } = useUserContext()
-  const { goTo } = useGoTo()
-  const translation = getTranslation(TRANSLATIONS)
-  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
-  const { openAlert } = useAlert()
-
-  const handleLoadSavedChartClick = () => {
-    if (!isSignedIn) {
-      openAlert({
-        text: commonTranslation('NeedToSignIn'),
-      })
-      return goTo('/auth/sign-in')
-    }
-    goTo('/mandala/my-list')
+  const handleCreateChartClick = () => {
+    alert('Time to create your own Mandala Chart!')
   }
 
-  const {
-    ThemeSelector,
-    AIModeSwitch,
-    MandalaChart,
-    Recommendations,
-    ScreenShotComponent,
-    SaveChartButton,
-    DownloadImageButton,
-  } = useMandalaChart()
+  const handleSignUpClick = () => {
+    alert('Sign up to save and modify your charts!')
+  }
+
+  const handleSignInClick = () => {
+    alert("Welcome back! Let's sign in.")
+  }
 
   return (
-    <>
-      <Head>
-        <title>{translation('tabTitle')}</title>
-        <meta name="description" content={translation('description')} />
-      </Head>
-      <div className="flex flex-col items-center justify-center p-4">
-        <h1 className="text-5xl font-extrabold text-center text-blue-600 my-4 shadow-sm">
-          {translation('title')}
-        </h1>
-        <div className="flex items-center justify-center w-3/5">
-          <p className="break-words">{translation('description')}</p>
-        </div>
-        <div className="pt-4">
-          <p
-            className="inline-block px-4 py-2 text-gray-500 hover:text-gray-900 italic underline transition duration-300
-            focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 mb-4 hover:cursor-pointer"
-            onClick={handleLoadSavedChartClick}
-          >
-            {translation('loadSavedChart')}
-          </p>
-        </div>
+    <div className="p-4 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        Welcome to Life Leader
+      </h1>
+      <p className="mb-8 text-lg">
+        At Life Leader, we're dedicated to providing tools that not only help
+        you visualize your goals but also support you in achieving your dreams.
+        With our latest offerings, including the insightful Mandala Chart and an
+        AI recommendation system powered by GPT-4, we aim to guide you on your
+        journey to success.
+      </p>
 
-        <div className="pb-4">{ThemeSelector}</div>
-        {user.purchasedInfo.isPurchased && (
-          <div className="pt-4 flex flex-col items-center justify-center">
-            {AIModeSwitch}
-          </div>
-        )}
-        <div className="pt-4">{MandalaChart}</div>
-        <div className="pt-4 flex gap-2">
-          {SaveChartButton}
-          {DownloadImageButton}
-        </div>
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          What is a Mandala Chart?
+        </h2>
+        <p className="mb-4">
+          The Mandala Chart, a concept developed in Japan, is a dynamic
+          framework for organizing thoughts and goals. It's a versatile tool for
+          breaking down complex objectives into smaller, actionable components,
+          aiding in comprehensive planning and execution.
+        </p>
+        {/* Comment: Insert a diagram or illustration of a basic Mandala Chart here. */}
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          Structure of a Mandala Chart
+        </h2>
+        <p className="mb-4">
+          The Mandala Chart is visually represented as a large square divided
+          into nine smaller squares. The central square encapsulates the primary
+          goal or theme, while the eight surrounding squares represent related
+          sub-goals or aspects, offering a holistic perspective.
+        </p>
+        {/* Comment: An image of a Mandala Chart with labeled sections would be beneficial here. */}
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          Creating Your Mandala Chart
+        </h2>
+        <p className="mb-4">
+          Begin by placing your central goal in the middle square. Surround it
+          with eight related elements, each representing a sub-goal or aspect.
+          Elaborate each section with specific actions or thoughts, creating a
+          detailed roadmap for your objective.
+        </p>
+        {/* Comment: Here, an example of a filled Mandala Chart can help readers visualize the process. */}
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          Benefits of Using a Mandala Chart
+        </h2>
+        <p className="mb-4">
+          Utilizing a Mandala Chart ensures a comprehensive view of your goals,
+          promoting structured thinking and clarity. It's an invaluable tool for
+          both personal and professional growth, adaptable to diverse scenarios
+          and objectives.
+        </p>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          Adapting the Chart to Your Needs
+        </h2>
+        <p className="mb-4">
+          The Mandala Chart's versatility lies in its adaptability. Whether for
+          educational purposes, career planning, or personal development, the
+          chart can be customized to align with your unique aspirations and
+          challenges.
+        </p>
+      </section>
+
+      <section className="mb-8">
+        <p className="mb-4 text-lg">
+          By signing up with Life Leader, you gain the ability to save, modify,
+          and revisit your Mandala Charts at any time. Plus, as part of our
+          opening event, new sign-ups can now fully utilize the Chat GPT
+          recommendation feature without any charge until February. Don’t miss
+          this opportunity to enhance your journey to success with our advanced
+          tools.
+        </p>
+      </section>
+
+      <div className="flex justify-center items-center gap-4 mb-4">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={handleCreateChartClick}
+        >
+          Start Creating Your Mandala Chart
+        </button>
+        <button
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          onClick={handleSignUpClick}
+        >
+          Sign Up
+        </button>
       </div>
-      {Recommendations}
-      {ScreenShotComponent}
-    </>
+      <div className="text-center">
+        <a
+          href="#"
+          className="text-blue-600 hover:text-blue-800 visited:text-purple-800"
+          onClick={handleSignInClick}
+        >
+          Registered already? Sign in to your account.
+        </a>
+      </div>
+    </div>
   )
 }
 
