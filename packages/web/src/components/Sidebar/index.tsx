@@ -13,12 +13,12 @@ const Sidebar = ({ isSidebarOpen, closeSidebar }: SidebarProps) => {
 
   return (
     <div
-      className={`fixed inset-0 z-40 bg-gray-600 bg-opacity-75 transition-opacity ${
+      className={`fixed inset-0 z-40 transition-opacity ${
         isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}
     >
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-64 overflow-hidden transform bg-white p-4 transition-transform ${
+        className={`fixed inset-0 z-50 transform bg-white p-4 transition-transform ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
