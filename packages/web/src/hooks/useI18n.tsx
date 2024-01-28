@@ -1,4 +1,5 @@
 import { SUPPORTING_LANGUAGES } from '@/constants/common.i18n'
+import META_TRANSLATIONS from '@/constants/meta.i18n'
 import { useRouter } from 'next/router'
 
 type TranslationFile = {
@@ -30,11 +31,17 @@ const useI18n = () => {
     return <K extends keyof T[SUPPORTING_LANGUAGES]>(key: K) => {
       const translationKey = key as string
 
-      return translation[translationKey] || 'No translation found'
+      return (
+        translation[translationKey] ||
+        translation[SUPPORTING_LANGUAGES.en] ||
+        'No translation found'
+      )
     }
   }
 
-  return { currentLanguage, changeLanguage, getTranslation }
+  const metaTranslation = getTranslation(META_TRANSLATIONS)
+
+  return { currentLanguage, changeLanguage, getTranslation, metaTranslation }
 }
 
 export default useI18n
