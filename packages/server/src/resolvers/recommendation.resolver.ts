@@ -23,6 +23,7 @@ export class RecommendationResolver {
     }
 
     try {
+      if (!IS_DEV) return { recommendations: [] }
       if (IS_DEV) {
         const make6RandomNumbersBetween0to100 = () =>
           Array.from({ length: 6 }, () => Math.floor(Math.random() * 100))
