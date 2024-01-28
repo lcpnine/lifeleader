@@ -1,4 +1,3 @@
-import { COMMON_TRANSLATIONS } from '@/constants/i18n'
 import { useAlert } from '@/contexts/AlertContext'
 import { useLoading } from '@/contexts/LoadingContext'
 import { useUserContext } from '@/contexts/UserContext'
@@ -18,10 +17,9 @@ import TRANSLATIONS from './chart.i18n'
 
 const MandalaChartPage = () => {
   const { getTranslation } = useI18n()
-  const { user, isSignedIn } = useUserContext()
+  const { user } = useUserContext()
   const { goTo } = useGoTo()
   const translation = getTranslation(TRANSLATIONS)
-  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
   const { openAlert } = useAlert()
   const router = useRouter()
   const chartId = router.query.chartId as string | undefined
@@ -70,16 +68,6 @@ const MandalaChartPage = () => {
     },
     skip: chartId === undefined,
   })
-
-  const handleLoadSavedChartClick = () => {
-    if (!isSignedIn) {
-      openAlert({
-        text: commonTranslation('NeedToSignIn'),
-      })
-      return goTo('/auth/sign-in')
-    }
-    goTo('/mandala/my-list')
-  }
 
   useEffect(() => {
     if (loading) {
