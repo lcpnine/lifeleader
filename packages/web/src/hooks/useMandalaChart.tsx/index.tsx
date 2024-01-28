@@ -89,6 +89,8 @@ const useMandalaChart = () => {
   }
 
   const handleSaveChartClick = () => {
+    if (wholeGridValues.title !== '')
+      return openAlert({ text: translation('NoTitle') })
     const chartId = router.query.chartId as string | undefined
     chartId
       ? updateMandalaChart({
@@ -306,7 +308,7 @@ const useMandalaChart = () => {
             })
           }
         >
-          {wholeGridValues.title}
+          {wholeGridValues.title || translation('TitlePlaceholder')}
           <PencilSquareIcon className="h-4 w-4 text-gray-700 hover:text-blue-600 ml-2" />
         </h2>
         {TitleInputModalComponent && <TitleInputModalComponent />}
