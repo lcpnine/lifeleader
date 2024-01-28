@@ -1,6 +1,7 @@
 import DisplayingFullViewMandalaChart from '@/components/MandalaChart/DisplayingFullViewMandalaChart'
 import MandalaChart from '@/components/MandalaChart/MandalaChart'
 import MandalaThemeSelector from '@/components/MandalaThemeSelector/MandalaThemeSelector'
+import TextInputModal from '@/components/Modal/TextInput'
 import Recommendations from '@/components/Recommend/Recommendations'
 import Switch from '@/components/Switch/Switch'
 import { IS_DEV } from '@/constants/common'
@@ -19,6 +20,7 @@ import { useEffect, useState } from 'react'
 import { CreateMandalaChartInput } from '../../../gql/graphql'
 import { deepCopy } from '../../../utils/common'
 import useAIRecommendation from '../useAIRecommendation'
+import useModal from '../useModal'
 import TRANSLATIONS from './useMandalaChart.i18n'
 
 const DEFAULT_WHOLE_GRID_VALUES: CreateMandalaChartInput = {
@@ -175,18 +177,71 @@ const useMandalaChart = () => {
     })
   }
 
+  const {
+    openModal: openTitleInputModal,
+    ModalComponent: TitleInputModalComponent,
+  } = useModal({
+    Modal: TextInputModal,
+    modalProps: {
+      state: wholeGridValues.title,
+      setState: (newValue: string) => {
+        setWholeGridValues(prevGridValue => ({
+          ...prevGridValue,
+          title: newValue,
+        }))
+      },
+    },
+  })
+
+  const {
+    openModal: openDescriptionInputModal,
+    ModalComponent: DescriptionInputModalComponent,
+  } = useModal({
+    Modal: TextInputModal,
+    modalProps: {
+      state: wholeGridValues.description || '',
+      setState: (newValue: string) => {
+        setWholeGridValues(prevGridValue => ({
+          ...prevGridValue,
+          description: newValue,
+        }))
+      },
+    },
+  })
+
   return {
     Title: (
-      <h2 className="flex items-baseline text-3xl font-semibold text-center text-gray-700 hover:text-blue-600 hover:cursor-pointer my-4 shadow-sm">
-        {wholeGridValues.title}
-        <PencilSquareIcon className="h-4 w-4 text-gray-700 hover:text-blue-600 ml-2" />
-      </h2>
+      <>
+        <h2
+          className="flex items-baseline text-3xl font-semibold text-center text-gray-700 hover:text-blue-600 hover:cursor-pointer my-4 shadow-sm"
+          onClick={() =>
+            openTitleInputModal({
+              state: wholeGridValues.title,
+            })
+          }
+        >
+          {wholeGridValues.title}
+          <PencilSquareIcon className="h-4 w-4 text-gray-700 hover:text-blue-600 ml-2" />
+        </h2>
+        {TitleInputModalComponent && <TitleInputModalComponent />}
+      </>
     ),
     Description: (
-      <p className="flex items-baseline break-words text-center text-sm text-gray-700 hover:text-blue-600 hover:cursor-pointer my-2">
-        {wholeGridValues.description}
-        <PencilSquareIcon className="mx-auto h-2 w-2 text-gray-700 hover:text-blue-600 ml-1" />
-      </p>
+      <>
+        <p
+          className="flex items-baseline break-words text-center text-sm text-gray-700 hover:text-blue-600 hover:cursor-pointer my-2"
+          onClick={() =>
+            openDescriptionInputModal({
+              state: wholeGridValues.description || '',
+            })
+          }
+        >
+          {wholeGridValues?.description ||
+            translation('DescriptionPlaceholder')}
+          <PencilSquareIcon className="mx-auto h-2 w-2 text-gray-700 hover:text-blue-600 ml-1" />
+        </p>
+        {DescriptionInputModalComponent && <DescriptionInputModalComponent />}
+      </>
     ),
     ThemeSelector: <MandalaThemeSelector />,
     AIModeSwitch: (
