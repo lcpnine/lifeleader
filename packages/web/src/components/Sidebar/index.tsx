@@ -1,5 +1,7 @@
 import { LANGUAGE_NAMES_SHORT, SUPPORTING_LANGUAGES } from '@/constants/i18n'
+import { useUserContext } from '@/contexts/UserContext'
 import useI18n from '@/hooks/useI18n'
+import useSignOut from '@/hooks/useSignOut/useSignOut'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
@@ -10,6 +12,12 @@ interface SidebarProps {
 
 const Sidebar = ({ isSidebarOpen, closeSidebar }: SidebarProps) => {
   const { currentLanguage, changeLanguage } = useI18n()
+  const { isSignedIn } = useUserContext()
+  const signOut = useSignOut()
+  const handleSignOut = async () => {
+    await signOut()
+    closeSidebar()
+  }
 
   return (
     <div
@@ -45,7 +53,22 @@ const Sidebar = ({ isSidebarOpen, closeSidebar }: SidebarProps) => {
           >
             Create a New Chart
           </Link>
-          {/* Add more links as needed */}
+          {isSignedIn ? (
+            <button
+              onClick={handleSignOut}
+              className="block w-full text-left px-3 py-2 rounded hover:bg-gray-100"
+            >
+              Sign Out
+            </button>
+          ) : (
+            <Link
+              href="/auth/sign-in"
+              className="block px-3 py-2 rounded hover:bg-gray-100"
+              onClick={closeSidebar}
+            >
+              Sign In
+            </Link>
+          )}
         </nav>
 
         {/* Language Selector */}
