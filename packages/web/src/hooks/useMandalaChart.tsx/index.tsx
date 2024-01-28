@@ -50,11 +50,7 @@ const useMandalaChart = () => {
   const mainGoal = wholeGridValues.centerCell.goal
   const { getTranslation } = useI18n()
   const translation = getTranslation(TRANSLATIONS)
-  const [createMandalaChart] = useMutation(CreateMandalaChartDocument, {
-    variables: {
-      input: wholeGridValues,
-    },
-  })
+  const [createMandalaChart] = useMutation(CreateMandalaChartDocument)
   const [updateMandalaChart] = useMutation(UpdateMandalaChartDocument)
 
   const { takeScreenShot, ScreenShotComponent } = useScreenShot({
