@@ -15,7 +15,7 @@ const DisplayingFullViewMandalaChart = ({ wholeGridValues }: Props) => {
 
   return (
     <div
-      className={`grid grid-cols-3 w-max border-2 ${themeStyle.borderColor}`}
+      className={`grid grid-cols-3 w-max border-4 ${themeStyle.borderColor}`}
     >
       {new Array(9).fill('').map((values, gridIndex) => {
         const grid = getGridByIndexFromCreateMandalaChartInput(
@@ -25,7 +25,7 @@ const DisplayingFullViewMandalaChart = ({ wholeGridValues }: Props) => {
         return (
           <div
             key={gridIndex}
-            className={`grid grid-cols-3 w-max border ${themeStyle.borderColor}`}
+            className={`grid grid-cols-3 w-max border-4 ${themeStyle.borderColor}`}
           >
             {new Array(9).fill('').map((_, suqareIndex) => {
               const value = getSquareByIndexFromMandalaCellInput(

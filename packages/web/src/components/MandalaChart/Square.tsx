@@ -79,7 +79,7 @@ const Square = (props: SquareProps) => {
   const { themeStyle } = useTheme()
   const { isMobile } = useEntryContext()
 
-  const textStyle = isCenterSquare ? 'font-bold text-lg' : ''
+  const textStyle = isCenterSquare ? 'font-bold' : ''
 
   const textColor = !isCenterSquare
     ? themeStyle.defualtTextColor
@@ -88,7 +88,6 @@ const Square = (props: SquareProps) => {
       : themeStyle.edgeGridCenterSquareTextColor
 
   const getSquarePlaceHolder = () => {
-    if (type === SquareType.DISPLAY) return ''
     if (isCenterGrid && isCenterSquare) return translation('mainGoal')
     if (isCenterGrid && !isCenterSquare)
       return `${translation('subGoal')} ${

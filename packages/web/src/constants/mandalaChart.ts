@@ -21,7 +21,7 @@ export const MANDALA_THEMES = {
     gridBorder: 'border border-gray-200',
   },
   [MandalaTheme.DARK]: {
-    borderColor: 'border-gray-700',
+    borderColor: 'border-slate-400',
     backgroundColor: 'bg-gray-800',
     defualtTextColor: 'text-white',
     centerGridCenterSquareTextColor: 'text-white',

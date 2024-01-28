@@ -1,6 +1,8 @@
+import { COMMON_TRANSLATIONS } from '@/constants/common.i18n'
 import { useLoading } from '@/contexts/LoadingContext'
 import { useUserContext } from '@/contexts/UserContext'
 import useGoTo from '@/hooks/useGoTo'
+import useI18n from '@/hooks/useI18n'
 import useMandalaChartDelete from '@/hooks/useMandalaChartDelete'
 import { gql, useQuery } from '@apollo/client'
 import {
@@ -15,10 +17,16 @@ import { isMobile } from 'react-device-detect'
 import { GetUserMandalaChartsDocument } from '../../../gql/graphql'
 import { formatDate } from '../../../utils/common'
 import { extractByTypename } from '../../../utils/typeguard'
+import TRANSLATIONS from './my-list.i18n'
 
 const MyMandalaChartsPage = () => {
   const { user } = useUserContext()
   const { goTo } = useGoTo()
+  const { getTranslation } = useI18n()
+
+  const translation = getTranslation(TRANSLATIONS)
+  const commonTranslation = getTranslation(COMMON_TRANSLATIONS)
+
   const { loading, error, data, refetch } = useQuery(
     GetUserMandalaChartsDocument,
     {
@@ -62,7 +70,9 @@ const MyMandalaChartsPage = () => {
 
   return (
     <div className="container mx-auto p-4 min-h-screen">
-      <h1 className="text-2xl font-bold text-center">Your Mandala Charts</h1>
+      <h1 className="text-2xl font-bold text-center">
+        {commonTranslation('YourCharts')}
+      </h1>
       {mandalaCharts.length !== 0 && (
         <div className="flex justify-end mb-4">
           <button
@@ -70,7 +80,7 @@ const MyMandalaChartsPage = () => {
             onClick={handleCreateChart}
           >
             <PlusCircleIcon className="h-5 w-5 mr-1" />
-            Create Mandala Chart
+            {commonTranslation('CreateChart')}
           </button>
         </div>
       )}
@@ -78,17 +88,17 @@ const MyMandalaChartsPage = () => {
         <div className="text-center mt-10">
           <InboxIcon className="mx-auto h-36 w-36 text-gray-400" />
           <h3 className="mt-2 text-xl font-bold text-gray-900">
-            No Mandala Charts Found
+            {translation('NoMandalaChartsInfo')}
           </h3>
           <p className="mt-1 text-sm text-gray-500">
-            Get started by creating your first Mandala chart.
+            {translation('NoMandalaChartsDescription')}
           </p>
           <div
             className="flex justify-center items-center text-gray-900 hover:text-blue-700 hover:cursor-pointer font-bold py-4 px-2 text-l"
             onClick={handleCreateChart}
           >
             <PlusCircleIcon className="h-5 w-5 mr-1" />
-            Create Mandala Chart
+            {commonTranslation('CreateChart')}
           </div>
         </div>
       ) : (
@@ -118,9 +128,15 @@ const MyMandalaChartsPage = () => {
                   )}
                   <div className="text-sm">
                     <p>{chart.private ? 'Private' : 'Public'}</p>
-                    <p>Created: {formatDate(chart.createdAt)}</p>
+                    <p>
+                      {commonTranslation('Created')}:{' '}
+                      {formatDate(chart.createdAt)}
+                    </p>
                     {chart.lastModifiedAt && (
-                      <p>Updated: {formatDate(chart.lastModifiedAt)}</p>
+                      <p>
+                        {commonTranslation('Updated')}:{' '}
+                        {formatDate(chart.lastModifiedAt)}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -133,7 +149,7 @@ const MyMandalaChartsPage = () => {
                     }}
                   >
                     <TrashIcon className="h-5 w-5 mr-1" />
-                    Delete
+                    {commonTranslation('Delete')}
                   </button>
                 </div>
               </div>
