@@ -32,7 +32,7 @@ export class GetMandalaChartSuccess {
 
 export enum GetMandalaChartFailureType {
   CHART_NOT_FOUND = 'CHART_NOT_FOUND',
-  UNAUTHORIZED_ACCESS = 'UNAUTHORIZED_ACCESS',
+  PRIVATE_CHART = 'PRIVATE_CHART',
   SERVER_ERROR = 'SERVER_ERROR',
 }
 

@@ -106,8 +106,8 @@ export type GetMandalaChartFailure = {
 
 export enum GetMandalaChartFailureType {
   ChartNotFound = 'CHART_NOT_FOUND',
-  ServerError = 'SERVER_ERROR',
-  UnauthorizedAccess = 'UNAUTHORIZED_ACCESS'
+  PrivateChart = 'PRIVATE_CHART',
+  ServerError = 'SERVER_ERROR'
 }
 
 export type GetMandalaChartInput = {

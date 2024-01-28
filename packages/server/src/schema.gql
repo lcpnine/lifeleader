@@ -89,8 +89,8 @@ type GetMandalaChartFailure {
 
 enum GetMandalaChartFailureType {
   CHART_NOT_FOUND
+  PRIVATE_CHART
   SERVER_ERROR
-  UNAUTHORIZED_ACCESS
 }
 
 input GetMandalaChartInput {

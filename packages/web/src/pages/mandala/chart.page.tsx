@@ -50,13 +50,13 @@ const MandalaChartPage = () => {
       if (errorType) {
         if (errorType === GetMandalaChartFailureType.ChartNotFound) {
           openAlert({
-            text: commonTranslation('ChartNotFound'),
+            text: translation('ChartNotFound'),
           })
           return goTo('/mandala/my-list')
         }
-        if (errorType === GetMandalaChartFailureType.UnauthorizedAccess) {
+        if (errorType === GetMandalaChartFailureType.PrivateChart) {
           openAlert({
-            text: commonTranslation('UnauthorizedAccess'),
+            text: translation('PrivateChart'),
           })
           return goTo('/mandala/my-list')
         }

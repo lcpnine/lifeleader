@@ -24,14 +24,22 @@ import {
 export class MandalaChartResolver {
   @Query(() => GetMandalaChartResponse)
   async getMandalaChart(
-    @Arg('input') input: GetMandalaChartInput
+    @Arg('input') input: GetMandalaChartInput,
+    @Ctx() ctx: MyContext
   ): Promise<typeof GetMandalaChartResponse> {
+    // @ts-ignore
+    const userId: string | null = ctx.req.userId
+
     const mandalaChart = await MandalaChartModel.findById(input.mandalaChartId)
       .populate('centerCell')
       .populate('surroundingCells')
 
     if (!mandalaChart) {
       return { errorType: GetMandalaChartFailureType.CHART_NOT_FOUND }
+    }
+
+    if (mandalaChart.userId.toString() !== userId && mandalaChart.private) {
+      return { errorType: GetMandalaChartFailureType.PRIVATE_CHART }
     }
 
     return { mandalaChart: mandalaChart.toJSON() as MandalaChart }

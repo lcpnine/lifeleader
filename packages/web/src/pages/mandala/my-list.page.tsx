@@ -67,7 +67,7 @@ const MyMandalaChartsPage = () => {
         <div className="flex justify-end mb-4">
           <button
             className="flex items-center text-gray-900 hover:text-blue-700 font-bold py-1 px-2 text-sm"
-            onClick={() => goTo('/mandala/chart')}
+            onClick={handleCreateChart}
           >
             <PlusCircleIcon className="h-5 w-5 mr-1" />
             Create Mandala Chart
@@ -85,7 +85,7 @@ const MyMandalaChartsPage = () => {
           </p>
           <div
             className="flex justify-center items-center text-gray-900 hover:text-blue-700 hover:cursor-pointer font-bold py-4 px-2 text-l"
-            onClick={() => goTo('/create-mandala-chart')}
+            onClick={handleCreateChart}
           >
             <PlusCircleIcon className="h-5 w-5 mr-1" />
             Create Mandala Chart
