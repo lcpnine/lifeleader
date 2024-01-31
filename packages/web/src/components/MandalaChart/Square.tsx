@@ -69,6 +69,7 @@ const Square = (props: SquareProps) => {
     onModalClose: () => {
       outlineRef.current?.classList.remove('border-4')
       outlineRef.current?.classList.remove(themeStyle.highlightBorder)
+      outlineRef.current?.classList.add(themeStyle.borderColor)
     },
   })
 
@@ -77,6 +78,7 @@ const Square = (props: SquareProps) => {
     if (type === SquareType.AI) {
       props.handleSquareValueOnAIMode(gridIndex, squareIndex)
     } else {
+      outlineRef.current?.classList.remove(themeStyle.borderColor)
       outlineRef.current?.classList.add('border-4')
       outlineRef.current?.classList.add(themeStyle.highlightBorder)
       // TODO: useModal에 들어가는 modalProps가 변경이 되지 않아 open시에 넣어주는 방식으로 우선 적용
