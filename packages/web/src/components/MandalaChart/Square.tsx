@@ -122,28 +122,30 @@ const Square = (props: SquareProps) => {
   const opacity = getTextOpacity()
 
   return (
-    <div
-      className={`${isMobile ? 'size-20' : 'size-24'} border ${
-        themeStyle.borderColor
-      } flex items-center justify-center overflow-hidden ${
-        themeStyle.backgroundColor
-      } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
-      onClick={() => onClickSquare()}
-      ref={outlineRef}
-    >
-      <span
-        className={`w-full max-h-${
-          isMobile ? '20' : '24'
-        } text-center ${textColor} ${textStyle} p-0 inline-block focus:outline-none
+    <>
+      <div
+        className={`${isMobile ? 'size-20' : 'size-24'} border ${
+          themeStyle.borderColor
+        } flex items-center justify-center overflow-hidden ${
+          themeStyle.backgroundColor
+        } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
+        onClick={() => onClickSquare()}
+        ref={outlineRef}
+      >
+        <span
+          className={`w-full max-h-${
+            isMobile ? '20' : '24'
+          } text-center ${textColor} ${textStyle} p-0 inline-block focus:outline-none
         ${opacity}
           ${isCenterGrid && isCenterSquare && 'main-goal'}
         `}
-        style={{ whiteSpace: 'pre-wrap' }}
-      >
-        {value ? value : placeHolder}
-      </span>
+          style={{ whiteSpace: 'pre-wrap' }}
+        >
+          {value ? value : placeHolder}
+        </span>
+      </div>
       {TextInputModalComponent && <TextInputModalComponent key={value} />}
-    </div>
+    </>
   )
 }
 
