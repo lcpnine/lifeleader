@@ -1,5 +1,5 @@
 import { IS_SSR } from '@/constants/common'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 export interface DefaultModalProps {
@@ -20,6 +20,7 @@ const useModal = <T = {},>({
   onModalOpen = () => {},
   onModalClose = () => {},
 }: Props<T>) => {
+  const overlayRef = useRef<HTMLDivElement>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentModalProps, setCurrentModalProps] = useState<T>(modalProps)
 
@@ -73,16 +74,16 @@ const useModal = <T = {},>({
     }
 
     if (isModalOpen) {
-      window.addEventListener('click', handleOverlayClick)
-      window.addEventListener('keydown', handleKeyDown)
+      overlayRef?.current?.addEventListener('click', handleOverlayClick)
+      overlayRef?.current?.addEventListener('keydown', handleKeyDown)
     } else {
-      window.removeEventListener('click', handleOverlayClick)
-      window.removeEventListener('keydown', handleKeyDown)
+      overlayRef?.current?.removeEventListener('click', handleOverlayClick)
+      overlayRef?.current?.removeEventListener('keydown', handleKeyDown)
     }
 
     return () => {
-      window.removeEventListener('click', handleOverlayClick)
-      window.removeEventListener('keydown', handleKeyDown)
+      overlayRef?.current?.removeEventListener('click', handleOverlayClick)
+      overlayRef?.current?.removeEventListener('keydown', handleKeyDown)
     }
   }, [isModalOpen])
 
@@ -102,7 +103,10 @@ const useModal = <T = {},>({
       !IS_SSR &&
       createPortal(
         isModalOpen && (
-          <div className="is_overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div
+            className="is_overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+            ref={overlayRef}
+          >
             <div className="is_modal absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 min-w-60">
               {/* @ts-ignore */}
               <Modal
