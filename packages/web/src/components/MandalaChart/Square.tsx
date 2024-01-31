@@ -64,10 +64,12 @@ const Square = (props: SquareProps) => {
     modalProps: {
       state: value,
       setState: setSquareValue,
+      type: 'textarea',
     },
     onModalClose: () => {
       outlineRef.current?.classList.remove('border-4')
       outlineRef.current?.classList.remove(themeStyle.highlightBorder)
+      outlineRef.current?.classList.add(themeStyle.borderColor)
     },
   })
 
@@ -76,6 +78,7 @@ const Square = (props: SquareProps) => {
     if (type === SquareType.AI) {
       props.handleSquareValueOnAIMode(gridIndex, squareIndex)
     } else {
+      outlineRef.current?.classList.remove(themeStyle.borderColor)
       outlineRef.current?.classList.add('border-4')
       outlineRef.current?.classList.add(themeStyle.highlightBorder)
       // TODO: useModal에 들어가는 modalProps가 변경이 되지 않아 open시에 넣어주는 방식으로 우선 적용
@@ -121,28 +124,30 @@ const Square = (props: SquareProps) => {
   const opacity = getTextOpacity()
 
   return (
-    <div
-      className={`${isMobile ? 'size-20' : 'size-24'} border ${
-        themeStyle.borderColor
-      } flex items-center justify-center overflow-hidden ${
-        themeStyle.backgroundColor
-      } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
-      onClick={() => onClickSquare()}
-      ref={outlineRef}
-    >
-      <span
-        className={`w-full max-h-${
-          isMobile ? '20' : '24'
-        } text-center ${textColor} ${textStyle} p-0 inline-block focus:outline-none
+    <>
+      <div
+        className={`${isMobile ? 'size-20' : 'size-24'} border ${
+          themeStyle.borderColor
+        } flex items-center justify-center overflow-hidden ${
+          themeStyle.backgroundColor
+        } ${isGridValid ? 'cursor-text' : 'bg-opacity-25'}`}
+        onClick={() => onClickSquare()}
+        ref={outlineRef}
+      >
+        <span
+          className={`w-full max-h-${
+            isMobile ? '20' : '24'
+          } text-center ${textColor} ${textStyle} p-0 inline-block focus:outline-none
         ${opacity}
           ${isCenterGrid && isCenterSquare && 'main-goal'}
         `}
-        style={{ whiteSpace: 'pre-wrap' }}
-      >
-        {value ? value : placeHolder}
-      </span>
+          style={{ whiteSpace: 'pre-wrap' }}
+        >
+          {value ? value : placeHolder}
+        </span>
+      </div>
       {TextInputModalComponent && <TextInputModalComponent key={value} />}
-    </div>
+    </>
   )
 }
 
