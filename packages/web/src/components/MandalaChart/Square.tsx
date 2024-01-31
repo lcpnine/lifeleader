@@ -64,6 +64,7 @@ const Square = (props: SquareProps) => {
     modalProps: {
       state: value,
       setState: setSquareValue,
+      type: 'textarea',
     },
     onModalClose: () => {
       outlineRef.current?.classList.remove('border-4')
