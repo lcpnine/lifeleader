@@ -25,6 +25,7 @@ const useModal = <T = {},>({
 
   // TODO: 현재 modalProps가 변경되어도 ModalComponent가 re-rendering 되지 않아 Open시에 새로운 값을 넣어 임시로 사용
   const openModal = (newModalProps?: Partial<T>) => {
+    if (isModalOpen) return
     onModalOpen()
     if (newModalProps)
       setCurrentModalProps({ ...currentModalProps, ...newModalProps })
