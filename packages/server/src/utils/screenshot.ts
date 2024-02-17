@@ -10,7 +10,9 @@ export const captureScreenshot = async (
   htmlContent: string,
   { styleSheet, width, height }: Args
 ) => {
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({
+    headless: 'new',
+  })
   const page = await browser.newPage()
   await page.setViewport({ width, height, deviceScaleFactor: 2 })
 
