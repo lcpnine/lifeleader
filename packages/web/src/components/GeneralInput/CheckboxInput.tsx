@@ -1,14 +1,14 @@
-import { ChangeEventHandler } from 'react'
+import { ChangeEventHandler, MouseEventHandler } from 'react'
 
 interface Props {
   label?: string
   value: string
   onChange: ChangeEventHandler<HTMLInputElement>
-  link?: string
+  onClickLabel?: MouseEventHandler<HTMLLabelElement>
   guide?: string
 }
 
-const CheckboxInput = ({ label, value, onChange, link, guide }: Props) => {
+const CheckboxInput = ({ label, value, onChange, onClickLabel, guide }: Props) => {
   return (
     <div className="mb-4">
       <div className="flex items-center">
@@ -21,9 +21,9 @@ const CheckboxInput = ({ label, value, onChange, link, guide }: Props) => {
         {label && (
           <label
             className={`ml-2 text-gray-700 text-sm font-bold ${
-              link ? 'cursor-pointer hover:text-blue-700 hover:underline' : ''
+              onClickLabel ? 'cursor-pointer hover:text-blue-700 hover:underline' : ''
             }`}
-            onClick={() => link && window.open(link, '_blank')}
+            onClick={onClickLabel}
           >
             {label}
           </label>
