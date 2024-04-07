@@ -3,6 +3,13 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Agreement {
+  agreementDate: DateTime
+  isAgreed: Boolean!
+  name: String!
+  revocationDate: DateTime
+}
+
 type CreateMandalaChartFailure {
   errorType: CreateMandalaChartFailureType!
 }
@@ -271,6 +278,7 @@ type UpdateMandalaChartSuccess {
 
 type User {
   _id: ID!
+  agreements: [Agreement!]!
   createdAt: DateTime!
   email: String!
   emailVerification: TokenInfo!

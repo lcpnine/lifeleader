@@ -1,4 +1,11 @@
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
+export type AgreementKeySpecifier = ('agreementDate' | 'isAgreed' | 'name' | 'revocationDate' | AgreementKeySpecifier)[];
+export type AgreementFieldPolicy = {
+	agreementDate?: FieldPolicy<any> | FieldReadFunction<any>,
+	isAgreed?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	revocationDate?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type CreateMandalaChartFailureKeySpecifier = ('errorType' | CreateMandalaChartFailureKeySpecifier)[];
 export type CreateMandalaChartFailureFieldPolicy = {
 	errorType?: FieldPolicy<any> | FieldReadFunction<any>
@@ -143,9 +150,10 @@ export type UpdateMandalaChartSuccessKeySpecifier = ('mandalaChart' | UpdateMand
 export type UpdateMandalaChartSuccessFieldPolicy = {
 	mandalaChart?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('_id' | 'createdAt' | 'email' | 'emailVerification' | 'nickname' | 'purchasedInfo' | 'resetPassword' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('_id' | 'agreements' | 'createdAt' | 'email' | 'emailVerification' | 'nickname' | 'purchasedInfo' | 'resetPassword' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
+	agreements?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	email?: FieldPolicy<any> | FieldReadFunction<any>,
 	emailVerification?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -162,6 +170,10 @@ export type VerifyEmailSuccessFieldPolicy = {
 	success?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
+	Agreement?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | AgreementKeySpecifier | (() => undefined | AgreementKeySpecifier),
+		fields?: AgreementFieldPolicy,
+	},
 	CreateMandalaChartFailure?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CreateMandalaChartFailureKeySpecifier | (() => undefined | CreateMandalaChartFailureKeySpecifier),
 		fields?: CreateMandalaChartFailureFieldPolicy,

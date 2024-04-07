@@ -18,6 +18,14 @@ export type Scalars = {
   DateTime: { input: string; output: string; }
 };
 
+export type Agreement = {
+  __typename?: 'Agreement';
+  agreementDate: Maybe<Scalars['DateTime']['output']>;
+  isAgreed: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
+  revocationDate: Maybe<Scalars['DateTime']['output']>;
+};
+
 export type CreateMandalaChartFailure = {
   __typename?: 'CreateMandalaChartFailure';
   errorType: CreateMandalaChartFailureType;
@@ -385,6 +393,7 @@ export type UpdateMandalaChartSuccess = {
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID']['output'];
+  agreements: Array<Agreement>;
   createdAt: Scalars['DateTime']['output'];
   email: Scalars['String']['output'];
   emailVerification: TokenInfo;

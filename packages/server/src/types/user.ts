@@ -26,6 +26,21 @@ export class PurchasedInfo {
 }
 
 @ObjectType()
+export class Agreement {
+  @Field(() => String)
+  name: string
+
+  @Field(() => Boolean)
+  isAgreed: boolean
+
+  @Field(() => Date, { nullable: true })
+  agreementDate: Date | null
+
+  @Field(() => Date, { nullable: true })
+  revocationDate: Date | null
+}
+
+@ObjectType()
 export class User {
   @Field(() => ID)
   _id: string
@@ -51,4 +66,7 @@ export class User {
 
   @Field(() => PurchasedInfo)
   purchasedInfo: PurchasedInfo
+
+  @Field(() => [Agreement])
+  agreements: Agreement[]
 }
