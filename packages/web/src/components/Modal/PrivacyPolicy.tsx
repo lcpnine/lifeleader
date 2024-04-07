@@ -1,8 +1,15 @@
-const PrivacyPolicyModal = () => {
+import { DefaultModalProps } from '@/hooks/useModal'
+
+interface Props extends DefaultModalProps {}
+
+const PrivacyPolicyModal = ({ closeModal }: Props) => {
   return (
-    <div className="bg-white rounded-lg w-11/12 md:w-2/3 lg:w-1/2 max-h-90vh overflow-y-auto p-5 relative">
+    <div className="bg-white p-4 rounded flex flex-col items-center">
       <h2 className="text-lg font-semibold">Privacy Policy</h2>
-      <button className="absolute top-3 right-3 text-xl font-semibold">
+      <button
+        className="absolute top-3 right-3 text-xl font-semibold"
+        onClick={closeModal}
+      >
         &times;
       </button>
       <div className="mt-4 text-sm">
@@ -64,16 +71,19 @@ const PrivacyPolicyModal = () => {
         <h3 className="mt-4 mb-2 font-bold">Privacy Policy Changes</h3>
         <p>
           Although most changes are likely to be minor, Life Leader may change
-          its Privacy Policy from time to time, and in [Your Company Name]'s
-          sole discretion. We encourage visitors to frequently check this page
-          for any changes to its Privacy Policy.
+          its Privacy Policy from time to time, and in Life Leader's sole
+          discretion. We encourage visitors to frequently check this page for
+          any changes to its Privacy Policy.
         </p>
 
         <p>
           If you have questions about accessing or correcting your personal data
-          please contact us at life.leader.me@gmail.com.
+          please contact us at{' '}
+          <span className="font-semibold">life.leader.me@gmail.com</span>.
         </p>
       </div>
     </div>
   )
 }
+
+export default PrivacyPolicyModal
